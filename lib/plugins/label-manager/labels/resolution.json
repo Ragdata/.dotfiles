@@ -1,0 +1,52 @@
+{
+    "labels": {
+        "BLOCKED": {
+            "description": "Item is blocked by another",
+            "default": false,
+            "color": "#fbca04",
+            "aliases": null
+        },
+        "BLOCKING": {
+            "description": "Item is blocking another",
+            "default": false,
+            "color": "#d73a4a",
+            "aliases": null
+        },
+        "CONFLICT": {
+            "description": "There is a conflict which must be resolved before item can be merged",
+            "default": false,
+            "color": "#bc143e",
+            "aliases": null
+        },
+        "DO NOT MERGE": {
+            "description": "This item MUST NOT be merged",
+            "default": false,
+            "color": "#d93f0b",
+            "aliases": null
+        },
+        "can't replicate": {
+            "description": "CLOSED: Cannot replicate issue",
+            "default": false,
+            "color": "#7057FF",
+            "aliases": null
+        },
+        "needs review": {
+            "description": "Item awaiting review by assignee",
+            "default": false,
+            "color": "#5319e7",
+            "aliases": null
+        },
+        "info required": {
+            "description": "Reviewer has requested further information in order to complete review",
+            "default": false,
+            "color": "#b5f492",
+            "aliases": null
+        },
+        "requires work": {
+            "description": "Reviewer has returned item for further work and subsequent review",
+            "default": false,
+            "color": "#b60205",
+            "aliases": null
+        }
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "labels": {
+        "advisory": {
+            "description": "A security advisory",
+            "default": false,
+            "color": "#E7FC04",
+            "aliases": null
+        },
+        "announcement": {
+            "description": "A broadcast message for everyone's attention",
+            "default": false,
+            "color": "#CDA00C",
+            "aliases": null
+        },
+        "discussion": {
+            "description": "An item for discussion",
+            "default": false,
+            "color": "#d4c5f9",
+            "aliases": null
+        },
+        "question": {
+            "description": "A question that requires discussion",
+            "default": false,
+            "color": "#cc317c",
+            "aliases": null
+        },
+        "poll": {
+            "description": "A vote / survey",
+            "default": false,
+            "color": "#2626DC",
+            "aliases": null
+        },
+        "proposal": {
+            "description": "A proposal that requires discussion",
+            "default": false,
+            "color": "#e6e6e6",
+            "aliases": null
+        },
+        "release": {
+            "description": "Item is associated with a tagged release",
+            "default": false,
+            "color": "#007525",
+            "aliases": [
+                "semantic-release"
+            ]
+        }
+    }
+}

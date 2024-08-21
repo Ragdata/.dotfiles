@@ -22,23 +22,27 @@ apt::check() { command -v apt-transport-https &> /dev/null; }
 #-------------------------------------------------------------------
 apt::install()
 {
-	echo "Installing additional packages for 'apt': " -n
+	echo "Installing additional packages for 'apt'"
+	sudo apt install -y apt-transport-https apt-listchanges || errorExit "FAILURE!"
 }
-
 
 #-------------------------------------------------------------------
 # CONFIG
 #-------------------------------------------------------------------
 apt::config()
 {
-	echo ""
+	if [[ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]]; then
+		echo "Configuring 'apt'"
+		echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 || errorExit "FAILURE!"
+	fi
 }
-
 
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 apt::remove()
 {
-	echo ""
+	echo "Removing 'apt'"
+	sudo rm -f /etc/apt/apt.conf.d/99force-ipv4
+	sudo apt remove --purge apt-transport-https apt-listchanges || errorExit "FAILURE!"
 }

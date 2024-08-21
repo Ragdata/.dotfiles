@@ -18,7 +18,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/ragdata/.dotfiles/master?logo=github&style=for-the-badge)
 ![MIT](https://img.shields.io/badge/License-MIT-gold?style=for-the-badge)
 <br />
-[![wakatime](https://wakatime.com/badge/github/ragdata/.dotfiles.svg?style=for-the-badge)](https://wakatime.com/badge/github/ragdata/.dotfiles)
+[![wakatime](https://wakatime.com/badge/github/Ragdata/.dotfiles.svg?style=for-the-badge)](https://wakatime.com/badge/github/Ragdata/.dotfiles)
 
 </div>
 

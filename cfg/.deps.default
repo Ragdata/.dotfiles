@@ -1,0 +1,11 @@
+####################################################################
+# This file lists all of the dependencies for this install
+# To override this file with your own configuration, rename the
+# file to `.deps`, and place it in the user's root (home) directory.
+####################################################################
+apt
+gnupg
+git
+curl
+yq
+ca-certificates

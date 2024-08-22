@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+####################################################################
+# FSELECT
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+MAN_FSELECT=$(cat <<manual
+"
+--fselect filepath height width
+
+The fselect (file-selection) dialog displays a text-entry window
+in which you can type a filename (or directory), and above  that
+two windows with directory names and filenames.
+
+Here  filepath  can  be  a  filepath  in which case the file and
+directory windows will display the contents of the path and  the
+text-entry window will contain the preselected filename.
+
+Use  tab  or arrow keys to move between the windows.  Within the
+directory or filename windows, use the  up/down  arrow  keys  to
+scroll  the  current  selection.   Use the space-bar to copy the
+current selection into the text-entry window.
+
+Typing any printable characters switches focus to the text-entry
+window,  entering  that  character  as  well  as  scrolling  the
+directory and filename windows to the closest match.
+
+Typing the space character forces dialog to complete the current
+name  (up  to  the point where there may be a match against more
+than one entry).
+
+Use a carriage return or the 'OK' button to accept  the  current
+value in the text-entry window and exit.
+
+On  exit,  the  contents of the text-entry window are written to
+dialog's output.
+"
+manual
+); export MAN_FSELECT
+# ==================================================================
+dotImport "$CFG_DIR"/.dialog-vars
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--fselect "${FILEPATH}" "${HEIGHT:-15}" "${WIDTH:-50}" 3>&1 1>&2 2>&3)

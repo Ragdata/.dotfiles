@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+####################################################################
+# TEMPLATE
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+MAN_TEMPLATE=$(cat <<manual
+
+manual
+); export MAN_TEMPLATE
+# ==================================================================
+dotImport "$CFG_DIR"/.dialog-vars
+

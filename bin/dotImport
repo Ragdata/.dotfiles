@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+####################################################################
+# dotImport
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+(($# == 0)) && { echo "ERROR :: No file paths given"; exit 1; }
+
+for file in "$@"
+do
+	# Ensure that each file is imported only once
+	if [[ -f "$file" && ! ${IMPORTS[*]} =~ (^|[[:space:]])${file}([[:space:]]|$) ]]; then
+		IMPORTS+=("$file")
+		source "$file"
+	fi
+done

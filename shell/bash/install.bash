@@ -30,7 +30,7 @@ PATH="$BIN_DIR:$PATH"
 ####################################################################
 # Import critical files (the common library import other fundamental
 # libraries as well - which means we often only need to import common)
-dotImport "$FUNC_DIR/common.bash"
+dotImport "$FUNC_DIR/common.bash" "$FUNC_DIR/apps.bash"
 #
 # PATHS
 #
@@ -40,7 +40,7 @@ SHELL="$DOTFILES/shell/bash"
 #
 USAGE="
 ====================================================================
-USAGE: dot::install [OPTIONS] <args>
+USAGE: bash::install [OPTIONS] <args>
 ====================================================================
 "
 ####################################################################

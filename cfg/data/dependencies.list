@@ -1,0 +1,9 @@
+apt
+curl
+wget
+ca-certificates
+software-properties-common
+git
+gnupg
+yq
+dialog

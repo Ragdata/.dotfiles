@@ -1,0 +1,30 @@
+extends: .releaserc.base
+name: Ragdata's Dotfiles
+description: The dotfiles I use to configure my environments, and the means to manage them ...
+version: v0.1.0
+copyright: Copyright © 2024 Redeyed Technologies
+# website:
+repo_url: https://github.com/Ragdata/.dotfiles
+authors:
+    - username: Ragdata
+      first_name: Darren
+      surname: Poulton
+      email: ragdata@users.noreply.github.com
+      location: Brisbane, Australia
+      affiliation: Redeyed Technologies
+#      blog:
+#      twitter:
+git_user:
+	name:
+    email:
+branch:
+    prod:
+    stage:
+    patch:
+    release:
+standard:
+   config: .releaserc.types.conventional
+# commit_types:
+# commit_scopes:
+# logged_types:
+# logged_scopes:

@@ -15,30 +15,34 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-dialog::check() { command -v dialog &> /dev/null; }
-
+dialog::check() { if command -v dialog &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
 dialog::install()
 {
-	echo "Installingd 'dialog'"
-	sudo apt install -y dialog
-}
+	local result
 
-#-------------------------------------------------------------------
-# CONFIG
-#-------------------------------------------------------------------
-dialog::config()
-{
-	echo "No configuration option for this package"
-}
+	echoInfo "Installing 'dialog': " -n
+	sudo apt-get -qq -y install dialog; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 dialog::remove()
 {
-	echo "Removing 'dialog'"
-	sudo apt remove --purge dialog
+	local result
+
+	echoInfo "Removing 'dialog': " -n
+	sudo apt -qq -y purge dialog; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
 }

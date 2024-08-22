@@ -15,34 +15,50 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-apt::check() { command -v apt-transport-https &> /dev/null; }
-
+apt::check() { if command -v apt-transport-https &> /dev/null && command -v apt-listchanges &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
 apt::install()
 {
-	echo "Installing additional packages for 'apt'"
-	sudo apt install -y apt-transport-https apt-listchanges || errorExit "FAILURE!"
-}
+	local result
 
+	echoInfo "Installing additional packages for 'apt': " -n
+	sudo apt-get -qq -y install apt-transport-https apt-listchanges; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
 #-------------------------------------------------------------------
 # CONFIG
 #-------------------------------------------------------------------
 apt::config()
 {
-	if [[ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]]; then
-		echo "Configuring 'apt'"
-		echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 || errorExit "FAILURE!"
-	fi
-}
+	local result=0
 
+	if [[ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]]; then
+		echoInfo "Configuring 'apt': " -n
+		echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4; result=$?
+		if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	fi
+
+	return $result
+}
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 apt::remove()
 {
-	echo "Removing 'apt'"
+	local result
+
+	echoInfo "Removing 'apt': " -n
 	sudo rm -f /etc/apt/apt.conf.d/99force-ipv4
-	sudo apt remove --purge apt-transport-https apt-listchanges || errorExit "FAILURE!"
+	sudo apt-get -qq -y purge apt-transport-https apt-listchanges; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
 }

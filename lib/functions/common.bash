@@ -33,6 +33,36 @@ dotImport "$FUNC_DIR/terminal.bash" "$FUNC_DIR/files.bash"
 # COMMON FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
+# echoReturn
+# ------------------------------------------------------------------
+echoReturn()
+{
+	local msg code="${2:-1}" type="${3:-warning}"
+
+	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} ::"
+	[[ -n "$1" ]] && msg+=" $1"
+
+	case "${type,,}" in
+		success)
+			echoSuccess "$msg"
+			;;
+		info)
+			echoInfo "$msg"
+			;;
+		warning)
+			echoWarning "$msg"
+			;;
+		error)
+			echoError "$msg"
+			;;
+		none)
+			echo "$msg"
+			;;
+	esac
+
+	return "$code"
+}
+# ------------------------------------------------------------------
 # errorExit
 # ------------------------------------------------------------------
 errorExit()
@@ -54,6 +84,8 @@ checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script 
 # ------------------------------------------------------------------
 checkDeps()
 {
+	dotImport "$FUNC_DIR/apps.bash" || errorExit "Unable to import library file '$FUNC_DIR/apps.bash'"
+
 	local i
 
 	(($# == 0)) && return
@@ -63,8 +95,10 @@ checkDeps()
 	local -n TOOLS=("$@")
 	for i in "${!TOOLS[@]}"
 	do
-		! command -v "${TOOLS[$i]}" &> /dev/null && errorExit "Command '${TOOLS[$i]}' not found"
+		appCheck "${TOOLS[$i]}"
 	done
+
+	return 0
 }
 # ------------------------------------------------------------------
 # checkDir

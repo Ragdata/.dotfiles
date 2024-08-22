@@ -135,17 +135,19 @@ app::check()
 
 	local app="$1" func result
 
-	[[ -f "$APPS/$app" ]] || errorExit "App file '$APPS/$app' not found"
-
-	dotImport "$APPS/$app" || errorExit "Unable to import app file '$APPS/$app'"
-
-	func="$app::check"
-
-	[[ $(type -t "$func") == "function" ]] || errorExit "'$func' is not a function"
-
-	eval "$func"; result=$?
-
-	return "$result"
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::check"
+			[[ $(type -t "$func") == "function" ]] || errorExit "'$func' is not a function"
+			eval "$func"; result=$?; return "$result"
+		else
+			errorExit "Unable to import app file '$APPS/$app'"
+		fi
+	else
+		# perform a generic test if there's no app file available
+		if command -v "$app" &> /dev/null; then return 0; else return 1; fi
+	fi
 }
 # ------------------------------------------------------------------
 # app::config
@@ -156,15 +158,16 @@ app::config()
 
 	local app="$1" func result
 
-	[[ -f "$APPS/$app" ]] || errorExit "App file '$APPS/$app' not found"
-
-	dotImport "$APPS/$app" || errorExit "Unable to import app file '$APPS/$app'"
-
-	func="$app::config"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-		return "$result"
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::config"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; return "$result"
+			fi
+		else
+			errorExit "Unable to import app file '$APPS/$app'"
+		fi
 	fi
 	# no penalty for not having a config function
 	return 0
@@ -176,21 +179,21 @@ app::install()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" func result
-
-	[[ -f "$APPS/$app" ]] || errorExit "App file '$APPS/$app' not found"
-
-	dotImport "$APPS/$app" || errorExit "Unable to import app file '$APPS/$app'"
+	local app="$1" tested=0 func result
 
 	echoInfo "Installing '$app': " -n
 
-	func="$app::install"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-	else
-		sudo apt-get -qq -y install "$app"; result=$?
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::install"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
 	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y install "$app"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -207,21 +210,21 @@ app::reinstall()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" func result
-
-	[[ -f "$APPS/$app" ]] || errorExit "App file '$APPS/$app' not found"
-
-	dotImport "$APPS/$app" || errorExit "Unable to import app file '$APPS/$app'"
+	local app="$1" tested=0 func result
 
 	echoInfo "Reinstalling '$app': " -n
 
-	func="$app::reinstall"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-	else
-		sudo apt-get -qq -y reinstall "$app"; result=$?
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::reinstall"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
 	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$app"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -250,21 +253,21 @@ app::remove()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" func result
-
-	[[ -f "$APPS/$app" ]] || errorExit "App file '$APPS/$app' not found"
-
-	dotImport "$APPS/$app" || errorExit "Unable to import app file '$APPS/$app'"
+	local app="$1" tested=0 func result
 
 	echoInfo "Removing '$app': " -n
 
-	func="$app::remove"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-	else
-		sudo apt-get -qq -y purge "$app"; result=$?
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::remove"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
 	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y purge "$app"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -281,7 +284,7 @@ app::download()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" func result dir
+	local app="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -293,13 +296,17 @@ app::download()
 
 	echoInfo "Downloading '$app': " -n
 
-	func="$app::download"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-	else
-		sudo apt-get -qq -y download "$app"; result=$?
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::download"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
 	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y download "$app"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -314,7 +321,7 @@ app::source()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" func result dir
+	local app="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -326,13 +333,17 @@ app::source()
 
 	echoInfo "Downloading '$app' source: " -n
 
-	func="$app::source"
-
-	if [[ $(type -t "$func") == "function" ]]; then
-		eval "$func"; result=$?
-	else
-		sudo apt-get -qq -y source "$app"; result=$?
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::source"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
 	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y source "$app"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -431,4 +442,20 @@ app::listPkg()
 	else
 		eval "$cmd"
 	fi
+}
+# ------------------------------------------------------------------
+# app::readList
+# ------------------------------------------------------------------
+app::readList()
+{
+	(($# < 1)) && errorExit "Missing Argument!"
+
+	local name="$1" path
+	declare -a packages
+
+	[[ -f "$CFG_DIR/data/$name.list" ]] || errorExit "Cannot find list file '$CFG_DIR/data/$name.list'"
+
+	readarray packages < "$CFG_DIR/data/$name.list"
+
+	appInstall "${packages[@]}"
 }

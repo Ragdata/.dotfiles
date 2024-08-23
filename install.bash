@@ -15,25 +15,17 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-
 DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
-
-#declare -x ENV_DEFAULT
-## Verify default environment file exists
-#[ -f "$HOME/.dotfiles/cfg/.env.dist" ] || { echo "ERROR :: Cannot find default environment variables"; exit 1; }
-#ENV_DEFAULT="$HOME/.dotfiles/cfg/.env.dist"
-## Get Environment Variables
-#source "$ENV_DEFAULT"
-## Look for custom environment file and include it if it's there
-#[ -f "$HOME/.env" ] && source "$HOME/.env"
-## Add critical paths to $PATH
-#PATH="$DOT_BIN:$PATH"
+declare -x ENV_DEFAULT
+# verify default environment file is where you think it is
+[ -f "$DOTFILES/cfg/.env.dist" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }
+[[ $PATH != *"${ENV_DEFAULT}"* ]] && PATH="$DOTFILES/bin:$PATH"
+ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
+# import default environment file
+dotImport "$ENV_DEFAULT"
 ####################################################################
-# INITIALIZE
+# HELPER FUNCTIONS
 ####################################################################
-# Import critical files (the common library import other fundamental
-# libraries as well - which means we often only need to import common)
-#dotImport "$FUNC_DIR/common.bash" "$FUNC_DIR/apps.bash"
 #
 # ADDITIONAL VARIABLES
 #
@@ -42,9 +34,6 @@ USAGE="
 USAGE: install.bash [OPTIONS] <args>
 ====================================================================
 "
-####################################################################
-# HELPER FUNCTIONS
-####################################################################
 ####################################################################
 # CORE FUNCTIONS
 ####################################################################
@@ -171,9 +160,9 @@ bash::menu()
 ####################################################################
 # MAIN
 ####################################################################
-install::checkBash
-install::checkRoot
-install::checkDir
+checkBash
+checkRoot
+checkDir
 
 git clone https://github.com/Ragdata/.dotfiles.git
 

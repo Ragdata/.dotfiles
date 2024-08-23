@@ -11,3 +11,5 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+
+[ -n "$DOTFILE_PROMPT" ] || echoWarning ""

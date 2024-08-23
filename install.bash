@@ -16,7 +16,6 @@
 # PREFLIGHT
 ####################################################################
 DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
-echo "DOTFILES = $DOTFILES"
 declare -x ENV_DEFAULT
 # verify default environment file is where you think it is
 [ -f "$DOTFILES/cfg/.env.dist" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }

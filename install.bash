@@ -4,7 +4,7 @@
 ####################################################################
 # install.bash
 ####################################################################
-# Ragdata's Dotfiles - Dotfile Installer
+# Ragdata's Dotfiles - Dotfile Installer00
 #
 # File:         install.bash
 # Author:       Ragdata
@@ -15,36 +15,38 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-declare -x ENV_DEFAULT
-# Verify default environment file exists
-[ -f "$HOME/.dotfiles/cfg/.env.dist" ] || { echo "ERROR :: Cannot find default environment variables"; exit 1; }
-ENV_DEFAULT="$HOME/.dotfiles/cfg/.env.dist"
-# Get Environment Variables
-source "$ENV_DEFAULT"
-# Look for custom environment file and include it if it's there
-[ -f "$HOME/.env" ] && source "$HOME/.env"
-# Add critical paths to $PATH
-PATH="$DOT_BIN:$PATH"
+
+DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
+
+#declare -x ENV_DEFAULT
+## Verify default environment file exists
+#[ -f "$HOME/.dotfiles/cfg/.env.dist" ] || { echo "ERROR :: Cannot find default environment variables"; exit 1; }
+#ENV_DEFAULT="$HOME/.dotfiles/cfg/.env.dist"
+## Get Environment Variables
+#source "$ENV_DEFAULT"
+## Look for custom environment file and include it if it's there
+#[ -f "$HOME/.env" ] && source "$HOME/.env"
+## Add critical paths to $PATH
+#PATH="$DOT_BIN:$PATH"
 ####################################################################
 # INITIALIZE
 ####################################################################
 # Import critical files (the common library import other fundamental
 # libraries as well - which means we often only need to import common)
-dotImport "$FUNC_DIR/common.bash" "$FUNC_DIR/apps.bash"
-#
-# PATHS
-#
-DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
+#dotImport "$FUNC_DIR/common.bash" "$FUNC_DIR/apps.bash"
 #
 # ADDITIONAL VARIABLES
 #
 USAGE="
 ====================================================================
-USAGE: bash::install [OPTIONS] <args>
+USAGE: install.bash [OPTIONS] <args>
 ====================================================================
 "
 ####################################################################
-# FUNCTIONS
+# HELPER FUNCTIONS
+####################################################################
+####################################################################
+# CORE FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
 # bash::init
@@ -169,9 +171,9 @@ bash::menu()
 ####################################################################
 # MAIN
 ####################################################################
-checkBash
-checkRoot
-checkDir
+install::checkBash
+install::checkRoot
+install::checkDir
 
 git clone https://github.com/Ragdata/.dotfiles.git
 

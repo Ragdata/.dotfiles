@@ -1,3 +1,14 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+####################################################################
+# This file defines the environment variables for this install
+# To override this file with your own configuration, rename the
+# file to `.node`, and place it in the user's root (home) directory.
+####################################################################
+
+declare -x NODE_IPv4 NODE_HOSTNAME GIT_USER GIT_EMAIL GPG_EMAIL GPG_KEYID SIGN_COMMITS
+declare -x SYS_USER SYS_PASS SYS_PASS_HASH MY_USER MY_PASS MY_PASS_HASH
+
 NODE_IPv4=""
 NODE_HOSTNAME=""
 GIT_USER=""

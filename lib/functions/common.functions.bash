@@ -71,7 +71,7 @@ checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script 
 # ------------------------------------------------------------------
 checkDeps()
 {
-	dotImport "$FUNC_DIR/apps.bash" || errorExit "Unable to import library file '$FUNC_DIR/apps.bash'"
+	dotImport "$FUNCTIONS/pkgs.bash" || errorExit "Unable to import library file '$FUNCTIONS/pkgs.bash'"
 
 	local i
 
@@ -83,7 +83,7 @@ checkDeps()
 
 	for i in "${!TOOLS[@]}"
 	do
-		app::check "${TOOLS[$i]}"
+		pkg::check "${TOOLS[$i]}"
 	done
 
 	return 0

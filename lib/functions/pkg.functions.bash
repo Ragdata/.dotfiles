@@ -1,40 +1,40 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# apps.functions.bash
+# pkgs.functions.bash
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         apps.functions.bash
+# File:         pkgs.functions.bash
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# APPS FUNCTIONS
+# PKGS FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# app
+# pkg
 # ------------------------------------------------------------------
 # @description The function which provides access to all parts of an
-#			   app management file.
+#			   pkg management file.
 #
-# @arg $app		[string]	The name of the app file (no path)	(required)
+# @arg $pkg		[string]	The name of the pkg file (no path)	(required)
 #
 # @options
 #		-a | --auto			Runs checks and installs the package if not present
-#		-e | --exists		Runs the $app::check function and returns the result
-#		-c | --config		Runs the $app::config function and returns the result if function exists
-#		-i | --install		Runs the $app::install function and returns the result
-#		-R | --reinstall	Runs the $app::reinstall function and returns the result if function exists
+#		-e | --exists		Runs the $pkg::check function and returns the result
+#		-c | --config		Runs the $pkg::config function and returns the result if function exists
+#		-i | --install		Runs the $pkg::install function and returns the result
+#		-R | --reinstall	Runs the $pkg::reinstall function and returns the result if function exists
 #							- otherwise attempts to use apt-get directly
-#		-r | --remove		Runs the $app::remove function and returns the result
+#		-r | --remove		Runs the $pkg::remove function and returns the result
 #		-d | --download
 #			::	Accepts an OPTIONAL argument - a destination directory for
 #				the package once downloaded.  If the directory does not exist,
 #				an attempt will be made to create it prior to download.
-#					- If the app management file does not contain its own
+#					- If the pkg management file does not contain its own
 #					  download function, the generic `apt-get` download will
 #					  be used instead.
 #		-s | --source
@@ -44,17 +44,17 @@
 #				it retrieves the source code of the package in question.
 #
 # @examples
-#		- app -a
-#		- app -e -i -c
-#		- app -d="/download/path"
-#		- app -d"/download/path"	(note, no space between option and argument)
+#		- pkg -a
+#		- pkg -e -i -c
+#		- pkg -d="/download/path"
+#		- pkg -d"/download/path"	(note, no space between option and argument)
 #
 # ------------------------------------------------------------------
-app()
+pkg()
 {
 	(($# < 2)) && errorExit "No package requested for installation"
 
-	local app="$1" options
+	local pkg="$1" options
 
 	shift
 
@@ -66,36 +66,36 @@ app()
 	do
 		case "$1" in
 			-a | --auto)
-				app::auto "$app"
+				pkg::auto "$pkg"
 				shift
 				# If this option is chosen, we don't allow the function to loop
 				break
 				;;
 			-e | --exists)
-				app::check "$app"
+				pkg::check "$pkg"
 				shift
 				;;
 			-c | --config)
-				app::config "$app"
+				pkg::config "$pkg"
 				shift
 				;;
 			-i | --install)
-				app::install "$app"
+				pkg::install "$pkg"
 				shift
 				;;
 			-R | --reinstall)
-				app::reinstall "$app"
+				pkg::reinstall "$pkg"
 				shift
 				;;
 			-r | --remove)
-				app::remove "$app"
+				pkg::remove "$pkg"
 				shift
 				;;
 			-d | --download)
-				if [[ -z "$optarg" ]]; then app::download "$app"; shift; else app::download "$app" "$optarg"; shift 2; fi
+				if [[ -z "$optarg" ]]; then pkg::download "$pkg"; shift; else pkg::download "$pkg" "$optarg"; shift 2; fi
 				;;
 			-s | --source)
-				if [[ -z "$optarg" ]]; then app::download "$app"; shift; else app::download "$app" "$optarg"; shift 2; fi
+				if [[ -z "$optarg" ]]; then pkg::download "$pkg"; shift; else pkg::download "$pkg" "$optarg"; shift 2; fi
 				;;
 			--)
 				shift
@@ -110,9 +110,9 @@ app()
 	return 0
 }
 # ------------------------------------------------------------------
-# app::addRepo
+# pkg::addRepo
 # ------------------------------------------------------------------
-app::addRepo()
+pkg::addRepo()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
@@ -129,76 +129,76 @@ app::addRepo()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::auto
+# pkg::auto
 # ------------------------------------------------------------------
-app::auto()
+pkg::auto()
 {
 	(($# < 1)) && errorExit "No packages requested for processing"
 
-	local app="$1"
+	local pkg="$1"
 
-	app::check "$app" && return 0
+	pkg::check "$pkg" && return 0
 
-	app::install "$app" || return 1
+	pkg::install "$pkg" || return 1
 
-	app::config "$app" && return 0
+	pkg::config "$pkg" && return 0
 
 	return 1
 }
 # ------------------------------------------------------------------
-# app::check
+# pkg::check
 # ------------------------------------------------------------------
-app::check()
+pkg::check()
 {
 	(($# < 1)) && errorExit "No packages requested for processing"
 
-	local app="$1" func result
+	local pkg="$1" func result
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::check"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::check"
 			[[ $(type -t "$func") == "function" ]] || errorExit "'$func' is not a function"
 			eval "$func"; result=$?; return "$result"
 		else
-			errorExit "Unable to import app file '$APPS/$app'"
+			errorExit "Unable to import pkg file '$PKGS/$pkg'"
 		fi
 	else
-		# perform a generic test if there's no app file available
-		if command -v "$app" &> /dev/null; then return 0; else return 1; fi
+		# perform a generic test if there's no pkg file available
+		if command -v "$pkg" &> /dev/null; then return 0; else return 1; fi
 	fi
 }
 # ------------------------------------------------------------------
-# app::config
+# pkg::config
 # ------------------------------------------------------------------
-app::config()
+pkg::config()
 {
 	(($# < 1)) && errorExit "No packages requested for processing"
 
-	local app="$1" func result
+	local pkg="$1" func result
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::config"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::config"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; return "$result"
 			fi
 		else
-			errorExit "Unable to import app file '$APPS/$app'"
+			errorExit "Unable to import pkg file '$PKGS/$pkg'"
 		fi
 	fi
 	# no penalty for not having a config function
 	return 0
 }
 # ------------------------------------------------------------------
-# app::download
+# pkg::download
 # ------------------------------------------------------------------
-app::download()
+pkg::download()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" tested=0 func result dir
+	local pkg="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -208,19 +208,19 @@ app::download()
 		cd "$dir" || errorExit "Unable to switch to directory '$dir'"
 	fi
 
-	echoInfo "Downloading '$app': " -n
+	echoInfo "Downloading '$pkg': " -n
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::download"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::download"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
 			fi
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y download "$app"; result=$?; fi
+	if ((tested == 0)); then sudo apt-get -qq -y download "$pkg"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -229,36 +229,36 @@ app::download()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::findPkg
+# pkg::findPkg
 # ------------------------------------------------------------------
-app::findPkg()
+pkg::findPkg()
 {
-	(($# < 1)) && errorExit "app::findPkg - cowardly refusing to search for nothing!"
+	(($# < 1)) && errorExit "pkg::findPkg - cowardly refusing to search for nothing!"
 
 	sudo apt-cache search "$1"
 }
 # ------------------------------------------------------------------
-# app::install
+# pkg::install
 # ------------------------------------------------------------------
-app::install()
+pkg::install()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" tested=0 func result
+	local pkg="$1" tested=0 func result
 
-	echoInfo "Installing '$app': " -n
+	echoInfo "Installing '$pkg': " -n
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::install"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::install"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
 			fi
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y install "$app"; result=$?; fi
+	if ((tested == 0)); then sudo apt-get -qq -y install "$pkg"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -269,9 +269,9 @@ app::install()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::installList
+# pkg::installList
 # ------------------------------------------------------------------
-app::installList()
+pkg::installList()
 {
 	(($# < 1)) && errorExit "Missing Argument!"
 
@@ -283,14 +283,14 @@ app::installList()
 
 	readarray packages < "$path/$name.list"
 
-	appInstall "${packages[@]}"
+	pkgInstall "${packages[@]}"
 }
 # ------------------------------------------------------------------
-# app::listPkg
+# pkg::listPkg
 # ------------------------------------------------------------------
-app::listPkg()
+pkg::listPkg()
 {
-	(($# < 1)) && errorExit "app::listPkg - Missing Argument!"
+	(($# < 1)) && errorExit "pkg::listPkg - Missing Argument!"
 
 	local cmd
 
@@ -313,27 +313,27 @@ app::listPkg()
 	fi
 }
 # ------------------------------------------------------------------
-# app::reinstall
+# pkg::reinstall
 # ------------------------------------------------------------------
-app::reinstall()
+pkg::reinstall()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" tested=0 func result
+	local pkg="$1" tested=0 func result
 
-	echoInfo "Reinstalling '$app': " -n
+	echoInfo "Reinstalling '$pkg': " -n
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::reinstall"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::reinstall"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
 			fi
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$app"; result=$?; fi
+	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$pkg"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -344,27 +344,27 @@ app::reinstall()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::remove
+# pkg::remove
 # ------------------------------------------------------------------
-app::remove()
+pkg::remove()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" tested=0 func result
+	local pkg="$1" tested=0 func result
 
-	echoInfo "Removing '$app': " -n
+	echoInfo "Removing '$pkg': " -n
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::remove"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::remove"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
 			fi
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y purge "$app"; result=$?; fi
+	if ((tested == 0)); then sudo apt-get -qq -y purge "$pkg"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -375,26 +375,26 @@ app::remove()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::remove
+# pkg::remove
 # ------------------------------------------------------------------
-app::repair() { sudo apt-get -qq -y check; return $?; }
+pkg::repair() { sudo apt-get -qq -y check; return $?; }
 # ------------------------------------------------------------------
-# app::showPkg
+# pkg::showPkg
 # ------------------------------------------------------------------
-app::showPkg()
+pkg::showPkg()
 {
-	(($# < 1)) && errorExit "app::showPkg - cowardly refusing to show nothing!"
+	(($# < 1)) && errorExit "pkg::showPkg - cowardly refusing to show nothing!"
 
 	sudo apt-cache show "$1"
 }
 # ------------------------------------------------------------------
-# app::source
+# pkg::source
 # ------------------------------------------------------------------
-app::source()
+pkg::source()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
-	local app="$1" tested=0 func result dir
+	local pkg="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -404,19 +404,19 @@ app::source()
 		cd "$dir" || errorExit "Unable to switch to directory '$dir'"
 	fi
 
-	echoInfo "Downloading '$app' source: " -n
+	echoInfo "Downloading '$pkg' source: " -n
 
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::source"
+	if [[ -f "$PKGS/$pkg" ]]; then
+		# Import the pkg file if one exists
+		if dotImport "$PKGS/$pkg"; then
+			func="$pkg::source"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
 			fi
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y source "$app"; result=$?; fi
+	if ((tested == 0)); then sudo apt-get -qq -y source "$pkg"; result=$?; fi
 
 	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
@@ -425,21 +425,21 @@ app::source()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::update
+# pkg::update
 # ------------------------------------------------------------------
-app::update() { sudo apt-get -qq -y update; return $?; }
+pkg::update() { sudo apt-get -qq -y update; return $?; }
 # ------------------------------------------------------------------
-# app::upgrade
+# pkg::upgrade
 # ------------------------------------------------------------------
-app::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
+pkg::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
 
 ####################################################################
 # BULK HANDLERS
 ####################################################################
 # ------------------------------------------------------------------
-# appInstall
+# pkgInstall
 # ------------------------------------------------------------------
-appInstall()
+pkgInstall()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
@@ -447,13 +447,13 @@ appInstall()
 
 	for pkg in "$@"
 	do
-		app::install "$pkg"
+		pkg::install "$pkg"
 	done
 }
 # ------------------------------------------------------------------
-# appRemove
+# pkgRemove
 # ------------------------------------------------------------------
-appRemove()
+pkgRemove()
 {
 	(($# < 1)) && errorExit "No package requested for processing"
 
@@ -461,6 +461,6 @@ appRemove()
 
 	for pkg in "$@"
 	do
-		app::remove "$pkg"
+		pkg::remove "$pkg"
 	done
 }

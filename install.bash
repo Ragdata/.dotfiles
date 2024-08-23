@@ -24,7 +24,7 @@ ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
 # import default environment file
 dotImport "$ENV_DEFAULT"
 # Import additional helpful libraries
-
+dotImport "files.functions"
 #
 #
 # ADDITIONAL VARIABLES

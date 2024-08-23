@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# terminal.bash
+# terminal.functions.bash
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         terminal.bash
+# File:         terminal.functions.bash
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -14,18 +14,7 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-if ! declare -p ENV_DEFAULT >&2 /dev/null; then
-	declare -x ENV_DEFAULT
-	# Verify default environment file exists
-	[ -f "$HOME/.dotfiles/cfg/.env.dist" ] || { echo "ERROR :: Cannot find default environment variables"; exit 1; }
-	ENV_DEFAULT="$HOME/.dotfiles/cfg/.env.dist"
-	# Get Environment Variables
-	source "$ENV_DEFAULT"
-	# Look for custom environment file and include it if it's there
-	[ -f "$HOME/.env" ] && source "$HOME/.env"
-	# Add critical paths to $PATH
-	PATH="$BIN_DIR:$PATH"
-fi
+dotImport "$HOME/.dotfiles/cfg/.env.dist"
 ####################################################################
 # TERMINAL VARIABLES
 ####################################################################

@@ -72,6 +72,8 @@ If you discover any issue regarding the security of this project, please disclos
 
 This project incorporates ideas and / or code crafted by the following talented individuals:
 
+- 
+
 > "We see much further, and reach much higher,<br>only because we stand upon the shoulders of giants"
 
 [`^ Top`](#toc)

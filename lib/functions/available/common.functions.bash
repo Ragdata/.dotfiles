@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# common.bash
+# common.functions.bash
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         common.bash
+# File:         common.functions.bash
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -14,21 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-# Configure the environment if it hasn't been done already
-if ! declare -p ENV_DEFAULT >&2 /dev/null; then
-	declare -x ENV_DEFAULT
-	# Verify default environment file exists
-	[ -f "$HOME/.dotfiles/cfg/.env.dist" ] || { echo "ERROR :: Cannot find default environment variables"; exit 1; }
-	ENV_DEFAULT="$HOME/.dotfiles/cfg/.env.dist"
-	# Get Environment Variables
-	source "$ENV_DEFAULT"
-	# Look for custom environment file and include it if it's there
-	[ -f "$HOME/.env" ] && source "$HOME/.env"
-	# Add critical paths to $PATH
-	PATH="$BIN_DIR:$PATH"
-fi
-# Import the most used libraries
-dotImport "$FUNC_DIR/terminal.bash" "$FUNC_DIR/files.bash"
+dotImport "$HOME/.dotfiles/cfg/.env.dist"
+dotImport "terminal.functions" "files.functions"
 ####################################################################
 # COMMON FUNCTIONS
 ####################################################################
@@ -93,9 +80,10 @@ checkDeps()
 	[[ "$(declare -p "$1" 2> /dev/null)" != "declare -[aA]*" ]] && errorExit "'$1' not an array"
 
 	local -n TOOLS=("$@")
+
 	for i in "${!TOOLS[@]}"
 	do
-		appCheck "${TOOLS[$i]}"
+		app::check "${TOOLS[$i]}"
 	done
 
 	return 0

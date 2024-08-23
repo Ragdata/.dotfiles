@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# apps.bash
+# apps.functions.bash
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         apps.bash
+# File:         apps.functions.bash
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -110,6 +110,25 @@ app()
 	return 0
 }
 # ------------------------------------------------------------------
+# app::addRepo
+# ------------------------------------------------------------------
+app::addRepo()
+{
+	(($# < 1)) && errorExit "No package requested for processing"
+
+	local repo result
+
+	for repo in "$@"
+	do
+		echoInfo "Adding APT repository '$repo': " -n
+		sudo add-apt-repository -qq -y "$repo"; result=$?
+	done
+
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	return $result
+}
+# ------------------------------------------------------------------
 # app::auto
 # ------------------------------------------------------------------
 app::auto()
@@ -173,111 +192,6 @@ app::config()
 	return 0
 }
 # ------------------------------------------------------------------
-# app::install
-# ------------------------------------------------------------------
-app::install()
-{
-	(($# < 1)) && errorExit "No package requested for processing"
-
-	local app="$1" tested=0 func result
-
-	echoInfo "Installing '$app': " -n
-
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::install"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
-		fi
-	fi
-
-	if ((tested == 0)); then sudo apt-get -qq -y install "$app"; result=$?; fi
-
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-
-	return $result
-}
-# ------------------------------------------------------------------
-# app::reinstall
-# ------------------------------------------------------------------
-app::reinstall()
-{
-	(($# < 1)) && errorExit "No package requested for processing"
-
-	local app="$1" tested=0 func result
-
-	echoInfo "Reinstalling '$app': " -n
-
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::reinstall"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
-		fi
-	fi
-
-	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$app"; result=$?; fi
-
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-
-	return $result
-}
-# ------------------------------------------------------------------
-# app::update
-# ------------------------------------------------------------------
-app::update() { sudo apt-get -qq -y update; return $?; }
-# ------------------------------------------------------------------
-# app::upgrade
-# ------------------------------------------------------------------
-app::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
-# ------------------------------------------------------------------
-# app::remove
-# ------------------------------------------------------------------
-app::repair() { sudo apt-get -qq -y check; return $?; }
-# ------------------------------------------------------------------
-# app::remove
-# ------------------------------------------------------------------
-app::remove()
-{
-	(($# < 1)) && errorExit "No package requested for processing"
-
-	local app="$1" tested=0 func result
-
-	echoInfo "Removing '$app': " -n
-
-	if [[ -f "$APPS/$app" ]]; then
-		# Import the app file if one exists
-		if dotImport "$APPS/$app"; then
-			func="$app::remove"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
-		fi
-	fi
-
-	if ((tested == 0)); then sudo apt-get -qq -y purge "$app"; result=$?; fi
-
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-
-	return $result
-}
-# ------------------------------------------------------------------
 # app::download
 # ------------------------------------------------------------------
 app::download()
@@ -313,6 +227,165 @@ app::download()
 	if [[ -n "$dir" ]]; then cd - || errorExit "Unable to return to previous directory"; fi
 
 	return $result
+}
+# ------------------------------------------------------------------
+# app::findPkg
+# ------------------------------------------------------------------
+app::findPkg()
+{
+	(($# < 1)) && errorExit "app::findPkg - cowardly refusing to search for nothing!"
+
+	sudo apt-cache search "$1"
+}
+# ------------------------------------------------------------------
+# app::install
+# ------------------------------------------------------------------
+app::install()
+{
+	(($# < 1)) && errorExit "No package requested for processing"
+
+	local app="$1" tested=0 func result
+
+	echoInfo "Installing '$app': " -n
+
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::install"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
+	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y install "$app"; result=$?; fi
+
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# app::installList
+# ------------------------------------------------------------------
+app::installList()
+{
+	(($# < 1)) && errorExit "Missing Argument!"
+
+	local name="$1"
+	local path="${2:-"$DOT_CFG/data"}"
+	declare -a packages
+
+	[[ -f "$path/$name.list" ]] || errorExit "Cannot find list file '$path/$name.list'"
+
+	readarray packages < "$path/$name.list"
+
+	appInstall "${packages[@]}"
+}
+# ------------------------------------------------------------------
+# app::listPkg
+# ------------------------------------------------------------------
+app::listPkg()
+{
+	(($# < 1)) && errorExit "app::listPkg - Missing Argument!"
+
+	local cmd
+
+	case "$1" in
+		-a | --available | available)
+			cmd="sudo apt-cache search ."
+			;;
+		-i | --installed | installed)
+			cmd="sudo apt list --installed"
+			;;
+		*)
+			errorExit "Invalid Argument!"
+			;;
+	esac
+
+	if [[ -n "$2" ]]; then
+		eval "$cmd" | grep "$2"
+	else
+		eval "$cmd"
+	fi
+}
+# ------------------------------------------------------------------
+# app::reinstall
+# ------------------------------------------------------------------
+app::reinstall()
+{
+	(($# < 1)) && errorExit "No package requested for processing"
+
+	local app="$1" tested=0 func result
+
+	echoInfo "Reinstalling '$app': " -n
+
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::reinstall"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
+	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$app"; result=$?; fi
+
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# app::remove
+# ------------------------------------------------------------------
+app::remove()
+{
+	(($# < 1)) && errorExit "No package requested for processing"
+
+	local app="$1" tested=0 func result
+
+	echoInfo "Removing '$app': " -n
+
+	if [[ -f "$APPS/$app" ]]; then
+		# Import the app file if one exists
+		if dotImport "$APPS/$app"; then
+			func="$app::remove"
+			if [[ $(type -t "$func") == "function" ]]; then
+				eval "$func"; result=$?; tested=1
+			fi
+		fi
+	fi
+
+	if ((tested == 0)); then sudo apt-get -qq -y purge "$app"; result=$?; fi
+
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# app::remove
+# ------------------------------------------------------------------
+app::repair() { sudo apt-get -qq -y check; return $?; }
+# ------------------------------------------------------------------
+# app::showPkg
+# ------------------------------------------------------------------
+app::showPkg()
+{
+	(($# < 1)) && errorExit "app::showPkg - cowardly refusing to show nothing!"
+
+	sudo apt-cache show "$1"
 }
 # ------------------------------------------------------------------
 # app::source
@@ -352,24 +425,17 @@ app::source()
 	return $result
 }
 # ------------------------------------------------------------------
-# app::addRepo
+# app::update
 # ------------------------------------------------------------------
-app::addRepo()
-{
-	(($# < 1)) && errorExit "No package requested for processing"
+app::update() { sudo apt-get -qq -y update; return $?; }
+# ------------------------------------------------------------------
+# app::upgrade
+# ------------------------------------------------------------------
+app::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
 
-	local repo result
-
-	for repo in "$@"
-	do
-		echoInfo "Adding APT repository '$repo': " -n
-		sudo add-apt-repository -qq -y "$repo"; result=$?
-	done
-
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	return $result
-}
+####################################################################
+# BULK HANDLERS
+####################################################################
 # ------------------------------------------------------------------
 # appInstall
 # ------------------------------------------------------------------
@@ -397,65 +463,4 @@ appRemove()
 	do
 		app::remove "$pkg"
 	done
-}
-# ------------------------------------------------------------------
-# app::findPkg
-# ------------------------------------------------------------------
-app::findPkg()
-{
-	(($# < 1)) && errorExit "app::findPkg - cowardly refusing to search for nothing!"
-
-	sudo apt-cache search "$1"
-}
-# ------------------------------------------------------------------
-# app::showPkg
-# ------------------------------------------------------------------
-app::showPkg()
-{
-	(($# < 1)) && errorExit "app::showPkg - cowardly refusing to show nothing!"
-
-	sudo apt-cache show "$1"
-}
-# ------------------------------------------------------------------
-# app::listPkg
-# ------------------------------------------------------------------
-app::listPkg()
-{
-	(($# < 1)) && errorExit "app::listPkg - Missing Argument!"
-
-	local cmd
-
-	case "$1" in
-		-a | --available | available)
-			cmd="sudo apt-cache search ."
-			;;
-		-i | --installed | installed)
-			cmd="sudo apt list --installed"
-			;;
-		*)
-			errorExit "Invalid Argument!"
-			;;
-	esac
-
-	if [[ -n "$2" ]]; then
-		eval "$cmd" | grep "$2"
-	else
-		eval "$cmd"
-	fi
-}
-# ------------------------------------------------------------------
-# app::readList
-# ------------------------------------------------------------------
-app::readList()
-{
-	(($# < 1)) && errorExit "Missing Argument!"
-
-	local name="$1" path
-	declare -a packages
-
-	[[ -f "$CFG_DIR/data/$name.list" ]] || errorExit "Cannot find list file '$CFG_DIR/data/$name.list'"
-
-	readarray packages < "$CFG_DIR/data/$name.list"
-
-	appInstall "${packages[@]}"
 }

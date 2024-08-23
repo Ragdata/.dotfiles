@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ####################################################################
-# files.bash
+# files.functions.bash
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         files.bash
+# File:         files.functions.bash
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -37,9 +37,9 @@ scriptDir() { printf -- '%s' "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"; }
 # ------------------------------------------------------------------
 scriptPath() { printf -- '%s' "$(realpath "${BASH_SOURCE[0]}")"; }
 # ------------------------------------------------------------------
-# searchFiles
+# searchConfig
 # ------------------------------------------------------------------
-searchFiles()
+searchConfig()
 {
 	local file="$1"
 	local default="${2:-}"
@@ -47,7 +47,7 @@ searchFiles()
 
 	[ -z "$file" ] && errorExit "No filename passed"
 
-	for dir in "${SEARCH_DIRS[@]}"
+	for dir in "${SEARCH_CFG[@]}"
 	do
 		[ -f "$dir/$file" ] && outFile="$dir/$file"
 	done

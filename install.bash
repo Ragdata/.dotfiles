@@ -4,7 +4,7 @@
 ####################################################################
 # install.bash
 ####################################################################
-# Ragdata's Dotfiles - Dotfile Master
+# Ragdata's Dotfiles - Dotfile Installer
 #
 # File:         install.bash
 # Author:       Ragdata
@@ -24,7 +24,7 @@ source "$ENV_DEFAULT"
 # Look for custom environment file and include it if it's there
 [ -f "$HOME/.env" ] && source "$HOME/.env"
 # Add critical paths to $PATH
-PATH="$BIN_DIR:$PATH"
+PATH="$DOT_BIN:$PATH"
 ####################################################################
 # INITIALIZE
 ####################################################################
@@ -34,7 +34,7 @@ dotImport "$FUNC_DIR/common.bash" "$FUNC_DIR/apps.bash"
 #
 # PATHS
 #
-SHELL="$DOTFILES/shell/bash"
+DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
 #
 # ADDITIONAL VARIABLES
 #

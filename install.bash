@@ -47,9 +47,9 @@ bash::init()
 {
 	local DIALOG_BACKTITLE DIALOG_TITLE DIALOG_TEXT DIALOG_INIT
 
-	[[ ! -f "$HOME"/.dotfiles/cfg/.node ]] && cp "$HOME"/.dotfiles/cfg/.node.dist "$HOME"/.dorfiles/cfg/.node
+	[[ ! -f "$DOT_CFG/.node" ]] && cp "$DOT_CFG/.node.dist" "$DOT_CFG/.node"
 
-	dotImport "$FUNC_DIR/files.bash"
+	dotImport "files.functions"
 
 	file2env "$HOME"/.dotfiles/cfg/.node
 

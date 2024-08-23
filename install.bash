@@ -167,9 +167,9 @@ checkBash
 checkRoot
 checkDir
 
-git clone https://github.com/Ragdata/.dotfiles.git
+[ "${PWD##*/}" != ".dotfiles" ] && git clone https://github.com/Ragdata/.dotfiles.git
 
-[[ -f "$HOME"/.dotfiles/cfg/.dialogrc ]] && install -v -b -C -D -t "$HOME" "$HOME"/.dotfiles/cfg/.dialogrc
+[ -f "$DOT_CFG/.dialogrc" ] && install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"
 
 tput civis
 

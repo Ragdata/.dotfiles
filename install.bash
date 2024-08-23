@@ -16,6 +16,7 @@
 # PREFLIGHT
 ####################################################################
 DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
+echo "DOTFILES = $DOTFILES"
 declare -x ENV_DEFAULT
 # verify default environment file is where you think it is
 [ -f "$DOTFILES/cfg/.env.dist" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }
@@ -23,9 +24,9 @@ declare -x ENV_DEFAULT
 ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
 # import default environment file
 dotImport "$ENV_DEFAULT"
-####################################################################
-# HELPER FUNCTIONS
-####################################################################
+# Import additional helpful libraries
+
+#
 #
 # ADDITIONAL VARIABLES
 #
@@ -34,6 +35,9 @@ USAGE="
 USAGE: install.bash [OPTIONS] <args>
 ====================================================================
 "
+####################################################################
+# HELPER FUNCTIONS
+####################################################################
 ####################################################################
 # CORE FUNCTIONS
 ####################################################################

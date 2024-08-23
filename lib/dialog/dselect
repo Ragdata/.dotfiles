@@ -6,7 +6,7 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-MAN_DSELECT=$(cat <<manual
+: <<manual
 "
 --dselect filepath height width
 
@@ -34,9 +34,8 @@ On  exit,  the  contents of the text-entry window are written to
 dialog's output.
 "
 manual
-); export MAN_DSELECT
 # ==================================================================
-dotImport "$CFG_DIR"/.dialog-vars
+dotImport "$DOT_CFG"/.dialog-vars
 
 # shellcheck disable=SC2034
 RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \

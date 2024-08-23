@@ -6,7 +6,7 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-MAN_CHECKLIST=$(cat <<manual
+: <<manual
 "
 --checklist text height width list-height [ tag item status ] ...
 
@@ -26,9 +26,8 @@ them.  By default, this uses double-quotes (as needed).  See the
 '--single-quoted' option, which modifies the quoting behavior.
 "
 manual
-); export MAN_CHECKLIST
 # ==================================================================
-dotImport "$CFG_DIR"/.dialog-vars
+dotImport "$DOT_CFG"/.dialog-vars
 
 # shellcheck disable=SC2034
 RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \

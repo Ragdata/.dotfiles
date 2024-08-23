@@ -6,7 +6,7 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-MAN_EDITBOX=$(cat <<manual
+: <<manual
 "
 --editbox filepath height width
 
@@ -21,10 +21,9 @@ On exit, the contents of the edit window are written to dialog's
 output.
 "
 manual
-); export MAN_EDITBOX
 # ==================================================================
-dotImport "$CFG_DIR"/.dialog-vars
-dotImport "$CFG_DIR"/.dialog-edit
+dotImport "$DOT_CFG"/.dialog-vars
+dotImport "$DOT_CFG"/.dialog-edit
 
 $DIALOG --ok-label "${OK_LABEL:-OK}" \
 	--cancel-label "${CANCEL_LABEL:-Cancel}" \

@@ -6,10 +6,9 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-MAN_TEMPLATE=$(cat <<manual
+: <<manual
 
 manual
-); export MAN_TEMPLATE
 # ==================================================================
-dotImport "$CFG_DIR"/.dialog-vars
+dotImport "$DOT_CFG"/.dialog-vars
 

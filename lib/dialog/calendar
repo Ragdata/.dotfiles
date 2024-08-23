@@ -6,7 +6,7 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-MAN_CALENDAR=$(cat <<manual
+: <<manual
 "
 --calendar text height width day month year
 
@@ -23,9 +23,8 @@ On  exit,  the  date is printed in the form day/month/year.  The
 format can be overridden using the --date-format option.
 "
 manual
-); export MAN_CALENDAR
 # ==================================================================
-dotImport "$CFG_DIR"/.dialog-vars
+dotImport "$DOT_CFG"/.dialog-vars
 
 DD="$(date +%d)"
 MM="$(date +%m)"

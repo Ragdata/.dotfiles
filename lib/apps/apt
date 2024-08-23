@@ -25,7 +25,7 @@ apt::install()
 
 	echoInfo "Installing additional packages for 'apt': " -n
 	sudo apt-get -qq -y install apt-transport-https apt-listchanges; result=$?
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
 	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
@@ -38,10 +38,10 @@ apt::config()
 {
 	local result=0
 
-	if [[ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]]; then
+	if [ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]; then
 		echoInfo "Configuring 'apt': " -n
 		echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4; result=$?
-		if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+		if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 	fi
 
 	return $result
@@ -56,7 +56,7 @@ apt::remove()
 	echoInfo "Removing 'apt': " -n
 	sudo rm -f /etc/apt/apt.conf.d/99force-ipv4
 	sudo apt-get -qq -y purge apt-transport-https apt-listchanges; result=$?
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 
 	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove

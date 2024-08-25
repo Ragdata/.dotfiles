@@ -2,11 +2,11 @@
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
 ####################################################################
-# install.bash
+# install.sh
 ####################################################################
-# Ragdata's Dotfiles - Dotfile Installer00
+# Ragdata's Dotfiles - Dotfile Installer
 #
-# File:         install.bash
+# File:         install.sh
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -15,28 +15,59 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-DOTFILES="$(cd "${BASH_SOURCE%/*}" && pwd)"
-declare -x ENV_DEFAULT
-# verify default environment file is where you think it is
-[ -f "$DOTFILES/cfg/.env.dist" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }
-[[ $PATH != *"${ENV_DEFAULT}"* ]] && PATH="$DOTFILES/bin:$PATH"
-ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
-# import default environment file
-dotImport "$ENV_DEFAULT"
+# set debug mode = false
+declare -x INSTALL_DEBUG=0
+# if script is called with 'debug' as the first argument, set debug mode
+if [ "${1,,}" == "debug" ]; then
+	INSTALL_DEBUG=1
+	set -- "${@:1}"
+	set -axeETuo pipefail
+else
+	set -aeETuo pipefail
+fi
+shopt -s inherit_errexit
+IFS=$'\n\t'	# set unofficial strict mode @see: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+####################################################################
+# INIT
+####################################################################
+
+declare -x ENV_DEFAULT DOTFILES
+
+####################################################################
+# HELPER FUNCTIONS
+####################################################################
+# ------------------------------------------------------------------
+# install::checkBash
+# ------------------------------------------------------------------
+install::checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
+# ------------------------------------------------------------------
+# install::checkRoot
+# ------------------------------------------------------------------
+install::checkRoot() { [[ "$(id -u)" -ne 0 ]] && errorExit "This script MUST be run with root privileges"; }
+####################################################################
+# MAIN
+####################################################################
+install::checkBash
+install::checkRoot
+
+
+#ENV_DEFAULT="./cfg/.env.dist"
+## verify default environment file is where you think it is
+#[ -f "$ENV_DEFAULT" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }
+#source "$ENV_DEFAULT"
+
+#[[ ! $PATH =~ ?(*:)$DOT_BIN?(:*) ]] && export PATH="$PATH:$DOT_BIN"
 # Import additional helpful libraries
-dotImport "files.functions"
+#dotInclude "common.functions" "files.functions"
 #
 #
 # ADDITIONAL VARIABLES
 #
-USAGE="
-====================================================================
-USAGE: install.bash [OPTIONS] <args>
-====================================================================
-"
-####################################################################
-# HELPER FUNCTIONS
-####################################################################
+#USAGE="
+#====================================================================
+#USAGE: install.sh [OPTIONS] <args>
+#====================================================================
+#"
 ####################################################################
 # CORE FUNCTIONS
 ####################################################################
@@ -49,7 +80,7 @@ bash::init()
 
 	[[ ! -f "$DOT_CFG/.node" ]] && cp "$DOT_CFG/.node.dist" "$DOT_CFG/.node"
 
-	dotImport "files.functions"
+	dotInclude "files.functions"
 
 	file2env "$HOME"/.dotfiles/cfg/.node
 
@@ -159,21 +190,15 @@ bash::menu()
 			"Quit")			bash::quit;;
 		esac
 	fi
-}
-####################################################################
-# MAIN
-####################################################################
-checkBash
-checkRoot
-checkDir
+} 
 
-[ "${PWD##*/}" != ".dotfiles" ] && git clone https://github.com/Ragdata/.dotfiles.git
-
-[ -f "$DOT_CFG/.dialogrc" ] && install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"
-
-tput civis
-
-bash::init
-bash::menu
-
-tput cnorm
+#[ "${PWD##*/}" != ".dotfiles" ] && git clone https://github.com/Ragdata/.dotfiles.git
+#
+#[ -f "$DOT_CFG/.dialogrc" ] && install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"
+#
+#tput civis
+#
+##bash::init
+#bash::menu
+#
+#tput cnorm

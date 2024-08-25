@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 ####################################################################
 # EDITBOX
 ####################################################################
@@ -22,8 +22,8 @@ output.
 "
 manual
 # ==================================================================
-dotImport "$DOT_CFG"/.dialog-vars
-dotImport "$DOT_CFG"/.dialog-edit
+dotInclude "$DOT_CFG"/.dialog-vars
+dotInclude "$DOT_CFG"/.dialog-edit
 
 $DIALOG --ok-label "${OK_LABEL:-OK}" \
 	--cancel-label "${CANCEL_LABEL:-Cancel}" \

@@ -6,4 +6,5 @@ software-properties-common
 git
 gnupg
 yq
+envsubst
 dialog

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 ####################################################################
 # CALENDAR
 ####################################################################
@@ -24,7 +24,7 @@ format can be overridden using the --date-format option.
 "
 manual
 # ==================================================================
-dotImport "$DOT_CFG"/.dialog-vars
+dotInclude "$DOT_CFG"/.dialog-vars
 
 DD="$(date +%d)"
 MM="$(date +%m)"

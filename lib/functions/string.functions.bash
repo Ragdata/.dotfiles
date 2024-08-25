@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# string.functions.bash
+# string.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         string.functions.bash
+# File:         string.functions
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License

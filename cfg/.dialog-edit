@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 
 input=$(mktemp 2>/dev/null) || input=/tmp/input$$
 output=$(mktemp 2>/dev/null) || output=/tmp/test$$

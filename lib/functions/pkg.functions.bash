@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# pkgs.functions.bash
+# pkgs.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         pkgs.functions.bash
+# File:         pkgs.functions
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -156,7 +156,7 @@ pkg::check()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::check"
 			[[ $(type -t "$func") == "function" ]] || errorExit "'$func' is not a function"
 			eval "$func"; result=$?; return "$result"
@@ -179,7 +179,7 @@ pkg::config()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::config"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; return "$result"
@@ -212,7 +212,7 @@ pkg::download()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::download"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
@@ -250,7 +250,7 @@ pkg::install()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::install"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
@@ -325,7 +325,7 @@ pkg::reinstall()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::reinstall"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
@@ -356,7 +356,7 @@ pkg::remove()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::remove"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1
@@ -408,7 +408,7 @@ pkg::source()
 
 	if [[ -f "$PKGS/$pkg" ]]; then
 		# Import the pkg file if one exists
-		if dotImport "$PKGS/$pkg"; then
+		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::source"
 			if [[ $(type -t "$func") == "function" ]]; then
 				eval "$func"; result=$?; tested=1

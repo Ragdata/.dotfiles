@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# common.functions.bash
+# common.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         common.functions.bash
+# File:         common.functions
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
@@ -14,8 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-dotImport "$HOME/.dotfiles/cfg/.env.dist"
-dotImport "terminal.functions" "files.functions"
+dotInclude "$HOME/.dotfiles/cfg/.env.dist"
+dotInclude "terminal.functions" "files.functions"
 ####################################################################
 # COMMON FUNCTIONS
 ####################################################################
@@ -71,7 +71,7 @@ checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script 
 # ------------------------------------------------------------------
 checkDeps()
 {
-	dotImport "$FUNCTIONS/pkgs.bash" || errorExit "Unable to import library file '$FUNCTIONS/pkgs.bash'"
+	dotInclude "$FUNCTIONS/pkgs.bash" || errorExit "Unable to import library file '$FUNCTIONS/pkgs.bash'"
 
 	local i
 
@@ -92,6 +92,17 @@ checkDeps()
 # checkDir
 # ------------------------------------------------------------------
 checkDir() { [[ "$PWD" != "$HOME" ]] && errorExit "This script must be executed from within your '$HOME' directory"; }
+# ------------------------------------------------------------------
+# checkImported
+# ------------------------------------------------------------------
+checkImported()
+{
+	local path="${1?}"
+
+	[[ ${IMPORTS[*]} =~ (^|[[:space:]])${path}([[:space:]]|$) ]] && returns 1
+
+	return 0
+}
 # ------------------------------------------------------------------
 # checkRoot
 # ------------------------------------------------------------------

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# dotlog
+# history.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         dotlog
+# File:         history.functions
 # Author:       Ragdata
-# Date:         23/08/2024
+# Date:         22/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# MAIN
+# LOG FUNCTIONS
 ####################################################################

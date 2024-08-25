@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ####################################################################
-# bash_profile.bash
+# .bash_profile
 ####################################################################
 # Ragdata's Dotfiles - Dotfile Master
 #
-# File:         bash_profile.bash
+# File:         .bash_profile
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License

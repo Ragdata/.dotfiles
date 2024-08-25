@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ####################################################################
-# files.functions.bash
+# files.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         files.functions.bash
+# File:         files.functions
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License

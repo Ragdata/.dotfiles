@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ####################################################################
-# bash_env.bash
+# .bash_env
 ####################################################################
 # Ragdata's Dotfiles - Dotfile Master
 #
-# File:         bash_env.bash
+# File:         .bash_env
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License

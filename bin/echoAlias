@@ -2,9 +2,16 @@
 ####################################################################
 # echoAlias
 ####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         echoAlias
+# Author:       Ragdata
+# Date:         23/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# MAIN
 ####################################################################
 (($# == 0)) && { echo -e "${RED}${SYMBOL_ERROR} ERROR :: echoAlias requires at least one argument${RESET}"; exit 1; }
 

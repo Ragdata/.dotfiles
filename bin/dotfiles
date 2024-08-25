@@ -3,7 +3,7 @@
 ####################################################################
 # dotfiles
 ####################################################################
-# Ragdata's Dotfiles - Function Definitions
+# Ragdata's Dotfiles - Executable
 #
 # File:         dotfiles
 # Author:       Ragdata
@@ -12,9 +12,41 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# DOTFILES FUNCTIONS
+# PREFLIGHT
 ####################################################################
-
+dotInclude "dotfiles.functions"
 ####################################################################
 # MAIN
 ####################################################################
+declare verb="${1?}"
+declare component="${2?}"
+declare func
+
+case "$verb" in
+	show)
+		;;
+	enable)
+		;;
+	disable)
+		;;
+	help)
+		;;
+	profile)
+		;;
+	search)
+		;;
+	preview)
+		;;
+	update)
+		;;
+	migrate)
+		;;
+	version)
+		;;
+	restart)
+		;;
+	reload)
+		;;
+	*)
+		;;
+esac

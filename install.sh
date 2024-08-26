@@ -35,10 +35,6 @@ IFS=$'\n\t'	# set unofficial strict mode @see: http://redsymbol.net/articles/uno
 # ------------------------------------------------------------------
 install::checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then echo "This script requires a minimum Bash version of 4+"; exit 1; fi }
 # ------------------------------------------------------------------
-# install::checkRoot
-# ------------------------------------------------------------------
-install::checkRoot() { if [[ "$(id -u)" -ne 0 ]]; then echo "This script MUST be run with root privileges"; exit 1; fi }
-# ------------------------------------------------------------------
 # install::bin
 # ------------------------------------------------------------------
 install::bin()
@@ -50,7 +46,7 @@ install::bin()
 		chmod 0755 "$file"
 		ln -s "$file" "/usr/local/bin/$fileName"
 		chmod 0755 "/usr/local/bin/$fileName"
-	done < <(find "$DOTFILES/bin" type -f)
+	done < <(find "$DOTFILES/bin" -type f)
 }
 ####################################################################
 # INIT
@@ -59,7 +55,6 @@ install::bin()
 declare -x ENV_DEFAULT DOTFILES
 
 install::checkBash
-install::checkRoot
 
 # check we've got the essentials
 if ! command -v git &> /dev/null; then

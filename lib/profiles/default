@@ -1,14 +1,12 @@
 # Default generic profile for .dotfiles
 
 # plugins
-plugins base
-
-
+base.plugins
 
 # completion
-completion aliases
-completion dotfiles
-completion system
+aliases.completion
+dotfiles.completion
+system.completion
 
 # aliases
-aliases general
+general.aliases

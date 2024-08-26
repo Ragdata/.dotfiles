@@ -14,8 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-#dotInclude "$HOME/.dotfiles/cfg/.env.dist"
-#dotInclude "terminal.functions" "files.functions"
+[[ "$_COMMON_FUNCTIONS" -eq 1 ]] && return 0
+_COMMON_FUNCTIONS=1
 ####################################################################
 # COMMON FUNCTIONS
 ####################################################################
@@ -71,7 +71,7 @@ checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script 
 # ------------------------------------------------------------------
 checkDeps()
 {
-	dotInclude "$FUNCTIONS/pkgs.bash" || errorExit "Unable to import library file '$FUNCTIONS/pkgs.bash'"
+	dotInclude "$FUNCTIONS/pkg.functions.bash" || errorExit "Unable to import library file '$FUNCTIONS/pkgs.bash'"
 
 	local i
 
@@ -91,18 +91,7 @@ checkDeps()
 # ------------------------------------------------------------------
 # checkDir
 # ------------------------------------------------------------------
-checkDir() { [[ "$PWD" != "$HOME" ]] && errorExit "This script must be executed from within your '$HOME' directory"; }
-# ------------------------------------------------------------------
-# checkImported
-# ------------------------------------------------------------------
-checkImported()
-{
-	local path="${1?}"
-
-	[[ ${IMPORTS[*]} =~ (^|[[:space:]])${path}([[:space:]]|$) ]] && returns 1
-
-	return 0
-}
+checkDir() { [[ "$PWD" != "$1" ]] && errorExit "This script must be executed from within your '$1' directory"; }
 # ------------------------------------------------------------------
 # checkRoot
 # ------------------------------------------------------------------

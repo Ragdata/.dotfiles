@@ -12,5 +12,10 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# LOG FUNCTIONS
+# PREFLIGHT
+####################################################################
+[[ "$_HISTORY_FUNCTIONS" -eq 1 ]] && return 0
+_HISTORY_FUNCTIONS=1
+####################################################################
+# HISTORY FUNCTIONS
 ####################################################################

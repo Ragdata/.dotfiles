@@ -77,10 +77,13 @@ DOTFILES="$HOME/.dotfiles"
 ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
 
 source "$ENV_DEFAULT"
+
+install::bin
+
+dotInclude "common.functions"
 ####################################################################
 # MAIN
 ####################################################################
-install::bin
 
 
 #ENV_DEFAULT="./cfg/.env.dist"

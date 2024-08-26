@@ -14,8 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-dotInclude "$HOME/.dotfiles/cfg/.env.dist"
-dotInclude "terminal.functions" "files.functions"
+#dotInclude "$HOME/.dotfiles/cfg/.env.dist"
+#dotInclude "terminal.functions" "files.functions"
 ####################################################################
 # COMMON FUNCTIONS
 ####################################################################

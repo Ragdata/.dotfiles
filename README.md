@@ -1,14 +1,10 @@
-<div align="center">
+<a name="top"><img height="64" align="right" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Ragdata's Dotfiles" /></a>
 
 ![Pre-Release](https://img.shields.io/badge/Status-Pre--Release-d20000?labelColor=31383f)
 
-</div>
+<h1>
 
-<h1 align="center">
-
-<img height="256" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Ragdata's Dotfiles" />
-
-[Ragdata's Dotfiles](https://github.com/ragdata/.dotfiles/releases/tag/v0.1.0)
+[Ragdata's Dotfiles][release]
 
 </h1>
 
@@ -22,17 +18,25 @@
 
 </div>
 
-## ⭐ [Project Overview](#toc)
+## [Project Overview](#top) ⭐
 
-## ❓ [What's Included?](#toc)
+> The dotfiles I use to configure my environments, and the means to manage them ...
 
-[`^ Top`](#toc)
+## [Installation](#top) 📂
 
-## 📂 [Installation](#toc)
+### AutoInstall
 
-[`^ Top`](#toc)
+```shell
+wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/install.sh | bash
+```
 
-## ❤️ [Project Supporters](#toc)
+[`^ Top`](#top)
+
+## [What's Included?](#top) ❓
+
+[`^ Top`](#top)
+
+## [Project Supporters](#top) ❤️
 
 <div align="center">
 
@@ -44,9 +48,9 @@
 
 </div>
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
-## 🚧 [Author / Maintainer](#toc)
+## [Author / Maintainer](#top) 🚧
 
 <div align="center">
 
@@ -54,21 +58,21 @@
 
 </div>
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
-## 🔐 [Security](#toc)
+## [Security](#top) 🔐
 
 While I always good security practices, 100% security can never be guaranteed in any software package.  My `Dotfiles` are provided AS IS, and without warranty.  You can find more details in the [LICENSE](LICENSE) file included with this repository.
 
 If you discover any issue regarding the security of this project, please disclose that information responsibly by sending a [security advisory][advisory].  **PLEASE DO NOT CREATE AN ISSUE OR DISCUSSION TOPIC.**  You can read more about this project's security policies [HERE][security]
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
-## 📖 [Resources](#toc)
+## [Resources](#top) 📖
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
-## ©️ [Copyright & Attributions](#toc)
+## [Copyright & Attributions](#top) ©️
 
 This project incorporates ideas and / or code crafted by the following talented individuals:
 
@@ -76,9 +80,9 @@ This project incorporates ideas and / or code crafted by the following talented 
 
 > "We see much further, and reach much higher,<br>only because we stand upon the shoulders of giants"
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
-## ⚖️ [License](#toc)
+## [License](#top) ⚖️
 
 ![MIT](https://img.shields.io/badge/License-MIT-gold)
 
@@ -90,7 +94,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[`^ Top`](#toc)
+[`^ Top`](#top)
 
 <h3 align="center">
 
@@ -106,6 +110,9 @@ If you like this repository, please give it a ⭐ (it really does help)
 <a href="https://github.com/ragdata" target="_blank"><img alt="Ragdata" src="https://img.shields.io/badge/-Made_With_☕_By_Ragdata-D20000?style=for-the-badge" /></a>
 
 </div>
+
+[release]: https://github.com/ragdata/.dotfiles/releases/tag/v0.1.0
+[repo]: https://github.com/ragdata/.dotfiles
 
 [advisory]: https://github.com/ragdata/.dotfiles/security/advisories/new
 [all-contributors]: https://allcontributors.org

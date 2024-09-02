@@ -15,7 +15,6 @@
 # PREFLIGHT
 ####################################################################
 #declare -gx _COMMON_FUNCTIONS; [[ "${_COMMON_FUNCTIONS:-0}" -eq 1 ]] && return 0; _COMMON_FUNCTIONS=1;
-echo $0
 source "$FUNCTIONS/terminal.functions.bash"
 ####################################################################
 # COMMON FUNCTIONS

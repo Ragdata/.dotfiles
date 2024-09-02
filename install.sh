@@ -74,6 +74,15 @@ install::bin()
 	done < <(find "$DOTFILES/bin" -type f)
 }
 # ------------------------------------------------------------------
+# install::cfg
+# ------------------------------------------------------------------
+install::cfg()
+{
+	# @TODO - dialog to collect info
+
+	envsubst < "$DOTFILES/.github/.releaserc.dist" > "$DOTFILES/.github/.releaserc"
+}
+# ------------------------------------------------------------------
 # install::checkBash
 # ------------------------------------------------------------------
 install::checkBash() { [[ "${BASH_VERSION:0:1}" -lt 4 ]] && install::errorExit "This script requires a minimum Bash version of 4+"; }
@@ -164,12 +173,9 @@ install::getVersion()
 
 	if [ -f "$releaserc" ]; then
 		yq 'has("version")' "$releaserc" && DOTFILES_VERSION="$(yq '.version' "$releaserc")"
-		yq 'has("copyright")' "$releaserc" && DOTFILES_COPYRIGHT="$(yq '.copyright' "$releaserc")"
 	else
-		install::echoWarning "Release configuration file '$DOTFILES/.github/.releaserc' not found\nUnable to determine package version"
-		return 1
+		DOTFILES_VERSION="v0.1.0"
 	fi
-	return 0
 }
 # ------------------------------------------------------------------
 # install::sudo
@@ -223,7 +229,8 @@ install::version()
 # ------------------------------------------------------------------
 install::full()
 {
-
+	install::bin
+	install::deps
 }
 # ------------------------------------------------------------------
 # install::init

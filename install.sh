@@ -251,7 +251,7 @@ install::full()
 {
 	install::bin
 	install::dots
-	dotInclude "${DEBUG:+}" "common.functions"
+	dotInclude "common.functions"
 	install::deps
 }
 # ------------------------------------------------------------------

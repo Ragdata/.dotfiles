@@ -14,6 +14,21 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
+# set debug mode = false
+declare -x DEBUG=0
+# if script is called with 'debug' as the first argument, set debug mode
+if [ "${1,,}" == "debug" ]; then
+	shift
+	DEBUG=1
+	set -- "${@:1}"
+	set -axeETuo pipefail
+else
+	set -aeETuo pipefail
+fi
+shopt -s inherit_errexit
+####################################################################
+# DEPENDENCIES
+####################################################################
 source "$FUNCTIONS/common.functions.bash"
 source "$FUNCTIONS/string.functions.bash"
 ####################################################################
@@ -21,7 +36,7 @@ source "$FUNCTIONS/string.functions.bash"
 ####################################################################
 (($# == 0)) && errorExit "No targets given"
 
-declare -ax ARR
+declare -a ARR
 
 for item in "$@"
 do

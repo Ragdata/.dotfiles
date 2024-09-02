@@ -1,5 +1,6 @@
 # shellcheck shell=bash
 # shellcheck disable=SC2034
+# shellcheck disable=SC2269
 ####################################################################
 # This file defines the environment variables for this install
 # To override this file with your own configuration, rename the

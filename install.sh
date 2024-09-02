@@ -27,19 +27,40 @@ else
 fi
 shopt -s inherit_errexit
 IFS=$'\n\t'	# set unofficial strict mode @see: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+TERM_ESC=$'\033'
+TERM_CSI="${TERM_ESC}["
+####################################################################
+# TERMINAL FUNCTIONS
+####################################################################
+install::reset()				{ printf -- '%s0m' "$TERM_CSI"; }
+install::red()					{ printf -- '%s31m' "$TERM_CSI"; }
+install::green()				{ printf -- '%s92m' "$TERM_CSI"; }
+install::gold()					{ printf -- '%s33m' "$TERM_CSI"; }
+install::blue()					{ printf -- '%s34m' "$TERM_CSI"; }
+install::white()				{ printf -- '%s97m' "$TERM_CSI"; }
+# ------------------------------------------------------------------
+# TERMINAL ALIASES
+# ------------------------------------------------------------------
+I0="$(install::reset)"
+I_RED="$(install::red)"
+I_GREEN="$(install::green)"
+I_GOLD="$(install::gold)"
+I_BLUE="$(install::blue)"
+I_WHITE="$(install::white)"
+install::echoError()					{ echo -e "${I_RED}${1}${I0}"; }
+install::echoWarning()					{ echo -e "${I_GOLD}${1}${I0}"; }
+install::echoInfo()						{ echo -e "${I_BLUE}${1}${I0}"; }
+install::echoSuccess()					{ echo -e "${I_GREEN}${1}${I0}"; }
+install::errorExit()					{ install::echoError "$1"; exit "${2:-1}"; }
 ####################################################################
 # HELPER FUNCTIONS
 ####################################################################
-# ------------------------------------------------------------------
-# install::checkBash
-# ------------------------------------------------------------------
-install::checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then echo "This script requires a minimum Bash version of 4+"; exit 1; fi }
 # ------------------------------------------------------------------
 # install::bin
 # ------------------------------------------------------------------
 install::bin()
 {
-	echo "Installing .dotfiles binaries ..."
+	install::echoInfo "Installing .dotfiles binaries ..."
 	while IFS= read -r file
 	do
 		fileName="$(basename "$file")"
@@ -50,26 +71,56 @@ install::bin()
 	done < <(find "$DOTFILES/bin" -type f)
 }
 # ------------------------------------------------------------------
+# install::checkBash
+# ------------------------------------------------------------------
+install::checkBash() { [[ "${BASH_VERSION:0:1}" -lt 4 ]] && install::errorExit "This script requires a minimum Bash version of 4+"; }
+# ------------------------------------------------------------------
 # install::deps
 # ------------------------------------------------------------------
 install::deps()
 {
+	local install config
 	if ! command -v add-apt-repository &> /dev/null; then
-		echo "Package 'software-properties-common' not found - installing ..."
+		install::echoInfo "Package 'software-properties-common' not found - installing ..."
 		sudo apt -qq -y install software-properties-common
 	fi
 	if [ -f "$DOT_CFG/data/repositories.list" ]; then
-		echo "Adding configured repositories ..."
+		install::echoInfo "Adding configured repositories ..."
 		while IFS= read -r line
 		do
-			sudo add-apt-repository "$line" || echo "WARNING :: Failed to add repository '$line'"
+			sudo add-apt-repository "$line" || install::echoWarning "WARNING :: Failed to add repository '$line'"
 		done < "$DOT_CFG/data/repositories.list"
 	fi
-	if [ -f "$DOT_CFG/data/dependencies.list" ]
-		echo "Installing configured dependencies ..."
+	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
+		install::echoInfo "Installing configured dependencies ..."
 		while IFS= read -r line
 		do
-
+			install=2
+			config=2
+			if [ -f "$PKGS/$line" ]; then
+				install::echoSuccess "Found package file for '$line'"
+				source "$PKGS/$line"
+				if [[ "$(type -t "$line::install")" ]]; then
+					install::echoInfo "Installing '$line' ..."
+					eval "$line::install"
+					install="$?"
+				else
+					sudo apt-get -qq -y install "$line"
+					install="$?"
+				fi
+				if ((install==0)); then
+					if [[ "$(type -t "$line::config")" == "function" ]]; then
+						install::echoInfo "Configuring '$line' ..."
+						eval "$line::config"
+						config="$?"
+					fi
+				elif ((install==1)); then
+					install::echoWarning "Unable to install package '$line'"
+				fi
+			else
+				install::echoInfo "Installing '$line' with apt-get ..."
+				sudo apt-get -qq -y install "$line"
+			fi
 		done < "$DOT_CFG/data/dependencies.list"
 	fi
 }
@@ -79,13 +130,15 @@ install::deps()
 install::dots()
 {
 	local DOT=()
-	echo "Installing dotfiles ..."
+	install::echoInfo "Installing dotfiles ..."
+	[ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || install::errorExit "Unable to create backup directory"; }
+	[ -f "$HOME/.profile" ] && mv -b "$HOME/.profile" "$HOME/.backup/.profile"
+	[ -L "$HOME/.profile" ] && rm -f "$HOME/.profile"
 	while IFS= read -r file
 	do
 		DOT=()
 		fileName="$(basename "$file")"
 		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
-		mkdir -p "$HOME/.backup"
 		if [ -f "$HOME/.${DOT[0]}" ]; then
 			mv -b "$HOME/.${DOT[0]}" "$HOME/.backup/.${DOT[0]}"
 		elif [ -L "$HOME/.${DOT[0]}" ]; then
@@ -95,59 +148,100 @@ install::dots()
 		chmod 0644 "$HOME/.${DOT[0]}"
 	done < <(find "$DOTS" -type f -maxdepth 0)
 }
+# ------------------------------------------------------------------
+# install::getVersion
+# ------------------------------------------------------------------
+install::getVersion()
+{
+	local releaserc
+	! command -v yq &> /dev/null && { install::echoError "Dependency 'yq' not installed"; return 1; }
+	releaserc="$DOTFILES/.github/.releaserc"
+	if [ -f "$releaserc" ]; then
+		yq 'has("version")' "$releaserc" && DOTFILES_VERSION="$(yq '.version' "$releaserc")"
+	else
+		install::echoWarning "Release configuration file '$DOTFILES/.github/.releaserc' not found\nUnable to determine package version"
+		return 1
+	fi
+	return 0
+}
+# ------------------------------------------------------------------
+# install::sudo
+# ------------------------------------------------------------------
+install::sudo()
+{
+	if [ ! -f "/etc/sudoers.d/$USER" ]; then
+		install::echoInfo "Removing password requirement for sudo ..."
+		echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee "/etc/sudoers.d/$USER"
+	fi
+}
+# ------------------------------------------------------------------
+# install::sysUpdate
+# ------------------------------------------------------------------
+install::sysUpdate()
+{
+	local diff last_update
+
+	# update / upgrade
+	if [ -f /var/cache/apt/pkgcache.bin ]; then
+		# shellcheck disable=SC2012
+		last_update="$(ls -l /var/cache/apt/pkgcache.bin | cut -d' ' -f6,7,8)"
+	fi
+	if [ -n "$last_update" ]; then
+		last_update="$(date -d "$last_update" +%Y%m%d)"
+		diff=$((("$(date +%s)"-"$(date +%s -d "$last_update")")/86400))
+	fi
+	if [[ -z "$diff" || "$diff" -gt 28 ]]; then
+		install::echoInfo "Updating system files ..."
+		sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
+	fi
+}
 ####################################################################
 # INIT
 ####################################################################
+install::init()
+{
+	declare -gx ENV_DEFAULT DOTFILES
 
-declare -x ENV_DEFAULT DOTFILES
+	install::checkBash
 
-install::checkBash
+	install::sudo
 
-# check we've got the essentials
-if ! command -v git &> /dev/null; then
-	echo "Package 'git' not found - installing ..."
-	sudo apt-get -qq -y install git
-fi
+	install::sysUpdate
 
-# ensure correct install location
-if [ "$PWD" != "$HOME" ]; then cd "$HOME" || exit 1; fi
+	# check we've got the essentials
+	if ! command -v git &> /dev/null; then
+		install::echoInfo "Package 'git' not found - installing ..."
+		sudo apt-get -qq -y install git
+	fi
 
-# check that repo exists locally
-if [ ! -d "$HOME/.dotfiles" ]; then
-	echo "Cloning .dotfiles repo ..."
-	# @TODO - Change to release package once released
-	git clone https://github.com/Ragdata/.dotfiles.git
-fi
+	# ensure correct install location
+	if [ "$PWD" != "$HOME" ]; then cd "$HOME" || exit 1; fi
 
-# set critical env variables
-DOTFILES="$HOME/.dotfiles"
-ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
+	# check that repo exists locally
+	if [ ! -d "$HOME/.dotfiles" ]; then
+		install::echoInfo "Cloning .dotfiles repo ..."
+		# @TODO - Change to release package once released
+		git clone https://github.com/Ragdata/.dotfiles.git
+	else
+		install::echoInfo "Updating .dotfiles repo ..."
+		git pull https://github.com/Ragdata/.dotfiles.git
+	fi
 
-source "$ENV_DEFAULT" || { echo "ERROR :: Default configuration file not found!"; exit 1; }
+	# set critical env variables
+	DOTFILES="$HOME/.dotfiles"
+	ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
+
+	source "$ENV_DEFAULT" || install::errorExit "ERROR :: Default configuration file not found!"
+}
 ####################################################################
 # MAIN
 ####################################################################
-install::bin
-install::deps
-install::dots
 
-#ENV_DEFAULT="./cfg/.env.dist"
-## verify default environment file is where you think it is
-#[ -f "$ENV_DEFAULT" ] || { echo "ERROR :: Default configuration file not found!"; exit 1; }
-#source "$ENV_DEFAULT"
 
-#[[ ! $PATH =~ ?(*:)$DOT_BIN?(:*) ]] && export PATH="$PATH:$DOT_BIN"
-# Import additional helpful libraries
-#dotInclude "common.functions" "files.functions"
-#
-#
-# ADDITIONAL VARIABLES
-#
-#USAGE="
-#====================================================================
-#USAGE: install.sh [OPTIONS] <args>
-#====================================================================
-#"
+
+
+
+
 ####################################################################
 # CORE FUNCTIONS
 ####################################################################
@@ -210,6 +304,12 @@ install::dots
 #
 #	unset DIALOG_TEXT RESULT
 #}
+
+
+
+
+
+
 # ------------------------------------------------------------------
 # bash::install
 # ------------------------------------------------------------------
@@ -272,8 +372,11 @@ install::dots
 #	fi
 #}
 
-#[ "${PWD##*/}" != ".dotfiles" ] && git clone https://github.com/Ragdata/.dotfiles.git
-#
+
+
+
+
+
 #[ -f "$DOT_CFG/.dialogrc" ] && install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"
 #
 #tput civis

@@ -1,10 +1,12 @@
 apt
-curl
-wget
 ca-certificates
+curl
 software-properties-common
 git
 gnupg
-yq
 envsubst
 dialog
+ubuntu-wsl
+wget
+wslu
+yq

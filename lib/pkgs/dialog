@@ -32,6 +32,23 @@ dialog::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+dialog::config()
+{
+	local result
+
+	if [ -f "$DOT_CFG/.dialogrc" ]; then
+		echoInfo "Configuring 'dialog': " -n
+		install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"; result="$?"
+		if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	else
+		echoWarning "File '$DOT_CFG/.dialogrc' not found"
+		result=1
+	fi
+	return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 dialog::remove()

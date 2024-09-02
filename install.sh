@@ -68,7 +68,6 @@ install::bin()
 	do
 		fileName="$(basename "$file")"
 		[ -e "/usr/local/bin/$fileName" ] && sudo rm -f "/usr/local/bin/$fileName"
-		chmod 0755 "$file"
 		sudo ln -s "$file" "/usr/local/bin/$fileName"
 		sudo chmod 0755 "/usr/local/bin/$fileName"
 	done < <(find "$HOME/.dotfiles/bin" -type f)

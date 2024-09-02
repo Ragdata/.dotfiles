@@ -27,22 +27,22 @@ esac
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # include .bash_env if available
-[ -f ~/.bash_env ] && source ~/.bash_env
+[ -e ~/.bash_env ] && source ~/.bash_env
 
 # include .bash_common if available
-[ -f ~/.bash_common ] && source ~/.bash_common
+[ -e ~/.bash_common ] && source ~/.bash_common
 
 # include .bash_functions if available
-[ -f ~/.bash_functions ] && source ~/.bash_functions
+[ -e ~/.bash_functions ] && source ~/.bash_functions
 
 # include .bash_prompts if available
-[ -f ~/.bash_prompts ] && source ~/.bash_prompts
+[ -e ~/.bash_prompts ] && source ~/.bash_prompts
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-[ -f ~/.bash_aliases ] && source ~/.bash_aliases
+[ -e ~/.bash_aliases ] && source ~/.bash_aliases
 
 # BASH completions
-[ -f ~/.bash_completions ] && source ~/.bash_completions
+[ -e ~/.bash_completions ] && source ~/.bash_completions

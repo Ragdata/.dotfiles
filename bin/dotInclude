@@ -14,91 +14,55 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
+source "$FUNCTIONS/common.functions.bash"
+source "$FUNCTIONS/string.functions.bash"
 ####################################################################
 # MAIN
 ####################################################################
-(($# == 0)) && errorExit "ERROR :: No file paths given"
+(($# == 0)) && errorExit "No targets given"
 
 declare -ax ARR
 
 for item in "$@"
 do
+	ARR=()
 	match=0
-	pathAvailable=""
-	pathEnabled=""
-	# let's start by breaking the target down
-	if [[ "$item" == *"."* ]]; then
+	if [ -f "$item" ]; then
+		match=1
+		source "$item"
+	elif [[ "$item" == *"."* ]]; then
 		str::split "$item" "." ARR
 	elif [[ "$item" == *"/"* ]]; then
 		str::split "$item" "/" ARR
 	elif [[ "$item" == *" "* ]]; then
 		str::split "$item" " " ARR
 	else
+		errorExit "Unrecognised item '$item'"
+	fi
+	if ((match == 0)); then
+		[ -z "${ARR[1]}" ] && errorExit "Item type not populated"
+		case "${ARR[1]}" in
+			alias|aliases)
+				[ -f "$ALIASES/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$ALIASES/$item.bash"
+				;;
+			completion|completions)
+				[ -f "$COMPLETIONS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$COMPLETIONS/$item.bash"
+				;;
+			custom)
+				[ -f "$CUSTOM/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$CUSTOM/$item.bash"
+				;;
+			function|functions)
+				[ -f "$FUNCTIONS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$FUNCTIONS/$item.bash"
+				;;
+			plugin|plugins)
+				[ -f "$PLUGINS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$PLUGINS/$item.bash"
+				;;
+			*)	errorExit "Type '${ARR[1]}' not supported";;
+		esac
 	fi
 done
-
-# for item in "$@"
-# do
-# 	pathAvailable=""
-# 	pathEnabled=""
-# 	# let's start by breaking the target down (makes it easier later)
-# 	if [[ "$item" == *"."* ]]; then
-# 		_strSplit "$item" "." ARR
-# 	elif [[ "$item" == *"/"* ]]; then
-# 		_strSplit "$item" "/" ARR
-# 	elif [[ "$item" == *" "* ]]; then
-# 		_strSplit "$item" " " ARR
-# 	else
-# 		match=0
-# 		# which only leaves us with a couple of possibilities
-# 		for path in "$PKGS" "$APPS"
-# 		do
-# 			if [ -f "$path/$item" ]; then
-# 				match=1
-# 				if ! _checkIncluded "$path/$item"; then
-# 						IMPORTS+=("$path/$item")
-# 						source "$path/$item"
-# 						break
-# 				fi
-# 			fi
-# 		done
-# 		# still no match?  Issue a warning and dump it
-# 		if ((match == 0)); then
-# 			_echoWarning "'$item' not recognised"
-# 			break
-# 		fi
-# 	fi
-# 	# OK, let's inspect the second element and see what it can tell us
-# 	if [ -n "${ARR[1]}" ]; then
-# 		case "${ARR[1]}" in
-# 			aliases)
-# 				pathAvailable="$ALIASES/${ARR[0]}.aliases.bash"
-# 				pathEnabled="$DOT_REG/enabled/${ARR[0]}.aliases.bash"
-# 				;;
-# 			completions)
-# 				pathAvailable="$COMPLETIONS/${ARR[0]}.completions.bash"
-# 				pathEnabled="$DOT_REG/enabled/${ARR[0]}.completions.bash"
-# 				;;
-# 			functions)
-# 				pathAvailable="$FUNCTIONS/${ARR[0]}.functions.bash"
-# 				pathEnabled="$DOT_REG/enabled/${ARR[0]}.functions.bash"
-# 				;;
-# 			plugin)
-# 				pathAvailable="$PLUGINS/${ARR[0]}.plugin.bash"
-# 				pathEnabled="$DOT_REG/enabled/${ARR[0]}.plugin.bash"
-# 				;;
-# 			*)	_echoWarning "'$item' not recognised";;
-# 		esac
-# 		if [ "${ARR[1]}" == "functions" ]; then
-# 			if [ -f "$pathAvailable" ]; then
-# 				source "$pathAvailable"
-# 			else
-# 				errorExit
-# 			fi
-# 		else
-
-# 		fi
-# 	fi
-# 	# [ -f "$pathEnabled" ] && source "$pathEnabled"
-# 	# [ -f "$pathAvailable" ] && errorExit "'$item' has not been enabled under your current profile"
-# done

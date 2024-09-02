@@ -159,7 +159,7 @@ pkg::check()
 
 	local pkg="$1" func result
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::check"
@@ -182,7 +182,7 @@ pkg::config()
 
 	local pkg="$1" func result
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::config"
@@ -215,7 +215,7 @@ pkg::download()
 
 	echoInfo "Downloading '$pkg': " -n
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::download"
@@ -253,7 +253,7 @@ pkg::install()
 
 	echoInfo "Installing '$pkg': " -n
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::install"
@@ -284,7 +284,7 @@ pkg::installList()
 	local path="${2:-"$DOT_CFG/data"}"
 	declare -a packages
 
-	[[ -f "$path/$name.list" ]] || errorExit "Cannot find list file '$path/$name.list'"
+	[ -f "$path/$name.list" ] || errorExit "Cannot find list file '$path/$name.list'"
 
 	readarray packages < "$path/$name.list"
 
@@ -328,7 +328,7 @@ pkg::reinstall()
 
 	echoInfo "Reinstalling '$pkg': " -n
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::reinstall"
@@ -359,7 +359,7 @@ pkg::remove()
 
 	echoInfo "Removing '$pkg': " -n
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::remove"
@@ -411,7 +411,7 @@ pkg::source()
 
 	echoInfo "Downloading '$pkg' source: " -n
 
-	if [[ -f "$PKGS/$pkg" ]]; then
+	if [ -f "$PKGS/$pkg" ]; then
 		# Import the pkg file if one exists
 		if dotInclude "$PKGS/$pkg"; then
 			func="$pkg::source"

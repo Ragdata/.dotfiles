@@ -39,14 +39,61 @@ install::checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then echo "This scr
 # ------------------------------------------------------------------
 install::bin()
 {
+	echo "Installing .dotfiles binaries ..."
 	while IFS= read -r file
 	do
 		fileName="$(basename "$file")"
-		[ -x "/usr/local/bin/$fileName" ] && rm -f "/usr/local/bin/$fileName"
+		[ -e "/usr/local/bin/$fileName" ] && rm -f "/usr/local/bin/$fileName"
 		chmod 0755 "$file"
 		ln -s "$file" "/usr/local/bin/$fileName"
 		chmod 0755 "/usr/local/bin/$fileName"
 	done < <(find "$DOTFILES/bin" -type f)
+}
+# ------------------------------------------------------------------
+# install::deps
+# ------------------------------------------------------------------
+install::deps()
+{
+	if ! command -v add-apt-repository &> /dev/null; then
+		echo "Package 'software-properties-common' not found - installing ..."
+		sudo apt -qq -y install software-properties-common
+	fi
+	if [ -f "$DOT_CFG/data/repositories.list" ]; then
+		echo "Adding configured repositories ..."
+		while IFS= read -r line
+		do
+			sudo add-apt-repository "$line" || echo "WARNING :: Failed to add repository '$line'"
+		done < "$DOT_CFG/data/repositories.list"
+	fi
+	if [ -f "$DOT_CFG/data/dependencies.list" ]
+		echo "Installing configured dependencies ..."
+		while IFS= read -r line
+		do
+
+		done < "$DOT_CFG/data/dependencies.list"
+	fi
+}
+# ------------------------------------------------------------------
+# install::dots
+# ------------------------------------------------------------------
+install::dots()
+{
+	local DOT=()
+	echo "Installing dotfiles ..."
+	while IFS= read -r file
+	do
+		DOT=()
+		fileName="$(basename "$file")"
+		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
+		mkdir -p "$HOME/.backup"
+		if [ -f "$HOME/.${DOT[0]}" ]; then
+			mv -b "$HOME/.${DOT[0]}" "$HOME/.backup/.${DOT[0]}"
+		elif [ -L "$HOME/.${DOT[0]}" ]; then
+			rm -f "$HOME/.${DOT[0]}"
+		fi
+		ln -s "$file" "$HOME/.${DOT[0]}"
+		chmod 0644 "$HOME/.${DOT[0]}"
+	done < <(find "$DOTS" -type f -maxdepth 0)
 }
 ####################################################################
 # INIT
@@ -76,15 +123,13 @@ fi
 DOTFILES="$HOME/.dotfiles"
 ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
 
-source "$ENV_DEFAULT"
-
-install::bin
-
-dotInclude "common.functions"
+source "$ENV_DEFAULT" || { echo "ERROR :: Default configuration file not found!"; exit 1; }
 ####################################################################
 # MAIN
 ####################################################################
-
+install::bin
+install::deps
+install::dots
 
 #ENV_DEFAULT="./cfg/.env.dist"
 ## verify default environment file is where you think it is

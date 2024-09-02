@@ -16,15 +16,14 @@
 # PREFLIGHT
 ####################################################################
 # set debug mode = false
-declare -x DEBUG=0
+declare -gx DEBUG
 # if script is called with 'debug' as the first argument, set debug mode
-if [ "${1,,}" == "debug" ]; then
-	shift
+if [[ "${1,,}" == "debug" || "$DEBUG" == 1 ]]; then
+	[ "${1,,}" == "debug" ] && shift
 	DEBUG=1
-	set -- "${@:1}"
-	set -axeETuo pipefail
+	set -axeETo pipefail
 else
-	set -aeETuo pipefail
+	set -aeETo pipefail
 fi
 shopt -s inherit_errexit
 IFS=$'\n\t'	# set unofficial strict mode @see: http://redsymbol.net/articles/unofficial-bash-strict-mode/
@@ -252,7 +251,7 @@ install::full()
 {
 	install::bin
 	install::dots
-	dotInclude "common.functions"
+	dotInclude "${DEBUG:+}" "common.functions"
 	install::deps
 }
 # ------------------------------------------------------------------

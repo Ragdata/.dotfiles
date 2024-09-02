@@ -19,6 +19,7 @@
 declare -x DEBUG=0
 # if script is called with 'debug' as the first argument, set debug mode
 if [ "${1,,}" == "debug" ]; then
+	shift
 	DEBUG=1
 	set -- "${@:1}"
 	set -axeETuo pipefail
@@ -54,7 +55,7 @@ install::echoError()					{ echo -e "${I_RED}${1}${I_0}"; }
 install::echoWarning()					{ echo -e "${I_GOLD}${1}${I_0}"; }
 install::echoInfo()						{ echo -e "${I_BLUE}${1}${I_0}"; }
 install::echoSuccess()					{ echo -e "${I_GREEN}${1}${I_0}"; }
-install::errorExit()					{ install::echoError "$1"; exit "${2:-1}"; }
+install::errorExit()					{ install::echoError "ERROR :: $1"; exit "${2:-1}"; }
 ####################################################################
 # HELPER FUNCTIONS
 ####################################################################
@@ -67,10 +68,10 @@ install::bin()
 	while IFS= read -r file
 	do
 		fileName="$(basename "$file")"
-		[ -e "/usr/local/bin/$fileName" ] && rm -f "/usr/local/bin/$fileName"
+		[ -e "/usr/local/bin/$fileName" ] && sudo rm -f "/usr/local/bin/$fileName"
 		chmod 0755 "$file"
-		ln -s "$file" "/usr/local/bin/$fileName"
-		chmod 0755 "/usr/local/bin/$fileName"
+		sudo ln -s "$file" "/usr/local/bin/$fileName"
+		sudo chmod 0755 "/usr/local/bin/$fileName"
 	done < <(find "$DOTFILES/bin" -type f)
 }
 # ------------------------------------------------------------------
@@ -85,35 +86,43 @@ install::cfg()
 # ------------------------------------------------------------------
 # install::checkBash
 # ------------------------------------------------------------------
-install::checkBash() { [[ "${BASH_VERSION:0:1}" -lt 4 ]] && install::errorExit "This script requires a minimum Bash version of 4+"; }
+install::checkBash()
+{
+	if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
+		install::errorExit "This script requires a minimum Bash version of 4+"
+	fi
+}
 # ------------------------------------------------------------------
 # install::deps
 # ------------------------------------------------------------------
 install::deps()
 {
 	local install config
+
 	if ! command -v add-apt-repository &> /dev/null; then
-		install::echoInfo "Package 'software-properties-common' not found - installing ..."
+		echoInfo "Package 'software-properties-common' not found - installing ..."
 		sudo apt -qq -y install software-properties-common
 	fi
 	if [ -f "$DOT_CFG/data/repositories.list" ]; then
-		install::echoInfo "Adding configured repositories ..."
+		echoInfo "Adding configured repositories ..."
 		while IFS= read -r line
 		do
-			sudo add-apt-repository "$line" || install::echoWarning "WARNING :: Failed to add repository '$line'"
+			sudo add-apt-repository "$line" || echoWarning "WARNING :: Failed to add repository '$line'"
 		done < "$DOT_CFG/data/repositories.list"
+		echoInfo "Updating apt database ..."
+		sudo apt-get -qq -y update
 	fi
 	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
-		install::echoInfo "Installing configured dependencies ..."
+		echoInfo "Installing configured dependencies ..."
 		while IFS= read -r line
 		do
 			install=2
 			config=2
 			if [ -f "$PKGS/$line" ]; then
-				install::echoSuccess "Found package file for '$line'"
+				echoSuccess "Found package file for '$line'"
 				source "$PKGS/$line"
 				if [[ "$(type -t "$line::install")" ]]; then
-					install::echoInfo "Installing '$line' ..."
+					echoInfo "Installing '$line' ..."
 					eval "$line::install"
 					install="$?"
 				else
@@ -122,15 +131,15 @@ install::deps()
 				fi
 				if ((install==0)); then
 					if [[ "$(type -t "$line::config")" == "function" ]]; then
-						install::echoInfo "Configuring '$line' ..."
+						echoInfo "Configuring '$line' ..."
 						eval "$line::config"
 						config="$?"
 					fi
 				elif ((install==1)); then
-					install::echoWarning "Unable to install package '$line'"
+					echoWarning "Unable to install package '$line'"
 				fi
 			else
-				install::echoInfo "Installing '$line' with apt-get ..."
+				echoInfo "Installing '$line' with apt-get ..."
 				sudo apt-get -qq -y install "$line"
 			fi
 		done < "$DOT_CFG/data/dependencies.list"
@@ -141,14 +150,20 @@ install::deps()
 # ------------------------------------------------------------------
 install::dots()
 {
-	local DOT=()
+	local promptFile promptDot DOT=()
+
 	install::echoInfo "Installing dotfiles ..."
+
 	[ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || install::errorExit "Unable to create backup directory"; }
 	[ -f "$HOME/.profile" ] && mv -b "$HOME/.profile" "$HOME/.backup/.profile"
 	[ -L "$HOME/.profile" ] && rm -f "$HOME/.profile"
+
 	while IFS= read -r file
 	do
 		DOT=()
+		if [ -f "$HOME/.dotfiles/lib/custom/dots/$fileName" ]; then
+			file="$HOME/.dotfiles/lib/custom/dots/$fileName"
+		fi
 		fileName="$(basename "$file")"
 		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
 		if [ -f "$HOME/.${DOT[0]}" ]; then
@@ -158,7 +173,10 @@ install::dots()
 		fi
 		ln -s "$file" "$HOME/.${DOT[0]}"
 		chmod 0644 "$HOME/.${DOT[0]}"
-	done < <(find "$DOTS" -type f -maxdepth 0)
+	done < <(find "$HOME/.dotfiles/dots" -type f -maxdepth 0)
+
+	install::echoInfo "Reloading .bash_profile ..."
+	source "$HOME/.bash_profile"
 }
 # ------------------------------------------------------------------
 # install::getVersion
@@ -180,7 +198,7 @@ install::getVersion()
 # ------------------------------------------------------------------
 # install::sudo
 # ------------------------------------------------------------------
-install::sudo()
+install::sudoers()
 {
 	if [ ! -f "/etc/sudoers.d/$USER" ]; then
 		install::echoInfo "Removing password requirement for sudo ..."
@@ -192,21 +210,23 @@ install::sudo()
 # ------------------------------------------------------------------
 install::sysUpdate()
 {
-	local diff last_update
+	# local diff last_update
 
-	# update / upgrade
-	if [ -f /var/cache/apt/pkgcache.bin ]; then
-		# shellcheck disable=SC2012
-		last_update="$(ls -l /var/cache/apt/pkgcache.bin | cut -d' ' -f6,7,8)"
-	fi
-	if [ -n "$last_update" ]; then
-		last_update="$(date -d "$last_update" +%Y%m%d)"
-		diff=$((("$(date +%s)"-"$(date +%s -d "$last_update")")/86400))
-	fi
-	if [[ -z "$diff" || "$diff" -gt 28 ]]; then
-		install::echoInfo "Updating system files ..."
-		sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
-	fi
+	# # update / upgrade
+	# if [ -f /var/cache/apt/pkgcache.bin ]; then
+	# 	# shellcheck disable=SC2012
+	# 	last_update="$(ls -l /var/cache/apt/pkgcache.bin | cut -d' ' -f6,7,8)"
+	# fi
+	# if [ -n "$last_update" ]; then
+	# 	last_update="$(date -d "$last_update" +%Y%m%d)"
+	# 	diff=$((("$(date +%s)"-"$(date +%s -d "$last_update")")/86400))
+	# fi
+	# if [[ -z "$diff" || "$diff" -gt 28 ]]; then
+	# 	install::echoInfo "Updating system files ..."
+	# 	sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
+	# fi
+	install::echoInfo "Updating system files ..."
+	sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
 }
 # ------------------------------------------------------------------
 # install::version
@@ -230,6 +250,8 @@ install::version()
 install::full()
 {
 	install::bin
+	install::dots
+	dotInclude "common.functions"
 	install::deps
 }
 # ------------------------------------------------------------------
@@ -237,11 +259,9 @@ install::full()
 # ------------------------------------------------------------------
 install::init()
 {
-	declare -gx ENV_DEFAULT DOTFILES
-
 	install::checkBash
 
-	install::sudo
+	install::sudoers
 
 	install::sysUpdate
 
@@ -251,7 +271,7 @@ install::init()
 		sudo apt-get -qq -y install git
 	fi
 	if ! command -v dialog &> /dev/null; then
-		install::echoInfo "Package 'git' not found - installing ..."
+		install::echoInfo "Package 'dialog' not found - installing ..."
 		sudo apt-get -qq -y install dialog
 	fi
 
@@ -265,14 +285,8 @@ install::init()
 		git clone https://github.com/Ragdata/.dotfiles.git
 	else
 		install::echoInfo "Updating .dotfiles repo ..."
-		git pull https://github.com/Ragdata/.dotfiles.git
+		git -C "$HOME/.dotfiles" pull
 	fi
-
-	# set critical env variables
-	DOTFILES="$HOME/.dotfiles"
-	ENV_DEFAULT="$DOTFILES/cfg/.env.dist"
-
-	source "$ENV_DEFAULT" || install::errorExit "ERROR :: Default configuration file not found!"
 }
 # ------------------------------------------------------------------
 # install::menu

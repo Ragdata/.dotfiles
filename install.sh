@@ -72,7 +72,7 @@ install::bin()
 		chmod 0755 "$file"
 		sudo ln -s "$file" "/usr/local/bin/$fileName"
 		sudo chmod 0755 "/usr/local/bin/$fileName"
-	done < <(find "$DOTFILES/bin" -type f)
+	done < <(find "$HOME/.dotfiles/bin" -type f)
 }
 # ------------------------------------------------------------------
 # install::cfg
@@ -173,10 +173,10 @@ install::dots()
 		fi
 		ln -s "$file" "$HOME/.${DOT[0]}"
 		chmod 0644 "$HOME/.${DOT[0]}"
-	done < <(find "$HOME/.dotfiles/dots" -type f -maxdepth 0)
+	done < <(find "$HOME/.dotfiles/dots" -maxdepth 1 -type f)
 
-	install::echoInfo "Reloading .bash_profile ..."
-	source "$HOME/.bash_profile"
+	install::echoInfo "Reloading .bashrc ..."
+	source "$HOME/.bashrc"
 }
 # ------------------------------------------------------------------
 # install::getVersion

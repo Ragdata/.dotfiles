@@ -21,36 +21,6 @@ source "$FUNCTIONS/terminal.functions.bash"
 # COMMON FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# echoReturn
-# ------------------------------------------------------------------
-echoReturn()
-{
-	local msg code="${2:-1}" type="${3:-warning}"
-
-	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} ::"
-	[[ -n "$1" ]] && msg+=" $1"
-
-	case "${type,,}" in
-		success)
-			echoSuccess "$msg"
-			;;
-		info)
-			echoInfo "$msg"
-			;;
-		warning)
-			echoWarning "$msg"
-			;;
-		error)
-			echoError "$msg"
-			;;
-		none)
-			echo "$msg"
-			;;
-	esac
-
-	return "$code"
-}
-# ------------------------------------------------------------------
 # errorExit
 # ------------------------------------------------------------------
 errorExit()

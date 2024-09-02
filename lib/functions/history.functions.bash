@@ -14,7 +14,7 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-declare -gx _HISTORY_FUNCTIONS; [[ "${_HISTORY_FUNCTIONS+0}" -eq 1 ]] && return 0; _HISTORY_FUNCTIONS=1;
+declare -gx _HISTORY_FUNCTIONS; [[ "${_HISTORY_FUNCTIONS:-0}" -eq 1 ]] && return 0; _HISTORY_FUNCTIONS=1;
 ####################################################################
 # HISTORY FUNCTIONS
 ####################################################################

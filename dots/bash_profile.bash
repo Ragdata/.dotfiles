@@ -28,20 +28,14 @@ esac
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# add .dotfiles path to ENV
-[ -d "$HOME/.dotfiles" ] && export DOTFILES="$HOME/.dotfiles"
-
 # set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
-# set PATH so it includes important .dotfile directories
-[ -d "$DOTFILES/bin" ] && PATH="$DOTFILES/bin:$PATH"
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
-    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc";
+    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 fi

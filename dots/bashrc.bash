@@ -23,16 +23,17 @@ case $- in
       *) return;;
 esac
 
-export DOTFILE_PROMPT="default"
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # include .bash_env if available
 [ -f ~/.bash_env ] && source ~/.bash_env
 
+# include .bash_common if available
+[ -f ~/.bash_common ] && source ~/.bash_common
+
 # include .bash_functions if available
 [ -f ~/.bash_functions ] && source ~/.bash_functions
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # include .bash_prompts if available
 [ -f ~/.bash_prompts ] && source ~/.bash_prompts

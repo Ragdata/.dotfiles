@@ -14,8 +14,7 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ -z ${_REGEX_FUNCTIONS+x} ]] && declare -gx _REGEX_FUNCTIONS
-[[ "$_REGEX_FUNCTIONS" -eq 1 ]] && return 0; _REGEX_FUNCTIONS=1;
+declare -gx _REGEX_FUNCTIONS; [[ "$_REGEX_FUNCTIONS" -eq 1 ]] && return 0; _REGEX_FUNCTIONS=1;
 ####################################################################
 # REGEX FUNCTIONS
 ####################################################################

@@ -14,8 +14,7 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ -z ${_STRING_FUNCTIONS+x} ]] && declare -gx _STRING_FUNCTIONS
-[[ "$_STRING_FUNCTIONS" -eq 1 ]] && return 0; _STRING_FUNCTIONS=1;
+declare -gx _STRING_FUNCTIONS; [[ "$_STRING_FUNCTIONS" -eq 1 ]] && return 0; _STRING_FUNCTIONS=1;
 ####################################################################
 # STRING FUNCTIONS
 ####################################################################

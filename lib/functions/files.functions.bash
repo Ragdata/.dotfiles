@@ -13,8 +13,7 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ -z ${_FILES_FUNCTIONS+x} ]] && declare -gx _FILES_FUNCTIONS
-[[ "$_FILES_FUNCTIONS" -eq 1 ]] && return 0; _FILES_FUNCTIONS=1;
+declare -gx _FILES_FUNCTIONS; [[ "$_FILES_FUNCTIONS" -eq 1 ]] && return 0; _FILES_FUNCTIONS=1;
 ####################################################################
 # FILESYSTEM FUNCTIONS
 ####################################################################

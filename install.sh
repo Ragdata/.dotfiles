@@ -166,10 +166,11 @@ install::dots()
 		fi
 		fileName="$(basename "$file")"
 		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
-		if [ -f "$HOME/.${DOT[0]}" ]; then
-			mv -b "$HOME/.${DOT[0]}" "$HOME/.backup/.${DOT[0]}"
-		elif [ -L "$HOME/.${DOT[0]}" ]; then
+		echo "$HOME/.${DOT[0]} ..."
+		if [ -L "$HOME/.${DOT[0]}" ]; then
 			rm -f "$HOME/.${DOT[0]}"
+		elif [ -f "$HOME/.${DOT[0]}" ]; then
+			mv -b "$HOME/.${DOT[0]}" "$HOME/.backup/.${DOT[0]}"
 		fi
 		ln -s "$file" "$HOME/.${DOT[0]}"
 		chmod 0644 "$HOME/.${DOT[0]}"

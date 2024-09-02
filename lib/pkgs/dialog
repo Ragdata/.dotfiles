@@ -1,0 +1,65 @@
+# shellcheck shell=bash
+####################################################################
+# dialog
+####################################################################
+# Ragdata's Dotfiles - Application Manager
+#
+# File:         dialog
+# Author:       Ragdata
+# Date:         22/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+dialog::check() { if command -v dialog &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+dialog::install()
+{
+	local result
+
+	echoInfo "Installing 'dialog': " -n
+	sudo apt-get -qq -y install dialog; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+dialog::config()
+{
+	local result
+
+	if [ -f "$DOT_CFG/.dialogrc" ]; then
+		echoInfo "Configuring 'dialog': " -n
+		install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"; result="$?"
+		if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	else
+		echoWarning "File '$DOT_CFG/.dialogrc' not found"
+		result=1
+	fi
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+dialog::remove()
+{
+	local result
+
+	echoInfo "Removing 'dialog': " -n
+	sudo apt -qq -y purge dialog; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}

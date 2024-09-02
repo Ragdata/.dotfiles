@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+####################################################################
+# echoAlias
+####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         echoAlias
+# Author:       Ragdata
+# Date:         23/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# MAIN
+####################################################################
+(($# == 0)) && { echo -e "${RED}${SYMBOL_ERROR} ERROR :: echoAlias requires at least one argument${RESET}"; exit 1; }
+
+msg="$1"
+
+shift
+
+COLOR=""
+PREFIX=""
+SUFFIX=""
+STREAM=1
+
+declare -a OUTARGS
+
+options=$(getopt -l "color:,prefix:,suffix:,ERR,noline" -o "c:p:s:En" -a -- "$@")
+
+eval set --"$options"
+
+while true
+do
+	case "$1" in
+		-c | --color)
+			COLOR="$2"
+			shift 2
+			;;
+		-p	| --prefix)
+			PREFIX="$2"
+			shift 2
+			;;
+		-s | --suffix)
+			SUFFIX="$2"
+			shift 2
+			;;
+		-E | --ERR)
+			STREAM=2
+			shift
+			;;
+		-n | --noline)
+			OUTARGS+=("-n")
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo -e "${RED}${SYMBOL_ERROR} ERROR :: echoAlias - Invalid Argument '$1'${RESET}"
+			exit 1
+			;;
+	esac
+done
+
+[[ -n "$COLOR" ]] && _0="${RESET}"
+
+OUTPUT="${COLOR}${PREFIX}${msg}${SUFFIX}${_0}"
+
+if [[ "$STREAM" -eq 2 ]]; then
+	echo -e "${OUTARGS[@]}" "${OUTPUT}" >&2
+else
+	echo -e "${OUTARGS[@]}" "${OUTPUT}"
+fi

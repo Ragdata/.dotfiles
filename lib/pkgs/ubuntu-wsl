@@ -1,0 +1,50 @@
+# shellcheck shell=bash
+####################################################################
+# ubuntu-wsl
+####################################################################
+# Ragdata's Dotfiles - Application Manager
+#
+# File:         ubuntu-wsl
+# Author:       Ragdata
+# Date:         22/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+ubuntu-wsl::check() { command -v ubuntu-wsl &> /dev/null; }
+
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+ubuntu-wsl::install()
+{
+	local result
+
+	echoInfo "Installing additional packages for 'apt': " -n
+	sudo apt-get -qq -y install ubuntu-wsl; result=$?
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
+
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+ubuntu-wsl::remove()
+{
+	local result
+
+	echoInfo "Removing 'apt': " -n
+	sudo apt-get -qq -y purge ubuntu-wsl; result=$?
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}

@@ -1,0 +1,30 @@
+# shellcheck shell=bash
+####################################################################
+# radiolist
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--radiolist text height width list-height  [ tag item status ] ...
+
+A  radiolist  box is similar to a menu box.  The only difference
+is that you can indicate which entry is currently  selected,  by
+setting its status to on.
+
+On  exit,  the  tag  of the selected item is written to dialog's
+output.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--radiolist "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
+	"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)

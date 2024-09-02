@@ -1,0 +1,48 @@
+# shellcheck shell=bash
+####################################################################
+# ca-certificates
+####################################################################
+# Ragdata's Dotfiles - Application Manager
+#
+# File:         ca-certificates
+# Author:       Ragdata
+# Date:         22/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+ca-certificates::check() { if command -v update-ca-certificates &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+ca-certificates::install()
+{
+	local result
+
+	echoInfo "Installing ca-certificates: " -n
+	sudo apt-get -qq -y install ca-certificates; result=$?
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+ca-certificates::remove()
+{
+	local result
+
+	echoInfo "Removing ca-certificates: " -n
+	sudo apt-get -qq -y purge ca-certificates; result=$?
+	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}

@@ -1,0 +1,44 @@
+# shellcheck shell=bash
+####################################################################
+# progressbox-demo
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--progressbox text height width
+--progressbox height width
+
+A progressbox is similar to an tailbox, except that
+
+a) rather than displaying the contents of a file,
+   it displays the piped output of a command and
+
+b) it will exit when it reaches the end of the file
+   (there is no 'OK' button).
+
+If  three  parameters  are given, it displays the text under the
+title, delineated from the scrolling file's contents.   If  only
+two parameters are given, this text is omitted.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-tempfile"
+
+# shellcheck disable=SC2154
+ls -l > "$tempfile"
+(
+	while true
+	do
+		read -r text
+		[[ -z "$text" ]] && break
+		ls -ld "$text" || break
+		sleep 1
+	done < "$tempfile"
+) | "$DIALOG" --title "PROGRESSBOX" "$@" --progressbox 20 70
+
+# shellcheck disable=SC2034
+retval=$?

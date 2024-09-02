@@ -1,0 +1,48 @@
+# shellcheck shell=bash
+####################################################################
+# curl
+####################################################################
+# Ragdata's Dotfiles - Application Manager
+#
+# File:         curl
+# Author:       Ragdata
+# Date:         22/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+curl::check() { if command -v dialog &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+curl::install()
+{
+	local result
+
+	echoInfo "Installing 'curl': " -n
+	sudo apt-get -qq -y install curl; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+curl::remove()
+{
+	local result
+
+	echoInfo "Removing 'curl': " -n
+	sudo apt -qq -y purge curl; result=$?
+	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+
+	echoInfo "Running garbage collection"
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	return $result
+}

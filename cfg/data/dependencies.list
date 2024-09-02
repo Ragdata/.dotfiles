@@ -1,0 +1,12 @@
+apt
+ca-certificates
+curl
+software-properties-common
+git
+gnupg
+envsubst
+dialog
+ubuntu-wsl
+wget
+wslu
+yq

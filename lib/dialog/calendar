@@ -1,0 +1,39 @@
+# shellcheck shell=bash
+####################################################################
+# CALENDAR
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--calendar text height width day month year
+
+A calendar box  displays  month,  day  and  year  in  separately
+adjustable  windows.   If  the values for day, month or year are
+missing or negative, the current dates corresponding values are
+used.   You  can  increment  or decrement any of those using the
+left-, up-, right-, and down-arrows.  Use vi-style h, j, k and l
+for  moving  around  the  array  of days in a month.  Use tab or
+backtab to move between windows.  If the year is given as  zero,
+the current date is used as an initial value.
+
+On  exit,  the  date is printed in the form day/month/year.  The
+format can be overridden using the --date-format option.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+DD="$(date +%d)"
+MM="$(date +%m)"
+YY="$(date +%y)"
+YYYY="$(date +%Y)"
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--calendar "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${DIALOG_DAY:-$DD}" "${DIALOG_MONTH:-$MM}" "${DIALOG_YEAR:-$YYYY}" 3>&1 1>&2 2>&3)

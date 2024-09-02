@@ -1,0 +1,50 @@
+# shellcheck shell=bash
+####################################################################
+# mixedgauge-demo
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--mixedgauge text height width percent [ tag1 item1 ] ...
+
+A  mixedgauge  box displays a meter along the bottom of the box.
+The meter indicates the percentage.
+
+It also displays a list of the tag- and item-values at  the  top
+of the box.  See dialog(3) for the tag values.
+
+The  text is shown as a caption between the list and meter.  The
+percent value denotes the initial percentage shown in the meter.
+
+No provision is made for reading data from the standard input as
+--gauge does.
+
+On  exit,  no  text  is  written to dialog's output.  The widget
+accepts no input, so the exit status is always OK.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+background="An example of --mixedgauge usage"
+
+for i in 5 10 20 30 40 50 60 70 80 90 100
+do
+	"$DIALOG" --backtitle "$background" \
+		--title "Mixed Gauge Demo" "$@" \
+		--mixedgauge "This is a demo of a prompt message,\nand this is its second line" 0 0 33 \
+		"Process ONE"	"0" \
+		"Process TWO"	"1" \
+		"Process THREE"	"2" \
+		"Process FOUR"	"3" \
+		""	"8" \
+		"Process FIVE"	"5" \
+		"Process SIX"	"6" \
+		"Process SEVEN"	"7" \
+		"Process EIGHT"	"8" \
+		"Process NINE"	"-$i"
+	sleep 1
+done

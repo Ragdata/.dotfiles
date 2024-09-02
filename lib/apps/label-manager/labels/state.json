@@ -1,0 +1,22 @@
+{
+    "labels": {
+        "approved": {
+            "description": "Approved to proceed",
+            "default": false,
+            "color": "#91ca55",
+            "aliases": null
+        },
+        "inactive": {
+            "description": "No action needed or possible.  Issue has been fixed, addressed elsewhere, or is out of scope.",
+            "default": false,
+            "color": "#818589",
+            "aliases": null
+        },
+        "pending": {
+            "description": "Decision State: Pending",
+            "default": false,
+            "color": "#fbca04",
+            "aliases": null
+        }
+    }
+}

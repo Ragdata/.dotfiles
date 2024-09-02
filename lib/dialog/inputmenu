@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+####################################################################
+# inputmenu
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--inputmenu text height width menu-height [ tag item ] ...
+
+An inputmenu box is very similar to an ordinary menu box.  There
+are only a few differences between them:
+
+1.  The   entries   are  not  automatically  centered  but  left
+    adjusted.
+
+2.  An extra button (called Rename) is  implied  to  rename  the
+    current item when it is pressed.
+
+3.  It  is  possible to rename the current entry by pressing the
+    Rename button.  Then dialog  will  write  the  following  on
+    dialog's output.
+
+    RENAMED <tag> <item>
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--inputmenu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+	"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)

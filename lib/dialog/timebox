@@ -1,0 +1,32 @@
+# shellcheck shell=bash
+####################################################################
+# timebox
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--timebox text height width [hour minute second]
+
+A dialog is displayed which allows you to  select  hour,  minute
+and  second.   If  the  values  for  hour,  minute or second are
+missing or negative, the current date's corresponding values are
+used.   You  can  increment  or decrement any of those using the
+left-, up-, right- and down-arrows.  Use tab or backtab to  move
+between windows.
+
+On  exit,  the result is printed in the form hour:minute:second.
+The format can be overridden using the --time-format option.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--timebox "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${HOUR:-12}" "${MINUTE:-0}" "${SECOND:-0}" 3>&1 1>&2 2>&3)

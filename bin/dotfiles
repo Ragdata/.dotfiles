@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+####################################################################
+# dotfiles
+####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         dotfiles
+# Author:       Ragdata
+# Date:         23/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# PREFLIGHT
+####################################################################
+dotInclude "dotfiles.functions"
+####################################################################
+# MAIN
+####################################################################
+declare verb="${1?}"
+declare component="${2?}"
+declare func
+
+case "$verb" in
+	show)
+		;;
+	enable)
+		;;
+	disable)
+		;;
+	help)
+		;;
+	profile)
+		;;
+	search)
+		;;
+	preview)
+		;;
+	update)
+		;;
+	migrate)
+		;;
+	version)
+		;;
+	restart)
+		;;
+	reload)
+		;;
+	*)
+		;;
+esac

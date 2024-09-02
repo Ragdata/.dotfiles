@@ -1,0 +1,48 @@
+# shellcheck shell=bash
+####################################################################
+# FORM_NOHELP
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--form text height width formheight [ label y x item y x flen ilen ] ...
+
+The form dialog displays a form consisting of labels and fields,
+which are positioned on a scrollable window by coordinates given
+in the script.  The field length flen and input-length ilen tell
+how  long the field can be.  The former defines the length shown
+for a selected field, while the latter defines  the  permissible
+length of the data entered in the field.
+
+o   If  flen is zero, the corresponding field cannot be altered.
+    and the contents  of  the  field  determine  the  displayed-
+    length.
+
+o   If  flen  is  negative,  the  corresponding  field cannot be
+    altered, and the negated  value  of  flen  is  used  as  the
+    displayed-length.
+
+o   If ilen is zero, it is set to flen.
+
+Use  up/down  arrows  (or  control/N, control/P) to move between
+fields.  Use tab to move between windows.
+
+On exit, the contents of the form-fields are written to dialogs
+output,  each  field  separated  by a newline.  The text used to
+fill non-editable fields (flen  is  zero  or  negative)  is  not
+written out.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --ok-label "${OK_LABEL:-OK}" \
+	--cancel-label "${CANCEL_LABEL:-Cancel}" \
+	--backtitle "${DIALOG_BACKTITLE}" \
+	--title "${DIALOG_TITLE}" --clear "$@" \
+	--form "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
+	"${DIALOG_ITEMS[@]}" 3>&1 1>&2 2>&3)

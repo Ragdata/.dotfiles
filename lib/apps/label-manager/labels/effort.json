@@ -1,0 +1,40 @@
+{
+    "labels": {
+        "effort: 1": {
+            "description": "",
+            "default": false,
+            "color": "#91ca55",
+            "aliases": null
+        },
+        "effort: 2": {
+            "description": "",
+            "default": false,
+            "color": "#c2e2a2",
+            "aliases": null
+        },
+        "effort: 3": {
+            "description": "",
+            "default": false,
+            "color": "#e9f4dc",
+            "aliases": null
+        },
+        "effort: 5": {
+            "description": "",
+            "default": false,
+            "color": "#fef6d7",
+            "aliases": null
+        },
+        "effort: 8": {
+            "description": "",
+            "default": false,
+            "color": "#fef2c0",
+            "aliases": null
+        },
+        "effort: 13": {
+            "description": "",
+            "default": false,
+            "color": "#fbca04",
+            "aliases": null
+        }
+    }
+}

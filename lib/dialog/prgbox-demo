@@ -1,0 +1,35 @@
+# shellcheck shell=bash
+####################################################################
+# prgbox-demo
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+: <<manual
+"
+--prgbox text command height width
+--prgbox command height width
+
+A prgbox is very similar to a programbox.
+
+This dialog box is used to display the output of a command  that
+is specified as an argument to prgbox.
+
+After the command completes, the user can press the ENTER key so
+that dialog will exit and the calling shell script can  continue
+its operation.
+
+If  four  parameters  are  given, it displays the text under the
+title, delineated from the scrolling file's contents.   If  only
+three parameters are given, this text is omitted.
+"
+manual
+# ==================================================================
+dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
+
+# shellcheck disable=SC2034
+RESULT=$("$DIALOG" --title "${DIALOG_TITLE}" "$@" --prgbox "/usr/local/lib/dd/shortlist" 20 70)
+
+# shellcheck disable=SC2034
+retval=$?

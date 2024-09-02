@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+####################################################################
+# dotInclude
+####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         dotInclude
+# Author:       Ragdata
+# Date:         23/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# PREFLIGHT
+####################################################################
+source "$FUNCTIONS/common.functions.bash"
+source "$FUNCTIONS/string.functions.bash"
+####################################################################
+# MAIN
+####################################################################
+(($# == 0)) && errorExit "No targets given"
+
+declare -ax ARR
+
+for item in "$@"
+do
+	ARR=()
+	match=0
+	if [ -f "$item" ]; then
+		match=1
+		source "$item"
+	elif [[ "$item" == *"."* ]]; then
+		str::split "$item" "." ARR
+	elif [[ "$item" == *"/"* ]]; then
+		str::split "$item" "/" ARR
+	elif [[ "$item" == *" "* ]]; then
+		str::split "$item" " " ARR
+	else
+		errorExit "Unrecognised item '$item'"
+	fi
+	if ((match == 0)); then
+		[ -z "${ARR[1]}" ] && errorExit "Item type not populated"
+		case "${ARR[1]}" in
+			alias|aliases)
+				[ -f "$ALIASES/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$ALIASES/$item.bash"
+				;;
+			completion|completions)
+				[ -f "$COMPLETIONS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$COMPLETIONS/$item.bash"
+				;;
+			custom)
+				[ -f "$CUSTOM/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$CUSTOM/$item.bash"
+				;;
+			function|functions)
+				[ -f "$FUNCTIONS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$FUNCTIONS/$item.bash"
+				;;
+			plugin|plugins)
+				[ -f "$PLUGINS/$item.bash" ] || errorExit "Item '$item' not found"
+				source "$PLUGINS/$item.bash"
+				;;
+			*)	errorExit "Type '${ARR[1]}' not supported";;
+		esac
+	fi
+done

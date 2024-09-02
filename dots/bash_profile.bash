@@ -37,5 +37,5 @@ esac
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
-    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+    [ -e "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 fi

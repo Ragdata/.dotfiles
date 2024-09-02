@@ -14,7 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ "$_COMMON_FUNCTIONS" -eq 1 ]] && return 0; declare -x _COMMON_FUNCTIONS=1;
+[[ -z ${_COMMON_FUNCTIONS+x} ]] && declare -gx _COMMON_FUNCTIONS
+[[ "$_COMMON_FUNCTIONS" -eq 1 ]] && return 0; _COMMON_FUNCTIONS=1;
 
 source "$FUNCTIONS/terminal.functions.bash"
 ####################################################################

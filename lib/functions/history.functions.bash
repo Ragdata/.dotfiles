@@ -14,7 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ "$_HISTORY_FUNCTIONS" -eq 1 ]] && return 0; declare -x _HISTORY_FUNCTIONS=1;
+[[ -z ${_HISTORY_FUNCTIONS+x} ]] && declare -gx _HISTORY_FUNCTIONS
+[[ "$_HISTORY_FUNCTIONS" -eq 1 ]] && return 0; _HISTORY_FUNCTIONS=1;
 ####################################################################
 # HISTORY FUNCTIONS
 ####################################################################

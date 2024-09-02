@@ -14,7 +14,8 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-[[ "$_DOTFILES_FUNCTIONS" -eq 1 ]] && return 0; declare -x _DOTFILES_FUNCTIONS=1;
+[[ -z ${_DOTFILES_FUNCTIONS+x} ]] && declare -gx _DOTFILES_FUNCTIONS
+[[ "$_DOTFILES_FUNCTIONS" -eq 1 ]] && return 0; _DOTFILES_FUNCTIONS=1;
 ####################################################################
 # DOTFILES FUNCTIONS
 ####################################################################

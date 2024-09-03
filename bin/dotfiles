@@ -16,9 +16,11 @@
 # PREFLIGHT
 ####################################################################
 # if script is called with 'debug' as the first argument, set debug mode
-if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
-	[ "${1,,}" == "debug" ] && shift
+if [[ "${1,,}" == "debug" ]]; then
+	shift
 	DOT_DEBUG=1
+fi
+if [[ "$DOT_DEBUG" == 1 ]]; then
 	export LOG_LEVEL="DEBUG"
 # 	set -axeETo pipefail
 # else
@@ -26,13 +28,13 @@ if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
 fi
 set -aeETo pipefail
 shopt -s inherit_errexit
-# error trap
-trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 ####################################################################
 # DEPENDENCIES
 ####################################################################
 # metadata support
 source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
+# error trap
+trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
 dot::include "dotfiles.functions"
 ####################################################################

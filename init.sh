@@ -146,7 +146,7 @@ init::sysUpdate()
 	# 	sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
 	# fi
 	init::echoInfo "Updating system files ..."
-	sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade
+	sudo apt-get -qq -y update && sudo apt-get -qq -y full-upgrade
 }
 ####################################################################
 # HELPER FUNCTIONS

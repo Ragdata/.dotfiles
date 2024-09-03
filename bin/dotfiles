@@ -17,7 +17,7 @@
 ####################################################################
 # capture stderr
 # shellcheck disable=SC2093
-exec 2>>"$DOT_LOG/stderr.log"
+#exec 2>>"$DOT_LOG/stderr.log"
 # if script is called with 'debug' as the first argument, set debug mode
 if [ "${1,,}" == "debug" ]; then
 	shift
@@ -43,10 +43,8 @@ dot::include "dotfiles.functions"
 ####################################################################
 # MAIN
 ####################################################################
-verb="${1:-}"
-component="${2:-}"
 
-case "$verb" in
+case "${1:-}" in
 	enable)
 		;;
 	disable)
@@ -54,7 +52,13 @@ case "$verb" in
 	help)
 		;;
 	install)
-		dot::install::menu;;
+		case "${2:-}" in
+			deps|dependencies)
+				dot::install::deps
+				;;
+			*)	dot::install::menu;;
+		esac
+		;;
 	migrate)
 		;;
 	preview)
@@ -72,7 +76,7 @@ case "$verb" in
 	show)
 		;;
 	update)
-		case "$component" in
+		case "${2:-}" in
 			bin)
 				dot::update::bin;;
 			dots)
@@ -80,7 +84,7 @@ case "$verb" in
 			repo|sources)
 				dot::update::repo;;
 			sys|system)
-				dot::sysUpdate;;
+				dot::update::sys;;
 			*)	dot::update;;
 		esac
 		;;

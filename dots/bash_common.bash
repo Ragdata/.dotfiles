@@ -264,5 +264,15 @@ echoDefault()		{ echoAlias "${RESET}$1" "${@:2}"; }
 #
 echoError()			{ echoAlias "${SYMBOL_ERROR} $1" -c "${RED}" -E "${@:2}"; }
 echoWarning()		{ echoAlias "${SYMBOL_WARNING} $1" -c "${GOLD}" "${@:2}"; }
-echoInfo()			{ echoAlias "${SYMBOL_INFO} $1" -c "${BLUE}" "${@:2}"; }
+echoInfo()			{ echoAlias "${SYMBOL_INFO} $1" -c "${LT_BLUE}" "${@:2}"; }
 echoSuccess()		{ echoAlias "${SYMBOL_SUCCESS} $1" -c "${LT_GREEN}" "${@:2}"; }
+echoHead()			{ echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "${PURPLE}" "${@:2}"; }
+echoDot()
+{
+	local msg color
+
+	msg="$1"
+	shift
+
+	echoAlias "${SYMBOL_DOT} $msg" "${@}";
+}

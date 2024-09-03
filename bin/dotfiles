@@ -54,5 +54,6 @@ case "$verb" in
 	version)
 		;;
 	*)
+		env
 		;;
 esac

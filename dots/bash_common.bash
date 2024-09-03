@@ -268,15 +268,63 @@ echoError()			{ group 'bash_common'; echoAlias "${SYMBOL_ERROR} $1" -c "${RED}" 
 echoWarning()		{ group 'bash_common'; echoAlias "${SYMBOL_WARNING} $1" -c "${GOLD}" "${@:2}"; }
 echoInfo()			{ group 'bash_common'; echoAlias "${SYMBOL_INFO} $1" -c "${LT_BLUE}" "${@:2}"; }
 echoSuccess()		{ group 'bash_common'; echoAlias "${SYMBOL_SUCCESS} $1" -c "${LT_GREEN}" "${@:2}"; }
-echoHead()			{ group 'bash_common'; echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "${PURPLE}" "${@:2}"; }
+# ------------------------------------------------------------------
+# echoHead
+# ------------------------------------------------------------------
+echoHead()
+{
+    group 'bash_common'
+
+    local msg color
+
+    msg="${1?}"
+    shift
+
+    color="${1:-"$PURPLE"}"
+    [ -n "$1" ] && shift
+    
+    echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "$color" "${@}"
+}
+# ------------------------------------------------------------------
+# echoDot
+# ------------------------------------------------------------------
 echoDot()
 {
 	group 'bash_common'
 
-	local msg color
+	local msg color symbol options
 
-	msg="$1"
+	msg="${1?}"
 	shift
 
-	echoAlias "${SYMBOL_DOT} $msg" "${@}";
+    options="$(getopt -o "c:s:" -a -- "$@")"
+
+    eval set --"$options"
+
+    while true
+    do
+        case "$1" in
+            -c)
+                color="${2?}"
+                shift 2
+                ;;
+            -s)
+                symbol="${2?}"
+                shift 2
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)  errorExit "Invalid Argument '$2'";;
+        esac
+    done
+
+    [ -z "$symbol" ] && symbol="$SYMBOL_DOT"
+
+    if [ -n "$color" ]; then
+        echoAlias "$symbol $msg" -c "$color"
+    else
+        echoAlias "$symbol $msg"
+    fi
 }

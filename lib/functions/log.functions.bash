@@ -65,7 +65,7 @@ log::checkLog()
     # initialise logfile if it doesn't exist
     [ -f "$DOT_LOG/$fileName.log" ] || log::init "$fileName"
     # check logfile size
-    size="$(wc -c "$DOT_LOG/$fileName.log" | awk 'print $1')"
+    size="$(wc -c "$DOT_LOG/$fileName.log" | awk '{print $1}')"
     # rotate if necessary
     [ "$size" -ge "$LOG_SIZE" ] && log::rotate "$fileName"
 }

@@ -31,7 +31,7 @@ esac
 [ -e ~/.bash_env ] && source ~/.bash_env
 
 # load composure to support metadata
-source "$DOTFILES/vendor/github.com/composure/composure.sh"
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # support internal metadata
 cite _about _param _example _group _author
 

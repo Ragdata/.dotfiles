@@ -21,3 +21,45 @@ dot::install::menu()
 {
 	echo "HERE"
 }
+# ------------------------------------------------------------------
+# dot::sysUpdate
+# ------------------------------------------------------------------
+dot::sysUpdate()
+{
+	local result
+	echoHead "Updating Package Cache"
+	sudo apt-get -qq -y update; result=$?
+	if [ "$result" -eq 0 ]; then echoDot "OK" -c "${LT_GREEN}"; else echoDot "FAILED!" -c "${RED}"; fi
+
+	echoHead "Updating System Files"
+	sudo apt-get -qq -y full-upgrade; result=$?
+	if [ "$result" -eq 0 ]; then echoDot "OK" -c "${LT_GREEN}"; else echoDot "FAILED!" -c "${RED}"; fi
+}
+# ------------------------------------------------------------------
+# dot::update::bin
+# ------------------------------------------------------------------
+dot::update::bin()
+{
+	echo "HERE"
+}
+# ------------------------------------------------------------------
+# dot::update::dots
+# ------------------------------------------------------------------
+dot::update::dots()
+{
+	echo "HERE"
+}
+# ------------------------------------------------------------------
+# dot::update::repo
+# ------------------------------------------------------------------
+dot::update::repo()
+{
+	echo "HERE"
+}
+# ------------------------------------------------------------------
+# dot::update
+# ------------------------------------------------------------------
+dot::update()
+{
+	echo "HERE"
+}

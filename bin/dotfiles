@@ -46,6 +46,10 @@ case "$verb" in
 	show)
 		;;
 	update)
+		case "$component" in
+			sys|system)		dot::sysUpdate;;
+			*)				dot::update;;
+		esac
 		;;
 	version)
 		;;

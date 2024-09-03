@@ -18,6 +18,8 @@
 # ------------------------------------------------------------------
 errorExit()
 {
+	group 'bash_functions'
+
 	local msg="ERROR :: " code="${2:-1}"
 
 	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} ::"
@@ -29,7 +31,7 @@ errorExit()
 # ------------------------------------------------------------------
 # checkBash
 # ------------------------------------------------------------------
-checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
+checkBash() { group 'bash_functions'; if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
 ####################################################################
 # ARRAY FUNCTIONS
 ####################################################################
@@ -38,6 +40,8 @@ checkBash() { if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script 
 # ------------------------------------------------------------------
 arr::contains()
 {
+	group 'bash_functions'
+
 	local e val="$1"
 
 	shift
@@ -54,6 +58,8 @@ arr::contains()
 # ------------------------------------------------------------------
 dot::source()
 {
+	group 'bash_functions'
+
 	(($# > 0)) || errorExit "dot::source - Missing Arguments"
 
 	[ -f "$1" ] || errorExit "dot::source - File '$1' not found"
@@ -73,6 +79,8 @@ dot::source()
 # ------------------------------------------------------------------
 dot::include()
 {
+	group 'bash_functions'
+
 	(($# > 0)) || errorExit "dot::include - Missing Arguments"
 
 	local -a ARR

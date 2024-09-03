@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
+# shellcheck disable=SC1091
 ####################################################################
 # .bashrc
 ####################################################################
@@ -29,6 +30,11 @@ esac
 # include .bash_env if available
 [ -e ~/.bash_env ] && source ~/.bash_env
 
+# load composure to support metadata
+source "$DOTFILES/vendor/github.com/composure/composure.sh"
+# support internal metadata
+cite _about _param _example _group _author
+
 # include .bash_common if available
 [ -e ~/.bash_common ] && source ~/.bash_common
 
@@ -47,4 +53,10 @@ esac
 # BASH completions
 [ -e ~/.bash_completions ] && source ~/.bash_completions
 
-eval "$(declare -F | sed -e 's/-f /-fx /')"
+#eval "$(declare -F | sed -e 's/-f /-fx /')"
+while read -ra func
+do
+	defn="$(declare -f "${func[2]}")"
+	group="$(metafor group <<< "$defn")"
+	[ -n "$group" ] && declare -fx "${func[2]}"
+done < <(declare -F)

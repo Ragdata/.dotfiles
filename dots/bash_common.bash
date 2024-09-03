@@ -174,6 +174,8 @@ DEFAULT_N="[y/${WHITE}N${_0}]"
 # ------------------------------------------------------------------
 echoAlias()
 {
+	group 'bash_common'
+
     (($# > 0)) || { echo -e "${RED}${SYMBOL_ERROR} echoAlias - At least one argument required${_0}"; exit 1; }
 
     local msg="$1"
@@ -238,37 +240,39 @@ echoAlias()
 #
 # TERMINAL COLOR ALIASES
 #
-echoBlack()			{ echoAlias "$1" -c "${BLACK}" "${@:2}"; }
-echoRed()			{ echoAlias "$1" -c "${RED}" "${@:2}"; }
-echoGreen()			{ echoAlias "$1" -c "${GREEN}" "${@:2}"; }
-echoGold()			{ echoAlias "$1" -c "${GOLD}" "${@:2}"; }
-echoBlue()			{ echoAlias "$1" -c "${BLUE}" "${@:2}"; }
-echoMagenta()		{ echoAlias "$1" -c "${MAGENTA}" "${@:2}"; }
-echoCyan()			{ echoAlias "$1" -c "${CYAN}" "${@:2}"; }
-echoLtGrey()		{ echoAlias "$1" -c "${LT_GREY}" "${@:2}"; }
-echoGrey()			{ echoAlias "$1" -c "${GREY}" "${@:2}"; }
-echoPink()			{ echoAlias "$1" -c "${PINK}" "${@:2}"; }
-echoLtGreen()		{ echoAlias "$1" -c "${LT_GREEN}" "${@:2}"; }
-echoYellow()		{ echoAlias "$1" -c "${YELLOW}" "${@:2}"; }
-echoLtBlue()		{ echoAlias "$1" -c "${LT_BLUE}" "${@:2}"; }
-echoPurple()		{ echoAlias "$1" -c "${PURPLE}" "${@:2}"; }
-echoLtCyan()		{ echoAlias "$1" -c "${LT_CYAN}" "${@:2}"; }
-echoWhite()			{ echoAlias "$1" -c "${WHITE}" "${@:2}"; }
+echoBlack()			{ group 'bash_common'; echoAlias "$1" -c "${BLACK}" "${@:2}"; }
+echoRed()			{ group 'bash_common'; echoAlias "$1" -c "${RED}" "${@:2}"; }
+echoGreen()			{ group 'bash_common'; echoAlias "$1" -c "${GREEN}" "${@:2}"; }
+echoGold()			{ group 'bash_common'; echoAlias "$1" -c "${GOLD}" "${@:2}"; }
+echoBlue()			{ group 'bash_common'; echoAlias "$1" -c "${BLUE}" "${@:2}"; }
+echoMagenta()		{ group 'bash_common'; echoAlias "$1" -c "${MAGENTA}" "${@:2}"; }
+echoCyan()			{ group 'bash_common'; echoAlias "$1" -c "${CYAN}" "${@:2}"; }
+echoLtGrey()		{ group 'bash_common'; echoAlias "$1" -c "${LT_GREY}" "${@:2}"; }
+echoGrey()			{ group 'bash_common'; echoAlias "$1" -c "${GREY}" "${@:2}"; }
+echoPink()			{ group 'bash_common'; echoAlias "$1" -c "${PINK}" "${@:2}"; }
+echoLtGreen()		{ group 'bash_common'; echoAlias "$1" -c "${LT_GREEN}" "${@:2}"; }
+echoYellow()		{ group 'bash_common'; echoAlias "$1" -c "${YELLOW}" "${@:2}"; }
+echoLtBlue()		{ group 'bash_common'; echoAlias "$1" -c "${LT_BLUE}" "${@:2}"; }
+echoPurple()		{ group 'bash_common'; echoAlias "$1" -c "${PURPLE}" "${@:2}"; }
+echoLtCyan()		{ group 'bash_common'; echoAlias "$1" -c "${LT_CYAN}" "${@:2}"; }
+echoWhite()			{ group 'bash_common'; echoAlias "$1" -c "${WHITE}" "${@:2}"; }
 #
 # TERMINAL STYLE ALIASES
 #
-echoDebug()			{ echoAlias "${ITALIC}$1${NORMAL}" -c "${WHITE}" "${@:2}"; }
-echoDefault()		{ echoAlias "${RESET}$1" "${@:2}"; }
+echoDebug()			{ group 'bash_common'; echoAlias "${ITALIC}$1${NORMAL}" -c "${WHITE}" "${@:2}"; }
+echoDefault()		{ group 'bash_common'; echoAlias "${RESET}$1" "${@:2}"; }
 #
 # TERMINAL MESSAGE ALIASES
 #
-echoError()			{ echoAlias "${SYMBOL_ERROR} $1" -c "${RED}" -E "${@:2}"; }
-echoWarning()		{ echoAlias "${SYMBOL_WARNING} $1" -c "${GOLD}" "${@:2}"; }
-echoInfo()			{ echoAlias "${SYMBOL_INFO} $1" -c "${LT_BLUE}" "${@:2}"; }
-echoSuccess()		{ echoAlias "${SYMBOL_SUCCESS} $1" -c "${LT_GREEN}" "${@:2}"; }
-echoHead()			{ echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "${PURPLE}" "${@:2}"; }
+echoError()			{ group 'bash_common'; echoAlias "${SYMBOL_ERROR} $1" -c "${RED}" -E "${@:2}"; }
+echoWarning()		{ group 'bash_common'; echoAlias "${SYMBOL_WARNING} $1" -c "${GOLD}" "${@:2}"; }
+echoInfo()			{ group 'bash_common'; echoAlias "${SYMBOL_INFO} $1" -c "${LT_BLUE}" "${@:2}"; }
+echoSuccess()		{ group 'bash_common'; echoAlias "${SYMBOL_SUCCESS} $1" -c "${LT_GREEN}" "${@:2}"; }
+echoHead()			{ group 'bash_common'; echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "${PURPLE}" "${@:2}"; }
 echoDot()
 {
+	group 'bash_common'
+
 	local msg color
 
 	msg="$1"

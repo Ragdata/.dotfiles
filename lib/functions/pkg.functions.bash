@@ -233,7 +233,7 @@ pkg::download()
 # ------------------------------------------------------------------
 pkg::findPkg()
 {
-	(($# < 1)) && errorExit "pkg::findPkg - cowardly refusing to search for nothing!"
+	(($# < 1)) && errorExit "cowardly refusing to search for nothing!"
 
 	sudo apt-cache search "$1"
 }
@@ -290,7 +290,7 @@ pkg::installList()
 # ------------------------------------------------------------------
 pkg::listPkg()
 {
-	(($# < 1)) && errorExit "pkg::listPkg - Missing Argument!"
+	(($# < 1)) && errorExit "Missing Argument!"
 
 	local cmd
 
@@ -383,7 +383,7 @@ pkg::repair() { sudo apt-get -qq -y check; return $?; }
 # ------------------------------------------------------------------
 pkg::showPkg()
 {
-	(($# < 1)) && errorExit "pkg::showPkg - cowardly refusing to show nothing!"
+	(($# < 1)) && errorExit "cowardly refusing to show nothing!"
 
 	sudo apt-cache show "$1"
 }

@@ -22,7 +22,7 @@ errorExit()
 
 	local msg="ERROR :: " code="${2:-1}"
 
-	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} ::"
+	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} -"
 	[[ -n "$1" ]] && msg+=" $1"
 
 	echoError "$msg"
@@ -60,9 +60,9 @@ dot::source()
 {
 	group 'bash_functions'
 
-	(($# > 0)) || errorExit "dot::source - Missing Arguments"
+	(($# > 0)) || errorExit "Missing Arguments"
 
-	[ -f "$1" ] || errorExit "dot::source - File '$1' not found"
+	[ -f "$1" ] || errorExit "File '$1' not found"
 
 	if arr::contains "$1" "${IMPORTS[@]}"; then
 		return 0
@@ -81,7 +81,7 @@ dot::include()
 {
 	group 'bash_functions'
 
-	(($# > 0)) || errorExit "dot::include - Missing Arguments"
+	(($# > 0)) || errorExit "Missing Arguments"
 
 	local -a ARR
 	local path
@@ -98,7 +98,7 @@ dot::include()
 		elif [[ "$item" == *"."* ]]; then
 			mapfile -d "." -t ARR < <(printf '%s' "$item")
 		else
-			errorExit "dot::include - Unrecognised item '$item'"
+			errorExit "Unrecognised item '$item'"
 		fi
 		if [ "${#ARR[@]}" -gt 0 ]; then
 			case "${ARR[1]}" in
@@ -120,7 +120,7 @@ dot::include()
 				plugin|plugins)
 					stub="plugins/$item.bash"
 					;;
-				*)	errorExit "dot::include - Type '${ARR[1]}' not supported";;
+				*)	errorExit "Type '${ARR[1]}' not supported";;
 			esac
 		fi
 		if [ -n "$stub" ]; then
@@ -129,13 +129,13 @@ dot::include()
 			elif [ -f "$DOT_LIB/$stub" ]; then
 				path="$DOT_LIB/$stub"
 			else
-				errorExit "dot::include - No match for '$stub'"
+				errorExit "No match for '$stub'"
 			fi
 		fi
 		if [ -f "$path" ]; then
 			dot::source "$path"
 		else
-			errorExit "dot::include - File '$path' not found"
+			errorExit "File '$path' not found"
 		fi
 	done
 }

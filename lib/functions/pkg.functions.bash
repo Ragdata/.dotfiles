@@ -52,6 +52,8 @@
 # ------------------------------------------------------------------
 pkg()
 {
+    group 'pkg'
+
 	(($# < 2)) && errorExit "No package requested for installation"
 
 	local pkg="$1" options
@@ -114,6 +116,8 @@ pkg()
 # ------------------------------------------------------------------
 pkg::addRepo()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local repo result
@@ -133,6 +137,8 @@ pkg::addRepo()
 # ------------------------------------------------------------------
 pkg::auto()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No packages requested for processing"
 
 	local pkg="$1"
@@ -150,6 +156,8 @@ pkg::auto()
 # ------------------------------------------------------------------
 pkg::check()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No packages requested for processing"
 
 	local pkg="$1" func result
@@ -173,6 +181,8 @@ pkg::check()
 # ------------------------------------------------------------------
 pkg::config()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No packages requested for processing"
 
 	local pkg="$1" func result
@@ -196,6 +206,8 @@ pkg::config()
 # ------------------------------------------------------------------
 pkg::download()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg="$1" tested=0 func result dir
@@ -233,6 +245,8 @@ pkg::download()
 # ------------------------------------------------------------------
 pkg::findPkg()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "cowardly refusing to search for nothing!"
 
 	sudo apt-cache search "$1"
@@ -242,6 +256,8 @@ pkg::findPkg()
 # ------------------------------------------------------------------
 pkg::install()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg="$1" tested=0 func result
@@ -273,6 +289,8 @@ pkg::install()
 # ------------------------------------------------------------------
 pkg::installList()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "Missing Argument!"
 
 	local name="$1"
@@ -290,6 +308,8 @@ pkg::installList()
 # ------------------------------------------------------------------
 pkg::listPkg()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "Missing Argument!"
 
 	local cmd
@@ -317,6 +337,8 @@ pkg::listPkg()
 # ------------------------------------------------------------------
 pkg::reinstall()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg="$1" tested=0 func result
@@ -348,6 +370,8 @@ pkg::reinstall()
 # ------------------------------------------------------------------
 pkg::remove()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg="$1" tested=0 func result
@@ -377,12 +401,14 @@ pkg::remove()
 # ------------------------------------------------------------------
 # pkg::remove
 # ------------------------------------------------------------------
-pkg::repair() { sudo apt-get -qq -y check; return $?; }
+pkg::repair() { group 'pkg'; sudo apt-get -qq -y check; return $?; }
 # ------------------------------------------------------------------
 # pkg::showPkg
 # ------------------------------------------------------------------
 pkg::showPkg()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "cowardly refusing to show nothing!"
 
 	sudo apt-cache show "$1"
@@ -392,6 +418,8 @@ pkg::showPkg()
 # ------------------------------------------------------------------
 pkg::source()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg="$1" tested=0 func result dir
@@ -427,11 +455,11 @@ pkg::source()
 # ------------------------------------------------------------------
 # pkg::update
 # ------------------------------------------------------------------
-pkg::update() { sudo apt-get -qq -y update; return $?; }
+pkg::update() { group 'pkg'; sudo apt-get -qq -y update; return $?; }
 # ------------------------------------------------------------------
 # pkg::upgrade
 # ------------------------------------------------------------------
-pkg::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
+pkg::upgrade() { group 'pkg'; sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
 
 ####################################################################
 # BULK HANDLERS
@@ -441,6 +469,8 @@ pkg::upgrade() { sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; retu
 # ------------------------------------------------------------------
 pkgInstall()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg
@@ -455,6 +485,8 @@ pkgInstall()
 # ------------------------------------------------------------------
 pkgRemove()
 {
+    group 'pkg'
+
 	(($# < 1)) && errorExit "No package requested for processing"
 
 	local pkg

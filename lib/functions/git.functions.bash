@@ -19,6 +19,8 @@
 # ------------------------------------------------------------------
 git::subtree::add()
 {
+    group 'git'
+
     (($# >= 3)) || errorExit "Missing Argument(s)"
 
     local name path url branch
@@ -36,6 +38,8 @@ git::subtree::add()
 # ------------------------------------------------------------------
 git::subtree::fetch()
 {
+    group 'git'
+
     (($# >= 1)) || errorExit "Missing Argument(s)"
 
     local name branch
@@ -50,6 +54,8 @@ git::subtree::fetch()
 # ------------------------------------------------------------------
 git::subtree::pull()
 {
+    group 'git'
+
     (($# >= 3)) || errorExit "Missing Argument(s)"
 
     local name path url branch

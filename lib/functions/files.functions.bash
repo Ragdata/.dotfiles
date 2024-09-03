@@ -18,6 +18,8 @@
 # ------------------------------------------------------------------
 file2env()
 {
+    group 'files'
+
 	[[ (($# == 0)) || ! -f "$1" ]] && errorExit "No file passed or file not found"
 
 	while IFS= read -r line
@@ -31,16 +33,18 @@ file2env()
 # ------------------------------------------------------------------
 # scriptDir
 # ------------------------------------------------------------------
-scriptDir() { printf -- '%s' "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"; }
+scriptDir() { group 'files'; printf -- '%s' "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"; }
 # ------------------------------------------------------------------
 # scriptPath
 # ------------------------------------------------------------------
-scriptPath() { printf -- '%s' "$(realpath "${BASH_SOURCE[0]}")"; }
+scriptPath() { group 'files'; printf -- '%s' "$(realpath "${BASH_SOURCE[0]}")"; }
 # ------------------------------------------------------------------
 # searchConfig
 # ------------------------------------------------------------------
 searchConfig()
 {
+    group 'files'
+
 	local file="$1"
 	local default="${2:-}"
 	local dir outFile

@@ -1,0 +1,5 @@
+[composure]
+	git remote add -f composure https://github.com/erichs/composure.git
+	git subtree add --prefix vendor/github.com/composure composure master --squash
+	git fetch composure master
+	git subtree pull --prefix vendor/github.com/composure composure master --squash

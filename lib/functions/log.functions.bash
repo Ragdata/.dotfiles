@@ -139,7 +139,7 @@ log::write()
                 shift 2
                 ;;
             -p|--priority)
-                case "$2" in
+                case "${2,,}" in
                     10|trace)
                         priority="TRACE"
                         ;;
@@ -302,7 +302,7 @@ echoLog()
                 shift 2
                 ;;
             -p|--priority)
-                case "$2" in
+                case "${2,,}" in
                     10|trace)
                         priority="TRACE"
                         ;;
@@ -388,7 +388,7 @@ echoLog()
     ((minLevel > msgLevel)) && return 0
 
     LOGARGS+=("-p")
-    LOGARGS+=("$priority")
+    LOGARGS+=("$(_logPriority "$priority")")
 
     # shellcheck disable=SC2001
     logMsg="$(echo "$msg" | sed 's/\\033\[.+m//g')"

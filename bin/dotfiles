@@ -20,10 +20,11 @@ if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
 	[ "${1,,}" == "debug" ] && shift
 	DOT_DEBUG=1
 	export LOG_LEVEL="DEBUG"
-	set -axeETo pipefail
-else
-	set -aeETo pipefail
+# 	set -axeETo pipefail
+# else
+# 	set -aeETo pipefail
 fi
+set -aeETo pipefail
 shopt -s inherit_errexit
 ####################################################################
 # DEPENDENCIES

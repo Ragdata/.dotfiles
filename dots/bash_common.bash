@@ -292,12 +292,13 @@ echoDot()
 {
 	group 'bash_common'
 
-	local msg color symbol options
+	local msg symbol options
+    local -a OUTARGS=()
 
 	msg="${1?}"
 	shift
 
-    options="$(getopt -o "c:s:" -a -- "$@")"
+    options="$(getopt -o "c:s:n" -a -- "$@")"
 
     eval set --"$options"
 
@@ -305,26 +306,26 @@ echoDot()
     do
         case "$1" in
             -c)
-                color="${2?}"
+                OUTARGS+=("-c" "${2?}")
                 shift 2
                 ;;
             -s)
                 symbol="${2?}"
                 shift 2
                 ;;
+            -n)
+                OUTARGS+=("-n")
+                shift
+                ;;
             --)
                 shift
                 break
                 ;;
-            *)  errorExit "Invalid Argument '$2'";;
+            *)  errorExit "Invalid Argument '$1'";;
         esac
     done
 
     [ -z "$symbol" ] && symbol="$SYMBOL_DOT"
 
-    if [ -n "$color" ]; then
-        echoAlias "$symbol $msg" -c "$color"
-    else
-        echoAlias "$symbol $msg"
-    fi
+    echoAlias "$symbol $msg" "${OUTARGS[@]}"
 }

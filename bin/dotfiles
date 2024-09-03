@@ -54,8 +54,7 @@ case "$verb" in
 	help)
 		;;
 	install)
-		dot::install::menu
-		;;
+		dot::install::menu;;
 	migrate)
 		;;
 	preview)
@@ -66,19 +65,27 @@ case "$verb" in
 		;;
 	reload)
 		;;
+	set)
+		dot::set;;
 	search)
 		;;
 	show)
 		;;
 	update)
 		case "$component" in
-			sys|system)		dot::sysUpdate;;
-			*)				dot::update;;
+			bin)
+				dot::update::bin;;
+			dots)
+				dot::update::dots;;
+			repo|sources)
+				dot::update::repo;;
+			sys|system)
+				dot::sysUpdate;;
+			*)	dot::update;;
 		esac
 		;;
 	version)
 		;;
-	*)
-		env
-		;;
 esac
+
+dot::menu

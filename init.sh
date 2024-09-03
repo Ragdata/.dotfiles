@@ -111,9 +111,6 @@ init::dots()
 		ln -s "$file" "$HOME/.${DOT[0]}"
 		chmod 0644 "$HOME/.${DOT[0]}"
 	done < <(find "$HOME/.dotfiles/dots" -maxdepth 1 -type f)
-
-	init::echoInfo "Reloading .bashrc ..."
-	source "$HOME/.bashrc"
 }
 # ------------------------------------------------------------------
 # init::sudoers

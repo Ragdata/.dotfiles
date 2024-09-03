@@ -58,5 +58,7 @@ while read -ra func
 do
 	defn="$(declare -f "${func[2]}")"
 	group="$(metafor group <<< "$defn")"
-	[ -n "$group" ] && declare -fx "${func[2]}"
+	if [[ "$group" == "bash_common" || "$group" == "bash_functions" ]]; then
+		declare -fx "${func[2]}"
+	fi
 done < <(declare -F)

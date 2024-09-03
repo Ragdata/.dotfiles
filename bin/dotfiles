@@ -13,6 +13,18 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# PREFLIGHT
+####################################################################
+# if script is called with 'debug' as the first argument, set debug mode
+if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
+	[ "${1,,}" == "debug" ] && shift
+	DOT_DEBUG=1
+	set -axeETo pipefail
+else
+	set -aeETo pipefail
+fi
+shopt -s inherit_errexit
+####################################################################
 # DEPENDENCIES
 ####################################################################
 # metadata support

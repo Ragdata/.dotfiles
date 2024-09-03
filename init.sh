@@ -15,12 +15,10 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-# set debug mode = false
-declare -gx DEBUG
 # if script is called with 'debug' as the first argument, set debug mode
-if [[ "${1,,}" == "debug" || "$DEBUG" == 1 ]]; then
+if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
 	[ "${1,,}" == "debug" ] && shift
-	DEBUG=1
+	DOT_DEBUG=1
 	set -axeETo pipefail
 else
 	set -aeETo pipefail

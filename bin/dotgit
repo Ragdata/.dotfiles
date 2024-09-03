@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+####################################################################
+# dotgit
+####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         dotgit
+# Author:       Ragdata
+# Date:         23/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# PREFLIGHT
+####################################################################
+# if script is called with 'debug' as the first argument, set debug mode
+if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
+	[ "${1,,}" == "debug" ] && shift
+	DOT_DEBUG=1
+	set -axeETo pipefail
+else
+	set -aeETo pipefail
+fi
+shopt -s inherit_errexit
+####################################################################
+# DEPENDENCIES
+####################################################################
+# metadata support
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
+# required library files
+dot::include "git.functions"
+####################################################################
+# MAIN
+####################################################################

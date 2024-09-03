@@ -391,7 +391,7 @@ echoLog()
     LOGARGS+=("$priority")
 
     # shellcheck disable=SC2001
-    logMsg="$(echo "$msg" | sed 's/\\e\[.+m//g')"
+    logMsg="$(echo "$msg" | sed 's/\\033\[.+m//g')"
 
     log::write "$logMsg" "${LOGARGS[@]}"
 

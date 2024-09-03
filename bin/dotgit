@@ -19,17 +19,17 @@
 # shellcheck disable=SC2093
 exec 2>>"$DOT_LOG/stderr.log"
 # if script is called with 'debug' as the first argument, set debug mode
-if [[ "${1,,}" == "debug" ]]; then
+if [ "${1,,}" == "debug" ]; then
 	shift
 	DOT_DEBUG=1
 fi
-if [[ "$DOT_DEBUG" == 1 ]]; then
+if [ "$DOT_DEBUG" -eq 1 ]; then
+ 	set -axeETo pipefail
 	export LOG_LEVEL="DEBUG"
-# 	set -axeETo pipefail
-# else
-# 	set -aeETo pipefail
+else
+ 	set -aeETo pipefail
 fi
-set -aeETo pipefail
+#set -aeETo pipefail
 shopt -s inherit_errexit
 ####################################################################
 # DEPENDENCIES

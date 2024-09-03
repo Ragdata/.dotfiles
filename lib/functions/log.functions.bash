@@ -62,12 +62,13 @@ log::checkLog()
     group 'log'
 
     local size fileName="${1:-"dotfiles"}"
+
     # initialise logfile if it doesn't exist
     [ -f "$DOT_LOG/$fileName.log" ] || log::init "$fileName"
     # check logfile size
     size="$(wc -c "$DOT_LOG/$fileName.log" | awk '{print $1}')"
     # rotate if necessary
-    ((size >= LOG_SIZE)) && log::rotate "$fileName"
+    [ "$size" -ge "$LOG_SIZE" ] && log::rotate "$fileName"
 }
 # ------------------------------------------------------------------
 # log::init
@@ -201,7 +202,7 @@ log::write()
     minLevel="$(_logPriority "$LOG_LEVEL")"
     msgLevel="$(_logPriority "$priority")"
 
-    ((minLevel > msgLevel)) && return 0
+    if ((minLevel > msgLevel)); then return 0; fi
 
     user="$(whoami)"
 

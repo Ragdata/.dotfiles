@@ -134,10 +134,10 @@ dot::update::bin()
 		sudo ln -s "$file" "/usr/local/bin/$fileName"; result=$?
 		if [ "$result" -eq 0 ]; then
 			log::info "'$fileName' linked successfully"
-			echoDot "OK" -c "${LT_GREEN}"
+			echoAlias "OK" -c "${LT_GREEN}"
 		else
 			log::error "'$fileName' link failed"
-			echoDot "FAILED!" -c "${RED}"
+			echoAlias "FAILED!" -c "${RED}"
 		fi
 	done < <(find "$DOT_BIN" -type f)
 }
@@ -173,10 +173,10 @@ dot::update::dots()
 		ln -s "$file" "$HOME/.${DOT[0]}"; result=$?
 		if [ "$result" -eq 0 ]; then
 			log::info "'.${DOT[0]}' linked successfully"
-			echoDot "OK" -c "${LT_GREEN}"
+			echoAlias "OK" -c "${LT_GREEN}"
 		else
 			log::error "'.${DOT[0]}' link failed"
-			echoDot "FAILED!" -c "${RED}"
+			echoAlias "FAILED!" -c "${RED}"
 		fi
 	done < <(find "$DOTS" -maxdepth 1 -type f)
 }
@@ -195,10 +195,10 @@ dot::update::repo()
 	git -C "$DOTFILES" pull; result=$?
 	if [ "$result" -eq 0 ]; then
 		log::info ".dotfiles sources updated successfully"
-		echoDot "OK" -c "${LT_GREEN}"
+		echoAlias "OK" -c "${LT_GREEN}"
 	else
 		log::error ".dotfiles sources update failed"
-		echoDot "FAILED!" -c "${RED}"
+		echoAlias "FAILED!" -c "${RED}"
 	fi
 }
 # ------------------------------------------------------------------

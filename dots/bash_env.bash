@@ -102,9 +102,11 @@ TERM_ST="${TERM_ESC}\\"
 #
 # SYMBOLS
 #
-SYMBOL_ERROR="[-]"
-SYMBOL_WARNING="[!]"
-SYMBOL_INFO="[i]"
-SYMBOL_SUCCESS="[+]"
-SYMBOL_HEAD="➜"
-SYMBOL_DOT="•"
+# ➤ ➜ 🡆 🠶 ▶ ▷ • ⦁ ● ⏺ 🞮 ✘ ☒ 🗴 🗵 🛇 ✔ ☑ 🗸 🗹 ⚠ 🛆 🛈 ✚ ★ ☆ ⚑
+#
+SYMBOL_ERROR="✘"
+SYMBOL_WARNING="🛆"
+SYMBOL_INFO="✚"
+SYMBOL_SUCCESS="✔"
+SYMBOL_HEAD="➤"
+SYMBOL_DOT="⦁"

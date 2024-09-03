@@ -194,16 +194,16 @@ echoAlias()
     do
         case "$1" in
             -c | --color)
-                COLOR="$2"
+                COLOR="${2?}"
                 OUTARGS+=("-e")
                 shift 2
                 ;;
             -p	| --prefix)
-                PREFIX="$2"
+                PREFIX="${2?}"
                 shift 2
                 ;;
             -s | --suffix)
-                SUFFIX="$2"
+                SUFFIX="${2?}"
                 shift 2
                 ;;
             -E | --ERR)

@@ -17,7 +17,7 @@
 ####################################################################
 # capture stderr
 # shellcheck disable=SC2093
-exec 2 >> "$DOT_LOG/stderr.log"
+exec 2>>"$DOT_LOG/stderr.log"
 # if script is called with 'debug' as the first argument, set debug mode
 if [[ "${1,,}" == "debug" ]]; then
 	shift

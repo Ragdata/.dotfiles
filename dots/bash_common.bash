@@ -283,7 +283,7 @@ echoHead()
     color="${1:-"$PURPLE"}"
     [ -n "$1" ] && shift
     
-    echoAlias "${BOLD}${SYMBOL_HEAD} $1${NORMAL}" -c "$color" "${@}"
+    echoAlias "${BOLD}${SYMBOL_HEAD} ${msg}${NORMAL}" -c "$color" "${@}"
 }
 # ------------------------------------------------------------------
 # echoDot

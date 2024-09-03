@@ -13,11 +13,6 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# DEPENDENCIES
-####################################################################
-# metadata support
-source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
-####################################################################
 # CORE LOG FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
@@ -25,7 +20,7 @@ source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # ------------------------------------------------------------------
 _logPriority()
 {
-    _group 'internal'
+    : _group 'internal'
 
     local level="${1?}" result
 

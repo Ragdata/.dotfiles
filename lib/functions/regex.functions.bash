@@ -12,9 +12,5 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# PREFLIGHT
-####################################################################
-#declare -gx _REGEX_FUNCTIONS; [[ "${_REGEX_FUNCTIONS:-0}" -eq 1 ]] && return 0; _REGEX_FUNCTIONS=1;
-####################################################################
 # REGEX FUNCTIONS
 ####################################################################

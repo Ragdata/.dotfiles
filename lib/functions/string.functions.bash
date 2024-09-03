@@ -12,10 +12,6 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# PREFLIGHT
-####################################################################
-#declare -gx _STRING_FUNCTIONS; [[ "${_STRING_FUNCTIONS:-0}" -eq 1 ]] && return 0; _STRING_FUNCTIONS=1;
-####################################################################
 # STRING FUNCTIONS
 ####################################################################
 str::split()

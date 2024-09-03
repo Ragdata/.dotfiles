@@ -12,9 +12,5 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# PREFLIGHT
-####################################################################
-#declare -gx _WSL_FUNCTIONS; [[ "${_WSL_FUNCTIONS:-0}" -eq 1 ]] && return 0; _WSL_FUNCTIONS=1;
-####################################################################
 # WSL FUNCTIONS
 ####################################################################

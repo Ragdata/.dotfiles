@@ -20,13 +20,25 @@ dot::include "log.functions"
 # DOTFILES FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# dot::install::menu
+# dot::menu
 # ------------------------------------------------------------------
-dot::install::menu()
+dot::menu()
 {
     group 'dot'
-
-	echo "HERE"
+}
+# ------------------------------------------------------------------
+# dot::menu::install
+# ------------------------------------------------------------------
+dot::menu::install()
+{
+    group 'dot'
+}
+# ------------------------------------------------------------------
+# dot::set
+# ------------------------------------------------------------------
+dot::set()
+{
+	group 'dot'
 }
 # ------------------------------------------------------------------
 # dot::sysUpdate
@@ -66,7 +78,25 @@ dot::update::bin()
 {
     group 'dot'
 
-	echo "HERE"
+	local fileName result
+
+	debugLog "${FUNCNAME[0]}"
+
+	echoHead "Updating .dotfiles binaries"
+	while IFS= read -r file
+	do
+		fileName="$(basename "$file")"
+		echoDot "$fileName - " -n
+		[ -e "/usr/local/bin/$fileName" ] && sudo rm -f "/usr/local/bin/$fileName"
+		sudo ln -s "$file" "/usr/local/bin/$fileName"; result=$?
+		if [ "$result" -eq 0 ]; then
+			log::info "'$fileName' linked successfully"
+			echoDot "OK" -c "${LT_GREEN}"
+		else
+			log::error "'$fileName' link failed"
+			echoDot "FAILED!" -c "${RED}"
+		fi
+	done < <(find "$DOT_BIN" -type f)
 }
 # ------------------------------------------------------------------
 # dot::update::dots
@@ -75,7 +105,37 @@ dot::update::dots()
 {
     group 'dot'
 
-	echo "HERE"
+	local -a DOT=()
+
+	debugLog "${FUNCNAME[0]}"
+
+	echoHead "Updating dotfiles"
+
+	[ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || exitLog "Unable to create directory '$HOME/.backup'" "error"; }
+	[ -L "$HOME/.profile" ] && rm -f "$HOME/.profile"
+	[ -f "$HOME/.profile" ] && mv -b "$HOME/.profile" "$HOME/.backup/.profile"
+
+	while IFS= read -r file
+	do
+		DOT=()
+		fileName="$(basename "$file")"
+		[ -f "$CUSTOM/dots/$fileName" ] && file="$CUSTOM/dots/$fileName"
+		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
+		echoDot ".${DOT[0]} - " -n
+		if [ -L "$HOME/.${DOT[0]}" ]; then
+			rm -f "$HOME/.${DOT[0]}"
+		elif [ -f "$HOME/.${DOT[0]}" ]; then
+			mv -b "$HOME/.${DOT[0]}" "$HOME/.backup/.${DOT[0]}"
+		fi
+		ln -s "$file" "$HOME/.${DOT[0]}"; result=$?
+		if [ "$result" -eq 0 ]; then
+			log::info "'.${DOT[0]}' linked successfully"
+			echoDot "OK" -c "${LT_GREEN}"
+		else
+			log::error "'.${DOT[0]}' link failed"
+			echoDot "FAILED!" -c "${RED}"
+		fi
+	done < <(find "$DOTS" -maxdepth 1 -type f)
 }
 # ------------------------------------------------------------------
 # dot::update::repo
@@ -84,7 +144,19 @@ dot::update::repo()
 {
     group 'dot'
 
-	echo "HERE"
+	local result
+
+	debugLog "${FUNCNAME[0]}"
+
+	echoHead "Updating .dotfiles sources"
+	git -C "$DOTFILES" pull; result=$?
+	if [ "$result" -eq 0 ]; then
+		log::info ".dotfiles sources updated successfully"
+		echoDot "OK" -c "${LT_GREEN}"
+	else
+		log::error ".dotfiles sources update failed"
+		echoDot "FAILED!" -c "${RED}"
+	fi
 }
 # ------------------------------------------------------------------
 # dot::update
@@ -93,5 +165,11 @@ dot::update()
 {
     group 'dot'
 
-	echo "HERE"
+	debugLog "${FUNCNAME[0]}"
+
+	dot::update::repo
+	dot::update::bin
+	dot::update::dots
+
+	dot::menu
 }

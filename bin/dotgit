@@ -37,7 +37,7 @@ shopt -s inherit_errexit
 # metadata support
 source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # error trap
-trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
+#trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
 dot::include "git.functions"
 ####################################################################

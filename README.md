@@ -27,7 +27,7 @@
 ### AutoInstall
 
 ```shell
-wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/install.sh | bash
+wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/init.sh | bash
 ```
 
 [`^ Top`](#top)

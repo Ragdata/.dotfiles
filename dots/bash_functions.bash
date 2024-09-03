@@ -14,21 +14,6 @@
 # COMMON FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# errorExit
-# ------------------------------------------------------------------
-errorExit()
-{
-	group 'bash_functions'
-
-	local msg="ERROR :: " code="${2:-1}"
-
-	[[ -n "${FUNCNAME[1]}" ]] && msg+=" ${FUNCNAME[1]} -"
-	[[ -n "$1" ]] && msg+=" $1"
-
-	echoError "$msg"
-	exit "$code"
-}
-# ------------------------------------------------------------------
 # checkBash
 # ------------------------------------------------------------------
 checkBash() { group 'bash_functions'; if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
@@ -138,4 +123,68 @@ dot::include()
 			errorExit "File '$path' not found"
 		fi
 	done
+}
+####################################################################
+# ERROR FUNCTIONS
+####################################################################
+# ------------------------------------------------------------------
+# errorHandler
+# ------------------------------------------------------------------
+errorHandler()
+{
+	group 'bash_functions'
+
+	local -n lineNo="${1:-LINENO}"
+	local -n bashLineNo="${2:-BASH_LINENO}"
+	local lastCommand="${3:-BASH_COMMAND}"
+	local code="${4:-0}"
+
+	local -a OUTARR=()
+	local lastCommandHeight
+
+	[ "$code" -eq 0 ] && return 0
+
+	lastCommandHeight="$(wc -l <<< "${lastCommand}")"
+
+	OUTARR+=(
+		"Code: ${code}"
+		"Line: ${lineNo}"
+		"Function: ${FUNCNAME[1]}"
+		"Line History: [${bashLineNo[*]}]"
+		"Function Trace: [${FUNCNAME[*]}]")
+
+	if [ "${#BASH_SOURCE[@]}" -gt 1 ]; then
+		OUTARR+=("Source Trace:")
+		for item in "${BASH_SOURCE[@]}"
+		do
+			OUTARRAY+=(" - ${item}")
+		done
+	else
+		OUTARR+=("Source Trace: [${BASH_SOURCE[*]}]")
+	fi
+
+	if [ "$lastCommandHeight" -gt 1 ]; then
+		OUTARR+=("Last Command -> " "${lastCommand}")
+	else
+		OUTARR+=("Last Command: ${lastCommand}")
+	fi
+
+	printf -- '%s\n' "${OUTARR[@]}" >&2
+
+	exit "$code"
+}
+# ------------------------------------------------------------------
+# errorExit
+# ------------------------------------------------------------------
+errorExit()
+{
+	group 'bash_functions'
+
+	local msg="ERROR :: " code="${2:-1}"
+
+	[[ -n "${FUNCNAME[1]}" ]] && msg+="${FUNCNAME[1]} - "
+	[[ -n "$1" ]] && msg+="$1"
+
+	echoError "$msg"
+	exit "$code"
 }

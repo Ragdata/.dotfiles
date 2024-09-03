@@ -26,6 +26,8 @@ if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
 fi
 set -aeETo pipefail
 shopt -s inherit_errexit
+# error trap
+trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 ####################################################################
 # DEPENDENCIES
 ####################################################################

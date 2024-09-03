@@ -48,7 +48,7 @@ _logPriority()
         *) errorExit "Invalid Argument '$2'";;
     esac
 
-    if [[ $result =~ ^[0-9]+$ ]]; then
+    if [[ $result =~ [0-9]+ ]]; then
         printf -- '%u' "$result"
     else
         printf -- '%s' "$result"

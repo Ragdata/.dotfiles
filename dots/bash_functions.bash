@@ -106,6 +106,9 @@ dot::include()
 				function|functions)
 					stub="functions/$item.bash"
 					;;
+				help)
+					stub="help/$item.bash"
+					;;
 				plugin|plugins)
 					stub="plugins/$item.bash"
 					;;

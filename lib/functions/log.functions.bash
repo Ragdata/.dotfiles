@@ -68,7 +68,7 @@ log::checkLog()
     # check logfile size
     size="$(wc -c "$DOT_LOG/$fileName.log" | awk '{print $1}')"
     # rotate if necessary
-    [ "$size" -ge "$LOG_SIZE" ] && log::rotate "$fileName"
+    [ "$size" -lt "$LOG_SIZE" ] || log::rotate "$fileName"
 }
 # ------------------------------------------------------------------
 # log::init

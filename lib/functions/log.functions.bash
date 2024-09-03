@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
+# shellcheck disable=SC1091
 ####################################################################
 # log.functions
 ####################################################################
@@ -11,6 +12,11 @@
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# DEPENDENCIES
+####################################################################
+# metadata support
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 ####################################################################
 # CORE LOG FUNCTIONS
 ####################################################################

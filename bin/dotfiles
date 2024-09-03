@@ -14,38 +14,40 @@
 ####################################################################
 # PREFLIGHT
 ####################################################################
-dotInclude "dotfiles.functions"
+dot::include "dotfiles.functions"
 ####################################################################
 # MAIN
 ####################################################################
-declare verb="${1?}"
-declare component="${2?}"
-declare func
+verb="${1?}"
+component="${2:-}"
 
 case "$verb" in
-	show)
-		;;
 	enable)
 		;;
 	disable)
 		;;
 	help)
 		;;
-	profile)
-		;;
-	search)
-		;;
-	preview)
-		;;
-	update)
+	install)
+		dot::install::menu
 		;;
 	migrate)
 		;;
-	version)
+	preview)
+		;;
+	profile)
 		;;
 	restart)
 		;;
 	reload)
+		;;
+	search)
+		;;
+	show)
+		;;
+	update)
+		;;
+	version)
 		;;
 	*)
 		;;

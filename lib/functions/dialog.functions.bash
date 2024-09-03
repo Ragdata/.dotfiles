@@ -96,13 +96,13 @@ dialog::menu()
     local -n RES="${3?}"
     local result
 
-    result=$(dialog \
+    result=$(dialog --clear \
         --ok-label "${ARR['ok']:-"OK"}" \
         --cancel-label "${ARR['cancel']:-"Cancel"}" \
         --backtitle "${ARR['backtitle']}" \
-        --title "${ARR['title']}" --clear "$@" \
+        --title "${ARR['title']}" \
         --menu "${ARR['text']}" "${ARR['ht']:-15}" "${ARR['wt']:-50}" "${ARR['menuHt']:-5}" \
-        "${OPTS[@]}" 3>&1 1>&2 2>&3)
+        "${OPTS[*]}" 3>&1 1>&2 2>&3)
 
     printf -v "$RES" '%s' "$result"
 

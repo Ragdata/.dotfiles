@@ -46,3 +46,5 @@ esac
 
 # BASH completions
 [ -e ~/.bash_completions ] && source ~/.bash_completions
+
+eval "$(declare -F | sed -e 's/-f /-fx /')"

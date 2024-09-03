@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
+# shellcheck disable=SC1091
 ####################################################################
 # dotfiles
 ####################################################################
@@ -12,8 +13,11 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# PREFLIGHT
+# DEPENDENCIES
 ####################################################################
+# metadata support
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
+# required library files
 dot::include "dotfiles.functions"
 ####################################################################
 # MAIN

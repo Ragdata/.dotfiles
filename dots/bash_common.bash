@@ -280,7 +280,7 @@ echoHead()
     msg="${1?}"
     shift
 
-    color="${1:-"$PURPLE"}"
+    color="${1:-"$GOLD"}"
     [ -n "$1" ] && shift
     
     echoAlias "${BOLD}${SYMBOL_HEAD} ${msg}${NORMAL}" -c "$color" "${@}"

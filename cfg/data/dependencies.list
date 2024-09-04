@@ -8,8 +8,9 @@ git
 gnupg
 net-tools
 software-properties-common
-ubuntu-wsl
 unattended-upgrades
+unzip
 wget
 wslu
 yq
+zip

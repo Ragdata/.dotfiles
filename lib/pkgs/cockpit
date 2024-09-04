@@ -1,0 +1,58 @@
+# shellcheck shell=bash
+####################################################################
+# cockpit
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+cockpit::check() { if command -v cockpit &> /dev/null; then return 0; else return 1; fi }
+# ------------------------------------------------------------------
+# INSTALL
+# ------------------------------------------------------------------
+cockpit::install()
+{
+	local result
+
+	sudo apt-get -qq -y install cockpit; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# CONFIG
+# ------------------------------------------------------------------
+cockpit::config()
+{
+	local result
+
+	sudo systemctl enable --now cockpit.socket
+	sudo systemctl cockpit.socket; result=$?
+
+	return $result
+}
+# ------------------------------------------------------------------
+# POST CONFIG
+# ------------------------------------------------------------------
+cockpit::post_config()
+{
+	echo ""
+	echoDot "Interface @ http://localhost:9090" -s "★" -c "${GOLD}"
+	echo ""
+}
+# ------------------------------------------------------------------
+# REMOVE
+# ------------------------------------------------------------------
+cockpit::remove()
+{
+	local result
+
+	sudo apt -qq -y purge cockpit; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

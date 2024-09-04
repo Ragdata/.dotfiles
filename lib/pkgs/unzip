@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+####################################################################
+# unzip
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+unzip::check() { if command -v unzip &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+unzip::install()
+{
+	local result
+
+	sudo apt-get -qq -y install unzip; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+unzip::remove()
+{
+	local result
+
+	sudo apt -qq -y purge unzip; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

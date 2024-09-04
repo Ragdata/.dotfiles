@@ -23,12 +23,9 @@ dialog::install()
 {
 	local result
 
-	echoInfo "Installing 'dialog': " -n
 	sudo apt-get -qq -y install dialog; result=$?
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }
 #-------------------------------------------------------------------
@@ -39,11 +36,8 @@ dialog::config()
 	local result
 
 	if [ -f "$DOT_CFG/.dialogrc" ]; then
-		echoInfo "Configuring 'dialog': " -n
 		install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"; result="$?"
-		if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
 	else
-		echoWarning "File '$DOT_CFG/.dialogrc' not found"
 		result=1
 	fi
 	return $result
@@ -55,11 +49,8 @@ dialog::remove()
 {
 	local result
 
-	echoInfo "Removing 'dialog': " -n
 	sudo apt -qq -y purge dialog; result=$?
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }

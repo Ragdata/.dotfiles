@@ -1,12 +1,7 @@
 # shellcheck shell=bash
 ####################################################################
-# wslu
+# bash-completion
 ####################################################################
-# Ragdata's Dotfiles - Application Manager
-#
-# File:         wslu
-# Author:       Ragdata
-# Date:         22/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
@@ -15,15 +10,15 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-wslu::check() { command -v wslu &> /dev/null; }
+bash-completion::check() { if command -v bash-completion &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-wslu::install()
+bash-completion::install()
 {
 	local result
 
-	sudo apt-get -qq -y install wslu; result=$?
+	sudo apt-get -qq -y install bash-completion; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -31,11 +26,11 @@ wslu::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-wslu::remove()
+bash-completion::remove()
 {
 	local result
 
-	sudo apt-get -qq -y purge wslu; result=$?
+	sudo apt -qq -y purge bash-completion; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

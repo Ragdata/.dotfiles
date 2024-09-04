@@ -16,7 +16,6 @@
 # CHECK
 #-------------------------------------------------------------------
 yq::check() { command -v yq &> /dev/null; }
-
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
@@ -24,15 +23,11 @@ yq::install()
 {
 	local result
 
-	echoInfo "Installing additional packages for 'apt': " -n
 	sudo apt-get -qq -y install yq; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }
-
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
@@ -40,11 +35,8 @@ yq::remove()
 {
 	local result
 
-	echoInfo "Removing 'apt': " -n
 	sudo apt-get -qq -y purge yq; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }

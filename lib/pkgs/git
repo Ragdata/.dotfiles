@@ -16,7 +16,6 @@
 # CHECK
 #-------------------------------------------------------------------
 git::check() { command -v git &> /dev/null; }
-
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
@@ -24,15 +23,11 @@ git::install()
 {
 	local result
 
-	echoInfo "Installing additional packages for 'apt': " -n
 	sudo apt-get -qq -y install git; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }
-
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
@@ -40,11 +35,8 @@ git::remove()
 {
 	local result
 
-	echoInfo "Removing 'apt': " -n
 	sudo apt-get -qq -y purge git; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }

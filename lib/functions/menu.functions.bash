@@ -230,6 +230,8 @@ menu::install()
 {
     group 'dot'
 
+    dot::include "git"
+
 	debugLog "${FUNCNAME[0]}"
 
 	local result
@@ -261,6 +263,7 @@ menu::install()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	dot::install::deps;;
+                2)  git::config;;
 
 				X)	menu;;
 			esac

@@ -230,8 +230,6 @@ menu::install()
 {
     group 'dot'
 
-    dot::include "git"
-
 	debugLog "${FUNCNAME[0]}"
 
 	local result
@@ -240,7 +238,7 @@ menu::install()
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Dependencies"
-		"2" "gitconfig"
+		"2" "Select Package Bundles to Install"
 		"" ""
 		"X" "Back to Main Menu"
 	)
@@ -263,7 +261,7 @@ menu::install()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	dot::install::deps;;
-                2)  git::config;;
+                2)  menu;;
 
 				X)	menu;;
 			esac

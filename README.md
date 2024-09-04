@@ -36,6 +36,17 @@
 wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/init.sh | bash
 ```
 
+### Manual
+
+```shell
+git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles
+cd ~/.dotfiles
+./init.sh
+
+bash -i
+dotfiles install
+```
+
 [`^ Top`](#top)
 
 ## [What's Included?](#top) ❓

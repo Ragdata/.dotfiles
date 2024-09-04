@@ -1,4 +1,5 @@
 apt
+bash-completion
 ca-certificates
 curl
 software-properties-common

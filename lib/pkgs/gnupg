@@ -2,11 +2,6 @@
 ####################################################################
 # gnupg
 ####################################################################
-# Ragdata's Dotfiles - Application Manager
-#
-# File:         gnupg
-# Author:       Ragdata
-# Date:         22/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
@@ -16,7 +11,6 @@
 # CHECK
 #-------------------------------------------------------------------
 gnupg::check() { command -v gnupg &> /dev/null; }
-
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
@@ -24,15 +18,11 @@ gnupg::install()
 {
 	local result
 
-	echoInfo "Installing additional packages for 'apt': " -n
 	sudo apt-get -qq -y install gnupg; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }
-
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
@@ -40,11 +30,8 @@ gnupg::remove()
 {
 	local result
 
-	echoInfo "Removing 'apt': " -n
 	sudo apt-get -qq -y purge gnupg; result=$?
-	if [ "$result" -eq 0 ]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
 	return $result
 }

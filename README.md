@@ -12,7 +12,7 @@
 
 <h3 align="center">My personal dotfiles - and the means to manage them.</h3>
 
-> **These are my `.dotfiles`.  There are many like them, but these ones are mine.  My `.dotfiles` are my best friends.  They are my life.  I must master them as I must master my life.  My `.dotfiles`, without me, are useless.  Without my `.dotfiles`, I am useless.  I must execute my `.dotfiles` true.  I must use them straighter than my enemy who is trying to hack me.  I must hack him before he hacks me.  I will ...**   
+> **These are my `.dotfiles`.  There are many like them, but these ones are mine.  My `.dotfiles` are my best friends.  They are my life.  I must master them as I must master my life.  My `.dotfiles`, without me, are useless.  Without my `.dotfiles`, I am useless.  I must execute my `.dotfiles` true.  I must use them straighter than my enemy who is trying to hack me.  I must hack him before he hacks me ... and I will ...**   
 
 If you're new to `.dotfiles`, you're not going to have a good time here.  The first thing you might notice about them is that, like me, they are _highly_ opinionated, prone to unexpected mood swings, and don't play well with others - but they'll get the job done.  The next thing you might notice is that they are very **bash-centric**, with heavy preferences given to all things **Ubuntu (22.04+) & WSL2**.  If you still want to play, read on ...   
 

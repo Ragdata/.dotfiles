@@ -28,46 +28,22 @@ git::install()
 #-------------------------------------------------------------------
 git::config()
 {
-	local result status
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
-	local DIALOG_TITLE="Git Config"
-	local DIALOG_TEXT="Please confirm the following info:"
-	local user email signingkey gpgsign fileMode gpgsign rebase defaultBranch
+	local result
 
-	user="$(git config --global user.name)"
-	email="$(git config --global user.email)"
-	signingkey="$(git config --global signingkey)"
+    if [ -f "$DOT_CFG/git/.gitconfig" ]; then
+        [ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || exitLog "Unable to create directory '$HOME/.backup'"; }
+        [ -f "$HOME/.gitconfig" ] && { mv -b "$HOME/.gitconfig" "$HOME/.backup/." || exitLog "Backup process failed on '$HOME/.gitconfig'"; }
+        cp "$DOT_CFG/git/.gitconfig" "$HOME/.gitconfig"
+        chmod 0644 "$HOME/.gitconfig"
+    fi
+    if [ -f "$DOT_CFG/git/.gitignore_global" ]; then
+        [ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || exitLog "Unable to create directory '$HOME/.backup'"; }
+        [ -f "$HOME/.gitignore_global" ] && { mv -b "$HOME/.gitignore_global" "$HOME/.backup/." || exitLog "Backup process failed on '$HOME/.gitignore_global'"; }
+        cp "$DOT_CFG/git/.gitignore_global" "$HOME/.gitignore_global"
+        chmod 0644 "$HOME/.gitignore_global"
+    fi
 
-
-	local -a DIALOG_ITEMS=(
-	    "Username       :" 1 1  "$user"  1 20 10 0 2
-	)
-
-    trap 'clear' ERR
-
-    result=$(dialog \
-        --insecure --ok-label "${OK_LABEL:-"OK"}" \
-        --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-        --backtitle "${DIALOG_BACKTITLE}" \
-        --title "${DIALOG_TITLE}" \
-        --mixedform "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
-        "${DIALOG_ITEMS[@]}" 3>&1 1>&2 2>&3)
-
-    status=$?
-
-    clear
-
-    case "$status" in
-		"$DIALOG_OK")
-			case "$result" in
-				X)	menu;;
-			esac
-			;;
-		"$DIALOG_CANCEL"|"$DIALOG_ESC")
-			exit 0;;
-    esac
-
-	return $result
+	return 0
 }
 #-------------------------------------------------------------------
 # REMOVE

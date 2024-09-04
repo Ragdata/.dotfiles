@@ -5,10 +5,11 @@
 [commit]
   gpgsign = true
 [core]
+  excludesfile = ~/.gitignore_global
   fileMode = true
 [tag]
   gpgsign = true
 [pull]
-  rebase = false
+  rebase = true
 [init]
   defaultBranch = master

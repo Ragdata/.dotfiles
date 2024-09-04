@@ -56,7 +56,7 @@ case "${1:-}" in
 			deps|dependencies)
 				dot::install::deps
 				;;
-			*)	dot::install::menu;;
+			*)	dot::menu::install;;
 		esac
 		;;
 	migrate)

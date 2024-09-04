@@ -54,8 +54,7 @@ case "${1:-}" in
 	install)
 		case "${2:-}" in
 			deps|dependencies)
-				dot::install::deps
-				;;
+				dot::install::deps;;
 			*)	dot::menu::install;;
 		esac
 		;;

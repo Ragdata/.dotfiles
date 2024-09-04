@@ -1,8 +1,8 @@
+<a name="top"><img height="100" align="right" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Ragdata's Dotfiles" /></a>
+
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/bd98a6793c0445dca1b4f956411af511)](https://app.codacy.com/gh/Ragdata/.dotfiles/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![Pre-Release](https://img.shields.io/badge/Status-Pre--Release-d20000?labelColor=31383f)
 ![Version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fragdata%2F.dotfiles%2Fmaster%2F.github%2F.releaserc&query=%24.version&label=Version&color=548af7&labelColor=31383f)
-
-<a name="top"><img height="80" align="right" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Ragdata's Dotfiles" /></a>
 
 <h1>
 

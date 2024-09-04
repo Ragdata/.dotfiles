@@ -15,6 +15,7 @@
 ####################################################################
 # DEPENDENCIES
 ####################################################################
+dot::include "dotfiles.functions"
 ####################################################################
 # DOTFILES MENU FUNCTIONS
 ####################################################################
@@ -255,7 +256,7 @@ menu::install()
 	case "$status" in
 		"$DIALOG_OK")
 			case "$result" in
-				1)	install::deps;;
+				1)	dot::install::deps;;
 
 				X)	menu;;
 			esac
@@ -301,8 +302,8 @@ menu::update()
 	case "$status" in
 		"$DIALOG_OK")
 			case "$result" in
-				1)	update;;
-				2)	update::sys;;
+				1)	dot::update;;
+				2)	dot::update::sys;;
 
 				X)	menu;;
 			esac

@@ -16,8 +16,14 @@ resolv::install() { return 0; }
 #-------------------------------------------------------------------
 resolv::config()
 {
-    if [ -f "$DOT_ETC/resolv.conf" ]; then
-        sudo install -b -C -m 0644 -T "$DOT_ETC/resolv.conf" /etc/resolv.conf
+    if [ -f "$CUSTOM/etc/resolv.conf" ]; then
+        source="$CUSTOM/etc/resolv.conf"
+    else
+        source="$DOT_ETC/resolv.conf"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/resolv.conf
     fi
 
 	return 0

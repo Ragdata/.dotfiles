@@ -28,18 +28,31 @@ git::install()
 #-------------------------------------------------------------------
 git::config()
 {
-	local result
+	local result source
 
-    if [ -f "$DOT_CFG/git/.gitconfig" ]; then
+    if [ -f "$CUSTOM/cfg/git/.gitconfig" ]; then
+        source="$CUSTOM/cfg/git/.gitconfig"
+    else
+        source="$DOT_CFG/git/.gitconfig"
+    fi
+
+    if [ -f "$source" ]; then
         [ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || exitLog "Unable to create directory '$HOME/.backup'"; }
         [ -f "$HOME/.gitconfig" ] && { mv -b "$HOME/.gitconfig" "$HOME/.backup/." || exitLog "Backup process failed on '$HOME/.gitconfig'"; }
-        cp "$DOT_CFG/git/.gitconfig" "$HOME/.gitconfig"
+        cp "$source" "$HOME/.gitconfig"
         chmod 0644 "$HOME/.gitconfig"
     fi
-    if [ -f "$DOT_CFG/git/.gitignore_global" ]; then
+
+    if [ -f "$CUSTOM/cfg/git/.gitignore_global" ]; then
+        source="$CUSTOM/cfg/git/.gitignore_global"
+    else
+        source="$DOT_CFG/git/.gitignore_global"
+    fi
+
+    if [ -f "$source" ]; then
         [ -d "$HOME/.backup" ] || { mkdir -p "$HOME/.backup" || exitLog "Unable to create directory '$HOME/.backup'"; }
         [ -f "$HOME/.gitignore_global" ] && { mv -b "$HOME/.gitignore_global" "$HOME/.backup/." || exitLog "Backup process failed on '$HOME/.gitignore_global'"; }
-        cp "$DOT_CFG/git/.gitignore_global" "$HOME/.gitignore_global"
+        cp "$source" "$HOME/.gitignore_global"
         chmod 0644 "$HOME/.gitignore_global"
     fi
 

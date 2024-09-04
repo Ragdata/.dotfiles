@@ -16,8 +16,14 @@ wsl::install() { return 0; }
 #-------------------------------------------------------------------
 wsl::config()
 {
-    if [ -f "$DOT_ETC/wsl.conf" ]; then
-        sudo install -b -C -m 0644 -T "$DOT_ETC/wsl.conf" /etc/wsl.conf
+    if [ -f "$CUSTOM/etc/wsl.conf" ]; then
+        source="$CUSTOM/etc/wsl.conf"
+    else
+        source="$DOT_ETC/wsl.conf"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf
     fi
 
 	return 0

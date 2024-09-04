@@ -16,8 +16,14 @@ fstab::install() { return 0; }
 #-------------------------------------------------------------------
 fstab::config()
 {
-    if [ -f "$DOT_ETC/fstab" ]; then
-        sudo install -b -C -m 0644 -T "$DOT_ETC/fstab" /etc/fstab
+    if [ -f "$CUSTOM/etc/fstab" ]; then
+        source="$CUSTOM/etc/fstab"
+    else
+        source="$DOT_ETC/fstab"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/fstab
     fi
 
 	return 0

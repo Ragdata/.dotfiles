@@ -1,0 +1,10 @@
+[wsl2]
+vmIdleTimeout = 60000
+nestedVirtualization = true
+debugConsole = false
+guiApplications = true
+swapFile = E:\\WSL\\.swap\\wsl-swap.vhdx
+swap = 8GB
+localhostForwarding = true
+processors = 2
+memory = 4GB

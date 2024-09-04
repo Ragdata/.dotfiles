@@ -4,13 +4,16 @@ ca-certificates
 curl
 dialog
 envsubst
+fstab
 git
 gnupg
 net-tools
+resolv
 software-properties-common
 unattended-upgrades
 unzip
 wget
+wsl
 wslu
 yq
 zip

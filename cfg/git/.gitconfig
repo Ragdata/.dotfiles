@@ -1,0 +1,14 @@
+[user]
+  name = Ragdata
+  email = ragdata@users.noreply.github.com
+  signingkey = 7B37B8A69B30915A
+[commit]
+  gpgsign = true
+[core]
+  fileMode = true
+[tag]
+  gpgsign = true
+[pull]
+  rebase = false
+[init]
+  defaultBranch = master

@@ -238,6 +238,7 @@ menu::install()
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Dependencies"
+		"2" "gitconfig"
 		"" ""
 		"X" "Back to Main Menu"
 	)

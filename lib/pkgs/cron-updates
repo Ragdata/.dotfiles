@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# bash-completion
+# cron-updates
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -8,30 +8,24 @@
 ####################################################################
 
 #-------------------------------------------------------------------
-# CHECK
-#-------------------------------------------------------------------
-bash-completion::check() { if command -v bash-completion &> /dev/null; then return 0; else return 1; fi }
-#-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-bash-completion::install()
+cron-updates::install()
 {
 	local result
 
-	sudo apt-get -qq -y install bash-completion; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	install -v -m 0755 -C -D -t /etc/cron.daily "$DOT_INC/cron/apt-update"; result=$?
 
 	return $result
 }
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-bash-completion::remove()
+cron-updates::remove()
 {
 	local result
 
-	sudo apt -qq -y purge bash-completion; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	rm -f /etc/cron.daily/apt-update; result=$?
 
 	return $result
 }

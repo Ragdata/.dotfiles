@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# bash-completion
+# unattended-upgrades
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -8,29 +8,36 @@
 ####################################################################
 
 #-------------------------------------------------------------------
-# CHECK
-#-------------------------------------------------------------------
-bash-completion::check() { if command -v bash-completion &> /dev/null; then return 0; else return 1; fi }
-#-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-bash-completion::install()
+unattended-upgrades::install()
 {
 	local result
 
-	sudo apt-get -qq -y install bash-completion; result=$?
+	sudo apt-get -qq -y install unattended-upgrades; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
 }
 #-------------------------------------------------------------------
-# REMOVE
+# CONFIG
 #-------------------------------------------------------------------
-bash-completion::remove()
+unattended-upgrades::config()
 {
 	local result
 
-	sudo apt -qq -y purge bash-completion; result=$?
+    sudo dpkg-reconfigure -plow unattended-upgrades; result=$?
+
+    return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+unattended-upgrades::remove()
+{
+	local result
+
+	sudo apt -qq -y purge unattended-upgrades; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

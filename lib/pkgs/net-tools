@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# bash-completion
+# net-tools
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -10,15 +10,15 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-bash-completion::check() { if command -v bash-completion &> /dev/null; then return 0; else return 1; fi }
+net-tools::check() { if command -v ifconfig &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-bash-completion::install()
+net-tools::install()
 {
 	local result
 
-	sudo apt-get -qq -y install bash-completion; result=$?
+	sudo apt-get -qq -y install net-tools; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -26,11 +26,11 @@ bash-completion::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-bash-completion::remove()
+net-tools::remove()
 {
 	local result
 
-	sudo apt -qq -y purge bash-completion; result=$?
+	sudo apt -qq -y purge net-tools; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

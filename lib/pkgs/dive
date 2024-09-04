@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# bash-completion
+# dive
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -10,15 +10,22 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-bash-completion::check() { if command -v bash-completion &> /dev/null; then return 0; else return 1; fi }
+dive::check() { if command -v dive &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-bash-completion::install()
+dive::install()
 {
-	local result
+	local result DIVE_VERSION
 
-	sudo apt-get -qq -y install bash-completion; result=$?
+	[[ ! -d "$XDG_DOWNLOAD_DIR" ]] && mkdir -p "$XDG_DOWNLOAD_DIR"
+
+	# get latest version tag
+	DIVE_VERSION=$(curl -s "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
+	# download latest Debian package
+	wget -O "$XDG_DOWNLOAD_DIR/dive.deb https://github.com/wagoodman/dive/releases/latest/download/dive_${DIVE_VERSION}_linux_amd64.deb"
+
+	sudo apt-get -qq -y install "$XDG_DOWNLOAD_DIR"/dive.deb; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -26,11 +33,11 @@ bash-completion::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-bash-completion::remove()
+dive::remove()
 {
 	local result
 
-	sudo apt -qq -y purge bash-completion; result=$?
+	sudo apt -qq -y purge dive; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

@@ -2,12 +2,14 @@ apt
 bash-completion
 ca-certificates
 curl
-software-properties-common
+dialog
+envsubst
 git
 gnupg
-envsubst
-dialog
+net-tools
+software-properties-common
 ubuntu-wsl
+unattended-upgrades
 wget
 wslu
 yq

@@ -118,7 +118,7 @@ If you like this repository, please give it a ⭐ (it really does help)
 
 </div>
 
-[codacy-grade]: https://img.shields.io/codacy/grade/bd98a6793c0445dca1b4f956411af511?labelColor=31383f
+[codacy-grade]: https://img.shields.io/codacy/grade/bd98a6793c0445dca1b4f956411af511?logo=codacy&labelColor=31383f
 [commit-badge]: https://img.shields.io/github/last-commit/ragdata/.dotfiles/master?logo=github&style=for-the-badge
 [github-stars]: https://img.shields.io/github/stars/ragdata/.dotfiles?style=social
 [issues-badge]: https://img.shields.io/github/issues-raw/ragdata/.dotfiles?style=for-the-badge&logo=github

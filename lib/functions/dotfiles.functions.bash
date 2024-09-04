@@ -16,7 +16,7 @@
 # DEPENDENCIES
 ####################################################################
 # required library files
-dot::include "log.functions" "dialog.functions"
+dot::include "log.functions"
 ####################################################################
 # DOTFILES MENU FUNCTIONS
 ####################################################################
@@ -52,6 +52,41 @@ dot::menu()
 dot::menu::install()
 {
     group 'dot'
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_TITLE="Install Menu"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
+		"1" "Install Dependencies"
+		"ESC" "Back to Main Menu"
+	)
+
+    trap 'clear' ERR
+
+	result=$(dialog \
+		--ok-label "${OK_LABEL:-"OK"}" \
+		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" \
+		--title "${DIALOG_TITLE}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
+				1)	dot::install::deps;;
+			esac
+			;;
+		"$DIALOG_CANCEL")
+			exit 0;;
+		"$DIALOG_ESC")
+			dot::menu;;
+	esac
 }
 ####################################################################
 # DOTFILES FUNCTIONS
@@ -72,6 +107,85 @@ dot::set()
 dot::install::deps()
 {
 	group 'dot'
+
+	local result
+
+	debugLog "${FUNCNAME[0]}"
+
+	if ! command -v add-apt-repository &> /dev/null; then
+		echoDot "Installing package 'software-properties-common' - " -s "✚" -c "${GOLD}" -n
+		sudo apt-get -qq -y install software-properties-common; result=$?
+		if [ "$result" -eq 0 ]; then
+			log::info "Package installed successfully"
+			echoAlias "OK" -c "${LT_GREEN}"
+		else
+			log::error "Package 'software-properties-common' failed to install"
+			echoAlias "FAILED!" -c "${RED}"
+		fi
+	fi
+
+	if [ -f "$DOT_CFG/data/repositories.list" ]; then
+		echoDot "Adding configured repositories" -s "➤" -c "${GOLD}"
+		while IFS= read -r line
+		do
+			echoDot "$line - " -s "✚" -n
+			sudo add-apt-repository "$line"; result=$?
+			if [ "$result" -eq 0 ]; then
+				log::info "Repository added successfully"
+				echoAlias "OK" -c "${LT_GREEN}"
+			else
+				log::error "Failed to add repository '$line'"
+				echoAlias "FAILED!" -c "${RED}"
+			fi
+		done < "$DOT_CFG/data/repositories.list"
+	fi
+
+	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
+		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
+		while IFS= read -r line
+		do
+			if [ -f "$PKGS/$line" ]; then
+				dot::include "$line"
+				if [[ "$(type -t "$line::install")" ]]; then
+					echoDot "Installing '$line' using package file - " -s "✚" -n
+					eval "$line::install"; result=$?
+				else
+					echoDot "Installing '$line' using apt-get - " -s "✚" -n
+					sudo apt-get -qq -y install "$line"; result=$?
+				fi
+				if [ "$result" -eq 0 ]; then
+					log::info "Package '$line' installed successfully"
+					echoAlias "OK" -c "${LT_GREEN}"
+				else
+					log::error "Package '$line' failed to install"
+					echoAlias "FAILED!" -c "${RED}"
+				fi
+				if [ "$result" -eq 0 ]; then
+					if [[ "$(type -t "$line::config")" ]]; then
+						echoDot "Configuring '$line' - " -s "★" -n
+						eval "$line::config"; result=$?
+						if [ "$result" -eq 0 ]; then
+							log::info "Package '$line' configured successfully"
+							echoAlias "OK" -c "${LT_GREEN}"
+						else
+							log::error "Failed to configure package '$line'"
+							echoAlias "FAILED!" -c "${RED}"
+						fi
+					fi
+				fi
+			else
+				echoDot "Installing '$line' using apt-get - " -s "✚" -n
+				sudo apt-get -qq -y install "$line"; result=$?
+				if [ "$result" -eq 0 ]; then
+					log::info "Package '$line' installed successfully"
+					echoAlias "OK" -c "${LT_GREEN}"
+				else
+					log::error "Package '$line' failed to install"
+					echoAlias "FAILED!" -c "${RED}"
+				fi
+			fi
+		done < "$DOT_CFG/data/dependencies.list"
+	fi
 }
 # ------------------------------------------------------------------
 # dot::install
@@ -79,6 +193,8 @@ dot::install::deps()
 dot::install()
 {
 	group 'dot'
+
+	dot::install::deps
 }
 ####################################################################
 # DOTFILES UPDATE FUNCTIONS
@@ -96,7 +212,7 @@ dot::update::sys()
 
 	echoHead "Updating Package Cache"
 	sudo apt-get -qq -y update; result=$?
-	if [ "$result" -eq 0 ]; then 
+	if [ "$result" -eq 0 ]; then
 		log::info "Package cache updated successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else
@@ -106,7 +222,7 @@ dot::update::sys()
 
 	echoHead "Upgrading System Files"
 	sudo apt-get -qq -y full-upgrade; result=$?
-	if [ "$result" -eq 0 ]; then 
+	if [ "$result" -eq 0 ]; then
 		log::info "System files upgraded successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else
@@ -213,6 +329,8 @@ dot::update()
 	dot::update::repo
 	dot::update::bin
 	dot::update::dots
+
+	read -n 1 -s -r -p "Press any key to continue ..."
 
 	dot::menu
 }

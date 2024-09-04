@@ -36,6 +36,7 @@ menu()
 		"1" "Install Menu"
 		"2" "Update Menu"
 		"3" "WSL Menu"
+		"" ""
 		"4" "Help Menu"
 		"5" "Settings"
 		"" ""

@@ -29,7 +29,7 @@ menu()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="MAIN MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -80,7 +80,7 @@ menu::config()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="SETTINGS MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -125,7 +125,7 @@ menu::config::theme()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="THEME MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -189,7 +189,7 @@ menu::help()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="HELP MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -230,7 +230,7 @@ menu::install()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="INSTALL MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -275,7 +275,7 @@ menu::update()
 	debugLog "${FUNCNAME[0]}"
 
 	local result
-	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="UPDATE MENU"
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
@@ -305,6 +305,47 @@ menu::update()
 				1)	dot::update;;
 				2)	dot::update::sys;;
 
+				X)	menu;;
+			esac
+			;;
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
+			exit 0;;
+	esac
+}
+# ------------------------------------------------------------------
+# menu::wsl
+# ------------------------------------------------------------------
+menu::wsl()
+{
+    group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
+	local DIALOG_TITLE="WSL MENU"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
+		"X" "Back to Main Menu"
+	)
+
+    trap 'clear' ERR
+
+	result=$(dialog \
+		--ok-label "${OK_LABEL:-"OK"}" \
+		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" \
+		--title "${DIALOG_TITLE}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
 				X)	menu;;
 			esac
 			;;

@@ -45,6 +45,8 @@ declare -x LOG_SYSLOG LOG_SIZE LOG_BACKUPS LOG_ARCHIVE LOG_LEVEL DOT_DEBUG=0
 
 declare -x NODE_IPv4 NODE_HOSTNAME GIT_USER GIT_EMAIL GPG_EMAIL GPG_KEYID SIGN_COMMITS
 
+DOTFILES_VERSION="v0.1.0"
+
 DOTFILES="$HOME/.dotfiles"
 
 DOT_BIN="$DOTFILES/bin"
@@ -121,16 +123,16 @@ TERM_ST="${TERM_ESC}\\"
 #
 # SYMBOLS
 #
-# ➤ ➜ 🡆 🠶 ▶ ▷ 
+# ➤ ➜ 🡆 🠶 ▶ ▷
 # ✖ 🞮 ✗ ✘ 🗴 🛇 ⮾ ⮿
-# ✓ ✔ 🗸 
+# ✓ ✔ 🗸
 # ☐ ☑ ☒ 🗹
-# • ⦁ ● 
+# • ⦁ ●
 # ⮋ ⮈ ⮊ ⮉ ⮟
-# ⚠ 🛆 🛈 ⯑ 
-# ✚ ⚑ 
-# ★ ☆ 
-# ☠ ☢ ☣ ☮ ☯ ♻ 
+# ⚠ 🛆 🛈 ⯑
+# ✚ ⚑
+# ★ ☆
+# ☠ ☢ ☣ ☮ ☯ ♻
 #
 SYMBOL_ERROR="✘"
 SYMBOL_WARNING="🛆"

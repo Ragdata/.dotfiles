@@ -36,6 +36,9 @@ dot::menu()
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Menu"
 		"2" "Update Menu"
+		"3" "Settings"
+
+		"Q" "Quit"
 	)
 
     trap 'clear' ERR
@@ -57,6 +60,50 @@ dot::menu()
 			case "$result" in
 				1)	dot::menu::install;;
 				2)	dot::menu::update;;
+				3)	dot::menu::config;;
+
+				Q)	exit 0;;
+			esac
+			;;
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
+			exit 0;;
+	esac
+}
+# ------------------------------------------------------------------
+# dot::menu::config
+# ------------------------------------------------------------------
+dot::menu::config()
+{
+    group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_TITLE="Settings Menu"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
+		"X" "Back to Main Menu"
+	)
+
+    trap 'clear' ERR
+
+	result=$(dialog \
+		--ok-label "${OK_LABEL:-"OK"}" \
+		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" \
+		--title "${DIALOG_TITLE}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
+				X)	dot::menu;;
 			esac
 			;;
 		"$DIALOG_CANCEL"|"$DIALOG_ESC")
@@ -78,7 +125,8 @@ dot::menu::install()
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Dependencies"
-		"ESC" "Back to Main Menu"
+		"" ""
+		"X" "Back to Main Menu"
 	)
 
     trap 'clear' ERR
@@ -99,12 +147,12 @@ dot::menu::install()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	dot::install::deps;;
+
+				X)	dot::menu;;
 			esac
 			;;
-		"$DIALOG_CANCEL")
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
 			exit 0;;
-		"$DIALOG_ESC")
-			dot::menu;;
 	esac
 }
 # ------------------------------------------------------------------
@@ -123,7 +171,8 @@ dot::menu::update()
 	local -a DIALOG_OPTIONS=(
 		"1" "Update Dotfiles"
 		"2" "Update System"
-		"ESC" "Back to Main Menu"
+		"" ""
+		"X" "Back to Main Menu"
 	)
 
     trap 'clear' ERR
@@ -145,12 +194,12 @@ dot::menu::update()
 			case "$result" in
 				1)	dot::update;;
 				2)	dot::update::sys;;
+
+				X)	dot::menu;;
 			esac
 			;;
-		"$DIALOG_CANCEL")
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
 			exit 0;;
-		"$DIALOG_ESC")
-			dot::menu;;
 	esac
 }
 ####################################################################
@@ -210,6 +259,12 @@ dot::install()
 	group 'dot'
 
 	dot::install::deps
+
+	echo ""
+
+	read -n 1 -s -r -p "Press any key to continue ..."
+
+	dot::menu
 }
 ####################################################################
 # DOTFILES UPDATE FUNCTIONS
@@ -227,7 +282,7 @@ dot::update::sys()
 
 	echoHead "Updating Package Cache"
 	sudo apt-get -qq -y update; result=$?
-	if [ "$result" -eq 0 ]; then 
+	if [ "$result" -eq 0 ]; then
 		log::info "Package cache updated successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else
@@ -237,7 +292,7 @@ dot::update::sys()
 
 	echoHead "Upgrading System Files"
 	sudo apt-get -qq -y full-upgrade; result=$?
-	if [ "$result" -eq 0 ]; then 
+	if [ "$result" -eq 0 ]; then
 		log::info "System files upgraded successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else

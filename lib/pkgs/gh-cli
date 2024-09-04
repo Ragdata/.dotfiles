@@ -1,0 +1,41 @@
+# shellcheck shell=bash
+####################################################################
+# gh-cli
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+gh-cli::check() { if command -v gh-cli &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+gh-cli::install()
+{
+	local result
+
+	wget https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+	sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+	sudo apt-get -qq -y install gh; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+gh-cli::remove()
+{
+	local result
+
+	sudo apt -qq -y purge gh; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

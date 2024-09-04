@@ -1,0 +1,51 @@
+# shellcheck shell=bash
+####################################################################
+# sysstat
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+sysstat::check() { if command -v sysstat &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+sysstat::install()
+{
+	local result
+
+	sudo apt-get -qq -y install sysstat; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+sysstat::config()
+{
+	local result
+
+	sudo sed -i '/^ENABLED.*/c\ENABLED="true"' /etc/default/sysstat
+
+    sudo systemctl enable sysstat
+    sudo systemctl start sysstat; result=$?
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+sysstat::remove()
+{
+	local result
+
+	sudo apt -qq -y purge sysstat; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

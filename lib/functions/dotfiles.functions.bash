@@ -41,6 +41,8 @@ dot::install::deps()
 
 	debugLog "${FUNCNAME[0]}"
 
+	xdg-user-dirs-update
+
 	if ! command -v add-apt-repository &> /dev/null; then
 		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
 		sudo apt-get -qq -y install software-properties-common; result=$?
@@ -219,5 +221,5 @@ dot::update()
 
 	read -n 1 -s -r -p "Press any key to continue ..."
 
-	menu
+	bash -i
 }

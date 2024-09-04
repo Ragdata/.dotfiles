@@ -1,0 +1,48 @@
+# shellcheck shell=bash
+####################################################################
+# logrotate
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+logrotate::check() { if command -v logrotate &> /dev/null; then return 0; else return 1; fi }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+logrotate::install()
+{
+	local result
+
+	sudo apt-get -qq -y install logrotate; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+logrotate::config()
+{
+	local result
+
+	sudo cp "$DOT_INC/logrotate/logrotate-traefik.conf" /etc/logrotate.d/traefik
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+logrotate::remove()
+{
+	local result
+
+	sudo apt -qq -y purge logrotate; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

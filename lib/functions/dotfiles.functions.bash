@@ -56,11 +56,10 @@ dot::menu()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	dot::menu::install;;
+				2)	dot::menu::update;;
 			esac
 			;;
-		"$DIALOG_CANCEL")
-			exit 0;;
-		"$DIALOG_ESC")
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
 			exit 0;;
 	esac
 }

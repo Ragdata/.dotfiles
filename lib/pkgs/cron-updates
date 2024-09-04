@@ -1,0 +1,31 @@
+# shellcheck shell=bash
+####################################################################
+# cron-updates
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+cron-updates::install()
+{
+	local result
+
+	install -v -m 0755 -C -D -t /etc/cron.daily "$DOT_INC/cron/apt-update"; result=$?
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+cron-updates::remove()
+{
+	local result
+
+	rm -f /etc/cron.daily/apt-update; result=$?
+
+	return $result
+}

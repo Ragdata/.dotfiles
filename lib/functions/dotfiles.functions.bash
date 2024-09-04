@@ -27,24 +27,42 @@ dot::menu()
 {
     group 'dot'
 
-	local -A CFG
-	local -a MENUOPTS
-	local selected status
+	debugLog "${FUNCNAME[0]}"
 
-	CFG['ok']="OK"
-	CFG['cancel']="Cancel"
-	CFG['backtitle']="Ragdata's Dotfiles"
-	CFG['title']="Main Menu"
-	CFG['text']="Select from the following options:"
-	# CFG['ht']=""
-	# CFG['wt']=""
-	# CFG['menuHt']=""
-
-	MENUOPTS=(
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_TITLE="Main Menu"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
 		"1" "Install Menu"
-		"2" "Update Menu")
+		"2" "Update Menu"
+	)
 
-	dialog::menu CFG MENUOPTS selected; status=$?
+    trap 'clear' ERR
+
+	result=$(dialog \
+		--ok-label "${OK_LABEL:-"OK"}" \
+		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" \
+		--title "${DIALOG_TITLE}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
+				1)	dot::menu::install;;
+			esac
+			;;
+		"$DIALOG_CANCEL")
+			exit 0;;
+		"$DIALOG_ESC")
+			exit 0;;
+	esac
 }
 # ------------------------------------------------------------------
 # dot::menu::install
@@ -52,6 +70,8 @@ dot::menu()
 dot::menu::install()
 {
     group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
@@ -80,6 +100,52 @@ dot::menu::install()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	dot::install::deps;;
+			esac
+			;;
+		"$DIALOG_CANCEL")
+			exit 0;;
+		"$DIALOG_ESC")
+			dot::menu;;
+	esac
+}
+# ------------------------------------------------------------------
+# dot::menu::update
+# ------------------------------------------------------------------
+dot::menu::update()
+{
+    group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles"
+	local DIALOG_TITLE="Update Menu"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
+		"1" "Update Dotfiles"
+		"2" "Update System"
+		"ESC" "Back to Main Menu"
+	)
+
+    trap 'clear' ERR
+
+	result=$(dialog \
+		--ok-label "${OK_LABEL:-"OK"}" \
+		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" \
+		--title "${DIALOG_TITLE}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
+				1)	dot::update;;
+				2)	dot::update::sys;;
 			esac
 			;;
 		"$DIALOG_CANCEL")
@@ -279,6 +345,8 @@ dot::update()
 	dot::update::repo
 	dot::update::bin
 	dot::update::dots
+
+	echo ""
 
 	read -n 1 -s -r -p "Press any key to continue ..."
 

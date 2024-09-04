@@ -35,9 +35,10 @@ menu()
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Menu"
 		"2" "Update Menu"
-		"3" "Help Menu"
-		"4" "Settings"
-
+		"3" "WSL Menu"
+		"4" "Help Menu"
+		"5" "Settings"
+		"" ""
 		"Q" "Quit"
 	)
 
@@ -60,8 +61,9 @@ menu()
 			case "$result" in
 				1)	menu::install;;
 				2)	menu::update;;
-				3)	menu::help;;
-				4)	menu::config;;
+				3)	menu::wsl;;
+				4)	menu::help;;
+				5)	menu::config;;
 
 				Q)	exit 0;;
 			esac

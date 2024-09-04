@@ -16,7 +16,7 @@
 # DEPENDENCIES
 ####################################################################
 # required library files
-dot::include "log.functions"
+dot::include "log.functions" "pkg.functions"
 ####################################################################
 # DOTFILES MENU FUNCTIONS
 ####################################################################
@@ -113,7 +113,7 @@ dot::install::deps()
 	debugLog "${FUNCNAME[0]}"
 
 	if ! command -v add-apt-repository &> /dev/null; then
-		echoDot "Installing package 'software-properties-common' - " -s "✚" -c "${GOLD}" -n
+		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
 		sudo apt-get -qq -y install software-properties-common; result=$?
 		if [ "$result" -eq 0 ]; then
 			log::info "Package installed successfully"
@@ -128,63 +128,13 @@ dot::install::deps()
 		echoDot "Adding configured repositories" -s "➤" -c "${GOLD}"
 		while IFS= read -r line
 		do
-			echoDot "$line - " -s "✚" -n
-			sudo add-apt-repository "$line"; result=$?
-			if [ "$result" -eq 0 ]; then
-				log::info "Repository added successfully"
-				echoAlias "OK" -c "${LT_GREEN}"
-			else
-				log::error "Failed to add repository '$line'"
-				echoAlias "FAILED!" -c "${RED}"
-			fi
+			pkg::addRepo "$line"
 		done < "$DOT_CFG/data/repositories.list"
 	fi
 
 	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
 		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
-		while IFS= read -r line
-		do
-			if [ -f "$PKGS/$line" ]; then
-				dot::include "$line"
-				if [[ "$(type -t "$line::install")" ]]; then
-					echoDot "Installing '$line' using package file - " -s "✚" -n
-					eval "$line::install"; result=$?
-				else
-					echoDot "Installing '$line' using apt-get - " -s "✚" -n
-					sudo apt-get -qq -y install "$line"; result=$?
-				fi
-				if [ "$result" -eq 0 ]; then
-					log::info "Package '$line' installed successfully"
-					echoAlias "OK" -c "${LT_GREEN}"
-				else
-					log::error "Package '$line' failed to install"
-					echoAlias "FAILED!" -c "${RED}"
-				fi
-				if [ "$result" -eq 0 ]; then
-					if [[ "$(type -t "$line::config")" ]]; then
-						echoDot "Configuring '$line' - " -s "★" -n
-						eval "$line::config"; result=$?
-						if [ "$result" -eq 0 ]; then
-							log::info "Package '$line' configured successfully"
-							echoAlias "OK" -c "${LT_GREEN}"
-						else
-							log::error "Failed to configure package '$line'"
-							echoAlias "FAILED!" -c "${RED}"
-						fi
-					fi
-				fi
-			else
-				echoDot "Installing '$line' using apt-get - " -s "✚" -n
-				sudo apt-get -qq -y install "$line"; result=$?
-				if [ "$result" -eq 0 ]; then
-					log::info "Package '$line' installed successfully"
-					echoAlias "OK" -c "${LT_GREEN}"
-				else
-					log::error "Package '$line' failed to install"
-					echoAlias "FAILED!" -c "${RED}"
-				fi
-			fi
-		done < "$DOT_CFG/data/dependencies.list"
+		pkg::installList "dependencies" "$DOT_CFG/data"
 	fi
 }
 # ------------------------------------------------------------------
@@ -212,7 +162,7 @@ dot::update::sys()
 
 	echoHead "Updating Package Cache"
 	sudo apt-get -qq -y update; result=$?
-	if [ "$result" -eq 0 ]; then
+	if [ "$result" -eq 0 ]; then 
 		log::info "Package cache updated successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else
@@ -222,7 +172,7 @@ dot::update::sys()
 
 	echoHead "Upgrading System Files"
 	sudo apt-get -qq -y full-upgrade; result=$?
-	if [ "$result" -eq 0 ]; then
+	if [ "$result" -eq 0 ]; then 
 		log::info "System files upgraded successfully"
 		echoDot "OK" -c "${LT_GREEN}"
 	else

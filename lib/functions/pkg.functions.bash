@@ -59,7 +59,9 @@ pkg()
 {
     group 'pkg'
 
-	(($# < 2)) && errorExit "No package requested for installation"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 2)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" options
 
@@ -123,19 +125,22 @@ pkg::addRepo()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
 
-	local repo result
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	for repo in "$@"
-	do
-		echoInfo "Adding APT repository '$repo': " -n
-		sudo add-apt-repository -qq -y "$repo"; result=$?
-	done
+	local repo="$1" result
 
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	echoDot "Adding repository '$repo': " -s "✚" -n
+	sudo add-apt-repository -qq -y "$repo"; result=$?
 
-	return $result
+	if [[ "$result" -eq 0 ]]; then 
+		log::info "Repository '$repo' added successfully"
+		echoAlias "OK" -c "${LT_GREEN}"
+	else
+		log::error "Failed to add repository '$repo'"
+		echoAlias "FAILED!" -c "${RED}"
+	fi
 }
 # ------------------------------------------------------------------
 # pkg::auto
@@ -163,19 +168,17 @@ pkg::check()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No packages requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" func result
 
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::check"
-			[[ $(type -t "$func") == "function" ]] || errorExit "'$func' is not a function"
-			eval "$func"; result=$?; return "$result"
-		else
-			errorExit "Unable to import pkg file '$PKGS/$pkg'"
-		fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::check"
+		[[ $(type -t "$func") == "function" ]] || return 0
+		eval "$func"; result=$?; return "$result"
 	else
 		# perform a generic test if there's no pkg file available
 		if command -v "$pkg" &> /dev/null; then return 0; else return 1; fi
@@ -188,20 +191,30 @@ pkg::config()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No packages requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" func result
 
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::config"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; return "$result"
-			fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::config"
+		[[ $(type -t "$func") == "function" ]] || return 0
+		echoDot "Configuring '$pkg' - " -s "•" -n
+		eval "$func"; result=$?
+
+		if [[ "$result" -eq 0 ]]; then 
+			log::info "Package '$pkg' configured successfully"
+			echoAlias "OK" -c "${LT_GREEN}"
 		else
-			errorExit "Unable to import pkg file '$PKGS/$pkg'"
+			log::error "Failed to configure package '$pkg'"
+			echoAlias "FAILED!" -c "${RED}"
 		fi
+
+		func="$pkg::post_config"
+		[[ $(type -t "$func") == "function" ]] || return 0
+		eval "$func"
 	fi
 	# no penalty for not having a config function
 	return 0
@@ -213,37 +226,43 @@ pkg::download()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
 		if [[ ! -d "$dir" ]]; then
-			mkdir -p "$dir" || errorExit "Unable to create directory '$dir'"
+			mkdir -p "$dir" || exitLog "Unable to create directory '$dir'"
 		fi
-		cd "$dir" || errorExit "Unable to switch to directory '$dir'"
+		cd "$dir" || exitLog "Unable to switch to directory '$dir'"
 	fi
-
-	echoInfo "Downloading '$pkg': " -n
 
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::download"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::download"
+		if [[ $(type -t "$func") == "function" ]]; then
+			echoDot "Downloading '$pkg' - " -s "⮟" -n
+			eval "$func"; result=$?; tested=1
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y download "$pkg"; result=$?; fi
+	if ((tested == 0)); then
+		echoDot "Downloading '$pkg' - " -s "⮟" -n
+		sudo apt-get -qq -y download "$pkg"; result=$?
+	fi
 
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	if [[ "$result" -eq 0 ]]; then 
+		log::info "Package '$pkg' downloaded successfully"
+		echoAlias "OK" -c "${LT_GREEN}"
+	else
+		log::error "Failed to download package '$pkg'"
+		echoAlias "FAILED!" -c "${RED}"
+	fi
 
-	if [[ -n "$dir" ]]; then cd - || errorExit "Unable to return to previous directory"; fi
-
-	return $result
+	if [[ -n "$dir" ]]; then cd - || exitLog "Unable to return to previous directory"; fi
 }
 # ------------------------------------------------------------------
 # pkg::findPkg
@@ -252,7 +271,9 @@ pkg::findPkg()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "cowardly refusing to search for nothing!"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	sudo apt-cache search "$1"
 }
@@ -263,31 +284,40 @@ pkg::install()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" tested=0 func result
 
-	echoInfo "Installing '$pkg': " -n
-
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::install"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::install"
+		if [[ $(type -t "$func") == "function" ]]; then
+			echoDot "Installing '$pkg' - " -s "✚" -n
+			eval "$func"; result=$?; tested=1
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y install "$pkg"; result=$?; fi
+	if ((tested == 0)); then
+		echoDot "Installing '$pkg' - " -s "✚" -n
+		sudo apt-get -qq -y install "$pkg"; result=$?
+	fi
 
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
+	if [[ "$result" -eq 0 ]]; then 
+		log::info "Package '$pkg' installed successfully"
+		echoAlias "OK" -c "${LT_GREEN}"
+	else
+		log::error "Failed to install package '$pkg'"
+		echoAlias "FAILED!" -c "${RED}"
+	fi
 
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
-	return $result
+	func="$pkg::post_install"
+	if [[ $(type -t "$func") == "function" ]]; then eval "$func"; fi
+
+	pkg::config "$pkg"
 }
 # ------------------------------------------------------------------
 # pkg::installList
@@ -296,13 +326,15 @@ pkg::installList()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "Missing Argument!"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local name="$1"
 	local path="${2:-"$DOT_CFG/data"}"
 	declare -a packages
 
-	[ -f "$path/$name.list" ] || errorExit "Cannot find list file '$path/$name.list'"
+	[ -f "$path/$name.list" ] || exitLog "Cannot find list file '$path/$name.list'"
 
 	readarray packages < "$path/$name.list"
 
@@ -315,7 +347,9 @@ pkg::listPkg()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "Missing Argument!"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local cmd
 
@@ -326,8 +360,7 @@ pkg::listPkg()
 		-i | --installed | installed)
 			cmd="sudo apt list --installed"
 			;;
-		*)
-			errorExit "Invalid Argument!"
+		*)	exitLog "Invalid Argument!"
 			;;
 	esac
 
@@ -338,73 +371,69 @@ pkg::listPkg()
 	fi
 }
 # ------------------------------------------------------------------
-# pkg::reinstall
-# ------------------------------------------------------------------
-pkg::reinstall()
-{
-    group 'pkg'
-
-	(($# < 1)) && errorExit "No package requested for processing"
-
-	local pkg="$1" tested=0 func result
-
-	echoInfo "Reinstalling '$pkg': " -n
-
-	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::reinstall"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
-		fi
-	fi
-
-	if ((tested == 0)); then sudo apt-get -qq -y reinstall "$pkg"; result=$?; fi
-
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-
-	return $result
-}
-# ------------------------------------------------------------------
 # pkg::remove
 # ------------------------------------------------------------------
 pkg::remove()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" tested=0 func result
 
-	echoInfo "Removing '$pkg': " -n
-
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::remove"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::remove"
+		if [[ $(type -t "$func") == "function" ]]; then
+			echoDot "Removing '$pkg' - " -s "🞮" -n
+			eval "$func"; result=$?; tested=1
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y purge "$pkg"; result=$?; fi
+	if ((tested == 0)); then
+		echoDot "Removing '$pkg' - " -s "🞮" -n
+		sudo apt-get -qq -y purge "$pkg"; result=$?
+	fi
 
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
-
-	echoInfo "Running garbage collection"
+	if [[ "$result" -eq 0 ]]; then 
+		log::info "Package '$pkg' removed successfully"
+		echoAlias "OK" -c "${LT_GREEN}"
+	else
+		log::error "Failed to remove package '$pkg'"
+		echoAlias "FAILED!" -c "${RED}"
+	fi
 
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
-	return $result
+	func="$pkg::post_remove"
+	[[ $(type -t "$func") == "function" ]] || return 0
+	eval "$func"
 }
 # ------------------------------------------------------------------
-# pkg::remove
+# pkg::removeList
+# ------------------------------------------------------------------
+pkg::removeList()
+{
+    group 'pkg'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local name="$1"
+	local path="${2:-"$DOT_CFG/data"}"
+	declare -a packages
+
+	[ -f "$path/$name.list" ] || exitLog "Cannot find list file '$path/$name.list'"
+
+	readarray packages < "$path/$name.list"
+
+	pkgRemove "${packages[@]}"
+}
+# ------------------------------------------------------------------
+# pkg::repair
 # ------------------------------------------------------------------
 pkg::repair() { group 'pkg'; sudo apt-get -qq -y check; return $?; }
 # ------------------------------------------------------------------
@@ -414,7 +443,9 @@ pkg::showPkg()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "cowardly refusing to show nothing!"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "cowardly refusing to show nothing!"
 
 	sudo apt-cache show "$1"
 }
@@ -425,37 +456,43 @@ pkg::source()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg="$1" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
 		if [[ ! -d "$dir" ]]; then
-			mkdir -p "$dir" || errorExit "Unable to create directory '$dir'"
+			mkdir -p "$dir" || exitLog "Unable to create directory '$dir'"
 		fi
-		cd "$dir" || errorExit "Unable to switch to directory '$dir'"
+		cd "$dir" || exitLog "Unable to switch to directory '$dir'"
 	fi
-
-	echoInfo "Downloading '$pkg' source: " -n
 
 	if [ -f "$PKGS/$pkg" ]; then
-		# Import the pkg file if one exists
-		if dotInclude "$PKGS/$pkg"; then
-			func="$pkg::source"
-			if [[ $(type -t "$func") == "function" ]]; then
-				eval "$func"; result=$?; tested=1
-			fi
+		dot::include "$PKGS/$pkg"
+		func="$pkg::source"
+		if [[ $(type -t "$func") == "function" ]]; then
+			echoDot "Downloading '$pkg' source - " -s "⮟" -n
+			eval "$func"; result=$?; tested=1
 		fi
 	fi
 
-	if ((tested == 0)); then sudo apt-get -qq -y source "$pkg"; result=$?; fi
+	if ((tested == 0)); then
+		echoDot "Downloading '$pkg' source - " -s "⮟" -n
+		sudo apt-get -qq -y download "$pkg"; result=$?
+	fi
 
-	if [[ "$result" -eq 0 ]]; then echoSuccess "SUCCESS!"; else echoWarning "FAILED!"; fi
+	if [[ "$result" -eq 0 ]]; then 
+		log::info "Package '$pkg' sourced successfully"
+		echoAlias "OK" -c "${LT_GREEN}"
+	else
+		log::error "Failed to source package '$pkg'"
+		echoAlias "FAILED!" -c "${RED}"
+	fi
 
-	if [[ -n "$dir" ]]; then cd - || errorExit "Unable to return to previous directory"; fi
-
-	return $result
+	if [[ -n "$dir" ]]; then cd - || exitLog "Unable to return to previous directory"; fi
 }
 # ------------------------------------------------------------------
 # pkg::update
@@ -464,11 +501,29 @@ pkg::update() { group 'pkg'; sudo apt-get -qq -y update; return $?; }
 # ------------------------------------------------------------------
 # pkg::upgrade
 # ------------------------------------------------------------------
-pkg::upgrade() { group 'pkg'; sudo apt-get -qq -y update && sudo apt-get -qq -y upgrade; return $?; }
+pkg::upgrade() { group 'pkg'; sudo apt-get -qq -y update && sudo apt-get -qq -y full-upgrade; return $?; }
 
 ####################################################################
 # BULK HANDLERS
 ####################################################################
+# ------------------------------------------------------------------
+# pkgAddRepos
+# ------------------------------------------------------------------
+pkgAddRepos()
+{
+    group 'pkg'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local repo result
+
+	for repo in "$@"
+	do
+		pkg::addRepo "$repo"
+	done
+}
 # ------------------------------------------------------------------
 # pkgInstall
 # ------------------------------------------------------------------
@@ -476,7 +531,9 @@ pkgInstall()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg
 
@@ -492,7 +549,9 @@ pkgRemove()
 {
     group 'pkg'
 
-	(($# < 1)) && errorExit "No package requested for processing"
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local pkg
 

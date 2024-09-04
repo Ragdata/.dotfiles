@@ -16,7 +16,7 @@
 # DEPENDENCIES
 ####################################################################
 # required library files
-dot::include "log.functions" "pkg.functions"
+dot::include "log.functions" "pkg.functions" "menu.functions"
 ####################################################################
 # DOTFILES FUNCTIONS
 ####################################################################

@@ -6,5 +6,5 @@ guiApplications = true
 swapFile = E:\\WSL\\.swap\\wsl-swap.vhdx
 swap = 8GB
 localhostForwarding = true
-processors = 2
+processors = 4
 memory = 4GB

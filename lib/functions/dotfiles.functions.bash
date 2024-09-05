@@ -37,9 +37,9 @@ dot::install::deps()
 {
 	group 'dot'
 
-	local result
-
 	debugLog "${FUNCNAME[0]}"
+
+	local result
 
 	xdg-user-dirs-update
 
@@ -67,6 +67,51 @@ dot::install::deps()
 		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
 		pkg::installList "dependencies" "$DOT_CFG/data"
 	fi
+}
+# ------------------------------------------------------------------
+# dot::config::pkg
+# ------------------------------------------------------------------
+dot::config::pkg()
+{
+	group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local pkg="${1?}" result
+
+	pkg::config "$pkg"
+}
+# ------------------------------------------------------------------
+# dot::install::pkg
+# ------------------------------------------------------------------
+dot::install::pkg()
+{
+	group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local pkg="${1?}" result
+
+	pkg::install "$pkg"
+}
+# ------------------------------------------------------------------
+# dot::remove::pkg
+# ------------------------------------------------------------------
+dot::remove::pkg()
+{
+	group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local pkg="${1?}" result
+
+	pkg::remove "$pkg"
 }
 # ------------------------------------------------------------------
 # dot::install

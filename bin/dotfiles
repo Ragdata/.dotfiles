@@ -45,9 +45,16 @@ dot::include "dotfiles.functions"
 ####################################################################
 
 case "${1:-}" in
-	enable)
+	config)
+		case "${2:-}" in
+			pkg|package)
+				dot::config::pkg "${3?}";;
+			*)	menu::config;;
+		esac
 		;;
 	disable)
+		;;
+	enable)
 		;;
 	help)
 		;;
@@ -55,6 +62,8 @@ case "${1:-}" in
 		case "${2:-}" in
 			deps|dependencies)
 				dot::install::deps;;
+			pkg|package)
+				dot::install::pkg "${3?}";;
 			*)	menu::install;;
 		esac
 		;;
@@ -63,6 +72,12 @@ case "${1:-}" in
 	preview)
 		;;
 	profile)
+		;;
+	remove)
+		case "${2:-}" in
+			pkg|package)
+				dot::remove::pkg "${3?}";;
+		esac
 		;;
 	restart)
 		;;

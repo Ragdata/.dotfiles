@@ -3,6 +3,7 @@ bash-completion
 ca-certificates
 curl
 dialog
+dos2unix
 envsubst
 git
 gnupg
@@ -11,6 +12,7 @@ software-properties-common
 unattended-upgrades
 unzip
 wget
+#wsl2-boot
 wslu
 yq
 zip

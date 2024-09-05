@@ -134,7 +134,7 @@ pkg::addRepo()
 	echoDot "Adding repository '$repo': " -s "✚" -n
 	sudo add-apt-repository -qq -y "$repo"; result=$?
 
-	if [[ "$result" -eq 0 ]]; then 
+	if [[ "$result" -eq 0 ]]; then
 		log::info "Repository '$repo' added successfully"
 		echoAlias "OK" -c "${LT_GREEN}"
 	else
@@ -204,7 +204,7 @@ pkg::config()
 		echoDot "Configuring '$pkg' - " -s "•" -n
 		eval "$func"; result=$?
 
-		if [[ "$result" -eq 0 ]]; then 
+		if [[ "$result" -eq 0 ]]; then
 			log::info "Package '$pkg' configured successfully"
 			echoAlias "OK" -c "${LT_GREEN}"
 		else
@@ -254,7 +254,7 @@ pkg::download()
 		sudo apt-get -qq -y download "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then 
+	if [[ "$result" -eq 0 ]]; then
 		log::info "Package '$pkg' downloaded successfully"
 		echoAlias "OK" -c "${LT_GREEN}"
 	else
@@ -304,7 +304,7 @@ pkg::install()
 		sudo apt-get -qq -y install "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then 
+	if [[ "$result" -eq 0 ]]; then
 		log::info "Package '$pkg' installed successfully"
 		echoAlias "OK" -c "${LT_GREEN}"
 	else
@@ -397,7 +397,7 @@ pkg::remove()
 		sudo apt-get -qq -y purge "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then 
+	if [[ "$result" -eq 0 ]]; then
 		log::info "Package '$pkg' removed successfully"
 		echoAlias "OK" -c "${LT_GREEN}"
 	else
@@ -484,7 +484,7 @@ pkg::source()
 		sudo apt-get -qq -y download "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then 
+	if [[ "$result" -eq 0 ]]; then
 		log::info "Package '$pkg' sourced successfully"
 		echoAlias "OK" -c "${LT_GREEN}"
 	else
@@ -521,7 +521,7 @@ pkgAddRepos()
 
 	for repo in "$@"
 	do
-		pkg::addRepo "$repo"
+		[ "${repo:0:1}" != "#" ] && pkg::addRepo "$repo"
 	done
 }
 # ------------------------------------------------------------------
@@ -539,7 +539,7 @@ pkgInstall()
 
 	for pkg in "$@"
 	do
-		pkg::install "$pkg"
+		[ "${pkg:0:1}" != "#" ] && pkg::install "$pkg"
 	done
 }
 # ------------------------------------------------------------------
@@ -557,6 +557,6 @@ pkgRemove()
 
 	for pkg in "$@"
 	do
-		pkg::remove "$pkg"
+		[ "${pkg:0:1}" != "#" ] && pkg::remove "$pkg"
 	done
 }

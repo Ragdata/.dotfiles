@@ -59,7 +59,7 @@ dot::install::deps()
 		echoDot "Adding configured repositories" -s "➤" -c "${GOLD}"
 		while IFS= read -r line
 		do
-			pkg::addRepo "$line"
+		    [ "${line:0:1}" != "#" ] && pkg::addRepo "$line"
 		done < "$DOT_CFG/data/repositories.list"
 	fi
 

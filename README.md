@@ -143,7 +143,7 @@ This project incorporates ideas and / or code crafted by the following talented 
 	Copyright © 2020-2021 Bash-It - [MIT Licensed][mit-license] 
 <br /><br />
 - [Hardening Ubuntu](https://github.com/konstruktoid/hardening) (Systemd Edition)<br />
-  Copyright 2018 Thomas Sjögren (@konstruktoid) - [Apache-2.0 Licensed][]
+  Copyright 2018 Thomas Sjögren (@konstruktoid) - [Apache-2.0 Licensed][apache-license]
 
 > "We see much further, and reach much higher,<br>only because we stand upon the shoulders of giants"
 

@@ -34,13 +34,13 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 
 ### AutoInstall
 
-```shell
+```bash
 wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/init.sh | bash
 ```
 
 Once the autoinstaller has exited, you'll want to do a little housekeeping prior to executing the full installation (the same applies if you're installing manually).  Edit the following files according to your needs and save them in your `.dotfiles/lib/custom` folder using a path matching the original (ie. `.dotfiles/cfg/git/.gitconfig` goes to `.dotfiles/lib/custom/cfg/git/.gitconfig`)
 
-```shell
+```bash
 .dotfiles/cfg/git/.gitconfig
 .dotfiles/cfg/git/.gitignore_global
 .dotfiles/cfg/gnupg/gpg.conf
@@ -53,14 +53,14 @@ Once the autoinstaller has exited, you'll want to do a little housekeeping prior
 
 It might also pay for you to have a look at the following files to see if you want to add or remove anything:
 
-```shell
+```bash
 .dotfiles/cfg/data/dependencies.list
 .dotfiles/cfg/data/repositories.list
 ```
 
 ### Manual
 
-```shell
+```bash
 git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles
 cd ~/.dotfiles
 ./init.sh

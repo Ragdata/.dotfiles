@@ -81,6 +81,12 @@ cd ~/.dotfiles
   * Thanks to the `dialog` project, menu-driven admin functionality is easily accessible from the command-line.
 * **... and more ...**
 
+<div align="center">
+
+![Main Menu][main-menu]
+
+</div>
+
 [`^ Top`](#top)
 
 ## [Project Supporters](#top) ❤️
@@ -158,6 +164,8 @@ If you like this repository, please give it a ⭐ (it really does help)
 [![By Ragdata][ragdata-badge]][github-profile]
 
 </div>
+
+[main-menu]: https://raw.githubusercontent.com/Ragdata/media/da97bcc61c2697dfcf367a85ef5926f0f063b083/project/.dotfiles/img/menu-screen-800.png
 
 [codacy-grade]: https://img.shields.io/codacy/grade/bd98a6793c0445dca1b4f956411af511?logo=codacy&labelColor=31383f
 [commit-badge]: https://img.shields.io/github/last-commit/ragdata/.dotfiles/master?logo=github&style=for-the-badge

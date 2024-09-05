@@ -89,6 +89,16 @@ cd ~/.dotfiles
 
 [`^ Top`](#top)
 
+## [Included 3rd-Party Packages](#top) 📦
+
+* [**Composure**](https://github.com/erichs/composure)<br />
+  Copyright © 2012, 2016 Erich Smith<br />MIT Licensed
+<br /><br />
+* [**WSL2-BOOT**](https://github.com/ocroz/wsl2-boot)<br />
+  by Oliver Crozier (@ocroz)<br />No License Listed
+
+[`^ Top`](#top)
+
 ## [Project Supporters](#top) ❤️
 
 <div align="center">

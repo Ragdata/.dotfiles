@@ -66,7 +66,20 @@ cd ~/.dotfiles
 
 [`^ Top`](#top)
 
-## [What's Included?](#top) ❓
+## [Features](#top) ✨
+
+* **Lightweight**
+  * `.dotfiles` won't weigh down your system or slow your prompt
+* **Customisable**
+  * `.dotfiles` won't overwrite your hard work the next time you update
+  * _(to be fair, whether they will be read in <em>every</em> instance is a dice roll right now ... working on it ...)_
+* **Reusable Code**
+  * Includes a resource loading static binary which you can use in your own projects to make use of ANY `.dotfiles` functionality
+* **"Themable"**
+  * `.dotfiles` includes a selection of prompts to choose from - none of which will soak up your available resources
+* **GUI Admin**
+  * Thanks to the `dialog` project, menu-driven admin functionality is easily accessible from the command-line.
+* **... and more ...**
 
 [`^ Top`](#top)
 

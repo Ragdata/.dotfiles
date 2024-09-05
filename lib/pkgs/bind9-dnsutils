@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# dos2unix
+# bind9-dnsutils
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -10,15 +10,15 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-dos2unix::check() { if command -v dos2unix &> /dev/null; then return 0; else return 1; fi }
+bind9-dnsutils::check() { if command -v bind9-dnsutils &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-dos2unix::install()
+bind9-dnsutils::install()
 {
 	local result
 
-	sudo apt-get -qq -y install dos2unix; result=$?
+	sudo apt-get -qq -y install bind9-dnsutils; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -26,11 +26,11 @@ dos2unix::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-dos2unix::remove()
+bind9-dnsutils::remove()
 {
 	local result
 
-	sudo apt -qq -y purge dos2unix; result=$?
+	sudo apt -qq -y purge bind9-dnsutils; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

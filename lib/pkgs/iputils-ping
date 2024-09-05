@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# dos2unix
+# iputils-ping
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -8,17 +8,13 @@
 ####################################################################
 
 #-------------------------------------------------------------------
-# CHECK
-#-------------------------------------------------------------------
-dos2unix::check() { if command -v dos2unix &> /dev/null; then return 0; else return 1; fi }
-#-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-dos2unix::install()
+iputils-ping::install()
 {
 	local result
 
-	sudo apt-get -qq -y install dos2unix; result=$?
+	sudo apt-get -qq -y install iputils-ping; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -26,11 +22,11 @@ dos2unix::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-dos2unix::remove()
+iputils-ping::remove()
 {
 	local result
 
-	sudo apt -qq -y purge dos2unix; result=$?
+	sudo apt -qq -y purge iputils-ping; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

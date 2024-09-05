@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# dos2unix
+# auditd
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -10,15 +10,15 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-dos2unix::check() { if command -v dos2unix &> /dev/null; then return 0; else return 1; fi }
+auditd::check() { if command -v auditd &> /dev/null; then return 0; else return 1; fi }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-dos2unix::install()
+auditd::install()
 {
 	local result
 
-	sudo apt-get -qq -y install dos2unix; result=$?
+	sudo apt-get -qq -y install auditd; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -26,11 +26,11 @@ dos2unix::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-dos2unix::remove()
+auditd::remove()
 {
 	local result
 
-	sudo apt -qq -y purge dos2unix; result=$?
+	sudo apt -qq -y purge auditd; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

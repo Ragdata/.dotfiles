@@ -1,0 +1,4 @@
+# shellcheck shell=bash
+
+NODE_IPv4="${NODE_IPv4}"
+NODE_HOSTNAME="${NODE_HOSTNAME}"

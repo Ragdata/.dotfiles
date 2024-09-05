@@ -260,7 +260,8 @@ menu::install()
 	case "$status" in
 		"$DIALOG_OK")
 			case "$result" in
-				1)	dot::install::deps;;
+				1)	dot::install::repos
+				    dot::install::deps;;
                 2)  menu;;
 
 				X)	menu;;

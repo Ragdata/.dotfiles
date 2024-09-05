@@ -43,6 +43,25 @@ dot::install::deps()
 
 	xdg-user-dirs-update
 
+	echoDot "Updating package database" -s "➤" -c "${GOLD}"
+    sudo apt-get -qq -y update
+
+	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
+		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
+		pkg::installList "dependencies" "$DOT_CFG/data"
+	fi
+}
+# ------------------------------------------------------------------
+# dot::install::repos
+# ------------------------------------------------------------------
+dot::install::repos()
+{
+	group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+
 	if ! command -v add-apt-repository &> /dev/null; then
 		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
 		sudo apt-get -qq -y install software-properties-common; result=$?
@@ -61,11 +80,6 @@ dot::install::deps()
 		do
 		    [ "${line:0:1}" != "#" ] && pkg::addRepo "$line"
 		done < "$DOT_CFG/data/repositories.list"
-	fi
-
-	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
-		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
-		pkg::installList "dependencies" "$DOT_CFG/data"
 	fi
 }
 # ------------------------------------------------------------------
@@ -120,13 +134,14 @@ dot::install()
 {
 	group 'dot'
 
-	dot::install::deps
+#    dot::install::repos
+#	dot::install::deps
+#
+#	echo ""
+#
+#	read -n 1 -s -r -p "Press any key to continue ..."
 
-	echo ""
-
-	read -n 1 -s -r -p "Press any key to continue ..."
-
-	menu
+	menu::install
 }
 ####################################################################
 # DOTFILES UPDATE FUNCTIONS

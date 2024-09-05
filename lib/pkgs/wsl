@@ -26,6 +26,16 @@ wsl::config()
         sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf
     fi
 
+    # if [ -f "$CUSTOM/cfg/.wslconfig" ]; then
+    #     source="$CUSTOM/cfg/.wslconfig"
+    # else
+    #     source="$DOT_CFG/.wslconfig"
+    # fi
+
+    # if [ -f "$source" ]; then
+    #     sudo install -b -C -m 0644 -T "$source" /c/
+    # fi
+
 	return 0
 }
 #-------------------------------------------------------------------

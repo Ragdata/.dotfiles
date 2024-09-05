@@ -49,8 +49,8 @@ case "${1:-}" in
 		case "${2:-}" in
 			pkg|package)
 				dot::config::pkg "${3?}";;
-			*)	menu::config;;
 		esac
+		[ -z "$2" ] && menu::config
 		;;
 	disable)
 		;;
@@ -64,8 +64,8 @@ case "${1:-}" in
 				dot::install::deps;;
 			pkg|package)
 				dot::install::pkg "${3?}";;
-			*)	menu::install;;
 		esac
+		[ -z "$2" ] && menu::install
 		;;
 	migrate)
 		;;
@@ -99,8 +99,8 @@ case "${1:-}" in
 				dot::update::repo;;
 			sys|system)
 				dot::update::sys;;
-			*)	dot::update;;
 		esac
+		[ -z "$2" ] && menu::update
 		;;
 	version)
 		;;

@@ -48,8 +48,7 @@ case "${1:-}" in
 	config)
 		case "${2:-}" in
 			pkg|package)
-				dot::config::pkg "${3?}"
-				exit 0;;
+				dot::config::pkg "${3?}"; return;;
 		esac
 		[ -z "$2" ] && menu::config
 		;;
@@ -62,10 +61,11 @@ case "${1:-}" in
 	install)
 		case "${2:-}" in
 			deps|dependencies)
-				dot::install::deps;;
+				dot::install::deps; return;;
 			pkg|package)
-				dot::install::pkg "${3?}"
-				exit 0;;
+				dot::install::pkg "${3?}"; return;;
+            repos)
+                dot::install::repos; return;;
 		esac
 		[ -z "$2" ] && menu::install
 		;;
@@ -78,8 +78,7 @@ case "${1:-}" in
 	remove)
 		case "${2:-}" in
 			pkg|package)
-				dot::remove::pkg "${3?}"
-				exit 0;;
+				dot::remove::pkg "${3?}"; return;;
 		esac
 		;;
 	restart)
@@ -87,7 +86,7 @@ case "${1:-}" in
 	reload)
 		;;
 	set)
-		dot::set;;
+		;;
 	search)
 		;;
 	show)

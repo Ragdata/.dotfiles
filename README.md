@@ -10,7 +10,7 @@
 
 </h1>
 
-<h3 align="center">My personal dotfiles - and the means to manage them.</h3>
+<h3 align="center"><u>My personal dotfiles - and the means to manage them.</u></h3>
 
 > **These are my `.dotfiles`.  There are many like them, but these ones are mine.  My `.dotfiles` are my best friends.  They are my life.  I must master them as I must master my life.  My `.dotfiles`, without me, are useless.  Without my `.dotfiles`, I am useless.  I must execute my `.dotfiles` true.  I must use them straighter than my enemy who is trying to hack me.  I must hack him before he hacks me ... and I will ...**   
 

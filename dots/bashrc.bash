@@ -42,6 +42,9 @@ cite _about _param _example _group _author
 [ -e ~/.bash_functions ] && source ~/.bash_functions
 
 # include .bash_prompts if available
+[ -e ~/.bash_plugins ] && source ~/.bash_plugins
+
+# include .bash_prompts if available
 [ -e ~/.bash_prompts ] && source ~/.bash_prompts
 
 # Alias definitions.

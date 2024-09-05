@@ -90,6 +90,9 @@ dot::include()
 				alias|aliases)
 					stub="aliases/$item.bash"
 					;;
+				app)
+					stub="$item/$item.bash"
+					;;
 				completion|completions)
 					stub="completions/$item.bash"
 					;;
@@ -113,6 +116,10 @@ dot::include()
 				path="$CUSTOM/$stub"
 			elif [ -f "$DOT_LIB/$stub" ]; then
 				path="$DOT_LIB/$stub"
+			elif [ -f "$APPS/$stub" ]; then
+				path="$APPS/$stub"
+			elif [ -f "$HELP/$stub" ]; then
+				path="$HELP/$stub"
 			else
 				errorExit "No match for '$stub'"
 			fi

@@ -12,15 +12,45 @@
 
   _Ideally, this project is intended to be executed on a freshly-installed version of **Ubuntu 22.04.**_
 
-  ... but first, you need to either download or clone the repo ...
-
 </div>
 
-## AutoInit
+## [Installation](#top)
+
+### Step 1 - Clone the Repo
 
 ```shell
-wget -O - https://raw.githubusercontent.com/Ragdata/.dotfiles/master/init.sh | bash
+$ git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles
+$ cd ~/.dotfiles
 ```
+
+As soon as you have it, run the setup script.  This will minimally bootstrap `.dotfiles` and allow you to start using it while we talk about configuration options.
+
+```shell
+./setup.sh
+```
+
+Refresh your terminal session and you're on your way:
+
+```shell
+bash -i
+```
+
+## [Configuration](#top)
+
+The major configuration files are (yes, there are a few):
+
+```shell
+~/.dotfiles/dots/bash_env.bash
+```
+
+There is actually very little in this file that you might want to customise for the moment.  The important thing to remember is **YOU SHOULD NEVER EDIT ANY FILE IN THE REPOSITORY DIRECTLY!!**
+
+The correct way to customise the system is to make a copy of the file and save it in the `~/.dotfiles/lib/custom` folder using a path which mirrors the original location of the file.
+
+> **EXAMPLE:** To customise the `bash_env.bash` file mentioned above it would need to be copied to `~/.dotfiles/lib/custom/dots/bash_env.bash`.  From that point forward, your custom version of the file will be used by the system.  This also keeps your changes safe whenever you update the rest of `.dotfiles`.
+
+
+
 
 
 

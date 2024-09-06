@@ -6,12 +6,17 @@
 
 # [Ragdata's Dotfiles][repo]
 
-<h2 align="center">Documentation _(of sorts)_</h2>
+<div align="center">
+
+## Documentation <small>_(of sorts)_</small>
+
+</div>
 
 
 ### [Getting Started][repo]
 
-* 
+* [Installation](INSTALL.md#installation)
+* [Configuration](INSTALL.md#configuration)
 
 
 

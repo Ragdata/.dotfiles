@@ -1,4 +1,6 @@
 # shellcheck shell=bash
+# shellcheck disable=SC2269
 
 NODE_IPv4="${NODE_IPv4}"
 NODE_HOSTNAME="${NODE_HOSTNAME}"
+WINDOWS_USER="${USER}"

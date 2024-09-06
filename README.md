@@ -139,8 +139,6 @@ This project incorporates ideas and / or code crafted by the following talented 
 
 - **[Bash-it](https://github.com/Bash-it/bash-it)** (Community Bash Framework)<br />
 	Copyright © 2020-2021 Bash-It<br />[MIT Licensed][mit-license] 
-  
-<br /><br />
 
 - **[Hardening Ubuntu](https://github.com/konstruktoid/hardening)** (Systemd Edition)<br />
   Copyright 2018 Thomas Sjögren (@konstruktoid)<br />[Apache-2.0 Licensed][apache-license]

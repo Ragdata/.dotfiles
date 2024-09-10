@@ -152,13 +152,15 @@ dot::network::hostname()
 
 	debugLog "${FUNCNAME[0]}"
 
-	local result
+	local result oldhost
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="UPDATE HOSTNAME"
 	local DIALOG_TEXT="Enter data and press OK:"
 
+    oldhost="$(hostname)"
+
 	local -a DIALOG_ITEMS=(
-        "Hostname :" 1 1 "$(hostname)" 1 20 20 50 0
+        "Hostname :" 1 1 "$oldhost" 1 20 20 50 0
 	)
 
     trap 'clear' ERR
@@ -176,7 +178,8 @@ dot::network::hostname()
 		"$DIALOG_OK")
             sudo hostnamectl set-hostname "$result"
             sudo sed -i 's/^#hostname/hostname/' /etc/wsl.conf
-            sudo sed -i 's/^hostname.*/hostname = $result/' /etc/wsl.conf
+            sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
+            sudo sed -i "s/$oldhost/$result/g" /etc/hosts
             menu::network
 			;;
 		"$DIALOG_CANCEL"|"$DIALOG_ESC")

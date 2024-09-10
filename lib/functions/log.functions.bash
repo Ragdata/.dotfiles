@@ -123,7 +123,7 @@ log::write()
     group 'log'
 
     local msg="${1?}"
-    local fileName user priority timestamp tag 
+    local fileName user priority timestamp tag
     local options isError=0 minLevel msgLevel msgLog
 
     shift
@@ -417,7 +417,7 @@ debugLog()
 {
     group 'log'
 
-    local msg="${ITALIC}${1?}${NORMAL}"
+    local msg="${ITALIC}${1?}"
 
     echoLog "$msg" -c "${WHITE}" -S "⚑" -p 100
 }

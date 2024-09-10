@@ -322,15 +322,21 @@ pkg::install()
 		sudo apt-get -qq -y install "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then
-		log::info "Package '$pkg' installed successfully"
-		echoAlias "OK" -c "${LT_GREEN}"
-	else
-		log::error "Failed to install package '$pkg'"
-		echoAlias "FAILED!" -c "${RED}"
-	fi
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+    case "$result" in
+        0)
+    		log::info "Package '$pkg' installed successfully"
+    		echoAlias "OK" -c "${LT_GREEN}"
+        	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+            ;;
+        1)
+            log::error "Failed to install package '$pkg'"
+            echoAlias "FAILED!" -c "${RED}"
+            ;;
+        2)
+            log::info "Package '$pkg' install skipped"
+            echoAlias "SKIPPED" -c "${GOLD}"
+            ;;
+    esac
 
 	func="$pkg::post_install"
 	if [[ $(type -t "$func") == "function" ]]; then eval "$func"; fi
@@ -415,15 +421,21 @@ pkg::remove()
 		sudo apt-get -qq -y purge "$pkg"; result=$?
 	fi
 
-	if [[ "$result" -eq 0 ]]; then
-		log::info "Package '$pkg' removed successfully"
-		echoAlias "OK" -c "${LT_GREEN}"
-	else
-		log::error "Failed to remove package '$pkg'"
-		echoAlias "FAILED!" -c "${RED}"
-	fi
-
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+    case "$result" in
+        0)
+    		log::info "Package '$pkg' removed successfully"
+    		echoAlias "OK" -c "${LT_GREEN}"
+        	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+            ;;
+        1)
+            log::error "Failed to remove package '$pkg'"
+            echoAlias "FAILED!" -c "${RED}"
+            ;;
+        2)
+            log::info "Package '$pkg' removal skipped"
+            echoAlias "SKIPPED" -c "${GOLD}"
+            ;;
+    esac
 
 	func="$pkg::post_remove"
 	[[ $(type -t "$func") == "function" ]] || return 0
@@ -539,7 +551,7 @@ pkgAddRepos()
 
 	for repo in "$@"
 	do
-		[ "${repo:0:1}" != "#" ] && pkg::addRepo "$repo"
+		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::addRepo "$repo"
 	done
 }
 # ------------------------------------------------------------------
@@ -557,7 +569,7 @@ pkgInstall()
 
 	for pkg in "$@"
 	do
-		[ "${pkg:0:1}" != "#" ] && pkg::install "$pkg"
+		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::install "$pkg"
 	done
 }
 # ------------------------------------------------------------------
@@ -575,6 +587,6 @@ pkgRemove()
 
 	for pkg in "$@"
 	do
-		[ "${pkg:0:1}" != "#" ] && pkg::remove "$pkg"
+		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::remove "$pkg"
 	done
 }

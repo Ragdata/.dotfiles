@@ -10,7 +10,7 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-logrotate::check() { if command -v logrotate &> /dev/null; then return 0; else return 1; fi }
+logrotate::check() { dpkg -l | grep logrotate 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
@@ -30,7 +30,7 @@ logrotate::config()
 {
 	local result
 
-	sudo cp "$DOT_INC/logrotate/logrotate-traefik.conf" /etc/logrotate.d/traefik
+	sudo cp "$DOT_INC/logrotate/logrotate-traefik.conf" /etc/logrotate.d/traefik; result=$?
 
 	return $result
 }

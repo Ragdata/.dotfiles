@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 ####################################################################
-# template
+# ufw
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -10,46 +10,66 @@
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------
-template::check() { dpkg -l | grep template 2> /dev/null 1>&2; return $?; }
+ufw::check() { dpkg -l | grep ufw 2> /dev/null 1>&2; return $?; }
 # ------------------------------------------------------------------
 # INSTALL
 # ------------------------------------------------------------------
-template::install()
+ufw::install()
 {
-	echo ""
-}
-# ------------------------------------------------------------------
-# POST INSTALL
-# ------------------------------------------------------------------
-template::post_install()
-{
-	echo ""
+	local result
+
+	sudo apt-get -qq -y install ufw; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
 }
 # ------------------------------------------------------------------
 # CONFIG
 # ------------------------------------------------------------------
-template::config()
+ufw::config()
 {
-	echo ""
-}
-# ------------------------------------------------------------------
-# POST CONFIG
-# ------------------------------------------------------------------
-template::post_config()
-{
-	echo ""
+    local result
+
+    ufw allow in on lo
+    ufw allow out on lo
+
+    ufw deny in from 127.0.0.0/8
+    ufw deny in from ::1
+
+    ufw logging on
+
+    ufw default deny incoming
+
+	ufw allow 2376/tcp			# docker
+	ufw allow 7946/udp
+	ufw allow 7946/tcp
+	ufw allow 80/tcp			# http
+	ufw allow 8080/tcp			# http
+	ufw allow 9090/tcp			# cockpit
+	ufw allow 443/tcp			# https
+	ufw allow 2377/tcp			# docker
+	ufw allow 3000/tcp			# pm2
+	ufw allow 3001/tcp			# pm2
+
+	ufw allow 53/udp			# dns
+	ufw allow 4789/udp
+
+	ufw allow samba
+
+	ufw reload
+	ufw enable; result=$?
+
+	return $result
 }
 # ------------------------------------------------------------------
 # REMOVE
 # ------------------------------------------------------------------
-template::remove()
+ufw::remove()
 {
-	echo ""
-}
-# ------------------------------------------------------------------
-# POST REMOVE
-# ------------------------------------------------------------------
-template::post_remove()
-{
-	echo ""
+	local result
+
+	sudo apt -qq -y purge ufw; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
 }

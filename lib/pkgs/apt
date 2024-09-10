@@ -10,7 +10,7 @@
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------
-apt::check() { if command -v apt-transport-https &> /dev/null && command -v apt-listchanges &> /dev/null; then return 0; else return 1; fi }
+apt::check() { if dpkg -l | grep apt-transport-https 2> /dev/null 1>&2 && dpkg -l | grep apt-listchanges 2> /dev/null 1>&2; then return 0; else return 1; fi }
 # ------------------------------------------------------------------
 # INSTALL
 # ------------------------------------------------------------------

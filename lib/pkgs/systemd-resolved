@@ -1,0 +1,73 @@
+# shellcheck shell=bash
+####################################################################
+# systemd-resolved
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+systemd-resolved::check() { dpkg -l | grep systemd-resolved 2> /dev/null 1>&2; return $?; }
+# ------------------------------------------------------------------
+# INSTALL
+# ------------------------------------------------------------------
+systemd-resolved::install()
+{
+	local result
+
+	sudo apt-get -qq -y install systemd-resolved; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# CONFIG
+# ------------------------------------------------------------------
+systemd-resolved::config()
+{
+	local dnsarray=() dnslist result
+
+    if [ -f "$CUSTOM/etc/resolv.conf" ]; then
+        source="$CUSTOM/etc/resolv.conf"
+    else
+        source="$DOT_ETC/resolv.conf"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/resolv.conf
+    fi
+
+	mapfile -t dnsarray < <(sudo grep ^nameserver /etc/resolv.conf | sed 's/^nameserver\s//g')
+
+	dnslist="${dnsarray[*]}"
+
+	if [ "${#dnsarray[@]}" -lt 2 ]; then
+	    dnslist="$dnslist 1.1.1.1"
+	fi
+
+    sudo sed -i "s/^#DNS=.*/DNS=$dnslist/" /etc/systemd/resolved.conf
+    sudo sed -i "s/^#FallbackDNS=.*/FallbackDNS=1.0.0.1/" /etc/systemd/resolved.conf
+    sudo sed -i "s/^#DNSSEC=.*/DNSSEC=allow-downgrade/" /etc/systemd/resolved.conf
+    sudo sed -i "s/^#DNSOverTLS=.*/DNSOverTLS=opportunistic/" /etc/systemd/resolved.conf
+
+    sudo sed -i '/^hosts:/ s/files dns/files resolve dns/' /etc/nsswitch.conf
+
+    systemctl daemon-reload; result=$?
+
+    return $result
+}
+# ------------------------------------------------------------------
+# REMOVE
+# ------------------------------------------------------------------
+systemd-resolved::remove()
+{
+	local result
+
+	sudo apt -qq -y purge systemd-resolved; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

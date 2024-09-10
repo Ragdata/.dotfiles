@@ -35,21 +35,19 @@ menu()
 	local -a DIALOG_OPTIONS=(
 		"1" "Install Menu"
 		"2" "Update Menu"
-		"3" "WSL Menu"
+		"3" "Network Menu"
+		"4" "WSL Menu"
 		"" ""
-		"4" "Help Menu"
-		"5" "Settings"
+		"5" "Help Menu"
+		"6" "Settings"
 		"" ""
 		"Q" "Quit"
 	)
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -62,9 +60,10 @@ menu()
 			case "$result" in
 				1)	menu::install;;
 				2)	menu::update;;
-				3)	menu::wsl;;
-				4)	menu::help;;
-				5)	menu::config;;
+                3)  menu::network;;
+				4)	menu::wsl;;
+				5)	menu::help;;
+				6)	menu::config;;
 
 				Q)	exit 0;;
 			esac
@@ -94,11 +93,8 @@ menu::config()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -144,11 +140,8 @@ menu::config::theme()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -201,11 +194,8 @@ menu::help()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -245,11 +235,8 @@ menu::install()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -264,6 +251,47 @@ menu::install()
 				    dot::install::deps;;
                 2)  menu;;
 
+				X)	menu;;
+			esac
+			;;
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
+			exit 0;;
+	esac
+}
+# ------------------------------------------------------------------
+# menu::network
+# ------------------------------------------------------------------
+menu::network()
+{
+    group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
+	local DIALOG_TITLE="NETWORK MENU"
+	local DIALOG_TEXT="Select from the following options:"
+	local -a DIALOG_OPTIONS=(
+	    "1" "Update Hostname"
+	    "" ""
+		"X" "Back to Main Menu"
+	)
+
+    trap 'clear' ERR
+
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
+		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+			case "$result" in
+			    1)  dot::network::hostname;;
 				X)	menu;;
 			esac
 			;;
@@ -293,11 +321,8 @@ menu::update()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -337,11 +362,8 @@ menu::wsl()
 
     trap 'clear' ERR
 
-	result=$(dialog \
-		--ok-label "${OK_LABEL:-"OK"}" \
-		--cancel-label "${CANCEL_LABEL:-"Cancel"}" \
-		--backtitle "${DIALOG_BACKTITLE}" \
-		--title "${DIALOG_TITLE}" \
+	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
+		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 

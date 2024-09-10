@@ -144,6 +144,44 @@ dot::install()
 	menu::install
 }
 ####################################################################
+# DOTFILES NETWORK FUNCTIONS
+####################################################################
+dot::network::hostname()
+{
+    group 'dot'
+
+	debugLog "${FUNCNAME[0]}"
+
+	local result
+	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
+	local DIALOG_TITLE="UPDATE HOSTNAME"
+	local DIALOG_TEXT="Enter data and press OK:"
+
+	local -a DIALOG_ITEMS=(
+        "Hostname :" 1 1 "$(hostname)" 1 20 20 50 0
+	)
+
+    trap 'clear' ERR
+
+    result=$(dialog --insecure --ok-label "${OK_LABEL:-OK}" --cancel-label "${CANCEL_LABEL:-Cancel}" \
+        --backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
+        --mixedform "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
+        "${DIALOG_ITEMS[@]}" 3>&1 1>&2 2>&3)
+
+	status=$?
+
+	clear
+
+	case "$status" in
+		"$DIALOG_OK")
+            echo "-$result-"
+			;;
+		"$DIALOG_CANCEL"|"$DIALOG_ESC")
+			exit 0;;
+	esac
+
+}
+####################################################################
 # DOTFILES UPDATE FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------

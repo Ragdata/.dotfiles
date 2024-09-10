@@ -46,12 +46,16 @@ menu()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-18}" "${WIDTH:-50}" "${MENU_HEIGHT:-9}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -93,12 +97,16 @@ menu::config()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -140,12 +148,16 @@ menu::config::theme()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -194,12 +206,16 @@ menu::help()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -235,12 +251,16 @@ menu::install()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -279,12 +299,16 @@ menu::network()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -321,12 +345,16 @@ menu::update()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 
@@ -362,12 +390,16 @@ menu::wsl()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
 		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-5}" \
-		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+		"${DIALOG_OPTIONS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 

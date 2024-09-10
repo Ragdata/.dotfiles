@@ -25,8 +25,12 @@ manual
 dotInclude "$DOT_LIB/dialog/scripts/.dialog-vars"
 dotInclude "$DOT_CFG"/.dialog-edit
 
+exec 3>&1
 $DIALOG --ok-label "${OK_LABEL:-OK}" \
 	--cancel-label "${CANCEL_LABEL:-Cancel}" \
 	--backtitle "${DIALOG_BACKTITLE}" \
 	--title "${DIALOG_TITLE}" --clear "$@" \
 	--editbox "${DIALOG_INPUT:-$input}" "${HEIGHT:-15}" "${WIDTH:-50}" 2>"$output"
+# shellcheck disable=SC2034
+STATUS=$?
+exec 3>&-

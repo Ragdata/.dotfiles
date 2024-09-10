@@ -165,12 +165,16 @@ dot::network::hostname()
 
     trap 'clear' ERR
 
+    exec 3>&1
+
     result=$(dialog --insecure --extra-button --extra-label "Menu" --ok-label "${OK_LABEL:-OK}" --cancel-label "${CANCEL_LABEL:-Cancel}" \
         --backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
         --mixedform "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
-        "${DIALOG_ITEMS[@]}" 3>&1 1>&2 2>&3)
+        "${DIALOG_ITEMS[@]}" 2>&1 1>&3)
 
 	status=$?
+
+    exec 3>&-
 
 	clear
 

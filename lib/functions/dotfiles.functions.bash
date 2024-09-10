@@ -165,7 +165,7 @@ dot::network::hostname()
 
     trap 'clear' ERR
 
-    result=$(dialog --insecure --extra-button --extra-label "Back to Menu" --ok-label "${OK_LABEL:-OK}" --cancel-label "${CANCEL_LABEL:-Cancel}" \
+    result=$(dialog --insecure --extra-button --extra-label "Menu" --ok-label "${OK_LABEL:-OK}" --cancel-label "${CANCEL_LABEL:-Cancel}" \
         --backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
         --mixedform "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${LIST_HEIGHT:-5}" \
         "${DIALOG_ITEMS[@]}" 3>&1 1>&2 2>&3)

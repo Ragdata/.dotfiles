@@ -176,10 +176,10 @@ dot::network::hostname()
 
 	case "$status" in
 		"$DIALOG_OK")
-            sudo hostnamectl set-hostname "$result"
             sudo sed -i 's/^#hostname/hostname/' /etc/wsl.conf
             sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
             sudo sed -i "s/$oldhost/$result/g" /etc/hosts
+            sudo hostnamectl set-hostname "$result"
             echo ""
             read -n 1 -s -r -p "Press any key to continue ..."
             menu::network

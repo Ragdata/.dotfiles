@@ -28,9 +28,25 @@ logrotate::install()
 #-------------------------------------------------------------------
 logrotate::config()
 {
-	local result
+	local result source
 
-	sudo cp "$DOT_INC/logrotate/logrotate-traefik.conf" /etc/logrotate.d/traefik; result=$?
+    if [ -f "$CUSTOM/cfg/logrotate/logrotate.conf" ]; then
+        source="$CUSTOM/cfg/logrotate/logrotate.conf"
+    elif [ -f "$DOT_CFG/logrotate/logrotate.conf" ]; then
+        source="$DOT_CFG/logrotate/logrotate.conf"
+    else
+        exitLog "Data file '$DOT_CFG/logrotate/logrotate.conf' not found"
+    fi
+
+	sudo cp "$source" /etc/logrotate.conf
+
+    sudo sed -i 's/^#Storage=.*/Storage=persistent/' /etc/systemd/journald.conf
+    sudo sed -i 's/^#ForwardToSyslog=.*/ForwardToSyslog=yes/' /etc/systemd/journald.conf
+    sudo sed -i 's/^#Compress=.*/Compress=yes/' /etc/systemd/journald.conf
+
+    sudo systemctl restart systemd-journald; result=$?
+
+    sudo sed -i "s/^\$FileCreateMode.*/\$FileCreateMode 0600/g" /etc/rsyslog.conf
 
 	return $result
 }

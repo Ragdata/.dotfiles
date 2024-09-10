@@ -55,7 +55,7 @@ systemd-resolved::config()
 
     sudo sed -i '/^hosts:/ s/files dns/files resolve dns/' /etc/nsswitch.conf
 
-    systemctl daemon-reload; result=$?
+    sudo systemctl daemon-reload; result=$?
 
     return $result
 }

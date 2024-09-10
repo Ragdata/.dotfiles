@@ -30,34 +30,40 @@ ufw::config()
 {
     local result
 
-    ufw allow in on lo
-    ufw allow out on lo
+    sudo sed -i 's/IPT_SYSCTL=.*/IPT_SYSCTL=\/etc\/sysctl\.conf/' /etc/default/ufw
 
-    ufw deny in from 127.0.0.0/8
-    ufw deny in from ::1
+    for admin in $FW_ADMIN; do
+        sudo ufw allow log from "$admin" to any port "$SSH_PORT" proto tcp
+    done
 
-    ufw logging on
+    sudo ufw allow in on lo
+    sudo ufw allow out on lo
 
-    ufw default deny incoming
+    sudo ufw deny in from 127.0.0.0/8
+    sudo ufw deny in from ::1
 
-	ufw allow 2376/tcp			# docker
-	ufw allow 7946/udp
-	ufw allow 7946/tcp
-	ufw allow 80/tcp			# http
-	ufw allow 8080/tcp			# http
-	ufw allow 9090/tcp			# cockpit
-	ufw allow 443/tcp			# https
-	ufw allow 2377/tcp			# docker
-	ufw allow 3000/tcp			# pm2
-	ufw allow 3001/tcp			# pm2
+    sudo ufw logging on
 
-	ufw allow 53/udp			# dns
-	ufw allow 4789/udp
+    sudo ufw default deny incoming
 
-	ufw allow samba
+	sudo ufw allow 2376/tcp			# docker
+	sudo ufw allow 7946/udp
+	sudo ufw allow 7946/tcp
+	sudo ufw allow 80/tcp			# http
+	sudo ufw allow 8080/tcp			# http
+	sudo ufw allow 9090/tcp			# cockpit
+	sudo ufw allow 443/tcp			# https
+	sudo ufw allow 2377/tcp			# docker
+	sudo ufw allow 3000/tcp			# pm2
+	sudo ufw allow 3001/tcp			# pm2
 
-	ufw reload
-	ufw enable; result=$?
+	sudo ufw allow 53/udp			# dns
+	sudo ufw allow 4789/udp
+
+	sudo ufw allow samba
+
+	sudo ufw reload
+	sudo ufw --force enable; result=$?
 
 	return $result
 }

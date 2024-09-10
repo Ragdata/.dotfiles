@@ -152,7 +152,7 @@ dot::network::hostname()
 
 	debugLog "${FUNCNAME[0]}"
 
-	local result oldhost
+	local result oldhost status
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
 	local DIALOG_TITLE="UPDATE HOSTNAME"
 	local DIALOG_TEXT="Enter data and press OK:"
@@ -174,18 +174,17 @@ dot::network::hostname()
 
 	clear
 
+    # shellcheck disable=SC2254
 	case $status in
-		0)
+		$DIALOG_OK)
             sudo sed -i 's/^#hostname/hostname/' /etc/wsl.conf
             sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
             sudo sed -i "s/$oldhost/$result/g" /etc/hosts
             sudo hostnamectl set-hostname "$result"
-            menu::network
-			;;
-        3)
-            menu::network
-            ;;
-		1|255)
+            menu::network;;
+        $DIALOG_EXTRA)
+            menu::network;;
+		$DIALOG_CANCEL|$DIALOG_ESC)
 			exit 0;;
 	esac
 

@@ -1,31 +1,37 @@
 # shellcheck shell=bash
 ####################################################################
-# cron-updates
+# psad
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+psad::check() { dpkg -l | grep psad 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-cron-updates::install()
+psad::install()
 {
 	local result
 
-	sudo install -v -m 0755 -C -D -t /etc/cron.daily "$DOT_CFG/cron/apt-update"; result=$?
+	sudo apt-get -qq -y install psad; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
 }
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-cron-updates::remove()
+psad::remove()
 {
 	local result
 
-	rm -f /etc/cron.daily/apt-update; result=$?
+	sudo apt -qq -y purge psad; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
 }

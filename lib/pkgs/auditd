@@ -18,7 +18,7 @@ auditd::install()
 {
 	local result
 
-	sudo apt-get -qq -y install auditd; result=$?
+	sudo apt-get -qq -y install auditd audispd-plugins; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result
@@ -30,7 +30,7 @@ auditd::remove()
 {
 	local result
 
-	sudo apt -qq -y purge auditd; result=$?
+	sudo apt -qq -y purge auditd audispd-plugins; result=$?
 	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
 
 	return $result

@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+####################################################################
+# apparmor
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+apparmor::check() { dpkg -l | grep libpam-apparmor 2> /dev/null 1>&2; return $?; }
+# ------------------------------------------------------------------
+# INSTALL
+# ------------------------------------------------------------------
+apparmor::install()
+{
+	local result
+
+	sudo apt-get -qq -y install apparmor-profiles apparmor-utils libpam-apparmor; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+# ------------------------------------------------------------------
+# REMOVE
+# ------------------------------------------------------------------
+apparmor::remove()
+{
+	local result
+
+	sudo apt -qq -y purge apparmor-profiles apparmor-utils libpam-apparmor; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

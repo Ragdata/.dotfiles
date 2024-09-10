@@ -1,0 +1,56 @@
+# shellcheck shell=bash
+####################################################################
+# fail2ban
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+fail2ban::check() { dpkg -l | grep fail2ban 2> /dev/null 1>&2; return $?; }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+fail2ban::install()
+{
+	local result
+
+	sudo apt-get -qq -y install fail2ban; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+fail2ban::config()
+{
+	local result source
+
+    if [ -f "$CUSTOM/etc/fail2ban/jail.local" ]; then
+        source="$CUSTOM/etc/fail2ban/jail.local"
+    elif [ -f "$DOT_ETC/fail2ban/jail.local" ]; then
+        source="$DOT_ETC/fail2ban/jail.local"
+    else
+        exitLog "Data file '$DOT_ETC/fail2ban/jail.local' not found"
+    fi
+
+	sudo install -v -m 0644 -C -D -t /etc/fail2ban/jail.local "$source"; result=$?
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+fail2ban::remove()
+{
+	local result
+
+	sudo apt -qq -y purge fail2ban; result=$?
+	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+
+	return $result
+}

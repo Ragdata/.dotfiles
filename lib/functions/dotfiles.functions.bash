@@ -180,6 +180,8 @@ dot::network::hostname()
             sudo sed -i 's/^#hostname/hostname/' /etc/wsl.conf
             sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
             sudo sed -i "s/$oldhost/$result/g" /etc/hosts
+            echo ""
+            read -n 1 -s -r -p "Press any key to continue ..."
             menu::network
 			;;
 		"$DIALOG_CANCEL"|"$DIALOG_ESC")

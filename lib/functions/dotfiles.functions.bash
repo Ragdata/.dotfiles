@@ -180,8 +180,6 @@ dot::network::hostname()
             sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
             sudo sed -i "s/$oldhost/$result/g" /etc/hosts
             sudo hostnamectl set-hostname "$result"
-            echo ""
-            read -n 1 -s -r -p "Press any key to continue ..."
             menu::network
 			;;
 		"$DIALOG_CANCEL"|"$DIALOG_ESC")

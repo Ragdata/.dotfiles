@@ -1,0 +1,9 @@
+kernel
+firewall
+disablenet
+disablemod
+systemdconf
+logindconf
+journalctl
+timesyncd
+hosts

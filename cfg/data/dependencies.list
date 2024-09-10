@@ -16,7 +16,5 @@ software-properties-common
 unattended-upgrades
 unzip
 wget
-#wsl2-boot
-wslu
 yq
 zip

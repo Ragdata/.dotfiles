@@ -24,10 +24,10 @@ if [ "${1,,}" == "debug" ]; then
 	DOT_DEBUG=1
 fi
 if [ "$DOT_DEBUG" -eq 1 ]; then
- 	set -axeETo pipefail
+ 	set -axETo pipefail
 	export LOG_LEVEL="DEBUG"
 else
- 	set -aeETo pipefail
+ 	set -aETo pipefail
 fi
 #set -aeETo pipefail
 shopt -s inherit_errexit

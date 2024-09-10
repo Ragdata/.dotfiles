@@ -19,9 +19,9 @@
 if [[ "${1,,}" == "debug" || "$DOT_DEBUG" == 1 ]]; then
 	[ "${1,,}" == "debug" ] && shift
 	DOT_DEBUG=1
-	set -axeETo pipefail
+	set -axETo pipefail
 else
-	set -aeETo pipefail
+	set -aETo pipefail
 fi
 shopt -s inherit_errexit
 IFS=$'\n\t'	# set unofficial strict mode @see: http://redsymbol.net/articles/unofficial-bash-strict-mode/

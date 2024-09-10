@@ -48,7 +48,7 @@ menu()
 
 	result=$(dialog --ok-label "${OK_LABEL:-"OK"}" --cancel-label "${CANCEL_LABEL:-"Cancel"}" \
 		--backtitle "${DIALOG_BACKTITLE}" --title "${DIALOG_TITLE}" --clear \
-		--menu "${DIALOG_TEXT}" "${HEIGHT:-15}" "${WIDTH:-50}" "${MENU_HEIGHT:-8}" \
+		--menu "${DIALOG_TEXT}" "${HEIGHT:-20}" "${WIDTH:-50}" "${MENU_HEIGHT:-9}" \
 		"${DIALOG_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 	status=$?

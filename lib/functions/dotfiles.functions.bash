@@ -174,18 +174,18 @@ dot::network::hostname()
 
 	clear
 
-	case "$status" in
-		"$DIALOG_OK")
+	case $status in
+		0)
             sudo sed -i 's/^#hostname/hostname/' /etc/wsl.conf
             sudo sed -i "s/^hostname.*/hostname = $result/" /etc/wsl.conf
             sudo sed -i "s/$oldhost/$result/g" /etc/hosts
             sudo hostnamectl set-hostname "$result"
             menu::network
 			;;
-        "$DIALOG_EXTRA")
+        3)
             menu::network
             ;;
-		"$DIALOG_CANCEL"|"$DIALOG_ESC")
+		1|255)
 			exit 0;;
 	esac
 

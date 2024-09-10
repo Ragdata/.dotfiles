@@ -162,6 +162,24 @@ pkg::auto()
 	return 1
 }
 # ------------------------------------------------------------------
+# pkg::bundle
+# ------------------------------------------------------------------
+pkg::bundle()
+{
+    group 'pkg'
+
+	debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+    local bundle="$1"
+    local path="$PKGS/bundles"
+
+    [ -f "$path/$bundle.list" ] || exitLog "Cannot find bundle file '$path/$bundle.list'"
+
+    pkg::installList "$bundle" "$PKGS/bundles"
+}
+# ------------------------------------------------------------------
 # pkg::check
 # ------------------------------------------------------------------
 pkg::check()

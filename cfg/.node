@@ -1,6 +1,14 @@
 # shellcheck shell=bash
-# shellcheck disable=SC2269
-# shellcheck disable=SC2034
 
-NODE_IPv4="${NODE_IPv4}"
-NODE_HOSTNAME="${NODE_HOSTNAME}"
+FW_ADMIN="127.0.0.1"
+SSH_GRPS="sudo"
+SSH_PORT="22"
+AUDITD_MODE=1
+NTPSERVERPOOL="0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org 3.ubuntu.pool.ntp.org pool.ntp.org"
+TIMEDATECTL="Brisbane/Australia"
+APPLY="Y"
+VERBOSE="N"
+AUTOFILL="N"
+ADMINEMAIL="root@localhost"
+KEEP_SNAPD="Y"
+WINUSER="user"

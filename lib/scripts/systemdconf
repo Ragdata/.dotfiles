@@ -1,0 +1,26 @@
+# shellcheck shell=bash
+####################################################################
+# systemdconf
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::systemdconf()
+{
+    echoDot "[Hardening] Systemd/system.conf & Systemd/user.conf" -s "▶"
+
+    sudo sed -i 's/^#DumpCore=.*/DumpCore=no/' /etc/systemd/system.conf
+    sudo sed -i 's/^#CrashShell=.*/CrashShell=no/' /etc/systemd/system.conf
+    sudo sed -i 's/^#DefaultLimitCORE=.*/DefaultLimitCORE=0/' /etc/systemd/system.conf
+    sudo sed -i 's/^#DefaultLimitNOFILE=.*/DefaultLimitNOFILE=1024/' /etc/systemd/system.conf
+    sudo sed -i 's/^#DefaultLimitNPROC=.*/DefaultLimitNPROC=1024/' /etc/systemd/system.conf
+
+    sudo sed -i 's/^#DefaultLimitCORE=.*/DefaultLimitCORE=0/' /etc/systemd/user.conf
+    sudo sed -i 's/^#DefaultLimitNOFILE=.*/DefaultLimitNOFILE=1024/' /etc/systemd/user.conf
+    sudo sed -i 's/^#DefaultLimitNPROC=.*/DefaultLimitNPROC=1024/' /etc/systemd/user.conf
+
+    sudo systemctl daemon-reload
+
+	return 0
+}

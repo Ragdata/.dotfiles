@@ -1,0 +1,22 @@
+# shellcheck shell=bash
+####################################################################
+# logindconf
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::logindconf()
+{
+    echoDot "[Hardening] Systemd/logind.conf" -s "▶"
+
+    sudo sed -i 's/^#KillUserProcesses=no/KillUserProcesses=1/' /etc/systemd/logind.conf
+    sudo sed -i 's/^#KillExcludeUsers=root/KillExcludeUsers=root/' /etc/systemd/logind.conf
+    sudo sed -i 's/^#IdleAction=ignore/IdleAction=lock/' /etc/systemd/logind.conf
+    sudo sed -i 's/^#IdleActionSec=30min/IdleActionSec=15min/' /etc/systemd/logind.conf
+    sudo sed -i 's/^#RemoveIPC=yes/RemoveIPC=yes/' /etc/systemd/logind.conf
+
+    sudo systemctl daemon-reload
+
+	return 0
+}

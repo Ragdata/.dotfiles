@@ -1,0 +1,33 @@
+# shellcheck shell=bash
+####################################################################
+# disablefs
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::disablefs()
+{
+    echoDot "[Hardening] Disable misc file systems" -s "▶"
+
+    local FS=() source
+
+    if [ -f "$CUSTOM/cfg/data/.disablefs" ]; then
+        source="$CUSTOM/cfg/data/.disablefs"
+    elif [ -f "$DOT_CFG/data/.disablefs" ]; then
+        source="$DOT_CFG/data/.disablefs"
+    else
+        exitLog "Data file '$DOT_CFG/data/.disablef' not found"
+    fi
+
+    readarray FS < "$source"
+
+    for disable in "${FS[@]}"
+    do
+        if ! grep -q "$disable" /etc/modprobe.d/disablefs.conf 2> /dev/null; then
+            echo "install $disable /bin/true" | sudo tee -a /etc/modprobe.d/disablefs.conf
+        fi
+    done
+
+	return 0
+}

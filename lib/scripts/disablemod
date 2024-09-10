@@ -1,0 +1,33 @@
+# shellcheck shell=bash
+####################################################################
+# disablemod
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::disablemod()
+{
+    echoDot "[Hardening] Disable misc kernel modules" -s "▶"
+
+    local MOD=() source
+
+    if [ -f "$CUSTOM/cfg/data/.disablemod" ]; then
+        source="$CUSTOM/cfg/data/.disablemod"
+    elif [ -f "$DOT_CFG/data/.disablemod" ]; then
+        source="$DOT_CFG/data/.disablemod"
+    else
+        exitLog "Data file '$DOT_CFG/data/.disablemod' not found"
+    fi
+
+    readarray MOD < "$source"
+
+    for disable in "${MOD[@]}"
+    do
+        if ! grep -q "$disable" /etc/modprobe.d/disablemod.conf 2> /dev/null; then
+            echo "install $disable /bin/true" | sudo tee -a /etc/modprobe.d/disablemod.conf
+        fi
+    done
+
+	return 0
+}

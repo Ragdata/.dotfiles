@@ -1,0 +1,34 @@
+# shellcheck shell=bash
+####################################################################
+# wsl
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::wsl()
+{
+    echoDot "Configuring WSL2" -s "▶"
+
+    if [ -f "$CUSTOM/etc/wsl.conf" ]; then
+        source="$CUSTOM/etc/wsl.conf"
+    else
+        source="$DOT_ETC/wsl.conf"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf
+    fi
+
+    if [ -f "$CUSTOM/cfg/.wslconfig" ]; then
+        source="$CUSTOM/cfg/.wslconfig"
+    else
+        source="$DOT_CFG/.wslconfig"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /c/Users/"$WINUSER"/.wslconfig
+    fi
+
+	return 0
+}

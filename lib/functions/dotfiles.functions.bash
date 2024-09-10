@@ -180,7 +180,7 @@ dot::network::hostname()
             menu::network
 			;;
 		"$DIALOG_CANCEL"|"$DIALOG_ESC")
-			exit 0;;
+			menu::network;;
 	esac
 
 }

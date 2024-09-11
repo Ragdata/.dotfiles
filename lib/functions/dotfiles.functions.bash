@@ -340,16 +340,16 @@ dot::update()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+    debugLog "${FUNCNAME[0]}"
 
-	dot::update::repo
-	dot::update::config
-	dot::update::bin
-	dot::update::dots
+    dot::update::repo
+    dot::update::config
+    dot::update::bin
+    dot::update::dots
 
-	echo ""
+    echo ""
 
-	read -n 1 -s -r -p "Press any key to continue ..."
+    read -n 1 -s -r -p "Press any key to continue ..."
 
-	bash -i
+    bash -i
 }

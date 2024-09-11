@@ -270,7 +270,7 @@ dot::update::config()
     if [ -f "$CUSTOM/cfg/.node" ]; then
         echoDot "Skipped"
     else
-        install -v -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
+        install -v -b -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
     fi
 }
 # ------------------------------------------------------------------

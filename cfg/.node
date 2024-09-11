@@ -1,5 +1,7 @@
 # shellcheck shell=bash
 
+NODE_IPv4="$(hostname -I)"
+NODE_HOSTNAME="$(hostname -f)"
 FW_ADMIN="127.0.0.1"
 SSH_GRPS="sudo"
 SSH_PORT="22"

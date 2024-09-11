@@ -24,6 +24,25 @@ systemd-coredump::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+systemd-coredump::config()
+{
+	local result
+
+    sudo sed -i 's/^#Storage=.*/Storage=none/' /etc/systemd/coredump.conf
+    sudo sed -i 's/^#ProcessSizeMax=.*/ProcessSizeMax=0/' /etc/systemd/coredump.conf
+
+    sudo systemctl restart systemd-journald; result=$?
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status systemd-journald --no-pager
+        echo
+    fi
+
+	return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 systemd-coredump::remove()

@@ -24,6 +24,54 @@ auditd::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+auditd::config()
+{
+    source "$CUSTOM/cfg/.node"
+
+	local result footer header aggressive base docker
+
+	if [ -f "$CUSTOM/cfg/auditd/audit.footer" ]; then footer="$CUSTOM/cfg/auditd/audit.footer"; else footer="$DOT_CFG/auditd/audit.footer"; fi
+	if [ -f "$CUSTOM/cfg/auditd/audit.header" ]; then header="$CUSTOM/cfg/auditd/audit.header"; else header="$DOT_CFG/auditd/audit.header"; fi
+	if [ -f "$CUSTOM/cfg/auditd/audit-aggressive.rules" ]; then aggressive="$CUSTOM/cfg/auditd/audit-aggressive.rules"; else aggressive="$DOT_CFG/auditd/audit-aggressive.rules"; fi
+	if [ -f "$CUSTOM/cfg/auditd/audit-base.rules" ]; then base="$CUSTOM/cfg/auditd/audit-base.rules"; else base="$DOT_CFG/auditd/audit-base.rules"; fi
+	if [ -f "$CUSTOM/cfg/auditd/audit-docker.rules" ]; then docker="$CUSTOM/cfg/auditd/audit-docker.rules"; else docker="$DOT_CFG/auditd/audit-docker.rules"; fi
+
+    AUDITD_RULES="$base $aggressive $docker"
+
+    sudo sed -i 's/^action_mail_acct =.*/action_mail_acct = root/' /etc/audit/auditd.conf
+    sudo sed -i 's/^admin_space_left_action = .*/admin_space_left_action = halt/' /etc/audit/auditd.conf
+    sudo sed -i 's/^max_log_file_action =.*/max_log_file_action = keep_logs/' /etc/audit/auditd.conf
+    sudo sed -i 's/^space_left_action =.*/space_left_action = email/' /etc/audit/auditd.conf
+
+    if ! grep -q 'audit=1' /proc/cmdline; then
+        echo "GRUB_CMDLINE_LINUX=\"\$GRUB_CMDLINE_LINUX audit=1 audit_backlog_limit=8192\"" > /etc/default/grub.d/99-hardening-audit.cfg
+    fi
+
+    sudo cp "$header" /etc/audit/audit.rules
+    for l in $AUDITD_RULES; do
+        # shellcheck disable=SC2002
+        cat "$l" | sudo tee -a /etc/audit/audit.rules
+    done
+    # shellcheck disable=SC2002
+    cat "$footer" | sudo tee -a /etc/audit/audit.rules
+
+    sudo sed -i "s/-f.*/-f $AUDITD_MODE/g" /etc/audit/audit.rules
+
+    sudo cp /etc/audit/audit.rules /etc/audit/rules.d/hardening.rules
+
+    sudo systemctl enable auditd
+    sudo systemctl restart auditd.service; result=$?
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status auditd.service --no-pager
+        echo
+    fi
+
+	return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 auditd::remove()

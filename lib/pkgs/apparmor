@@ -24,6 +24,33 @@ apparmor::install()
 	return $result
 }
 # ------------------------------------------------------------------
+# CONFIG
+# ------------------------------------------------------------------
+apparmor::config()
+{
+	local result
+
+    if ! grep 'session.*pam_apparmor.so order=user,group,default' /etc/pam.d/*; then
+        echo 'session optional pam_apparmor.so order=user,group,default' | sudo tee /etc/pam.d/apparmor
+    fi
+
+    if ! grep -q 'apparmor=1' /proc/cmdline; then
+        echo "GRUB_CMDLINE_LINUX=\"\$GRUB_CMDLINE_LINUX apparmor=1 security=apparmor\"" | sudo tee /etc/default/grub.d/99-hardening-apparmor.cfg
+    fi
+
+    sudo systemctl enable apparmor.service
+    sudo systemctl restart apparmor.service; result=$?
+
+    find /etc/apparmor.d/ -maxdepth 1 -type f -exec aa-enforce {} \;
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status apparmor.service --no-pager
+        echo
+    fi
+
+	return $result
+}
+# ------------------------------------------------------------------
 # REMOVE
 # ------------------------------------------------------------------
 apparmor::remove()

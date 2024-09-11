@@ -1,0 +1,25 @@
+# shellcheck shell=bash
+####################################################################
+# user
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::user()
+{
+    echoDot "[Hardening] /etc/adduser.conf & /etc/default/useradd" -s "▶"
+
+    sudo sed -i -e 's/^DIR_MODE=.*/DIR_MODE=0750/' -e 's/^#DIR_MODE=.*/DIR_MODE=0750/' /etc/adduser.conf
+    sudo sed -i -e 's/^DSHELL=.*/DSHELL=\/bin\/false/' -e 's/^#DSHELL=.*/DSHELL=\/bin\/false/' /etc/adduser.conf
+    sudo sed -i -e 's/^USERGROUPS=.*/USERGROUPS=yes/' -e 's/^#USERGROUPS=.*/USERGROUPS=yes/' /etc/adduser.conf
+
+    sudo sed -i 's/^SHELL=.*/SHELL=\/bin\/false/' /etc/default/useradd
+    sudo sed -i 's/^# INACTIVE=.*/INACTIVE=30/' /etc/default/useradd
+
+    sudo awk -F ':' '{if($3 >= 1000 && $3 <= 65000) print $6}' /etc/passwd | while read -r userhome; do
+        sudo chmod 0750 "$userhome"
+    done
+
+	return 0
+}

@@ -266,7 +266,12 @@ dot::update::config()
     echoHead "Updating config"
 
     [ -d "$CUSTOM/cfg" ] || { mkdir -p "$CUSTOM/cfg" || exitLog "Unable to create directory '$CUSTOM/cfg'"; }
-    [ -f "$CUSTOM/cfg/.node" ] || { install -v -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'"; }
+
+    if [ -f "$CUSTOM/cfg/.node" ]; then
+        echoDot "Skipped" -c "${GOLD}"
+    else
+        install -v -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
+    fi
 }
 # ------------------------------------------------------------------
 # dot::update::dots

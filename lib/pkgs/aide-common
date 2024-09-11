@@ -24,6 +24,68 @@ aide-common::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+aide-common::config()
+{
+	local result service timer
+
+    if ! grep -R -E '^!/var/lib/lxcfs/cgroup$' /etc/aide/*; then
+        echo '!/var/lib/lxcfs/cgroup' | sudo tee /etc/aide/aide.conf.d/70_aide_lxcfs
+    fi
+
+    if ! grep -R -E '^!/var/lib/docker$' /etc/aide/*; then
+        echo '!/var/lib/docker' | sudo tee /etc/aide/aide.conf.d/70_aide_docker
+    fi
+
+    sudo sed -i 's/^Checksums.*/Checksums = sha512/' /etc/aide/aide.conf
+
+    echoDot "OK" -c "${LT_GREEN}"
+
+    echoDot "Running Aide (this might take a while) - " -s "\t▷" -n
+
+    aideinit --yes; result=$?
+
+    if [[ "$result" -eq 0 ]]; then
+        log::info "Successfully ran Aide"
+        echoAlias "OK" -c "${LT_GREEN}"
+    else
+        log::error "Failed to run Aide"
+        echoAlias "FAILED!" -c "${RED}"
+    fi
+
+    echoDot "Enable daily Aide check - " -s "\t▷" -n
+
+    if [ -f "$CUSTOM/cfg/aide/aidecheck.service" ]; then
+        service="$CUSTOM/cfg/aide/aidecheck.service"
+    elif [ -f "$DOT_CFG/aide/aidecheck.service" ]; then
+        service="$DOT_CFG/aide/aidecheck.service"
+    else
+        exitLog "Data file '$DOT_CFG/aide/aidecheck.service' not found"
+    fi
+    if [ -f "$CUSTOM/cfg/aide/aidecheck.timer" ]; then
+        timer="$CUSTOM/cfg/aide/aidecheck.timer"
+    elif [ -f "$DOT_CFG/aide/aidecheck.timer" ]; then
+        timer="$DOT_CFG/aide/aidecheck.timer"
+    else
+        exitLog "Data file '$DOT_CFG/aide/aidecheck.timer' not found"
+    fi
+
+    sudo install -v -b -m 0644 -C -D -t /etc/systemd/system "$service"
+    sudo install -v -b -m 0644 -C -D -t /etc/systemd/system "$timer"
+
+    sudo systemctl reenable aidecheck.timer
+    sudo systemctl restart aidecheck.timer
+    sudo systemctl daemon-reload; result=$?
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status aidecheck.timer --no-pager
+        echo
+    fi
+
+	return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 aide-common::remove()

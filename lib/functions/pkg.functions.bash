@@ -516,12 +516,11 @@ pkg::source()
 # ------------------------------------------------------------------
 # pkg::update
 # ------------------------------------------------------------------
-pkg::update() { group 'pkg'; sudo apt-get -qq -y update; return $?; }
+pkg::update() { group 'pkg'; echoDot "Update APT cache" -s "➤"; sudo apt-get -qq -y update; return $?; }
 # ------------------------------------------------------------------
 # pkg::upgrade
 # ------------------------------------------------------------------
-pkg::upgrade() { group 'pkg'; sudo apt-get -qq -y update && sudo apt-get -qq -y full-upgrade; return $?; }
-
+pkg::upgrade() { group 'pkg'; echoDot "Update & Upgrade" -s "➤"; sudo apt-get -qq -y update && sudo apt-get -qq -y full-upgrade; return $?; }
 ####################################################################
 # BULK HANDLERS
 ####################################################################

@@ -9,7 +9,7 @@ curl
 debsums
 dialog
 dos2unix
-envsubst
+gettext-base
 git
 gnupg
 haveged
@@ -23,7 +23,6 @@ openssh-server
 software-properties-common
 sysstat
 systemd-coredump
-systemd-resolved
 tcpd
 ufw
 unattended-upgrades

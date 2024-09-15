@@ -18,7 +18,7 @@ script::timesyncd()
     NUMSERV=0
     SERVERARRAY=()
     SERVERS="4"
-    TMPCONF=$(mktemp --tmpdir ntpconf.XXXXX)
+    TMPCONF=$(sudo mktemp --tmpdir ntpconf.XXXXX)
 
     if [[ -z "$NTPSERVERPOOL" ]]; then
         local NTPSERVERPOOL

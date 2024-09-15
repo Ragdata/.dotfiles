@@ -131,7 +131,7 @@ pkg::addRepo()
 
 	local repo="${1//[$'\t\n\r']}" result
 
-    if ! grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep "${repo:3}"; then
+    if ! grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep "${repo:4}"; then
         echoDot "Adding repository '$repo': " -s "✚" -n
         sudo add-apt-repository -y "$repo" &> /dev/null; result=$?
 

@@ -24,6 +24,38 @@ psad::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+psad::config()
+{
+    local result
+
+    echo "127.0.0.1    0;" | sudo tee -a /etc/psad/auto_dl
+    echo "$SERVERIP    0;" | sudo tee -a /etc/psad/auto_dl
+    sudo sed -i "s/EMAIL_ADDRESSES             root@localhost;/EMAIL_ADDRESSES             $ADMINEMAIL;/" /etc/psad/psad.conf
+    sudo sed -i "s/HOSTNAME                    _CHANGEME_;/HOSTNAME                    $(hostname --fqdn);/" /etc/psad/psad.conf
+    sudo sed -i 's/ENABLE_AUTO_IDS             N;/ENABLE_AUTO_IDS               Y;/' /etc/psad/psad.conf
+    sudo sed -i 's/DANGER_LEVEL2               15;/DANGER_LEVEL2               15;/' /etc/psad/psad.conf
+    sudo sed -i 's/DANGER_LEVEL3               150;/DANGER_LEVEL3               150;/' /etc/psad/psad.conf
+    sudo sed -i 's/DANGER_LEVEL4               1500;/DANGER_LEVEL4               1500;/' /etc/psad/psad.conf
+    sudo sed -i 's/DANGER_LEVEL5               10000;/DANGER_LEVEL5               10000;/' /etc/psad/psad.conf
+    sudo sed -i 's/EMAIL_ALERT_DANGER_LEVEL    1;/EMAIL_ALERT_DANGER_LEVEL    5;/' /etc/psad/psad.conf
+    sudo sed -i 's/EMAIL_LIMIT                 0;/EMAIL_LIMIT                 5;/' /etc/psad/psad.conf
+    sudo sed -i 's/EXPECT_TCP_OPTIONS             *;/EXPECT_TCP_OPTIONS             Y;/' /etc/psad/psad.conf
+    sudo sed -i 's/ENABLE_MAC_ADDR_REPORTING   N;/ENABLE_MAC_ADDR_REPORTING   Y;/' /etc/psad/psad.conf
+    sudo sed -i 's/AUTO_IDS_DANGER_LEVEL       5;/AUTO_IDS_DANGER_LEVEL       1;/' /etc/psad/psad.conf
+    sudo sed -i 's/ENABLE_AUTO_IDS_EMAILS      ;/ENABLE_AUTO_IDS_EMAILS      Y;/' /etc/psad/psad.conf
+    sudo sed -i 's/IGNORE_PORTS             *;/IGNORE_PORTS             NONE;/' /etc/psad/psad.conf
+    sudo sed -i 's/IPT_SYSLOG_FILE             \/var\/log\/messages;/IPT_SYSLOG_FILE             \/var\/log\/syslog;/' /etc/psad/psad.conf
+    sudo sed -i 's/SIG_UPDATE_URL              http:\/\/www.cipherdyne.org\/psad\/signatures;/SIG_UPDATE_URL              https:\/\/www.cipherdyne.org\/psad\/signatures;/'  /etc/psad/psad.conf
+
+    sudo psad --sig-update
+    sudo psad -H
+    sudo psad --fw-analyze; result=$?
+
+    return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 psad::remove()

@@ -24,6 +24,20 @@ rkhunter::install()
 	return $result
 }
 #-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+rkhunter::config()
+{
+	local result
+
+    sudo sed -i 's/^CRON_DAILY_RUN=.*/CRON_DAILY_RUN="yes"/' /etc/default/rkhunter
+    sudo sed -i 's/^APT_AUTOGEN=.*/APT_AUTOGEN="yes"/' /etc/default/rkhunter
+
+    sudo rkhunter --propupd; result=$?
+
+	return $result
+}
+#-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 rkhunter::remove()

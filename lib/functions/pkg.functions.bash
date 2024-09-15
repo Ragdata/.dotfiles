@@ -131,16 +131,20 @@ pkg::addRepo()
 
 	local repo="${1//[$'\t\n\r']}" result
 
-	echoDot "Adding repository '$repo': " -s "✚" -n
-	sudo add-apt-repository -y "$repo" &> /dev/null; result=$?
+    if ! grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep "${repo:3}"; then
+        echoDot "Adding repository '$repo': " -s "✚" -n
+        sudo add-apt-repository -y "$repo" &> /dev/null; result=$?
 
-	if [[ "$result" -eq 0 ]]; then
-		log::info "Repository '$repo' added successfully"
-		echoAlias "OK" -c "${LT_GREEN}"
-	else
-		log::error "Failed to add repository '$repo'"
-		echoAlias "FAILED!" -c "${RED}"
-	fi
+        if [[ "$result" -eq 0 ]]; then
+            log::info "Repository '$repo' added successfully"
+            echoAlias "OK" -c "${LT_GREEN}"
+        else
+            log::error "Failed to add repository '$repo'"
+            echoAlias "FAILED!" -c "${RED}"
+        fi
+    else
+        echoDot "Repository '$repo' already exists" -s "⚠"
+    fi
 }
 # ------------------------------------------------------------------
 # pkg::auto

@@ -8,7 +8,7 @@
 ####################################################################
 script::disablenet()
 {
-    echoDot "[Hardening] Disable misc network protocols" -s "▶"
+    echoLog "[Hardening] Disable misc network protocols" -S "▶"
 
     local NET=() source
 

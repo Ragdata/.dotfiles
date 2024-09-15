@@ -8,7 +8,7 @@
 ####################################################################
 script::hosts()
 {
-    echoDot "[Hardening] /etc/hosts.allow & /etc/hosts.deny" -s "▶"
+    echoLog "[Hardening] /etc/hosts.allow & /etc/hosts.deny" -S "▶"
 
     echo "sshd : ALL : ALLOW" | sudo tee /etc/hosts.allow
     echo "ALL: LOCAL, 127.0.0.1" | sudo tee -a /etc/hosts.allow

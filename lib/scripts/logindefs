@@ -8,7 +8,7 @@
 ####################################################################
 script::logindefs()
 {
-    echoDot "[Hardening] /etc/login.defs" -s "▶"
+    echoLog "[Hardening] /etc/login.defs" -S "▶"
 
     sudo sed -i 's/^.*LOG_OK_LOGINS.*/LOG_OK_LOGINS yes/' /etc/login.defs
     sudo sed -i 's/^UMASK.*/UMASK 077/' /etc/login.defs

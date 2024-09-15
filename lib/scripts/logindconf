@@ -8,7 +8,7 @@
 ####################################################################
 script::logindconf()
 {
-    echoDot "[Hardening] Systemd/logind.conf" -s "▶"
+    echoLog "[Hardening] Systemd/logind.conf" -S "▶"
 
     sudo sed -i 's/^#KillUserProcesses=no/KillUserProcesses=1/' /etc/systemd/logind.conf
     sudo sed -i 's/^#KillExcludeUsers=root/KillExcludeUsers=root/' /etc/systemd/logind.conf

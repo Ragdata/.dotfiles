@@ -8,7 +8,7 @@
 ####################################################################
 script::ctraltdel()
 {
-    echoDot "[Hardening] Ctrl-alt-del" -s "▶"
+    echoLog "[Hardening] Ctrl-alt-del" -S "▶"
 
     sudo systemctl mask ctrl-alt-del.target
 

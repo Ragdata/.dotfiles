@@ -8,7 +8,7 @@
 ####################################################################
 script::compilers()
 {
-    echoDot "[Hardening] Restrict compiler access" -s "▶"
+    echoLog "[Hardening] Restrict compiler access" -S "▶"
 
     # shellcheck disable=2046
     while read -r x; do

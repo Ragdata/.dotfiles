@@ -8,7 +8,7 @@
 ####################################################################
 script::cron()
 {
-    echoDot "[Hardening] /etc/cron & /etc/at" -s "▶"
+    echoLog "[Hardening] /etc/cron & /etc/at" -S "▶"
 
     sudo rm /etc/cron.deny 2> /dev/null
     sudo rm /etc/at.deny 2> /dev/null

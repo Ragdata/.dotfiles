@@ -8,7 +8,7 @@
 ####################################################################
 script::disablemod()
 {
-    echoDot "[Hardening] Disable misc kernel modules" -s "▶"
+    echoLog "[Hardening] Disable misc kernel modules" -S "▶"
 
     local MOD=() source
 

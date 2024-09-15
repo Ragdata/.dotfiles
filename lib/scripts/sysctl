@@ -11,7 +11,7 @@
 #-------------------------------------------------------------------
 script::sysctl()
 {
-    echoDot "Configuring SYSCTL" -s "▶"
+    echoLog "Configuring SYSCTL" -S "▶"
 
     if [ -f "$CUSTOM/etc/sysctl.conf" ]; then
         source="$CUSTOM/etc/sysctl.conf"

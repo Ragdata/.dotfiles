@@ -8,7 +8,7 @@
 ####################################################################
 script::rhosts()
 {
-    echoDot "[Hardening] .rhosts" -s "▶"
+    echoLog "[Hardening] .rhosts" -S "▶"
 
     while read -r hostpasswd
     do

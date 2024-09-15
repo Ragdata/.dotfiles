@@ -11,7 +11,7 @@
 #-------------------------------------------------------------------
 script::fstab()
 {
-    echoDot "Configuring FSTAB" -s "▶"
+    echoLog "Configuring FSTAB" -S "▶"
 
     if [ -f "$CUSTOM/etc/fstab" ]; then
         source="$CUSTOM/etc/fstab"

@@ -8,7 +8,7 @@
 ####################################################################
 script::issue()
 {
-    echoDot "[Hardening] /etc/issue" -s "▶"
+    echoLog "[Hardening] /etc/issue" -S "▶"
 
     local TEXT
 

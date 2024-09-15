@@ -8,7 +8,7 @@
 ####################################################################
 script::wsl()
 {
-    echoDot "Configuring WSL2" -s "▶"
+    echoLog "Configuring WSL2" -S "▶"
 
     if [ -f "$CUSTOM/etc/wsl.conf" ]; then
         source="$CUSTOM/etc/wsl.conf"

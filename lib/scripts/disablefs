@@ -8,7 +8,7 @@
 ####################################################################
 script::disablefs()
 {
-    echoDot "[Hardening] Disable misc file systems" -s "▶"
+    echoLog "[Hardening] Disable misc file systems" -S "▶"
 
     local FS=() source
 

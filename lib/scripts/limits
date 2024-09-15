@@ -8,7 +8,7 @@
 ####################################################################
 script::limits()
 {
-    echoDot "[Hardening] /etc/security/limits.conf" -s "▶"
+    echoLog "[Hardening] /etc/security/limits.conf" -S "▶"
 
     sudo sed -i 's/^# End of file*//' /etc/security/limits.conf
     {

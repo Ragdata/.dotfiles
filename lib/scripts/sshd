@@ -8,7 +8,7 @@
 ####################################################################
 script::sshd()
 {
-    echoDot "[Hardening] /etc/ssh/sshd_config" -s "▶"
+    echoLog "[Hardening] /etc/ssh/sshd_config" -S "▶"
 
     awk '$5 >= 3071' /etc/ssh/moduli | sudo tee /etc/ssh/moduli.tmp
     sudo mv /etc/ssh/moduli.tmp /etc/ssh/moduli

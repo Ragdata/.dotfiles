@@ -8,7 +8,7 @@
 ####################################################################
 script::timesyncd()
 {
-    echoDot "[Hardening] Systemd/timesyncd.conf" -s "▶"
+    echoLog "[Hardening] Systemd/timesyncd.conf" -S "▶"
 
     local LATENCY SERVERS SERVERARRAY FALLBACKARRAY TMPCONF
 

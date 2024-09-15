@@ -8,7 +8,7 @@
 ####################################################################
 script::systemdconf()
 {
-    echoDot "[Hardening] Systemd/system.conf & Systemd/user.conf" -s "▶"
+    echoLog "[Hardening] Systemd/system.conf & Systemd/user.conf" -S "▶"
 
     sudo sed -i 's/^#DumpCore=.*/DumpCore=no/' /etc/systemd/system.conf
     sudo sed -i 's/^#CrashShell=.*/CrashShell=no/' /etc/systemd/system.conf

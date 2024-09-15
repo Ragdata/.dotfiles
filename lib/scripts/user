@@ -8,7 +8,7 @@
 ####################################################################
 script::user()
 {
-    echoDot "[Hardening] /etc/adduser.conf & /etc/default/useradd" -s "▶"
+    echoLog "[Hardening] /etc/adduser.conf & /etc/default/useradd" -S "▶"
 
     sudo sed -i -e 's/^DIR_MODE=.*/DIR_MODE=0750/' -e 's/^#DIR_MODE=.*/DIR_MODE=0750/' /etc/adduser.conf
     sudo sed -i -e 's/^DSHELL=.*/DSHELL=\/bin\/false/' -e 's/^#DSHELL=.*/DSHELL=\/bin\/false/' /etc/adduser.conf

@@ -8,7 +8,7 @@
 ####################################################################
 script::kernel()
 {
-    echoDot "[Hardening] Kernel parameters" -s "▶"
+    echoLog "[Hardening] Kernel parameters" -S "▶"
 
 	local HASHSIZE LOCKDOWN
 

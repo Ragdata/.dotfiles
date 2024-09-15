@@ -150,6 +150,59 @@ dot::install()
 	menu::install
 }
 ####################################################################
+# DOTFILES LAUNCH FUNCTIONS
+####################################################################
+# ------------------------------------------------------------------
+# dot::launch::instance
+# ------------------------------------------------------------------
+dot::launch::instance()
+{
+    group 'dot'
+
+    debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+    local result path
+
+    if [ -f "$INSTANCES/$1.bash" ]; then
+        path="$INSTANCES/$1.bash"
+    else
+        exitLog "Instance file '$1' not found"
+    fi
+
+    source "$path"
+}
+# ------------------------------------------------------------------
+# dot::launch::script
+# ------------------------------------------------------------------
+dot::launch::script()
+{
+    group 'dot'
+
+    debugLog "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+    local result path func
+
+    if [ -f "$SCRIPTS/$1.bash" ]; then
+        path="$SCRIPTS/$1.bash"
+    else
+        exitLog "Script file '$1' not found"
+    fi
+
+    source "$path"
+
+    func="script::$1"
+
+    [[ $(type -t "$func") == "function" ]] || exitLog "Script function '$func' not found"
+
+    eval "$func"; result=$?
+
+    return $result
+}
+####################################################################
 # DOTFILES NETWORK FUNCTIONS
 ####################################################################
 dot::network::hostname()

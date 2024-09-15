@@ -39,12 +39,18 @@ dot::install::deps()
 
 	debugLog "${FUNCNAME[0]}"
 
-	local result
+	local result source
 
 	xdg-user-dirs-update
 
 	echoDot "Updating package database" -s "➤" -c "${GOLD}"
     sudo apt-get -qq -y update
+
+    if [ -f "$CUSTOM/cfg/data/dependencies.list" ]; then
+        source="$CUSTOM/cfg/data"
+    else
+        source="$DOT_CFG/data"
+    fi
 
 	if [ -f "$DOT_CFG/data/dependencies.list" ]; then
 		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"

@@ -193,8 +193,8 @@ dot::launch::script()
 
     local result path func name="${1//[$'\t\n\r']}"
 
-    if [ -f "$SCRIPTS/$name.bash" ]; then
-        path="$SCRIPTS/$name.bash"
+    if [ -f "$SCRIPTS/$name" ]; then
+        path="$SCRIPTS/$name"
     else
         exitLog "Script file '$name' not found"
     fi

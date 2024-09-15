@@ -18,15 +18,15 @@
 # required library files
 dot::include "dotfiles.functions"
 ####################################################################
-# VARS
-####################################################################
-REPOS=("ppa:ansible/ansible" "ppa:wslutilities/wslu")
-####################################################################
 # MAIN
 ####################################################################
-pkgAddRepos "${REPOS[@]}"
+clear
 
-pkg::installList "dependencies"
+pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
+
+pkg::upgrade
+
+pkg::install::deps
 pkg::removeList "purge"
 
 pkgInstall "shellcheck" "ubuntu-wsl" "wslu"

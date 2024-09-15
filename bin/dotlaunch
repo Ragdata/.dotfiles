@@ -43,3 +43,12 @@ dot::include "dotfiles.functions"
 ####################################################################
 # MAIN
 ####################################################################
+
+case "${1:-}" in
+    instance)
+        dot::launch::instance "$2"
+        ;;
+    script)
+        dot::launch::script "$2"
+        ;;
+esac

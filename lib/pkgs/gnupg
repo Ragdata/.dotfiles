@@ -45,7 +45,6 @@ gnupg::config()
     fi
 
     if [ -f "$source" ]; then
-    if [ -f "$DOT_CFG/gnupg/gpg-agent.conf" ]; then
         install -b -C -m 0644 "$source" "$HOME/.gnupg/gpg-agent.conf"
     fi
 

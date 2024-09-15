@@ -191,17 +191,17 @@ dot::launch::script()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-    local result path func
+    local result path func name="${1//[$'\t\n\r']}"
 
-    if [ -f "$SCRIPTS/$1.bash" ]; then
-        path="$SCRIPTS/$1.bash"
+    if [ -f "$SCRIPTS/$name.bash" ]; then
+        path="$SCRIPTS/$name.bash"
     else
-        exitLog "Script file '$1' not found"
+        exitLog "Script file '$name' not found"
     fi
 
     source "$path"
 
-    func="script::$1"
+    func="script::$name"
 
     [[ $(type -t "$func") == "function" ]] || exitLog "Script function '$func' not found"
 

@@ -87,7 +87,7 @@ It might also pay for you to have a look at the following files to see if you wa
 * **Reusable Code**
   * Vast library of functions you can use in your own projects
 * **"Themable"**
-  * `.dotfiles` includes a selection of prompts to choose from - none of which will soak up your available resources
+  * `.dotfiles` includes a selection of prompts to choose from - none of which will soak up your resources
 * **GUI Admin**
   * Thanks to the `dialog` project, menu-driven admin functionality is easily accessible from the command-line.
 * **... and more ...**
@@ -133,7 +133,7 @@ It might also pay for you to have a look at the following files to see if you wa
 
 ## [Security](#top) 🔐
 
-While I always good security practices, 100% security can never be guaranteed in any software package.  My `Dotfiles` are provided AS IS, and without warranty.  You can find more details in the [LICENSE](LICENSE) file included with this repository.
+While I always good security practices, 100% security can never be guaranteed in any software package.  My `.dotfiles` are provided AS IS, and without warranty.  You can find more details in the [LICENSE](LICENSE) file included with this repository.
 
 If you discover any issue regarding the security of this project, please disclose that information responsibly by sending a [security advisory][advisory].  **PLEASE DO NOT CREATE AN ISSUE OR DISCUSSION TOPIC.**  You can read more about this project's security policies [HERE][security]
 

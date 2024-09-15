@@ -40,7 +40,7 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 
 ## [Installation](#top) 📂
 
-#### Step 1 - Clone the repo
+#### Step 1 - Fork or Clone the repo
 
 ```bash
 git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles

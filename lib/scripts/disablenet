@@ -25,7 +25,7 @@ script::disablenet()
     for disable in "${NET[@]}"
     do
         if ! grep -q "$disable" /etc/modprobe.d/disablenet.conf 2> /dev/null; then
-            echo "install $disable /bin/true" | sudo tee -a /etc/modprobe.d/disablenet.conf
+            sudo sh -c "echo 'install $disable /bin/true' >> /etc/modprobe.d/disablenet.conf"
         fi
     done
 

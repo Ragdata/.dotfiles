@@ -25,7 +25,7 @@ script::disablemod()
     for disable in "${MOD[@]}"
     do
         if ! grep -q "$disable" /etc/modprobe.d/disablemod.conf 2> /dev/null; then
-            echo "install $disable /bin/true" | sudo tee -a /etc/modprobe.d/disablemod.conf
+            sudo sh -c "echo 'install $disable /bin/true' >>/etc/modprobe.d/disablemod.conf"
         fi
     done
 

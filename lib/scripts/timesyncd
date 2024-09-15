@@ -25,7 +25,7 @@ script::timesyncd()
         NTPSERVERPOOL="0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org 3.ubuntu.pool.ntp.org pool.ntp.org"
     fi
 
-    echo "[Time]" | sudo tee "$TMPCONF"
+    sudo sh -c "echo '[Time]' > $TMPCONF"
 
     PONG="ping -c2"
 
@@ -62,11 +62,11 @@ script::timesyncd()
         done
     fi
 
-    {
-        echo "NTP=${SERVERARRAY[*]}"
-        echo "FallbackNTP=${FALLBACKARRAY[*]}"
-        echo "RootDistanceMaxSec=1"
-    } | sudo tee -a "$TMPCONF"
+    sudo sh -c "{
+        echo 'NTP=${SERVERARRAY[*]}'
+        echo 'FallbackNTP=${FALLBACKARRAY[*]}'
+        echo 'RootDistanceMaxSec=1'
+    } >> $TMPCONF"
 
     if [[ $APPLY = "Y" ]]; then
         sudo cp "$TMPCONF" /etc/systemd/timesyncd.conf

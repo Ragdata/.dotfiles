@@ -25,7 +25,7 @@ script::disablefs()
     for disable in "${FS[@]}"
     do
         if ! grep -q "$disable" /etc/modprobe.d/disablefs.conf 2> /dev/null; then
-            echo "install $disable /bin/true" | sudo tee -a /etc/modprobe.d/disablefs.conf
+            sudo sh -c "echo 'install $disable /bin/true' >> /etc/modprobe.d/disablefs.conf"
         fi
     done
 

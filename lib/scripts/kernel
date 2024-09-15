@@ -16,7 +16,7 @@ script::kernel()
 	LOCKDOWN="/sys/kernel/security/lockdown"
 
 	if [[ -f "$HASHSIZE" && -w "$HASHSIZE" ]]; then
-	    echo 1048576 | sudo tee /sys/module/nf_conntrack/parameters/hashsize
+	    sudo sh -c "echo 1048576 > /sys/module/nf_conntrack/parameters/hashsize"
 	fi
 
 #	if [[ -f "$LOCKDOWN" && -w "$LOCKDOWN" ]]; then

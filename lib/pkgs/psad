@@ -30,8 +30,8 @@ psad::config()
 {
     local result
 
-    echo "127.0.0.1    0;" | sudo tee -a /etc/psad/auto_dl
-    echo "$SERVERIP    0;" | sudo tee -a /etc/psad/auto_dl
+    sudo sh -c "echo '127.0.0.1    0;' >> /etc/psad/auto_dl"
+    sudo sh -c "echo '$SERVERIP    0;' >> /etc/psad/auto_dl"
     sudo sed -i "s/EMAIL_ADDRESSES             root@localhost;/EMAIL_ADDRESSES             $ADMINEMAIL;/" /etc/psad/psad.conf
     sudo sed -i "s/HOSTNAME                    _CHANGEME_;/HOSTNAME                    $(hostname --fqdn);/" /etc/psad/psad.conf
     sudo sed -i 's/ENABLE_AUTO_IDS             N;/ENABLE_AUTO_IDS               Y;/' /etc/psad/psad.conf

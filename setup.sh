@@ -117,7 +117,7 @@ init::sudoers()
 {
 	if [ ! -f "/etc/sudoers.d/$USER" ]; then
 		init::echoInfo "Removing password requirement for sudo ..."
-		echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee "/etc/sudoers.d/$USER"
+		sudo sh -c "echo '$USER ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/$USER"
 	fi
 }
 # ------------------------------------------------------------------

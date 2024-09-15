@@ -31,11 +31,11 @@ aide-common::config()
 	local result service timer
 
     if ! grep -R -E '^!/var/lib/lxcfs/cgroup$' /etc/aide/*; then
-        echo '!/var/lib/lxcfs/cgroup' | sudo tee /etc/aide/aide.conf.d/70_aide_lxcfs
+        sudo sh -c "echo '!/var/lib/lxcfs/cgroup' > /etc/aide/aide.conf.d/70_aide_lxcfs"
     fi
 
     if ! grep -R -E '^!/var/lib/docker$' /etc/aide/*; then
-        echo '!/var/lib/docker' | sudo tee /etc/aide/aide.conf.d/70_aide_docker
+        sudo sh -c "echo '!/var/lib/docker' > /etc/aide/aide.conf.d/70_aide_docker"
     fi
 
     sudo sed -i 's/^Checksums.*/Checksums = sha512/' /etc/aide/aide.conf

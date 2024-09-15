@@ -13,8 +13,8 @@ script::cron()
     sudo rm /etc/cron.deny 2> /dev/null
     sudo rm /etc/at.deny 2> /dev/null
 
-    echo 'root' | sudo tee /etc/cron.allow
-    echo 'root' | sudo tee /etc/at.allow
+    sudo sh -c "echo 'root' > /etc/cron.allow"
+    sudo sh -c "echo 'root' > /etc/at.allow"
 
     sudo chown root:root /etc/cron*
     sudo chmod og-rwx /etc/cron*

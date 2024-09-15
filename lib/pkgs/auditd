@@ -52,10 +52,10 @@ auditd::config()
     sudo cp "$header" /etc/audit/audit.rules
     for l in $AUDITD_RULES; do
         # shellcheck disable=SC2002
-        cat "$l" | sudo tee -a /etc/audit/audit.rules
+        sudo sh -c "cat $l >> /etc/audit/audit.rules"
     done
     # shellcheck disable=SC2002
-    cat "$footer" | sudo tee -a /etc/audit/audit.rules
+    sudo sh -c "cat $footer >> /etc/audit/audit.rules"
 
     sudo sed -i "s/-f.*/-f $AUDITD_MODE/g" /etc/audit/audit.rules
 

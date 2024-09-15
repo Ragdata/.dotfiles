@@ -10,9 +10,9 @@ script::hosts()
 {
     echoLog "[Hardening] /etc/hosts.allow & /etc/hosts.deny" -S "▶"
 
-    echo "sshd : ALL : ALLOW" | sudo tee /etc/hosts.allow
-    echo "ALL: LOCAL, 127.0.0.1" | sudo tee -a /etc/hosts.allow
-    echo "ALL: ALL" | sudo tee /etc/hosts.deny
+    sudo sh -c "echo 'sshd : ALL : ALLOW' > /etc/hosts.allow"
+    sudo sh -c "echo 'ALL: LOCAL, 127.0.0.1' >> /etc/hosts.allow"
+    sudo sh -c "echo 'ALL: ALL' > /etc/hosts.deny"
     sudo chmod 644 /etc/hosts.allow
     sudo chmod 644 /etc/hosts.deny
 

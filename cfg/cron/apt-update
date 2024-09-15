@@ -1,3 +1,3 @@
 #!/bin/bash
-apt update && apt -y -d upgrade
+apt update && apt -y -d full-upgrade
 exit 0

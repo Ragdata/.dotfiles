@@ -23,10 +23,10 @@ dot::include "dotfiles.functions"
 clear
 
 pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
-
+echo ""
 pkg::upgrade
-
-#pkg::install::deps
+echo ""
+pkg::install::deps
 #pkg::removeList "purge"
 #
 #pkgInstall "shellcheck" "wslu"

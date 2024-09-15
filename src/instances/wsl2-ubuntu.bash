@@ -25,6 +25,7 @@ clear
 dot::install::repos
 pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
 echo ""
+echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"
 echo ""
 dot::install::deps

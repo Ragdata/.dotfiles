@@ -211,7 +211,7 @@ pkg::cleanup()
 
 	debugLog "${FUNCNAME[0]}"
 
-	echoDot "Performing Garbage Collection" -s "➤" -c "${GOLD}"
+	echoDot "Performing garbage collection" -s "➤" -c "${GOLD}"
 
 	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 }
@@ -232,7 +232,7 @@ pkg::config()
 		dot::include "$PKGS/$pkg"
 		func="$pkg::config"
 		[[ $(type -t "$func") == "function" ]] || return 0
-		echoDot "Configuring '$pkg' - " -s "•" -n
+		echoDot "Configuring '$pkg' - " -s "▬" -n
 		eval "$func"; result=$?
 
 		if [[ "$result" -eq 0 ]]; then

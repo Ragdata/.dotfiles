@@ -32,7 +32,7 @@ sysstat::config()
 
 	sudo sed -i '/^ENABLED.*/c\ENABLED="true"' /etc/default/sysstat
 
-    sudo systemctl enable sysstat
+    sudo systemctl enable sysstat &> /dev/null
     sudo systemctl start sysstat; result=$?
 
 	return $result

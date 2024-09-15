@@ -77,7 +77,7 @@ script::timesyncd()
 #    fi
 
     if [[ -n "$TIMEDATECTL" ]]; then
-        echoDot "Setting time zone to $TIMEDATECTL" -s "\t⏲"
+        echoDot "Setting time zone to $TIMEDATECTL" -s "  ▷"
         timedatectl set-timezone "$TIMEDATECTL"
     fi
 

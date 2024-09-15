@@ -26,7 +26,7 @@ pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
 echo ""
 pkg::upgrade
 echo ""
-pkg::install::deps
+dot::install::deps
 #pkg::removeList "purge"
 #
 #pkgInstall "shellcheck" "wslu"

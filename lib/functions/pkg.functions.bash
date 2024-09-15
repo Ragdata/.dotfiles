@@ -552,7 +552,7 @@ pkgAddRepos()
 
 	for repo in "$@"
 	do
-		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::addRepo "$repo"
+		[[ "${repo:0:1}" != "#" && -n "$repo" ]] && pkg::addRepo "$repo"
 	done
 }
 # ------------------------------------------------------------------

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+####################################################################
+# dotlaunch
+####################################################################
+# Ragdata's Dotfiles - Executable
+#
+# File:         dotlaunch
+# Author:       Ragdata
+# Date:         23/08/2024
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# PREFLIGHT
+####################################################################
+# capture stderr
+# shellcheck disable=SC2093
+#exec 2>>"$DOT_LOG/stderr.log"
+# if script is called with 'debug' as the first argument, set debug mode
+if [ "${1,,}" == "debug" ]; then
+	shift
+	DOT_DEBUG=1
+fi
+if [ "$DOT_DEBUG" -eq 1 ]; then
+ 	set -axETo pipefail
+	export LOG_LEVEL="DEBUG"
+else
+ 	set -aETo pipefail
+fi
+#set -aeETo pipefail
+shopt -s inherit_errexit
+####################################################################
+# DEPENDENCIES
+####################################################################
+# metadata support
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
+# error trap
+#trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
+# required library files
+dot::include "dotfiles.functions"
+####################################################################
+# MAIN
+####################################################################

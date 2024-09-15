@@ -600,6 +600,6 @@ pkgRemove()
 
 	for pkg in "$@"
 	do
-		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::remove "$pkg"
+		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::remove "$pkg" "no-gc"
 	done
 }

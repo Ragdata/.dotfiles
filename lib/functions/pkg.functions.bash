@@ -143,7 +143,7 @@ pkg::addRepo()
             echoAlias "FAILED!" -c "${RED}"
         fi
     else
-        echoDot "Repository '$repo' already exists" -s "☑"
+        echoDot "Repository '$repo' already exists" -s "🞮"
     fi
 }
 # ------------------------------------------------------------------

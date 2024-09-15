@@ -16,7 +16,7 @@
 
 Welcome to Yet Another F'king Dotfiles Repo ...
 
-If you're new to `.dotfiles`, you're not going to have a good time here.  The first thing you might notice about them is that, like me, they are _highly_ opinionated, prone to unexpected mood swings, and don't play well with others - but they'll get the job done.  The next thing you might notice is that they are very **bash-centric**, with heavy preferences given to all things **Ubuntu (22.04+) & WSL2**.  If you still want to play, read on ...   
+If you're new to `.dotfiles`, you're not going to have a good time here.  The first thing you might notice about them is that, like me, they are _highly_ opinionated, prone to unexpected mood swings, and don't play well with others - but they'll get the job done.  The next thing you might notice is a distinct lack of documentation (working on it).  If you still want to play, read on ...   
 
 <div align="center">
 
@@ -29,6 +29,14 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 </div>
 
 <hr />
+
+## [Requirements](#top) ❓
+
+- Bash 4+
+
+#### Tested On:
+
+- Ubuntu 22.04 (WSL2)
 
 ## [Installation](#top) 📂
 
@@ -74,8 +82,10 @@ It might also pay for you to have a look at the following files to see if you wa
 * **Customisable**
   * `.dotfiles` won't overwrite your hard work the next time you update
   * _(to be fair, whether they will be read in <em>every</em> instance is a dice roll right now ... working on it ...)_
+* **Easy to Use**
+  * Includes a number of bin scripts which help you access `.dotfiles` admin functionality
 * **Reusable Code**
-  * Includes a resource loading static binary which you can use in your own projects to make use of ANY `.dotfiles` functionality
+  * Vast library of functions you can use in your own projects
 * **"Themable"**
   * `.dotfiles` includes a selection of prompts to choose from - none of which will soak up your available resources
 * **GUI Admin**

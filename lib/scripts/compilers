@@ -14,7 +14,7 @@ script::compilers()
     while read -r x; do
         if [ -f "$x" ] && [ -x "$x" ]; then
             if ! test -L "$x"; then
-                chmod 0750 "$x"
+                sudo chmod 0750 "$x"
                 if [[ $VERBOSE == "Y" ]]; then
                     echo "$x"
                 fi
@@ -26,12 +26,11 @@ script::compilers()
 
     # shellcheck disable=2046
     if [ -f "$ASCOMP" ] && [ -x "$ASCOMP" ]; then
-        chmod 0750 "$(readlink -eq $(command -v as))"
+        sudo chmod 0750 "$(readlink -eq $(command -v as))"
         if [[ $VERBOSE == "Y" ]]; then
             readlink -eq "$ASCOMP"
         fi
     fi
-    echo
 
 	return 0
 }

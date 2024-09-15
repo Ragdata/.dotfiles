@@ -1,8 +1,4 @@
 apt
-acct
-aide-common
-apparmor
-auditd
 bash-completion
 bind9-dnsutils
 ca-certificates
@@ -14,7 +10,6 @@ debsums
 dialog
 dos2unix
 envsubst
-fail2ban
 git
 gnupg
 haveged
@@ -25,9 +20,6 @@ logrotate
 needrestart
 net-tools
 openssh-server
-procps
-psad
-rkhunter
 software-properties-common
 sysstat
 systemd-coredump
@@ -37,7 +29,6 @@ ufw
 unattended-upgrades
 unzip
 update-notifier-common
-vlock
 wget
 yq
 zip

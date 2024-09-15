@@ -25,8 +25,9 @@ clear
 dot::install::repos
 pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
 echo ""
+pkg::removeList "purge"
+echo ""
 dot::install::deps
-#pkg::removeList "purge"
 #
 #pkgInstall "shellcheck" "wslu"
 #
@@ -50,4 +51,5 @@ dot::install::deps
 #dot::launch::script "rhosts"
 #dot::launch::script "compilers"
 #dot::launch::script "wsl"
+echo ""
 pkg::cleanup

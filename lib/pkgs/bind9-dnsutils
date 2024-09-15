@@ -16,10 +16,10 @@ bind9-dnsutils::check() { dpkg -l | grep bind9-dnsutils 2> /dev/null 1>&2; retur
 #-------------------------------------------------------------------
 bind9-dnsutils::install()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y install bind9-dnsutils &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -28,10 +28,10 @@ bind9-dnsutils::install()
 #-------------------------------------------------------------------
 bind9-dnsutils::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	  sudo apt-get -qq -y purge bind9-dnsutils &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

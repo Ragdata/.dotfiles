@@ -203,6 +203,19 @@ pkg::check()
 	fi
 }
 # ------------------------------------------------------------------
+# pkg::cleanup
+# ------------------------------------------------------------------
+pkg::cleanup()
+{
+    group 'pkg'
+
+	debugLog "${FUNCNAME[0]}"
+
+	echoDot "Performing garbage collection" -s "•"
+
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+}
+# ------------------------------------------------------------------
 # pkg::config
 # ------------------------------------------------------------------
 pkg::config()
@@ -306,14 +319,14 @@ pkg::install()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="${1//[$'\t\n\r']}" tested=0 func result
+	local pkg="${1//[$'\t\n\r']}" gc="${2:-}" tested=0 func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::install"
 		if [[ $(type -t "$func") == "function" ]]; then
 			echoDot "Installing '$pkg' - " -s "✚" -n
-			eval "$func"; result=$?; tested=1
+			eval "$func" "$gc"; result=$?; tested=1
 		fi
 	fi
 
@@ -325,7 +338,7 @@ pkg::install()
     if [ "$result" -eq 0 ]; then
         log::info "Package '$pkg' installed successfully"
         echoAlias "OK" -c "${LT_GREEN}"
-        sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+        if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
     else
         log::error "Failed to install package '$pkg'"
         echoAlias "FAILED!" -c "${RED}"
@@ -398,14 +411,14 @@ pkg::remove()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="${1//[$'\t\n\r']}" tested=0 func result
+	local pkg="${1//[$'\t\n\r']}" gc="${2:-}" tested=0 func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::remove"
 		if [[ $(type -t "$func") == "function" ]]; then
 			echoDot "Removing '$pkg' - " -s "🞮" -n
-			eval "$func"; result=$?; tested=1
+			eval "$func" "$gc"; result=$?; tested=1
 		fi
 	fi
 
@@ -417,7 +430,7 @@ pkg::remove()
     if [ "$result" -eq 0 ]; then
         log::info "Package '$pkg' removed successfully"
         echoAlias "OK" -c "${LT_GREEN}"
-        sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+        if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
     elif [ "$result" -eq 100 ]; then
         log::debug "Package '$pkg' not found for removal"
         echoAlias "NOT FOUND" -c "${LT_GREEN}"
@@ -569,7 +582,7 @@ pkgInstall()
 
 	for pkg in "$@"
 	do
-		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::install "$pkg"
+		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::install "$pkg" "no-gc"
 	done
 }
 # ------------------------------------------------------------------

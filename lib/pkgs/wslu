@@ -16,10 +16,10 @@ wslu::check() { dpkg -l | grep wslu 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 wslu::install()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y install wslu &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -28,10 +28,10 @@ wslu::install()
 #-------------------------------------------------------------------
 wslu::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y purge wslu &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

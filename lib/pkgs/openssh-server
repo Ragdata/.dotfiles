@@ -16,10 +16,10 @@ openssh-server::check() { dpkg -l | grep openssh-server 2> /dev/null 1>&2; retur
 #-------------------------------------------------------------------
 openssh-server::install()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y install openssh-server &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -28,10 +28,10 @@ openssh-server::install()
 #-------------------------------------------------------------------
 openssh-server::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	  sudo apt-get -qq -y purge openssh-server &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

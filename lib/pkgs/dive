@@ -16,7 +16,7 @@ dive::check() { dpkg -l | grep dive 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 dive::install()
 {
-	local result DIVE_VERSION
+	local result gc="${1:-}" DIVE_VERSION
 
 	[[ ! -d "$XDG_DOWNLOAD_DIR" ]] && mkdir -p "$XDG_DOWNLOAD_DIR"
 
@@ -26,7 +26,7 @@ dive::install()
 	wget -O "$XDG_DOWNLOAD_DIR/dive.deb https://github.com/wagoodman/dive/releases/latest/download/dive_${DIVE_VERSION}_linux_amd64.deb"
 
 	sudo apt-get -qq -y install "$XDG_DOWNLOAD_DIR"/dive.deb &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -35,10 +35,10 @@ dive::install()
 #-------------------------------------------------------------------
 dive::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	  sudo apt-get -qq -y purge dive &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

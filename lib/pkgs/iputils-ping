@@ -16,10 +16,10 @@ iputils-ping::check() { dpkg -l | grep iputils-ping 2> /dev/null 1>&2; return $?
 #-------------------------------------------------------------------
 iputils-ping::install()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y install iputils-ping &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -28,10 +28,10 @@ iputils-ping::install()
 #-------------------------------------------------------------------
 iputils-ping::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	  sudo apt-get -qq -y purge iputils-ping &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

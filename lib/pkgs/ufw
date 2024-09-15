@@ -16,10 +16,10 @@ ufw::check() { dpkg -l | grep ufw 2> /dev/null 1>&2; return $?; }
 # ------------------------------------------------------------------
 ufw::install()
 {
-	local result
+	local result gc="${1:-}"
 
 	sudo apt-get -qq -y install ufw &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }
@@ -72,10 +72,10 @@ ufw::config()
 # ------------------------------------------------------------------
 ufw::remove()
 {
-	local result
+	local result gc="${1:-}"
 
 	  sudo apt-get -qq -y purge ufw &> /dev/null; result=$?
-	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
 }

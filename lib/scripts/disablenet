@@ -24,6 +24,7 @@ script::disablenet()
 
     for disable in "${NET[@]}"
     do
+        disable="${disable//[$'\t\n\r']}"
         if ! grep -q "$disable" /etc/modprobe.d/disablenet.conf 2> /dev/null; then
             sudo sh -c "echo 'install $disable /bin/true' >> /etc/modprobe.d/disablenet.conf"
         fi

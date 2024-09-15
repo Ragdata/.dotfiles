@@ -30,40 +30,40 @@ ufw::config()
 {
     local result
 
-    sudo sed -i 's/IPT_SYSCTL=.*/IPT_SYSCTL=\/etc\/sysctl\.conf/' /etc/default/ufw
+    sudo sed -i 's/IPT_SYSCTL=.*/IPT_SYSCTL=\/etc\/sysctl\.conf/' /etc/default/ufw &> /dev/null
 
     for admin in $FW_ADMIN; do
-        sudo ufw allow log from "$admin" to any port "$SSH_PORT" proto tcp
+        sudo ufw allow log from "$admin" to any port "$SSH_PORT" proto tcp &> /dev/null
     done
 
-    sudo ufw allow in on lo
-    sudo ufw allow out on lo
+    sudo ufw allow in on lo &> /dev/null
+    sudo ufw allow out on lo &> /dev/null
 
-    sudo ufw deny in from 127.0.0.0/8
-    sudo ufw deny in from ::1
+    sudo ufw deny in from 127.0.0.0/8 &> /dev/null
+    sudo ufw deny in from ::1 &> /dev/null
 
-    sudo ufw logging on
+    sudo ufw logging on &> /dev/null
 
-    sudo ufw default deny incoming
+    sudo ufw default deny incoming &> /dev/null
 
-	sudo ufw allow 2376/tcp			# docker
-	sudo ufw allow 7946/udp
-	sudo ufw allow 7946/tcp
-	sudo ufw allow 80/tcp			# http
-	sudo ufw allow 8080/tcp			# http
-	sudo ufw allow 9090/tcp			# cockpit
-	sudo ufw allow 443/tcp			# https
-	sudo ufw allow 2377/tcp			# docker
-	sudo ufw allow 3000/tcp			# pm2
-	sudo ufw allow 3001/tcp			# pm2
+	sudo ufw allow 2376/tcp &> /dev/null        # docker
+	sudo ufw allow 7946/udp &> /dev/null
+	sudo ufw allow 7946/tcp &> /dev/null
+	sudo ufw allow 80/tcp &> /dev/null			# http
+	sudo ufw allow 8080/tcp &> /dev/null		# http
+	sudo ufw allow 9090/tcp &> /dev/null		# cockpit
+	sudo ufw allow 443/tcp &> /dev/null			# https
+	sudo ufw allow 2377/tcp &> /dev/null		# docker
+	sudo ufw allow 3000/tcp &> /dev/null		# pm2
+	sudo ufw allow 3001/tcp &> /dev/null		# pm2
 
-	sudo ufw allow 53/udp			# dns
-	sudo ufw allow 4789/udp
+	sudo ufw allow 53/udp &> /dev/null			# dns
+	sudo ufw allow 4789/udp &> /dev/null
 
-	sudo ufw allow samba
+	sudo ufw allow samba &> /dev/null
 
-	sudo ufw reload
-	sudo ufw --force enable; result=$?
+	sudo ufw reload &> /dev/null
+	sudo ufw --force enable &> /dev/null; result=$?
 
 	return $result
 }

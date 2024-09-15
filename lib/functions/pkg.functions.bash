@@ -132,7 +132,7 @@ pkg::addRepo()
 	local repo="${1//[$'\t\n\r']}" result
 
 	echoDot "Adding repository '$repo': " -s "✚" -n
-	sudo add-apt-repository -qq -y "$repo"; result=$?
+	sudo add-apt-repository -y "$repo" &> /dev/null; result=$?
 
 	if [[ "$result" -eq 0 ]]; then
 		log::info "Repository '$repo' added successfully"

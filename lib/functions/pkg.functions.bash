@@ -236,7 +236,7 @@ pkg::config()
 		dot::include "$PKGS/$pkg"
 		func="$pkg::config"
 		[[ $(type -t "$func") == "function" ]] || return 0
-		echoDot "Configuring '$pkg' - " -s "  ▬" -n
+		echoDot "Configuring '$pkg' - " -s "●" -n
 		eval "$func"; result=$?
 
 		if [[ "$result" -eq 0 ]]; then

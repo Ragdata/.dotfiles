@@ -418,6 +418,9 @@ pkg::remove()
         log::info "Package '$pkg' removed successfully"
         echoAlias "OK" -c "${LT_GREEN}"
         sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+    elif [ "$result" -eq 100 ]; then
+        log::debug "Package '$pkg' not found for removal"
+        echoAlias "NOT FOUND" -c "${LT_GREEN}"
     else
         log::error "Failed to remove package '$pkg'"
         echoAlias "FAILED!" -c "${RED}"
@@ -534,6 +537,18 @@ pkgAddRepos()
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local repo result
+
+	if ! command -v add-apt-repository &> /dev/null; then
+		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
+		sudo apt-get -qq -y install software-properties-common; result=$?
+		if [ "$result" -eq 0 ]; then
+			log::info "Package installed successfully"
+			echoAlias "OK" -c "${LT_GREEN}"
+		else
+			log::error "Package 'software-properties-common' failed to install"
+			echoAlias "FAILED!" -c "${RED}"
+		fi
+	fi
 
 	for repo in "$@"
 	do

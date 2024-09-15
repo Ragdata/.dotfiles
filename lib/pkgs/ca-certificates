@@ -18,8 +18,8 @@ ca-certificates::install()
 {
 	local result
 
-	sudo apt-get -qq -y install ca-certificates; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install ca-certificates &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ ca-certificates::remove()
 {
 	local result
 
-	sudo apt-get -qq -y purge ca-certificates; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y purge ca-certificates &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

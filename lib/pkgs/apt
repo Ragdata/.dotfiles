@@ -19,7 +19,7 @@ apt::install()
 	local result
 
 	sudo apt-get -qq -y install apt-transport-https apt-listchanges; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -31,7 +31,7 @@ apt::config()
 	local result=0
 
 	if [ ! -f /etc/apt/apt.conf.d/99forve-ipv4 ]; then
-		echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4; result=$?
+		sudo sh -c "printf -- '%s' 'Acquire::ForceIPv4 \"true\";' > /etc/apt/apt.conf.d/99force-ipv4"; result=$?
 	fi
 
 	return $result
@@ -44,8 +44,8 @@ apt::remove()
 	local result
 
 	sudo rm -f /etc/apt/apt.conf.d/99force-ipv4
-	sudo apt-get -qq -y purge apt-transport-https apt-listchanges; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y purge apt-transport-https apt-listchanges &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

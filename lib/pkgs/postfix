@@ -18,8 +18,8 @@ postfix::install()
 {
 	local result
 
-	sudo apt-get -qq -y install postfix; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install postfix &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -46,8 +46,8 @@ postfix::remove()
 {
 	local result
 
-	sudo apt -qq -y purge postfix; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge postfix &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

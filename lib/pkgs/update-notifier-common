@@ -18,8 +18,8 @@ update-notifier-common::install()
 {
 	local result
 
-	sudo apt-get -qq -y install update-notifier-common; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install update-notifier-common &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ update-notifier-common::remove()
 {
 	local result
 
-	sudo apt -qq -y purge update-notifier-common; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge update-notifier-common &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

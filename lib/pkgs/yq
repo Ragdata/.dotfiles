@@ -18,8 +18,8 @@ yq::install()
 {
 	local result
 
-	sudo apt-get -qq -y install yq; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install yq &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ yq::remove()
 {
 	local result
 
-	sudo apt-get -qq -y purge yq; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y purge yq &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

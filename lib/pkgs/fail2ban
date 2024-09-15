@@ -18,8 +18,8 @@ fail2ban::install()
 {
 	local result
 
-	sudo apt-get -qq -y install fail2ban; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install fail2ban &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -49,8 +49,8 @@ fail2ban::remove()
 {
 	local result
 
-	sudo apt -qq -y purge fail2ban; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge fail2ban &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

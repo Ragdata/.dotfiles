@@ -18,8 +18,8 @@ dos2unix::install()
 {
 	local result
 
-	sudo apt-get -qq -y install dos2unix; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install dos2unix &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ dos2unix::remove()
 {
 	local result
 
-	sudo apt -qq -y purge dos2unix; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge dos2unix &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

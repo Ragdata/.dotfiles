@@ -22,8 +22,8 @@ gh-cli::install()
 	sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
 	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
-	sudo apt-get -qq -y install gh; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install gh &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -34,8 +34,8 @@ gh-cli::remove()
 {
 	local result
 
-	sudo apt -qq -y purge gh; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge gh &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

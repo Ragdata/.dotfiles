@@ -18,8 +18,8 @@ auditd::install()
 {
 	local result
 
-	sudo apt-get -qq -y install auditd audispd-plugins; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install auditd audispd-plugins &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -78,8 +78,8 @@ auditd::remove()
 {
 	local result
 
-	sudo apt -qq -y purge auditd audispd-plugins; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge auditd audispd-plugins &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

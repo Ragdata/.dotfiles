@@ -18,8 +18,8 @@ rkhunter::install()
 {
 	local result
 
-	sudo apt-get -qq -y install rkhunter; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install rkhunter &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -44,8 +44,8 @@ rkhunter::remove()
 {
 	local result
 
-	sudo apt -qq -y purge rkhunter; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge rkhunter &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

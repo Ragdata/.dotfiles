@@ -18,8 +18,8 @@ iputils-ping::install()
 {
 	local result
 
-	sudo apt-get -qq -y install iputils-ping; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install iputils-ping &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ iputils-ping::remove()
 {
 	local result
 
-	sudo apt -qq -y purge iputils-ping; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge iputils-ping &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

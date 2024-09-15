@@ -18,8 +18,8 @@ apparmor::install()
 {
 	local result
 
-	sudo apt-get -qq -y install apparmor-profiles apparmor-utils libpam-apparmor; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install apparmor-profiles apparmor-utils libpam-apparmor &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -57,8 +57,8 @@ apparmor::remove()
 {
 	local result
 
-	sudo apt -qq -y purge apparmor-profiles apparmor-utils libpam-apparmor; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y purge apparmor-profiles apparmor-utils libpam-apparmor &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

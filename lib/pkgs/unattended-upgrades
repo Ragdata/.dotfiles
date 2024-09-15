@@ -18,8 +18,8 @@ unattended-upgrades::install()
 {
 	local result
 
-	sudo apt-get -qq -y install unattended-upgrades; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install unattended-upgrades &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -41,8 +41,8 @@ unattended-upgrades::remove()
 {
 	local result
 
-	sudo apt -qq -y purge unattended-upgrades; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge unattended-upgrades &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

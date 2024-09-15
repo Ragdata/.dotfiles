@@ -18,8 +18,8 @@ systemd-coredump::install()
 {
 	local result
 
-	sudo apt-get -qq -y install systemd-coredump; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install systemd-coredump &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -49,8 +49,8 @@ systemd-coredump::remove()
 {
 	local result
 
-	sudo apt -qq -y purge systemd-coredump; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge systemd-coredump &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

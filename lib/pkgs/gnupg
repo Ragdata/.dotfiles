@@ -18,8 +18,8 @@ gnupg::install()
 {
 	local result
 
-	sudo apt-get -qq -y install gnupg; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install gnupg &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -58,8 +58,8 @@ gnupg::remove()
 {
 	local result
 
-	sudo apt-get -qq -y purge gnupg; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y purge gnupg &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

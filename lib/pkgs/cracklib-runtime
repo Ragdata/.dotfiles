@@ -18,8 +18,8 @@ cracklib-runtime::install()
 {
 	local result
 
-	sudo apt-get -qq -y install cracklib-runtime; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install cracklib-runtime &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }
@@ -30,8 +30,8 @@ cracklib-runtime::remove()
 {
 	local result
 
-	sudo apt -qq -y purge cracklib-runtime; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge cracklib-runtime &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	return $result
 }

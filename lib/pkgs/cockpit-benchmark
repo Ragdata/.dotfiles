@@ -18,8 +18,8 @@ cockpit-benchmark::install()
 {
 	local result
 
-	sudo apt-get -qq -y install cockpit-benchmark; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	sudo apt-get -qq -y install cockpit-benchmark &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	sudo systemctl restart cockpit.socket
 
@@ -32,8 +32,8 @@ cockpit-benchmark::remove()
 {
 	local result
 
-	sudo apt -qq -y purge cockpit-benchmark; result=$?
-	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
+	  sudo apt-get -qq -y purge cockpit-benchmark &> /dev/null; result=$?
+	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 
 	sudo systemctl restart cockpit.socket
 

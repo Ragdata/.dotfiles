@@ -66,7 +66,7 @@ dot::install::repos()
 
 	debugLog "${FUNCNAME[0]}"
 
-	local result
+	local result source
 
 	if ! command -v add-apt-repository &> /dev/null; then
 		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
@@ -80,12 +80,18 @@ dot::install::repos()
 		fi
 	fi
 
+    if [ -f "$CUSTOM/cfg/data/repos.list" ]; then
+        source="$CUSTOM/cfg/data/repos.list"
+    else
+        source="$DOT_CFG/data/repos.list"
+    fi
+
 	if [ -f "$DOT_CFG/data/repositories.list" ]; then
 		echoDot "Adding configured repositories" -s "➤" -c "${GOLD}"
 		while IFS= read -r line
 		do
 		    [ "${line:0:1}" != "#" ] && pkg::addRepo "$line"
-		done < "$DOT_CFG/data/repositories.list"
+		done < "$source"
 	fi
 }
 # ------------------------------------------------------------------

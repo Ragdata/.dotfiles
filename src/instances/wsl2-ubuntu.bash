@@ -50,3 +50,4 @@ dot::install::deps
 #dot::launch::script "rhosts"
 #dot::launch::script "compilers"
 #dot::launch::script "wsl"
+pkg::cleanup

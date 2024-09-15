@@ -211,7 +211,7 @@ pkg::cleanup()
 
 	debugLog "${FUNCNAME[0]}"
 
-	echoDot "Performing garbage collection" -s "•"
+	echoDot "Performing Garbage Collection" -s "➤" -c "${GOLD}"
 
 	sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
 }

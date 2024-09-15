@@ -86,7 +86,7 @@ dot::install::repos()
         source="$DOT_CFG/data/repos.list"
     fi
 
-	if [ -f "$DOT_CFG/data/repositories.list" ]; then
+	if [ -f "$source" ]; then
 		echoDot "Adding configured repositories" -s "➤" -c "${GOLD}"
 		while IFS= read -r line
 		do

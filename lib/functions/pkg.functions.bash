@@ -63,7 +63,7 @@ pkg()
 
 	(($# < 2)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" options
+	local pkg="${1//[$'\t\n\r']}" options
 
 	shift
 
@@ -73,7 +73,7 @@ pkg()
 
 	while true
 	do
-		case "$1" in
+		case "$pkg" in
 			-a | --auto)
 				pkg::auto "$pkg"
 				shift
@@ -129,7 +129,7 @@ pkg::addRepo()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local repo="$1" result
+	local repo="${1//[$'\t\n\r']}" result
 
 	echoDot "Adding repository '$repo': " -s "✚" -n
 	sudo add-apt-repository -qq -y "$repo"; result=$?
@@ -151,7 +151,7 @@ pkg::auto()
 
 	(($# < 1)) && errorExit "No packages requested for processing"
 
-	local pkg="$1"
+	local pkg="${1//[$'\t\n\r']}"
 
 	pkg::check "$pkg" && return 0
 
@@ -172,7 +172,7 @@ pkg::bundle()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-    local bundle="$1"
+    local bundle="${1//[$'\t\n\r']}"
     local path="$PKGS/bundles"
 
     [ -f "$path/$bundle.list" ] || exitLog "Cannot find bundle file '$path/$bundle.list'"
@@ -190,7 +190,7 @@ pkg::check()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" func result
+	local pkg="${1//[$'\t\n\r']}" func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
@@ -213,7 +213,7 @@ pkg::config()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" func result
+	local pkg="${1//[$'\t\n\r']}" func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
@@ -248,7 +248,7 @@ pkg::download()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" tested=0 func result dir
+	local pkg="${1//[$'\t\n\r']}" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -269,7 +269,7 @@ pkg::download()
 
 	if ((tested == 0)); then
 		echoDot "Downloading '$pkg' - " -s "⮟" -n
-		sudo apt-get -qq -y download "$pkg"; result=$?
+		sudo apt-get -qq -y download "$pkg" &> /dev/null; result=$?
 	fi
 
 	if [[ "$result" -eq 0 ]]; then
@@ -293,7 +293,7 @@ pkg::findPkg()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	sudo apt-cache search "$1"
+	sudo apt-cache search "${1//[$'\t\n\r']}"
 }
 # ------------------------------------------------------------------
 # pkg::install
@@ -306,7 +306,7 @@ pkg::install()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" tested=0 func result
+	local pkg="${1//[$'\t\n\r']}" tested=0 func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
@@ -319,24 +319,17 @@ pkg::install()
 
 	if ((tested == 0)); then
 		echoDot "Installing '$pkg' - " -s "✚" -n
-		sudo apt-get -qq -y install "$pkg"; result=$?
+		sudo apt-get -qq -y install "$pkg" &> /dev/null; result=$?
 	fi
 
-    case "$result" in
-        0)
-    		log::info "Package '$pkg' installed successfully"
-    		echoAlias "OK" -c "${LT_GREEN}"
-        	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-            ;;
-        1)
-            log::error "Failed to install package '$pkg'"
-            echoAlias "FAILED!" -c "${RED}"
-            ;;
-        2)
-            log::info "Package '$pkg' install skipped"
-            echoAlias "SKIPPED" -c "${GOLD}"
-            ;;
-    esac
+    if [ "$result" -eq 0 ]; then
+        log::info "Package '$pkg' installed successfully"
+        echoAlias "OK" -c "${LT_GREEN}"
+        sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+    else
+        log::error "Failed to install package '$pkg'"
+        echoAlias "FAILED!" -c "${RED}"
+    fi
 
 	func="$pkg::post_install"
 	if [[ $(type -t "$func") == "function" ]]; then eval "$func"; fi
@@ -405,7 +398,7 @@ pkg::remove()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" tested=0 func result
+	local pkg="${1//[$'\t\n\r']}" tested=0 func result
 
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
@@ -418,24 +411,17 @@ pkg::remove()
 
 	if ((tested == 0)); then
 		echoDot "Removing '$pkg' - " -s "🞮" -n
-		sudo apt-get -qq -y purge "$pkg"; result=$?
+		sudo apt-get -qq -y purge "$pkg" &> /dev/null; result=$?
 	fi
 
-    case "$result" in
-        0)
-    		log::info "Package '$pkg' removed successfully"
-    		echoAlias "OK" -c "${LT_GREEN}"
-        	sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove
-            ;;
-        1)
-            log::error "Failed to remove package '$pkg'"
-            echoAlias "FAILED!" -c "${RED}"
-            ;;
-        2)
-            log::info "Package '$pkg' removal skipped"
-            echoAlias "SKIPPED" -c "${GOLD}"
-            ;;
-    esac
+    if [ "$result" -eq 0 ]; then
+        log::info "Package '$pkg' removed successfully"
+        echoAlias "OK" -c "${LT_GREEN}"
+        sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null
+    else
+        log::error "Failed to remove package '$pkg'"
+        echoAlias "FAILED!" -c "${RED}"
+    fi
 
 	func="$pkg::post_remove"
 	[[ $(type -t "$func") == "function" ]] || return 0
@@ -477,7 +463,7 @@ pkg::showPkg()
 
 	(($# < 1)) && exitLog "cowardly refusing to show nothing!"
 
-	sudo apt-cache show "$1"
+	sudo apt-cache show "${1//[$'\t\n\r']}"
 }
 # ------------------------------------------------------------------
 # pkg::source
@@ -490,7 +476,7 @@ pkg::source()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg="$1" tested=0 func result dir
+	local pkg="${1//[$'\t\n\r']}" tested=0 func result dir
 
 	if [[ -n "$2" ]]; then
 		dir="$2"; [[ "${dir:0:1}" == "=" ]] && dir="${dir:1}"
@@ -511,7 +497,7 @@ pkg::source()
 
 	if ((tested == 0)); then
 		echoDot "Downloading '$pkg' source - " -s "⮟" -n
-		sudo apt-get -qq -y download "$pkg"; result=$?
+		sudo apt-get -qq -y download "$pkg" &> /dev/null; result=$?
 	fi
 
 	if [[ "$result" -eq 0 ]]; then

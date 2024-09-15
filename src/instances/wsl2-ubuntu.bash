@@ -25,14 +25,17 @@ clear
 dot::install::repos
 pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
 echo ""
+
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"
 echo ""
+
 dot::install::deps
-#
-#pkgInstall "shellcheck" "wslu"
-#
-#dot::launch::script "disablenet"
+pkgInstall "shellcheck" "wslu"
+
+echo ""
+echoDot "Hardening instance" -s "➤" -c "${GOLD}"
+dot::launch::script "disablenet"
 #dot::launch::script "disablefs"
 #dot::launch::script "disablemod"
 #dot::launch::script "systemdconf"

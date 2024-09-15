@@ -25,12 +25,12 @@ script::user()
         if id "$user" &>/dev/null; then
             sudo pkill -u "$user"
             if sudo userdel -r "$user" &>/dev/null; then
-                echo "User $user deleted successfully."
+                log::info "User $user deleted successfully."
             else
-                echo "Failed to delete user $user."
+                log::error "Failed to delete user $user."
             fi
         else
-            echo "User $user does not exist."
+            log::debug "User $user does not exist."
         fi
     done
 

@@ -1,0 +1,23 @@
+# shellcheck shell=bash
+####################################################################
+# ctraltdel
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::ctraltdel()
+{
+    echoDot "[Hardening] Ctrl-alt-del" -s "▶"
+
+    sudo systemctl mask ctrl-alt-del.target
+
+    sudo sed -i 's/^#CtrlAltDelBurstAction=.*/CtrlAltDelBurstAction=none/' /etc/systemd/system.conf
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status ctrl-alt-del.target --no-pager
+        echo
+    fi
+
+	return 0
+}

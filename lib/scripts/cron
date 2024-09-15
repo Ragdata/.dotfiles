@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+####################################################################
+# cron
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::cron()
+{
+    echoDot "[Hardening] /etc/cron & /etc/at" -s "▶"
+
+    sudo rm /etc/cron.deny 2> /dev/null
+    sudo rm /etc/at.deny 2> /dev/null
+
+    echo 'root' | sudo tee /etc/cron.allow
+    echo 'root' | sudo tee /etc/at.allow
+
+    sudo chown root:root /etc/cron*
+    sudo chmod og-rwx /etc/cron*
+
+    sudo chown root:root /etc/at*
+    sudo chmod og-rwx /etc/at*
+
+    sudo systemctl mask atd.service
+    sudo systemctl stop atd.service
+    sudo systemctl daemon-reload
+
+    sudo sed -i 's/^#cron./cron./' /etc/rsyslog.d/50-default.conf
+
+    if [[ $VERBOSE == "Y" ]]; then
+        sudo systemctl status atd.service --no-pager
+        echo
+    fi
+
+	return 0
+}

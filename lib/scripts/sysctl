@@ -1,0 +1,27 @@
+# shellcheck shell=bash
+####################################################################
+# sysctl
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+script::sysctl()
+{
+    echoDot "Configuring SYSCTL" -s "▶"
+
+    if [ -f "$CUSTOM/etc/sysctl.conf" ]; then
+        source="$CUSTOM/etc/sysctl.conf"
+    else
+        source="$DOT_ETC/sysctl.conf"
+    fi
+
+    if [ -f "$source" ]; then
+        sudo install -b -C -m 0644 -T "$source" /etc/sysctl.conf
+    fi
+
+	return 0
+}

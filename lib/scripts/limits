@@ -1,0 +1,28 @@
+# shellcheck shell=bash
+####################################################################
+# limits
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::limits()
+{
+    echoDot "[Hardening] /etc/security/limits.conf" -s "▶"
+
+    sudo sed -i 's/^# End of file*//' /etc/security/limits.conf
+    {
+        echo '* hard maxlogins 10'
+        echo '* hard core 0'
+        echo '* soft nproc 512'
+        echo '* hard nproc 1024'
+        echo '# End of file'
+    } | sudo tee -a /etc/security/limits.conf
+
+    if [[ $VERBOSE == "Y" ]]; then
+        grep -v '#' /etc/security/limits.conf | uniq
+        echo
+    fi
+
+	return 0
+}

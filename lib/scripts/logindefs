@@ -1,0 +1,24 @@
+# shellcheck shell=bash
+####################################################################
+# logindefs
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::logindefs()
+{
+    echoDot "[Hardening] /etc/login.defs" -s "▶"
+
+    sudo sed -i 's/^.*LOG_OK_LOGINS.*/LOG_OK_LOGINS yes/' /etc/login.defs
+    sudo sed -i 's/^UMASK.*/UMASK 077/' /etc/login.defs
+    sudo sed -i 's/^PASS_MIN_DAYS.*/PASS_MIN_DAYS 1/' /etc/login.defs
+    sudo sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS 60/' /etc/login.defs
+    sudo sed -i 's/DEFAULT_HOME.*/DEFAULT_HOME no/' /etc/login.defs
+    sudo sed -i 's/ENCRYPT_METHOD.*/ENCRYPT_METHOD SHA512/' /etc/login.defs
+    sudo sed -i 's/USERGROUPS_ENAB.*/USERGROUPS_ENAB no/' /etc/login.defs
+    sudo sed -i 's/^#.*SHA_CRYPT_MIN_ROUNDS .*/SHA_CRYPT_MIN_ROUNDS 10000/' /etc/login.defs
+    sudo sed -i 's/^#.*SHA_CRYPT_MAX_ROUNDS .*/SHA_CRYPT_MAX_ROUNDS 65536/' /etc/login.defs
+
+	return 0
+}

@@ -1,0 +1,178 @@
+# shellcheck shell=bash
+####################################################################
+# sshd
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+script::sshd()
+{
+    echoDot "[Hardening] /etc/ssh/sshd_config" -s "▶"
+
+    awk '$5 >= 3071' /etc/ssh/moduli | sudo tee /etc/ssh/moduli.tmp
+    sudo mv /etc/ssh/moduli.tmp /etc/ssh/moduli
+
+    if grep -q '^Include' /etc/ssh/sshd_config; then
+        local INCLUDEDIR
+        # shellcheck disable=SC2046
+        INCLUDEDIR="$(dirname $(grep '^Include' /etc/ssh/sshd_config | awk '{print $NF}'))"
+
+        if [ ! -d "$INCLUDEDIR" ]; then
+            sudo mkdir -p "$INCLUDEDIR"
+        fi
+
+        SSHDCONF="$INCLUDEDIR/hardening.conf"
+
+        sudo cp /etc/ssh/sshd_config "$SSHDCONF"
+
+        sudo sed -i '/.*Subsystem.*/d' /etc/ssh/sshd_config
+        sudo sed -i '/Include.*/d' "$SSHDCONF"
+    else
+        SSHDCONF=/etc/ssh/sshd_config
+    fi
+
+    sudo sed -i '/HostKey.*ssh_host_dsa_key.*/d' "$SSHDCONF"
+    sudo sed -i '/KeyRegenerationInterval.*/d' "$SSHDCONF"
+    sudo sed -i '/ServerKeyBits.*/d' "$SSHDCONF"
+    sudo sed -i '/UseLogin.*/d' "$SSHDCONF"
+
+    sudo sed -i 's/.*X11Forwarding.*/X11Forwarding no/' "$SSHDCONF"
+    sudo sed -i 's/.*LoginGraceTime.*/LoginGraceTime 20/' "$SSHDCONF"
+    sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin no/' "$SSHDCONF"
+    sudo sed -i 's/.*UsePrivilegeSeparation.*/UsePrivilegeSeparation sandbox/' "$SSHDCONF"
+    sudo sed -i 's/.*LogLevel.*/LogLevel VERBOSE/' "$SSHDCONF"
+    sudo sed -i 's/.*Banner.*/Banner \/etc\/issue.net/' "$SSHDCONF"
+    sudo sed -i 's/.*Subsystem.*sftp.*/Subsystem sftp internal-sftp/' "$SSHDCONF"
+    sudo sed -i 's/^#.*Compression.*/Compression no/' "$SSHDCONF"
+    sudo sed -i "s/.*Port.*/Port $SSH_PORT/" "$SSHDCONF"
+
+    echo "" | sudo tee -a "$SSHDCONF"
+
+    if ! grep -q "^LogLevel" "$SSHDCONF" 2> /dev/null; then
+        echo "LogLevel VERBOSE" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^PrintLastLog" "$SSHDCONF" 2> /dev/null; then
+        echo "PrintLastLog yes" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^IgnoreUserKnownHosts" "$SSHDCONF" 2> /dev/null; then
+        echo "IgnoreUserKnownHosts yes" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^PermitEmptyPasswords" "$SSHDCONF" 2> /dev/null; then
+        echo "PermitEmptyPasswords no" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^AllowGroups" "$SSHDCONF" 2> /dev/null; then
+        echo "AllowGroups $SSH_GRPS" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^MaxAuthTries" "$SSHDCONF" 2> /dev/null; then
+        echo "MaxAuthTries 3" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/MaxAuthTries.*/MaxAuthTries 3/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^ClientAliveInterval" "$SSHDCONF" 2> /dev/null; then
+        echo "ClientAliveInterval 200" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^ClientAliveCountMax" "$SSHDCONF" 2> /dev/null; then
+        echo "ClientAliveCountMax 3" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^PermitUserEnvironment" "$SSHDCONF" 2> /dev/null; then
+        echo "PermitUserEnvironment no" | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^KexAlgorithms" "$SSHDCONF" 2> /dev/null; then
+        echo 'KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256' | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^Ciphers" "$SSHDCONF" 2> /dev/null; then
+        echo 'Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes256-ctr' | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^Macs" "$SSHDCONF" 2> /dev/null; then
+        echo 'Macs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256' | sudo tee -a "$SSHDCONF"
+    fi
+
+    if ! grep -q "^MaxSessions" "$SSHDCONF" 2> /dev/null; then
+        echo "MaxSessions 3" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/MaxSessions.*/MaxSessions 3/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^UseDNS" "$SSHDCONF" 2> /dev/null; then
+        echo "UseDNS no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/UseDNS.*/UseDNS no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^StrictModes" "$SSHDCONF" 2> /dev/null; then
+        echo "StrictModes yes" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/StrictModes.*/StrictModes yes/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^MaxStartups" "$SSHDCONF" 2> /dev/null; then
+        echo "MaxStartups 10:30:60" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/MaxStartups.*/MaxStartups 10:30:60/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^HostbasedAuthentication" "$SSHDCONF" 2> /dev/null; then
+        echo "HostbasedAuthentication no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/HostbasedAuthentication.*/HostbasedAuthentication no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^KerberosAuthentication" "$SSHDCONF" 2> /dev/null; then
+        echo "KerberosAuthentication no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/KerberosAuthentication.*/KerberosAuthentication no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^GSSAPIAuthentication" "$SSHDCONF" 2> /dev/null; then
+        echo "GSSAPIAuthentication no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/GSSAPIAuthentication.*/GSSAPIAuthentication no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^RekeyLimit" "$SSHDCONF" 2> /dev/null; then
+        echo "RekeyLimit 512M 1h" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/RekeyLimit.*/RekeyLimit 512M 1h/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^AllowTcpForwarding" "$SSHDCONF" 2> /dev/null; then
+        echo "AllowTcpForwarding no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/AllowTcpForwarding.*/AllowTcpForwarding no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^AllowAgentForwarding" "$SSHDCONF" 2> /dev/null; then
+        echo "AllowAgentForwarding no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/AllowAgentForwarding.*/AllowTcpForwarding no/' "$SSHDCONF"
+    fi
+
+    if ! grep -q "^TCPKeepAlive" "$SSHDCONF" 2> /dev/null; then
+        echo "TCPKeepAlive no" | sudo tee -a "$SSHDCONF"
+    else
+        sudo sed -i 's/TCPKeepAlive.*/TCPKeepAlive no/' "$SSHDCONF"
+    fi
+
+    sudo cp "$SSHDCONF" "/etc/ssh/sshd_config.$(date +%y%m%d)"
+    grep -vE '#|^$' "/etc/ssh/sshd_config.$(date +%y%m%d)" | sort | uniq | sudo tee "$SSHDCONF"
+    sudo rm "/etc/ssh/sshd_config.$(date +%y%m%d)"
+
+    sudo chown root:root "$SSHDCONF"
+    sudo chmod 0600 "$SSHDCONF"
+
+    sudo systemctl restart sshd.service
+
+	return 0
+}

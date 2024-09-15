@@ -52,7 +52,7 @@ dot::install::deps()
         source="$DOT_CFG/data"
     fi
 
-	if [ -f "$source" ]; then
+	if [ -d "$source" ]; then
 		echoDot "Installing configured dependencies" -s "➤" -c "${GOLD}"
 		pkg::installList "dependencies" "$DOT_CFG/data"
 	fi

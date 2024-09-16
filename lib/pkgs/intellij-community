@@ -16,7 +16,7 @@ intellij-community::check() { dpkg -l | grep intellij-community 2> /dev/null 1>&
 # ------------------------------------------------------------------
 intellij-community::install()
 {
-    dot::include "aliases.functions"
+    dot::include "alias.functions"
 
 	local result path optPath
 
@@ -57,7 +57,7 @@ intellij-community::install()
 # ------------------------------------------------------------------
 intellij-community::remove()
 {
-    dot::include "aliases.functions"
+    dot::include "alias.functions"
 
 	local result
 

@@ -370,5 +370,5 @@ dot::update()
     echo ""
     echo ""
 
-    bash -i
+    dot::reload
 }

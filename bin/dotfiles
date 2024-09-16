@@ -90,10 +90,12 @@ case "${1:-}" in
 	disable)
 	    case "${2:-}" in
             alias)
-                alias::disable "${3?}"; return
+                alias::disable "${3?}"
+                alias::describe; return
                 ;;
             aliases)
-                aliasDisable "${@:2}"; return
+                aliasDisable "${@:2}"
+                alias::describe; return
                 ;;
             completion)
                 completion::disable "${3?}"; return
@@ -115,10 +117,12 @@ case "${1:-}" in
 	enable)
 	    case "${2:-}" in
             alias)
-                alias::enable "${3?}"; return
+                alias::enable "${3?}"
+                alias::describe; return
                 ;;
             aliases)
-                aliasEnable "${@:2}"; return
+                aliasEnable "${@:2}"
+                alias::describe; return
                 ;;
             completion)
                 completion::enable "${3?}"; return

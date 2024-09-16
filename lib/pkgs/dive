@@ -18,14 +18,14 @@ dive::install()
 {
 	local result gc="${1:-}" DIVE_VERSION
 
-	[[ ! -d "$XDG_DOWNLOAD_DIR" ]] && mkdir -p "$XDG_DOWNLOAD_DIR"
+	[[ ! -d "$HOME/Downloads" ]] && mkdir -p "$HOME/Downloads"
 
 	# get latest version tag
 	DIVE_VERSION=$(curl -s "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
 	# download latest Debian package
-	wget -O "$XDG_DOWNLOAD_DIR/dive.deb https://github.com/wagoodman/dive/releases/latest/download/dive_${DIVE_VERSION}_linux_amd64.deb"
+	wget -O "$HOME/Downloads/dive.deb https://github.com/wagoodman/dive/releases/latest/download/dive_${DIVE_VERSION}_linux_amd64.deb"
 
-	sudo apt-get -qq -y install "$XDG_DOWNLOAD_DIR"/dive.deb &> /dev/null; result=$?
+	sudo apt-get -qq -y install "$HOME/Downloads"/dive.deb &> /dev/null; result=$?
 	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result

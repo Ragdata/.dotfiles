@@ -318,7 +318,7 @@ dot::update::bin()
         echoDot "FAILED!" -c "${RED}"
     fi
 
-    return $return
+    return $result
 }
 # ------------------------------------------------------------------
 # dot::update::config

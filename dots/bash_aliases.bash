@@ -46,6 +46,8 @@ if [ -f "$DOT_REG/aliases.enabled" ]; then
     while IFS= read -r file
     do
         # shellcheck disable=SC1090
-        source "$file"
+        if [[ "${file:0:1}" != "#" && -n "$file" ]]; then
+            [ -f "$file" ] && source "$file"
+        fi
     done < "$DOT_REG/aliases.enabled"
 fi

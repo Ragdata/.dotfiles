@@ -34,7 +34,7 @@ shopt -s checkwinsize
 ####################################################################
 # DOTFILES CONFIGURATION
 ####################################################################
-declare -xa SEARCH_CFG SEARCH_DOWNLOAD IMPORTS
+#declare -xa SEARCH_CFG SEARCH_DOWNLOAD IMPORTS
 
 declare -x ALIASES ASSETS COMPLETIONS CUSTOM FUNCTIONS HELP PKGS SCRIPTS
 declare -x PLUGINS PROMPTS SHELL TEMP TEMPLATES INSTANCES DOTFILES_VERSION DOTFILES_PROMPT
@@ -73,8 +73,9 @@ TEMPLATES="$DOT_LIB/templates"
 
 TEMP="$(mktemp -d)"
 
-SEARCH_CFG=("$HOME" "$HOME/.github" "$HOME/.github/.dotfiles" "$DOTFILES" "$DOT_CFG" "$DOTFILES/.github")
-SEARCH_DOWNLOAD=("$HOME/Downloads" "/f/Libraries/Downloads/Compressed")
+export SEARCH_CFG=("$HOME" "$HOME/.github" "$HOME/.github/.dotfiles" "$DOTFILES" "$DOT_CFG" "$DOTFILES/.github")
+export SEARCH_DOWNLOAD=("$HOME/Downloads" "/f/Libraries/Downloads/Compressed")
+export IMPORTS=()
 
 DOTFILES_PROMPT="default"
 

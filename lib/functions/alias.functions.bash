@@ -37,12 +37,11 @@ alias::enable()
 
 	[ -f "$DOT_REG/aliases.enabled" ] || cp "$TEMPLATES/registry.tmpl" "$DOT_REG/aliases.enabled"
 
-	if grep "$name." "$DOT_REG/aliases.enabled"; then
+	if grep -q "$name\.aliases\.bash" "$DOT_REG/aliases.enabled"; then
 	    log::debug "Alias '$name' already enabled"
-	    return 0
+	else
+	    echo "$source" >> "$DOT_REG/aliases.enabled"
 	fi
-
-	echo "$source" >> "$DOT_REG/aliases.enabled"
 
 	return 0
 }

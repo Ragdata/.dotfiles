@@ -77,8 +77,7 @@ alias::describe()
 
     echoYellow "Available Aliases"
     echo ""
-    header="$(printf -- '%-3s %-20s %s' " E " "FileID" "Description")"
-    echoGold "line"
+    header="$(printf -- '%-3s %-20s %s' " ★ " "FileID" "Description")"
     echoGold "$header"
     echoGold "line"
 

@@ -300,7 +300,7 @@ dot::update::bin()
 {
     group 'dot'
 
-    local fileName result
+    local fileName shortcut result
 
     debugLog "${FUNCNAME[0]}"
 
@@ -308,9 +308,12 @@ dot::update::bin()
     while IFS= read -r file
     do
         fileName="$(basename "$file")"
+        shortcut=".${fileName:3}"
         echoDot "$fileName - " -n
         [ -e "/usr/local/bin/$fileName" ] && sudo rm -f "/usr/local/bin/$fileName"
         sudo ln -s "$file" "/usr/local/bin/$fileName"; result=$?
+        [ -e "/usr/local/bin/$shortcut" ] && sudo rm -f "/usr/local/bin/$shortcut"
+        sudo ln -s "$file" "/usr/local/bin/$shortcut"
         if [ "$result" -eq 0 ]; then
             log::info "'$fileName' linked successfully"
             echoAlias "OK" -c "${LT_GREEN}"
@@ -407,6 +410,9 @@ dot::update()
     group 'dot'
 
     debugLog "${FUNCNAME[0]}"
+
+    [ -d "$CUSTOM" ] || { mkdir -p "$CUSTOM" || exitLog "Unable to create directory '$CUSTOM'"; }
+    [ -d "$DOT_REG" ] || { mkdir -p "$DOT_REG" || exitLog "Unable to create directory '$DOT_REG'"; }
 
     dot::update::repo
     dot::update::config

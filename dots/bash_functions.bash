@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-####################################################################
+# shellcheck disable=SC2016
+# ###################################################################
 # .bash_functions
 ####################################################################
 # Ragdata's Dotfiles - Dotfile Master
@@ -16,7 +17,7 @@
 # ------------------------------------------------------------------
 # checkBash
 # ------------------------------------------------------------------
-checkBash() { group 'bash_functions'; if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
+checkBash() { about 'Checks BASH version'; group 'bash_functions'; if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then errorExit "This script requires a minimum Bash version of 4+"; fi }
 ####################################################################
 # ARRAY FUNCTIONS
 ####################################################################
@@ -25,6 +26,10 @@ checkBash() { group 'bash_functions'; if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
 # ------------------------------------------------------------------
 arr::contains()
 {
+    about 'Determine if an array contains the specified value'
+    param '1:   value'
+    param '2:   array'
+    usage 'arr::contains "needle" "${HAYSTACK[@]}"'
 	group 'bash_functions'
 
 	local e val="$1"
@@ -39,10 +44,83 @@ arr::contains()
 # DOT FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
+# dot::enabled
+# ------------------------------------------------------------------
+dot::enabled()
+{
+    group 'bash_functions'
+
+    debugLog "${FUNCNAME[0]}"
+
+    (($# < 1)) && exitLog "Missing Argument(s)"
+
+    local fileID="${1:-}" type
+
+    #name="${fileID%.*}"
+    type="${fileID##*.}"
+
+    if [ -f "$DOT_REG/$type.enabled" ]; then
+        if grep -q "$fileID" "$DOT_REG/$type.enabled"; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}
+# ------------------------------------------------------------------
+# dot::installed
+# ------------------------------------------------------------------
+dot::installed()
+{
+    group 'bash_functions'
+
+    debugLog "${FUNCNAME[0]}"
+
+    (($# < 1)) && exitLog "Missing Argument(s)"
+}
+# ------------------------------------------------------------------
+# dot::reboot
+# ------------------------------------------------------------------
+dot::reboot()
+{
+    about 'Reboots the instance'
+    usage 'dot::reboot'
+    group 'bash_functions'
+
+    sudo systemctl reboot
+}
+# ------------------------------------------------------------------
+# dot::reload
+# ------------------------------------------------------------------
+dot::reload()
+{
+    about 'Reloads .bashrc'
+    usage 'dot::reload'
+    group 'bash_functions'
+
+    source "$HOME/.bashrc"
+}
+# ------------------------------------------------------------------
+# dot::restart
+# ------------------------------------------------------------------
+dot::restart()
+{
+    about 'Restarts the shell by fully reloading it'
+    usage 'dot::restart'
+    group 'bash_functions'
+
+    exec "${0#-}" --rcfile "$HOME/.bashrc"
+}
+# ------------------------------------------------------------------
 # dot::source
 # ------------------------------------------------------------------
 dot::source()
 {
+    about 'Executes or includes the content of the specified file in the current shell.\nTracks inclusions to limit repeat calls.'
+    param '1:   path'
+    usage 'dot::source "$ALIASES/dot.aliases.bash"'
 	group 'bash_functions'
 
 	(($# > 0)) || errorExit "Missing Arguments"
@@ -64,6 +142,9 @@ dot::source()
 # ------------------------------------------------------------------
 dot::include()
 {
+    about 'Accepts one or more file identifiers which it resolves to a file path before calling dot::source'
+    param '@    file_identifier (name.type|package_name|plugin_name)'
+    usage 'dot::include "dotfiles.functions" "cockpit" "label-manager"'
 	group 'bash_functions'
 
 	(($# > 0)) || errorExit "Missing Arguments"
@@ -139,6 +220,12 @@ dot::include()
 # ------------------------------------------------------------------
 errorHandler()
 {
+    about 'Generic error handler providing trace info'
+    param '1:   LINENO'
+    param '2:   BASH_LINENO'
+    param '3:   ${BASH_COMMAND}'
+    param '4:   $?'
+    usage 'trap '\''errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"'\'' ERR'
 	group 'bash_functions'
 
 	local -n lineNo="${1:-LINENO}"
@@ -185,6 +272,10 @@ errorHandler()
 # ------------------------------------------------------------------
 errorExit()
 {
+    about 'Generic error message with exit status'
+    param '1:   message'
+    param '2:   code    [default=1]'
+    usage 'errorExit "File not found"'
 	group 'bash_functions'
 
 	local msg="ERROR :: " code="${2:-1}"
@@ -194,4 +285,37 @@ errorExit()
 
 	echoError "$msg"
 	exit "$code"
+}
+####################################################################
+# IS FUNCTIONS
+####################################################################
+is::function()
+{
+    about 'Determine if the subject exists as a declared function'
+    param '1:   name'
+    usage 'is::function "ansible::install"'
+    group 'bash_functions'
+
+    local func="${1?}"
+
+    if [[ $(type -t "$func") == "function" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+####################################################################
+# TEXT FUNCTIONS
+####################################################################
+text::center()
+{
+    about 'Center text in a column of fixed width'
+    param '1:   text'
+    param '2:   width'
+    usage 'text::center "here" 8'
+    group 'bash_functions'
+
+    local text="${1?}" width="${2?}"
+
+    printf -- '%*s' $(( (${#text} + width) / 2 )) "$text"
 }

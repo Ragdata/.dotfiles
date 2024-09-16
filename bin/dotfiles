@@ -48,24 +48,108 @@ case "${1:-}" in
 	config)
 		case "${2:-}" in
 			pkg|package)
-				dot::config::pkg "${3?}"; return;;
+				dot::config::pkg "${3?}"; return
+				;;
 		esac
 		[ -z "$2" ] && menu::config
 		;;
+    describe)
+        case "${2:-}" in
+            aliases)
+                alias::describe; return
+                ;;
+            completions)
+                completion::describe; return
+                ;;
+            functions)
+                dot::describe::functions; return
+                ;;
+            instances)
+                instance::describe; return
+                ;;
+            pkgs|packages)
+                pkg::describe; return
+                ;;
+            plugins)
+                plugin::describe; return
+                ;;
+            prompts)
+                dot::describe::prompts; return
+                ;;
+            scripts)
+                script::describe; return
+                ;;
+            stacks)
+                stack::describe; return
+                ;;
+            *)
+                exitLog "Unsupported component type '$2'"
+                ;;
+        esac
+        ;;
 	disable)
+	    case "${2:-}" in
+            alias)
+                alias::disable "${3?}"; return
+                ;;
+            aliases)
+                aliasDisable "${@:2}"; return
+                ;;
+            completion)
+                completion::disable "${3?}"; return
+                ;;
+            completions)
+                completionDisable "${@:2}"; return
+                ;;
+            plugin)
+                plugin::disable "${3?}"; return
+                ;;
+            plugins)
+                pluginDisable "${@:2}"; return
+                ;;
+            *)
+                exitLog "Unsupported component type '$2'"
+                ;;
+	    esac
 		;;
 	enable)
+	    case "${2:-}" in
+            alias)
+                alias::enable "${3?}"; return
+                ;;
+            aliases)
+                aliasEnable "${@:2}"; return
+                ;;
+            completion)
+                completion::enable "${3?}"; return
+                ;;
+            completions)
+                completionEnable "${@:2}"; return
+                ;;
+            plugin)
+                plugin::enable "${3?}"; return
+                ;;
+            plugins)
+                pluginEnable "${@:2}"; return
+                ;;
+            *)
+                exitLog "Unsupported component type '$2'"
+                ;;
+	    esac
 		;;
 	help)
 		;;
 	install)
 		case "${2:-}" in
 			deps|dependencies)
-				dot::install::deps; return;;
+				dot::install::deps; return
+				;;
 			pkg|package)
-				dot::install::pkg "${3?}"; return;;
+				dot::install::pkg "${3?}"; return
+				;;
             repos)
-                dot::install::repos; return;;
+                dot::install::repos; return
+                ;;
 		esac
 		[ -z "$2" ] && menu::install
 		;;
@@ -78,14 +162,18 @@ case "${1:-}" in
 	remove)
 		case "${2:-}" in
 			pkg|package)
-				dot::remove::pkg "${3?}"; return;;
+				dot::remove::pkg "${3?}"; return
+				;;
 		esac
 		;;
+    reboot)
+        dot::reboot
+        ;;
 	restart)
+	    dot::restart
 		;;
 	reload)
-		;;
-	set)
+	    dot::reload; return
 		;;
 	search)
 		;;
@@ -94,13 +182,17 @@ case "${1:-}" in
 	update)
 		case "${2:-}" in
 			bin)
-				dot::update::bin;;
+				dot::update::bin
+				;;
 			dots)
-				dot::update::dots;;
+				dot::update::dots
+				;;
 			repo|sources)
-				dot::update::repo;;
+				dot::update::repo
+				;;
 			sys|system)
-				dot::update::sys;;
+				dot::update::sys
+				;;
 		esac
 		[ -z "$2" ] && menu::update
 		;;

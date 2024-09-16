@@ -225,6 +225,13 @@ echoAlias()
         esac
     done
 
+    if [ "$msg" == "divider" ]; then
+        msg="===================================================================="
+    fi
+    if [ "$msg" == "line" ]; then
+        msg="--------------------------------------------------------------------"
+    fi
+
     if [ -n "$COLOR" ]; then
         OUTPUT="${COLOR}${PREFIX}${msg}${SUFFIX}${_0}"
     else
@@ -282,7 +289,7 @@ echoHead()
 
     color="${1:-"$GOLD"}"
     [ -n "$1" ] && shift
-    
+
     echoAlias "${BOLD}${SYMBOL_HEAD} ${msg}${NORMAL}" -c "$color" "${@}"
 }
 # ------------------------------------------------------------------

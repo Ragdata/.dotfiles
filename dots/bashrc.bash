@@ -33,7 +33,10 @@ esac
 # load composure to support metadata
 source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # support internal metadata
-cite _about _param _example _group _author
+# about param group author example
+cite _about _param _example _group _author usage
+#cite about-alias about-completion about-function about-package
+#cite about-plugin about-script about-instance about-stack
 
 # include .bash_common if available
 [ -e ~/.bash_common ] && source ~/.bash_common

@@ -21,11 +21,18 @@ dot::include "log.functions" "pkg.functions" "alias.functions" "menu.functions"
 # DOTFILES FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# dot::set
+# dot::describe::functions
 # ------------------------------------------------------------------
-dot::set()
+dot::describe::functions()
 {
-	group 'dot'
+    group 'dot'
+}
+# ------------------------------------------------------------------
+# dot::describe::prompts
+# ------------------------------------------------------------------
+dot::describe::prompts()
+{
+    group 'dot'
 }
 ####################################################################
 # DOTFILES INSTALL FUNCTIONS
@@ -147,67 +154,7 @@ dot::install()
 {
 	group 'dot'
 
-#   dot::install::repos
-#	dot::install::deps
-#
-#	echo ""
-#
-#	read -n 1 -s -r -p "Press any key to continue ..."
-
 	menu::install
-}
-####################################################################
-# DOTFILES LAUNCH FUNCTIONS
-####################################################################
-# ------------------------------------------------------------------
-# dot::launch::instance
-# ------------------------------------------------------------------
-dot::launch::instance()
-{
-    group 'dot'
-
-    debugLog "${FUNCNAME[0]}"
-
-	(($# < 1)) && exitLog "Missing Argument(s)"
-
-    local result path
-
-    if [ -f "$INSTANCES/$1.bash" ]; then
-        path="$INSTANCES/$1.bash"
-    else
-        exitLog "Instance file '$1' not found"
-    fi
-
-    source "$path"
-}
-# ------------------------------------------------------------------
-# dot::launch::script
-# ------------------------------------------------------------------
-dot::launch::script()
-{
-    group 'dot'
-
-    debugLog "${FUNCNAME[0]}"
-
-	(($# < 1)) && exitLog "Missing Argument(s)"
-
-    local result path func name="${1//[$'\t\n\r']}"
-
-    if [ -f "$SCRIPTS/$name" ]; then
-        path="$SCRIPTS/$name"
-    else
-        exitLog "Script file '$name' not found"
-    fi
-
-    source "$path"
-
-    func="script::$name"
-
-    [[ $(type -t "$func") == "function" ]] || exitLog "Script function '$func' not found"
-
-    eval "$func"; result=$?
-
-    return $result
 }
 ####################################################################
 # DOTFILES NETWORK FUNCTIONS

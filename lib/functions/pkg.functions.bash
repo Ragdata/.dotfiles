@@ -330,7 +330,7 @@ pkg::install()
 		func="$pkg::install"
 		if [[ $(type -t "$func") == "function" ]]; then
 			echoDot "Installing '$pkg' - " -s "✚" -n
-			"$("$func" "$gc")"; result=$?; tested=1
+			eval "$func" "$gc"; result=$?; tested=1
 		fi
 	fi
 

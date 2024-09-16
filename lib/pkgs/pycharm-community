@@ -1,0 +1,76 @@
+# shellcheck shell=bash
+####################################################################
+# pycharm-community
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+#pycharm-community::check() { dpkg -l | grep pycharm-community 2> /dev/null 1>&2; return $?; }
+# ------------------------------------------------------------------
+# INSTALL
+# ------------------------------------------------------------------
+pycharm-community::install()
+{
+    dot::include "alias.functions"
+
+	local result path optPath dir
+
+    [ "${#SEARCH_DOWNLOAD[@]}" -lt 2 ] && errorExit "Array mismatch ${SEARCH_DOWNLOAD[*]}"
+
+    for dir in "${SEARCH_DOWNLOAD[@]}"
+    do
+        if [ -d "$dir" ]; then
+            if find "$dir" -type f | grep -q "pycharm-"; then
+                # shellcheck disable=SC2012
+                path="$(find "$dir" -name 'pycharm-*' | head -n 1)"
+                break
+            fi
+        fi
+    done
+
+    if [ -z "$path" ]; then
+        wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/python/pycharm-community-2024.2.1.tar.gz &> /dev/null
+        path="$(find "$HOME/Downloads" -name 'pycharm-*' | head -n 1)"
+    fi
+
+    chmod 0644 "$path"
+
+    sudo tar -xzf "$path" -C /opt
+
+    optPath="$(find /opt -type d -name 'pycharm-*' | head -n 1)"
+
+    if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
+        [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
+        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/custom.aliases.bash"
+    fi
+
+    if ! grep -q "pycharm" "$CUSTOM/lib/aliases/custom.aliases.bash"; then
+        echo "alias pycharm=\"$optPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    fi
+
+    alias::enable "custom"; result=$?
+
+	return $result
+}
+# ------------------------------------------------------------------
+# REMOVE
+# ------------------------------------------------------------------
+pycharm-community::remove()
+{
+    dot::include "alias.functions"
+
+	local result
+
+    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+
+    sed -i "/^.*pycharm.*/d" "$CUSTOM/lib/aliases/custom.aliases.bash" &> /dev/null
+
+    sudo rm -rf "$optPath"; result=$?
+
+	return $result
+}

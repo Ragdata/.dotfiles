@@ -25,20 +25,20 @@ alias::enable()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local alias="${1//[$'\t\n\r']}" source
+	local name="${1//[$'\t\n\r']}" source
 
-	if [ -f "$CUSTOM/lib/aliases/$alias.aliases.bash" ]; then
-	    source="$CUSTOM/lib/aliases/$alias.aliases.bash"
+	if [ -f "$CUSTOM/lib/aliases/$name.aliases.bash" ]; then
+	    source="$CUSTOM/lib/aliases/$name.aliases.bash"
 	else
-	    source="$ALIASES/$alias.aliases.bash"
+	    source="$ALIASES/$name.aliases.bash"
 	fi
 
 	[ -f "$source" ] || exitLog "Unable to find alias file '$source'"
 
 	[ -f "$DOT_REG/aliases.enabled" ] || cp "$TEMPLATES/registry.tmpl" "$DOT_REG/aliases.enabled"
 
-	if grep "$alias." "$DOT_REG/aliases.enabled"; then
-	    log::debug "Alias '$alias' already enabled"
+	if grep "$name." "$DOT_REG/aliases.enabled"; then
+	    log::debug "Alias '$name' already enabled"
 	    return 0
 	fi
 
@@ -57,9 +57,9 @@ alias::disable()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local alias="${1//[$'\t\n\r']}" source return
+	local name="${1//[$'\t\n\r']}" source return
 
-	sed "/*$alias\.*/d" "$DOT_REG/aliases.enabled"; return=$?
+	sed "/*$name\.aliases.bash/d" "$DOT_REG/aliases.enabled"; return=$?
 
 	return $return
 }

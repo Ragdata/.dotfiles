@@ -50,7 +50,7 @@ intellij-community::install()
     fi
 
     if ! grep -q "intellij" "$CUSTOM/lib/aliases/custom.aliases.bash"; then
-        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+        echo "alias intellij=\"./$optPath/bin/idea\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
     fi
 
     alias::enable "custom"; result=$?

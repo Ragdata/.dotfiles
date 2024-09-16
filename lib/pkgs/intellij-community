@@ -22,6 +22,8 @@ intellij-community::install()
 
     echo
 
+    [ "${#SEARCH_DOWNLOAD[@]}" -lt 2 ] && echoExit "Array mismatch ${SEARCH_DOWNLOAD[*]}"
+
     for dir in "${SEARCH_DOWNLOAD[@]}"
     do
         echo "$dir"

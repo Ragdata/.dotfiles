@@ -53,7 +53,7 @@ case "${1:-}" in
 		esac
 		[ -z "$2" ] && menu::config
 		;;
-    describe)
+    show|describe)
         case "${2:-}" in
             aliases)
                 alias::describe; return
@@ -176,8 +176,6 @@ case "${1:-}" in
 	    dot::reload; return
 		;;
 	search)
-		;;
-	show)
 		;;
 	update)
 		case "${2:-}" in

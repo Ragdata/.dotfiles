@@ -62,7 +62,7 @@ alias::disable()
 
 	if [[ $name =~ .*\.aliases ]]; then name="${name%.*}"; fi
 
-	sed -i "/*$name\.aliases.bash/d" "$DOT_REG/aliases.enabled"; return=$?
+	sed -i "/.*$name\.aliases\.bash/d" "$DOT_REG/aliases.enabled"; return=$?
 
 	return $return
 }

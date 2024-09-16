@@ -56,7 +56,6 @@ dot::enabled()
 
     local fileID="${1:-}" type
 
-    #name="${fileID%.*}"
     type="${fileID##*.}"
 
     if [ -f "$DOT_REG/$type.enabled" ]; then

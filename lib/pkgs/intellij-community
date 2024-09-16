@@ -68,7 +68,7 @@ intellij-community::remove()
 
     optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
 
-    sed "/^.*intellij.*/d" "$CUSTOM/lib/aliases/custom.aliases.bash" &> /dev/null
+    sed -i "/^.*intellij.*/d" "$CUSTOM/lib/aliases/custom.aliases.bash" &> /dev/null
 
     sudo rm -rf "$optPath"; result=$?
 

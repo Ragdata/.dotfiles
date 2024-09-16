@@ -90,20 +90,20 @@ LOG_LEVEL="INFO"
 # DIALOG VARIABLES
 ####################################################################
 
-declare -rx DIALOG_OK=0
-declare -rx DIALOG_CANCEL=1
-declare -rx DIALOG_HELP=2
-declare -rx DIALOG_EXTRA=3
-declare -rx DIALOG_ITEM_HELP=4
-declare -rx DIALOG_ERROR=254
-declare -rx DIALOG_ESC=255
+declare -x DIALOG_OK=0
+declare -x DIALOG_CANCEL=1
+declare -x DIALOG_HELP=2
+declare -x DIALOG_EXTRA=3
+declare -x DIALOG_ITEM_HELP=4
+declare -x DIALOG_ERROR=254
+declare -x DIALOG_ESC=255
 
-declare -rx SIG_NONE=0
-declare -rx SIG_HUP=1
-declare -rx SIG_INT=2
-declare -rx SIG_QUIT=3
-declare -rx SIG_KILL=9
-declare -rx SIG_TERM=15
+declare -x SIG_NONE=0
+declare -x SIG_HUP=1
+declare -x SIG_INT=2
+declare -x SIG_QUIT=3
+declare -x SIG_KILL=9
+declare -x SIG_TERM=15
 
 ####################################################################
 # TERMINAL VARIABLES

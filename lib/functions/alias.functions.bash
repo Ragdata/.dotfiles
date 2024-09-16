@@ -77,20 +77,21 @@ alias::describe()
 
     echoHead "Available Aliases"
     echo ""
-    header="$(printf -- '%-15s %-8s %-9s %s' "FileID" "  Name" " Enabled" "Description")"
+    header="$(printf -- '%-20s %-9s %s' "FileID" "$(text::center "Enabled" 9)" "Description")"
     echoAlias "$header" -c "${GOLD}"
-    echoAlias "divider" -c "${GOLD}"
+    echoAlias "line" -c "${GOLD}"
 
     while IFS= read -r file
     do
         fileName="$(basename "$file")"
         fileID="${fileName%.*}"
         name="${fileName%%.*}"
-        if dot::enabled "$fileID"; then enabled="✓"; else enabled=""; fi
+        if dot::enabled "$fileID"; then enabled="★"; else enabled=""; fi
         desc="$(metafor "about" < "$file")"
-        entry="$(printf -- '%-15s %-8s %-9s %s' "$fileID" "$(text::center "$name" 8)" "$enabled" "$desc")"
+        entry="$(printf -- '%-20s %-9s %s' "$fileID" "$(text::center "$enabled" 9)" "$desc")"
         echoAlias "$entry"
     done < <(find "$ALIASES" -type f)
+    echo ""
 }
 ####################################################################
 # BULK HANDLERS

@@ -1,0 +1,71 @@
+# shellcheck shell=bash
+####################################################################
+# intellij-community
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+
+# ------------------------------------------------------------------
+# CHECK
+# ------------------------------------------------------------------
+intellij-community::check() { dpkg -l | grep intellij-community 2> /dev/null 1>&2; return $?; }
+# ------------------------------------------------------------------
+# INSTALL
+# ------------------------------------------------------------------
+intellij-community::install()
+{
+    dot::include "aliases.functions"
+
+	local result path optPath
+
+    for dir in "${SEARCH_DOWNLOADS[@]}"
+    do
+        if [ -d "$dir" ]; then
+            if find "$dir" -type f | grep "ideaIC-"; then
+                # shellcheck disable=SC2012
+                path="$(find "$dir" -name 'ideaIC-*' | head -n 1)"
+                break
+            fi
+        fi
+    done
+
+    if [ -z "$path" ]; then
+        wget -P "$HOME/Downloads" https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux&code=IIC
+        path="$(find "$HOME/Downloads" -name 'ideaIC-*' | head -n 1)"
+    fi
+
+    chmod 0644 "$path"
+
+    sudo tar -xzf "$path" -C /opt
+
+    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+
+    if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
+        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" > "$CUSTOM/lib/aliases/custom.aliases.bash"
+    else
+        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    fi
+
+    alias::enable "custom"; result=$?
+
+	return $result
+}
+# ------------------------------------------------------------------
+# REMOVE
+# ------------------------------------------------------------------
+intellij-community::remove()
+{
+    dot::include "aliases.functions"
+
+	local result
+
+    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+
+    sed "/*intellij*/d" "$CUSTOM/lib/aliases/custom.aliases.bash"
+
+    sudo rm -rf "$optPath"; result=$?
+
+	return $result
+}

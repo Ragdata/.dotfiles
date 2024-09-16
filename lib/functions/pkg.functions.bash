@@ -147,43 +147,6 @@ pkg::addRepo()
     fi
 }
 # ------------------------------------------------------------------
-# pkg::auto
-# ------------------------------------------------------------------
-pkg::auto()
-{
-    group 'pkg'
-
-	(($# < 1)) && errorExit "No packages requested for processing"
-
-	local pkg="${1//[$'\t\n\r']}"
-
-	pkg::check "$pkg" && return 0
-
-	pkg::install "$pkg" || return 1
-
-	pkg::config "$pkg" && return 0
-
-	return 1
-}
-# ------------------------------------------------------------------
-# pkg::bundle
-# ------------------------------------------------------------------
-pkg::bundle()
-{
-    group 'pkg'
-
-	debugLog "${FUNCNAME[0]}"
-
-	(($# < 1)) && exitLog "Missing Argument(s)"
-
-    local bundle="${1//[$'\t\n\r']}"
-    local path="$PKGS/bundles"
-
-    [ -f "$path/$bundle.list" ] || exitLog "Cannot find bundle file '$path/$bundle.list'"
-
-    pkg::installList "$bundle" "$PKGS/bundles"
-}
-# ------------------------------------------------------------------
 # pkg::check
 # ------------------------------------------------------------------
 pkg::check()
@@ -199,7 +162,7 @@ pkg::check()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::check"
-		[[ $(type -t "$func") == "function" ]] || return 0
+		is::function "$func" || return 0
 		eval "$func"; result=$?; return "$result"
 	else
 		# perform a generic test if there's no pkg file available
@@ -235,7 +198,7 @@ pkg::config()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::config"
-		[[ $(type -t "$func") == "function" ]] || return 0
+		is::function "$func" || return 0
 		echoDot "Configuring '$pkg' - " -s "✚" -n
 		eval "$func"; result=$?
 
@@ -248,11 +211,18 @@ pkg::config()
 		fi
 
 		func="$pkg::post_config"
-		[[ $(type -t "$func") == "function" ]] || return 0
+		is::function "$func" || return 0
 		eval "$func"
 	fi
 	# no penalty for not having a config function
 	return 0
+}
+# ------------------------------------------------------------------
+# pkg::describe
+# ------------------------------------------------------------------
+pkg::describe()
+{
+    group 'pkg'
 }
 # ------------------------------------------------------------------
 # pkg::download
@@ -278,7 +248,7 @@ pkg::download()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::download"
-		if [[ $(type -t "$func") == "function" ]]; then
+		if is::function "$func"; then
 			echoDot "Downloading '$pkg' - " -s "⮟" -n
 			eval "$func"; result=$?; tested=1
 		fi
@@ -328,7 +298,7 @@ pkg::install()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::install"
-		if [[ $(type -t "$func") == "function" ]]; then
+		if is::function "$func"; then
 			echoDot "Installing '$pkg' - " -s "✚" -n
 			eval "$func" "$gc"; result=$?; tested=1
 		fi
@@ -349,7 +319,7 @@ pkg::install()
     fi
 
 	func="$pkg::post_install"
-	if [[ $(type -t "$func") == "function" ]]; then eval "$func"; fi
+	if is::function "$func"; then eval "$func"; fi
 
 	pkg::config "$pkg"
 }
@@ -420,7 +390,7 @@ pkg::remove()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::remove"
-		if [[ $(type -t "$func") == "function" ]]; then
+		if is::function "$func"; then
 			echoDot "Removing '$pkg' - " -s "🞮" -n
 			eval "$func" "$gc"; result=$?; tested=1
 		fi
@@ -444,7 +414,7 @@ pkg::remove()
     fi
 
 	func="$pkg::post_remove"
-	[[ $(type -t "$func") == "function" ]] || return 0
+	is::function "$func" || return 0
 	eval "$func"
 }
 # ------------------------------------------------------------------
@@ -509,7 +479,7 @@ pkg::source()
 	if [ -f "$PKGS/$pkg" ]; then
 		dot::include "$PKGS/$pkg"
 		func="$pkg::source"
-		if [[ $(type -t "$func") == "function" ]]; then
+		if is::function "$func"; then
 			echoDot "Downloading '$pkg' source - " -s "⮟" -n
 			eval "$func"; result=$?; tested=1
 		fi
@@ -548,28 +518,28 @@ pkgAddRepos()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+    debugLog "${FUNCNAME[0]}"
 
-	(($# < 1)) && exitLog "Missing Argument(s)"
+    (($# < 1)) && exitLog "Missing Argument(s)"
 
-	local repo result
+    local repo result
 
-	if ! command -v add-apt-repository &> /dev/null; then
-		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
-		sudo apt-get -qq -y install software-properties-common; result=$?
-		if [ "$result" -eq 0 ]; then
-			log::info "Package installed successfully"
-			echoAlias "OK" -c "${LT_GREEN}"
-		else
-			log::error "Package 'software-properties-common' failed to install"
-			echoAlias "FAILED!" -c "${RED}"
-		fi
-	fi
+    if ! command -v add-apt-repository &> /dev/null; then
+        echoDot "Installing package 'software-properties-common' - " -s "✚" -n
+        sudo apt-get -qq -y install software-properties-common; result=$?
+        if [ "$result" -eq 0 ]; then
+            log::info "Package installed successfully"
+            echoAlias "OK" -c "${LT_GREEN}"
+        else
+            log::error "Package 'software-properties-common' failed to install"
+            echoAlias "FAILED!" -c "${RED}"
+        fi
+    fi
 
-	for repo in "$@"
-	do
-		[[ "${repo:0:1}" != "#" && -n "$repo" ]] && pkg::addRepo "$repo"
-	done
+    for repo in "$@"
+    do
+        [[ "${repo:0:1}" != "#" && -n "$repo" ]] && pkg::addRepo "$repo"
+    done
 }
 # ------------------------------------------------------------------
 # pkgInstall
@@ -578,16 +548,16 @@ pkgInstall()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+    debugLog "${FUNCNAME[0]}"
 
-	(($# < 1)) && exitLog "Missing Argument(s)"
+    (($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg
+    local pkg
 
-	for pkg in "$@"
-	do
-		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::install "$pkg" "no-gc"
-	done
+    for pkg in "$@"
+    do
+        [[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::install "$pkg" "no-gc"
+    done
 }
 # ------------------------------------------------------------------
 # pkgRemove
@@ -596,14 +566,14 @@ pkgRemove()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+    debugLog "${FUNCNAME[0]}"
 
-	(($# < 1)) && exitLog "Missing Argument(s)"
+    (($# < 1)) && exitLog "Missing Argument(s)"
 
-	local pkg
+    local pkg
 
-	for pkg in "$@"
-	do
-		[[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::remove "$pkg" "no-gc"
-	done
+    for pkg in "$@"
+    do
+        [[ "${pkg:0:1}" != "#" && -n "$pkg" ]] && pkg::remove "$pkg" "no-gc"
+    done
 }

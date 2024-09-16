@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 ####################################################################
-# plugin.functions
+# completion.functions
 ####################################################################
 # Ragdata's Dotfiles - Function Definitions
 #
-# File:         plugin.functions
+# File:         completion.functions
 # Author:       Ragdata
 # Date:         22/08/2024
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-# PLUGIN FUNCTIONS
+# COMPLETION FUNCTIONS
 ####################################################################
 # ------------------------------------------------------------------
-# plugin::enable
+# completion::enable
 # ------------------------------------------------------------------
-plugin::enable()
+completion::enable()
 {
-    group 'plugin'
+    group 'completion'
 
 	debugLog "${FUNCNAME[0]}"
 
@@ -27,30 +27,30 @@ plugin::enable()
 
 	local name="${1//[$'\t\n\r']}" source
 
-	if [ -f "$CUSTOM/lib/plugins/$name/$name.bash" ]; then
-	    source="$CUSTOM/lib/plugins/$name/$name.bash"
+	if [ -f "$CUSTOM/lib/completions/$name.completions.bash" ]; then
+	    source="$CUSTOM/lib/completions/$name.completions.bash"
 	else
-	    source="$PLUGINS/$name/$name.bash"
+	    source="$COMPLETIONS/$name.completions.bash"
 	fi
 
-	[ -f "$source" ] || exitLog "Unable to find plugin file '$source'"
+	[ -f "$source" ] || exitLog "Unable to find completion file '$source'"
 
-	[ -f "$DOT_REG/plugins.enabled" ] || cp "$TEMPLATES/registry.tmpl" "$DOT_REG/plugins.enabled"
+	[ -f "$DOT_REG/completions.enabled" ] || cp "$TEMPLATES/registry.tmpl" "$DOT_REG/completions.enabled"
 
-	if grep -q "$name" "$DOT_REG/plugins.enabled"; then
-	    log::debug "Plugin '$name' already enabled"
+	if grep -q "$name\.completions\.bash" "$DOT_REG/completions.enabled"; then
+	    log::debug "Completion '$name' already enabled"
 	else
-	    echo "$name" >> "$DOT_REG/plugins.enabled"
+	    echo "$source" >> "$DOT_REG/completions.enabled"
 	fi
 
 	return 0
 }
 # ------------------------------------------------------------------
-# plugin::disable
+# completion::disable
 # ------------------------------------------------------------------
-plugin::disable()
+completion::disable()
 {
-    group 'plugin'
+    group 'completion'
 
 	debugLog "${FUNCNAME[0]}"
 
@@ -58,29 +58,29 @@ plugin::disable()
 
 	local name="${1//[$'\t\n\r']}" source return
 
-	sed "/$name/d" "$DOT_REG/plugins.enabled"; return=$?
+	sed "/*$name\.completions.bash/d" "$DOT_REG/completions.enabled"; return=$?
 
 	return $return
 }
 # ------------------------------------------------------------------
-# plugin::describe
+# completion::describe
 # ------------------------------------------------------------------
-plugin::describe()
+completion::describe()
 {
-    group 'plugin'
+    group 'completion'
 }
 ####################################################################
 # BULK HANDLERS
 ####################################################################
 # ------------------------------------------------------------------
-# pluginEnable
+# completionEnable
 # ------------------------------------------------------------------
-pluginEnable()
+completionEnable()
 {
-    about 'Enable a list of plugins'
+    about 'Enable a list of completion files'
     param '@:   list/array'
-    usage 'pluginEnable "label-manager" "git-subtree"'
-    group 'plugin'
+    usage 'completionEnable "dot" "general" "git"'
+    group 'completion'
 
     debugLog "${FUNCNAME[0]}"
 
@@ -90,18 +90,18 @@ pluginEnable()
 
     for name in "$@"
     do
-        [[ "${name:0:1}" != "#" && -n "$name" ]] && plugin::enable "$name"
+        [[ "${name:0:1}" != "#" && -n "$name" ]] && completion::enable "$name"
     done
 }
 # ------------------------------------------------------------------
-# pluginDisable
+# completionDisable
 # ------------------------------------------------------------------
-pluginDisable()
+completionDisable()
 {
-    about 'Disable a list of plugins'
+    about 'Disable a list of completion files'
     param '@:   list/array'
-    usage 'pluginDisable "label-manager" "git-subtree"'
-    group 'plugin'
+    usage 'completionDisable "dot" "general" "git"'
+    group 'completion'
 
     debugLog "${FUNCNAME[0]}"
 
@@ -111,6 +111,6 @@ pluginDisable()
 
     for name in "$@"
     do
-        [[ "${name:0:1}" != "#" && -n "$name" ]] && plugin::disable "$name"
+        [[ "${name:0:1}" != "#" && -n "$name" ]] && completion::disable "$name"
     done
 }

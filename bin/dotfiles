@@ -63,7 +63,7 @@ case "${1:-}" in
 			deps|dependencies)
 				dot::install::deps; return;;
 			pkg|package)
-				printenv | grep SEARCH_; dot::install::pkg "${3?}"; return;;
+				dot::install::pkg "${3?}"; return;;
             repos)
                 dot::install::repos; return;;
 		esac

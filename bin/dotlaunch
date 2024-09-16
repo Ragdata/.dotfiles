@@ -46,9 +46,9 @@ dot::include "dotfiles.functions"
 
 case "${1:-}" in
     instance)
-        dot::launch::instance "$2"
+        instance::launch "$2"
         ;;
     script)
-        dot::launch::script "$2"
+        script::launch "$2"
         ;;
 esac

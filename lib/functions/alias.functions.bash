@@ -27,6 +27,8 @@ alias::enable()
 
 	local name="${1//[$'\t\n\r']}" source
 
+	if grep -q "aliases" "$name"; then name="${name%.*}"; fi
+
 	if [ -f "$CUSTOM/lib/aliases/$name.aliases.bash" ]; then
 	    source="$CUSTOM/lib/aliases/$name.aliases.bash"
 	else
@@ -57,6 +59,8 @@ alias::disable()
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local name="${1//[$'\t\n\r']}" source return
+
+	if grep -q "aliases" "$name"; then name="${name%.*}"; fi
 
 	sed "/*$name\.aliases.bash/d" "$DOT_REG/aliases.enabled"; return=$?
 

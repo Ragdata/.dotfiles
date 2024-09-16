@@ -20,8 +20,11 @@ intellij-community::install()
 
 	local result path optPath
 
+    echo
+
     for dir in "${SEARCH_DOWNLOAD[@]}"
     do
+        echo "$dir"
         if [ -d "$dir" ]; then
             if find "$dir" -type f | grep "ideaIC-"; then
                 # shellcheck disable=SC2012

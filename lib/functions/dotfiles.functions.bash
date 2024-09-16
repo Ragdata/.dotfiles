@@ -304,7 +304,7 @@ dot::update::bin()
 
     debugLog "${FUNCNAME[0]}"
 
-    echoHead "Enabling dofiles bin aliases"
+    echoHead "Enabling .dotfiles bin aliases"
 
     echoDot "Enabling dot.aliases - " -n
 
@@ -312,10 +312,10 @@ dot::update::bin()
 
     if [ "$result" -eq 0 ]; then
         log::info "Aliases file 'dot.aliases' enabled successfully"
-        echoDot "OK" -c "${LT_GREEN}"
+        echoAlias "OK" -c "${LT_GREEN}"
     else
         log::error "Enabling aliases file 'dot.aliases' failed"
-        echoDot "FAILED!" -c "${RED}"
+        echoAlias "FAILED!" -c "${RED}"
     fi
 
     return $result

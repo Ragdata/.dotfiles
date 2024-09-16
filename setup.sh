@@ -95,8 +95,8 @@ init::dots()
 	while IFS= read -r file
 	do
 		DOT=()
-		if [ -f "$HOME/.dotfiles/lib/custom/dots/$fileName" ]; then
-			file="$HOME/.dotfiles/lib/custom/dots/$fileName"
+		if [ -f "$HOME/.dotfiles/custom/dots/$fileName" ]; then
+			file="$HOME/.dotfiles/custom/dots/$fileName"
 		fi
 		fileName="$(basename "$file")"
 		mapfile -d "." -t DOT < <(printf '%s' "$fileName")
@@ -117,7 +117,7 @@ init::sudoers()
 {
 	if [ ! -f "/etc/sudoers.d/$USER" ]; then
 		init::echoInfo "Removing password requirement for sudo ..."
-		sudo sh -c "echo '$USER ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/$USER"
+		sudo sh -c "echo \"$USER ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USER"
 	fi
 }
 # ------------------------------------------------------------------

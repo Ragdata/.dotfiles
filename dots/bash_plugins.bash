@@ -12,3 +12,10 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# DEPENDENCIES
+####################################################################
+# required library files
+dot::include "plugin.functions"
+####################################################################
+# PLUGINS TO LOAD
+####################################################################

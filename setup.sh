@@ -173,7 +173,7 @@ else
 	git -C "$HOME/.dotfiles" pull
 fi
 
-init::bin
+#init::bin
 init::dots
 
 echo ""

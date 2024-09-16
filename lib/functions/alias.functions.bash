@@ -77,7 +77,7 @@ alias::describe()
 
     echoHead "Available Aliases"
     echo ""
-    header="$(printf -- '%-20s %-9s %s' "FileID" "$(text::center "Enabled" 9)" "Description")"
+    header="$(printf -- '%-3s %-20s %s' " E " "FileID" "Description")"
     echoAlias "$header" -c "${GOLD}"
     echoAlias "line" -c "${GOLD}"
 
@@ -86,9 +86,9 @@ alias::describe()
         fileName="$(basename "$file")"
         fileID="${fileName%.*}"
         name="${fileName%%.*}"
-        if dot::enabled "$fileID"; then enabled="★"; else enabled=""; fi
+        if dot::enabled "$fileID"; then enabled=" ${GOLD}★${_0} "; else enabled="   "; fi
         desc="$(metafor "about" < "$file")"
-        entry="$(printf -- '%-20s %-9s %s' "$fileID" "$(text::center "$enabled" 9)" "$desc")"
+        entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
         echoAlias "$entry"
     done < <(find "$ALIASES" -type f)
     echo ""

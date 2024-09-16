@@ -89,7 +89,7 @@ alias::describe()
         if dot::enabled "$fileID"; then enabled=" ${GOLD}★${_0} "; else enabled="   "; fi
         desc="$(metafor "about" < "$file")"
         entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
-        echoAlias "$entry"
+        echoAlias "$entry" -c "${LT_GREEN}"
     done < <(find "$ALIASES" -type f)
     echo ""
 }

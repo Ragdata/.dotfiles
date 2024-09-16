@@ -304,27 +304,9 @@ dot::update::bin()
 
     debugLog "${FUNCNAME[0]}"
 
-    echoHead "Updating .dotfiles binaries"
+    echoHead "Enabling dofiles bin aliases"
 
     alias::enable "dot"
-
-#    while IFS= read -r file
-#    do
-#        fileName="$(basename "$file")"
-#        shortcut=".${fileName:3}"
-#        echoDot "$fileName - " -n
-#        [ -e "/usr/local/bin/$fileName" ] && sudo rm -f "/usr/local/bin/$fileName"
-#        sudo ln -s "$file" "/usr/local/bin/$fileName"; result=$?
-#        [ -e "/usr/local/bin/$shortcut" ] && sudo rm -f "/usr/local/bin/$shortcut"
-#        sudo ln -s "$file" "/usr/local/bin/$shortcut"
-#        if [ "$result" -eq 0 ]; then
-#            log::info "'$fileName' linked successfully"
-#            echoAlias "OK" -c "${LT_GREEN}"
-#        else
-#            log::error "'$fileName' link failed"
-#            echoAlias "FAILED!" -c "${RED}"
-#        fi
-#    done < <(find "$DOT_BIN" -type f)
 }
 # ------------------------------------------------------------------
 # dot::update::config

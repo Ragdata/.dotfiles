@@ -306,7 +306,19 @@ dot::update::bin()
 
     echoHead "Enabling dofiles bin aliases"
 
-    alias::enable "dot"
+    echoDot "Enabling dot.aliases - " -n
+
+    alias::enable "dot"; result=$?
+
+    if [ "$result" -eq 0 ]; then
+        log::info "Aliases file 'dot.aliases' enabled successfully"
+        echoDot "OK" -c "${LT_GREEN}"
+    else
+        log::error "Enabling aliases file 'dot.aliases' failed"
+        echoDot "FAILED!" -c "${RED}"
+    fi
+
+    return $return
 }
 # ------------------------------------------------------------------
 # dot::update::config

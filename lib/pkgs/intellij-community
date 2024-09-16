@@ -10,7 +10,7 @@
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------
-intellij-community::check() { dpkg -l | grep intellij-community 2> /dev/null 1>&2; return $?; }
+#intellij-community::check() { dpkg -l | grep intellij-community 2> /dev/null 1>&2; return $?; }
 # ------------------------------------------------------------------
 # INSTALL
 # ------------------------------------------------------------------
@@ -18,7 +18,7 @@ intellij-community::install()
 {
     dot::include "alias.functions"
 
-	local result path optPath
+	local result path optPath dir
 
     echo
 

@@ -27,7 +27,7 @@ intellij-community::install()
     for dir in "${SEARCH_DOWNLOAD[@]}"
     do
         if [ -d "$dir" ]; then
-            if find "$dir" -type f | grep "ideaIC-" &> /dev/null; then
+            if find "$dir" -type f | grep -q "ideaIC-"; then
                 # shellcheck disable=SC2012
                 path="$(find "$dir" -name 'ideaIC-*' | head -n 1)"
                 break
@@ -48,12 +48,12 @@ intellij-community::install()
 
     if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
-        echo "# shellcheck shell=bash" > "$CUSTOM/lib/aliases/custom.aliases.bash"
-        echo "# shellcheck disable=SC2139" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
-        echo "" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/custom.aliases.bash"
     fi
 
-    echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    if ! grep -q "intellij" "$CUSTOM/lib/aliases/custom.aliases.bash"; then
+        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    fi
 
     alias::enable "custom"; result=$?
 

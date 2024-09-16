@@ -48,10 +48,13 @@ intellij-community::install()
     optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
 
     if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
-        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" > "$CUSTOM/lib/aliases/custom.aliases.bash"
-    else
-        echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+        [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
+        echo "# shellcheck shell=bash" > "$CUSTOM/lib/aliases/custom.aliases.bash"
+        echo "# shellcheck disable=SC2139" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+        echo "" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
     fi
+
+    echo "alias intellij=\"sh $optPath/bin/idea.sh\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
 
     alias::enable "custom"; result=$?
 

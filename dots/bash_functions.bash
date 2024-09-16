@@ -106,7 +106,7 @@ dot::include()
 					stub="help/$item.bash"
 					;;
 				plugin|plugins)
-					stub="plugins/$item.bash"
+					stub="plugins/$item/$item.bash"
 					;;
 				*)	errorExit "Type '${ARR[1]}' not supported";;
 			esac

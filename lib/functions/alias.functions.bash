@@ -62,3 +62,78 @@ alias::disable()
 
 	return $return
 }
+# ------------------------------------------------------------------
+# alias::describe
+# ------------------------------------------------------------------
+alias::describe()
+{
+    group 'alias'
+
+    debugLog "${FUNCNAME[0]}"
+
+    local header file fileName fileID name enabled="" desc entry
+
+    clear
+
+    echoHead "Available Aliases"
+    echo ""
+    header="$(printf -- '%-15s %-8s %-9s %s' "FileID" "  Name" " Enabled" "Description")"
+    echoAlias "$header" -c "${GOLD}"
+    echoAlias "divider" -c "${GOLD}"
+
+    while IFS= read -r file
+    do
+        fileName="$(basename "$file")"
+        fileID="${fileName%.*}"
+        name="${fileName%%.*}"
+        if dot::enabled "$fileID"; then enabled="✓"; else enabled=""; fi
+        desc="$(metafor "about" < "$file")"
+        entry="$(printf -- '%-15s %-8s %-9s %s' "$fileID" "$(text::center "$name" 8)" "$enabled" "$desc")"
+        echoAlias "$entry"
+    done < <(find "$ALIASES" -type f)
+}
+####################################################################
+# BULK HANDLERS
+####################################################################
+# ------------------------------------------------------------------
+# aliasEnable
+# ------------------------------------------------------------------
+aliasEnable()
+{
+    about 'Enable a list of alias files'
+    param '@:   list/array'
+    usage 'aliasEnable "dot" "general" "git"'
+    group 'alias'
+
+    debugLog "${FUNCNAME[0]}"
+
+    (($# < 1)) && exitLog "Missing Argument(s)"
+
+    local name
+
+    for name in "$@"
+    do
+        [[ "${name:0:1}" != "#" && -n "$name" ]] && alias::enable "$name"
+    done
+}
+# ------------------------------------------------------------------
+# aliasDisable
+# ------------------------------------------------------------------
+aliasDisable()
+{
+    about 'Disable a list of alias files'
+    param '@:   list/array'
+    usage 'aliasDisable "dot" "general" "git"'
+    group 'alias'
+
+    debugLog "${FUNCNAME[0]}"
+
+    (($# < 1)) && exitLog "Missing Argument(s)"
+
+    local name
+
+    for name in "$@"
+    do
+        [[ "${name:0:1}" != "#" && -n "$name" ]] && alias::disable "$name"
+    done
+}

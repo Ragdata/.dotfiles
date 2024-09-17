@@ -17,7 +17,7 @@ group 'pkgs'
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------
-#pycharm-community::check() { dpkg -l | grep pycharm-community 2> /dev/null 1>&2; return $?; }
+pycharm-community::check() { sudo find /opt -type d -name 'pycharm-*'; return $?; }
 # ------------------------------------------------------------------
 # INSTALL
 # ------------------------------------------------------------------
@@ -60,7 +60,7 @@ pycharm-community::install()
         echo "alias pycharm=\"$optPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
-    alias::enable "custom"; result=$?
+    alias::enable "jetbrains"; result=$?
 
 	return $result
 }

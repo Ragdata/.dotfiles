@@ -17,7 +17,7 @@ group 'pkgs'
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------
-#intellij-community::check() { dpkg -l | grep intellij-community 2> /dev/null 1>&2; return $?; }
+intellij-community::check() { sudo find /opt -type d -name 'idea-IC-*'; return $?; }
 # ------------------------------------------------------------------
 # INSTALL
 # ------------------------------------------------------------------
@@ -60,7 +60,7 @@ intellij-community::install()
         echo "alias intellij=\"$optPath/bin/idea\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
-    alias::enable "custom"; result=$?
+    alias::enable "jetbrains"; result=$?
 
 	return $result
 }

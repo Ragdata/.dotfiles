@@ -23,6 +23,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
 fi
 # some more ls aliases
-alias ll='ls -alF --group-directories-first'
+alias ll='ls -avlF --group-directories-first'
 alias la='ls -A'
 alias l='ls -CF'

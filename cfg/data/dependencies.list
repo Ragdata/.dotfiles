@@ -20,7 +20,6 @@ logrotate
 needrestart
 net-tools
 openssh-server
-software-properties-common
 sysstat
 systemd-coredump
 tcpd

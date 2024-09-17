@@ -34,7 +34,17 @@ str::toLower()
 {
     group 'str'
 
-    printf -- '%s' "${1,,}"
+    local string
+
+    if read -t 0; then
+        while read -r data; do
+            string="$data"
+        done
+    else
+        string="${1:-}"
+    fi
+
+    printf -- '%s' "${string,,}"
 }
 #-------------------------------------------------------------------
 # str::toUpper
@@ -43,5 +53,15 @@ str::toUpper()
 {
     group 'str'
 
-    printf -- '%s' "${1^^}"
+    local string
+
+    if read -t 0; then
+        while read -r data; do
+            string="$data"
+        done
+    else
+        string="${1:-}"
+    fi
+
+    printf -- '%s' "${string^^}"
 }

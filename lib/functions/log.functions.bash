@@ -417,7 +417,7 @@ debugLog()
 {
     group 'log'
 
-    local msg="${ITALIC}${1?}"
+    local msg="${ITALIC}${1?}${_0}"
 
     echoLog "$msg" -c "${WHITE}" -S "⚑" -p 100
 }

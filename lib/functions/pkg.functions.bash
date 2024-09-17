@@ -623,18 +623,6 @@ pkgAddRepos()
 
     local repo result
 
-    if ! command -v add-apt-repository &> /dev/null; then
-        echoDot "Installing package 'software-properties-common' - " -s "✚" -n
-        sudo apt-get -qq -y install software-properties-common; result=$?
-        if [ "$result" -eq 0 ]; then
-            log::info "Package installed successfully"
-            echoAlias "OK" -c "${LT_GREEN}"
-        else
-            log::error "Package 'software-properties-common' failed to install"
-            echoAlias "FAILED!" -c "${RED}"
-        fi
-    fi
-
     for repo in "$@"
     do
         [[ "${repo:0:1}" != "#" && -n "$repo" ]] && pkg::addRepo "$repo"

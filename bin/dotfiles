@@ -48,7 +48,7 @@ case "${1:-}" in
 	config)
 		case "${2:-}" in
 			pkg|package)
-				dot::config::pkg "${3?}"; exit
+				dot::config::pkg "${3?}"
 				;;
 		esac
 		[ -z "$2" ] && menu::config
@@ -56,31 +56,31 @@ case "${1:-}" in
     show|describe)
         case "${2:-}" in
             aliases)
-                alias::describe; exit
+                alias::describe
                 ;;
             completions)
-                completion::describe; exit
+                completion::describe
                 ;;
             functions)
-                dot::describe::functions; exit
+                dot::describe::functions
                 ;;
             instances)
-                instance::describe; exit
+                instance::describe
                 ;;
             pkgs|packages)
-                pkg::describe; exit
+                pkg::describe
                 ;;
             plugins)
-                plugin::describe; exit
+                plugin::describe
                 ;;
             prompts)
-                dot::describe::prompts; exit
+                dot::describe::prompts
                 ;;
             scripts)
-                script::describe; exit
+                script::describe
                 ;;
             stacks)
-                stack::describe; exit
+                stack::describe
                 ;;
             *)
                 exitLog "Unsupported component type '$2'"
@@ -91,23 +91,24 @@ case "${1:-}" in
 	    case "${2:-}" in
             alias)
                 alias::disable "${3?}"
-                alias::describe; exit
+                alias::describe
                 ;;
             aliases)
                 aliasDisable "${@:2}"
-                alias::describe; exit
+                alias::describe
                 ;;
             completion)
-                completion::disable "${3?}"; exit
+                completion::disable "${3?}"
+                completion::describe
                 ;;
             completions)
-                completionDisable "${@:2}"; exit
+                completionDisable "${@:2}"
                 ;;
             plugin)
-                plugin::disable "${3?}"; exit
+                plugin::disable "${3?}"
                 ;;
             plugins)
-                pluginDisable "${@:2}"; exit
+                pluginDisable "${@:2}"
                 ;;
             *)
                 exitLog "Unsupported component type '$2'"
@@ -118,23 +119,24 @@ case "${1:-}" in
 	    case "${2:-}" in
             alias)
                 alias::enable "${3?}"
-                alias::describe; exit
+                alias::describe
                 ;;
             aliases)
                 aliasEnable "${@:2}"
-                alias::describe; exit
+                alias::describe
                 ;;
             completion)
-                completion::enable "${3?}"; exit
+                completion::enable "${3?}"
+                completion::describe
                 ;;
             completions)
-                completionEnable "${@:2}"; exit
+                completionEnable "${@:2}"
                 ;;
             plugin)
-                plugin::enable "${3?}"; exit
+                plugin::enable "${3?}"
                 ;;
             plugins)
-                pluginEnable "${@:2}"; exit
+                pluginEnable "${@:2}"
                 ;;
             *)
                 exitLog "Unsupported component type '$2'"
@@ -146,13 +148,13 @@ case "${1:-}" in
 	install)
 		case "${2:-}" in
 			deps|dependencies)
-				dot::install::deps; exit
+				dot::install::deps
 				;;
 			pkg|package)
-				dot::install::pkg "${3?}"; exit
+				dot::install::pkg "${3?}"
 				;;
             repos)
-                dot::install::repos; exit
+                dot::install::repos
                 ;;
 		esac
 		[ -z "$2" ] && menu::install
@@ -166,7 +168,7 @@ case "${1:-}" in
 	remove)
 		case "${2:-}" in
 			pkg|package)
-				dot::remove::pkg "${3?}"; exit
+				dot::remove::pkg "${3?}"
 				;;
 		esac
 		;;
@@ -177,7 +179,7 @@ case "${1:-}" in
 	    dot::restart
 		;;
 	reload)
-	    dot::reload; exit
+	    dot::reload
 		;;
 	search)
 		;;
@@ -202,4 +204,4 @@ case "${1:-}" in
 		;;
 esac
 
-menu
+(($# == 0)) && menu

@@ -61,13 +61,11 @@ toLower()
 
     local string
 
-    if read -t 0; then
-        while read -r data; do
-            string="$data"
-        done
-    else
-        string="${1:-}"
-    fi
+    string="$(</dev/stdin)"
+
+    [ -z "$string" ] && string="${1:-}"
+
+    [ -z "$string" ] && return 1
 
     str::toLower "$string"
 }
@@ -80,13 +78,11 @@ toUpper()
 
     local string
 
-    if read -t 0; then
-        while read -r data; do
-            string="$data"
-        done
-    else
-        string="${1:-}"
-    fi
+    string="$(</dev/stdin)"
+
+    [ -z "$string" ] && string="${1:-}"
+
+    [ -z "$string" ] && return 1
 
     str::toUpper "$string"
 }

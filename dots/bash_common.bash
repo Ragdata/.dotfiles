@@ -299,13 +299,13 @@ echoDot()
 {
 	group 'bash_common'
 
-	local msg symbol options
+	local msg symbol options size format indent=""
     local -a OUTARGS=()
 
 	msg="${1?}"
 	shift
 
-    options="$(getopt -o "c:s:n" -a -- "$@")"
+    options="$(getopt -o "c:i::s:n" -a -- "$@")"
 
     eval set --"$options"
 
@@ -315,6 +315,13 @@ echoDot()
             -c)
                 OUTARGS+=("-c" "${2?}")
                 shift 2
+                ;;
+            -i)
+                size="${2:-2}"
+                format="%-${size}s"
+                # shellcheck disable=SC2059
+                indent="$(printf -- "$format" "")"
+                if [ -z "$2" ]; then shift; else shift 2; fi
                 ;;
             -s)
                 symbol="${2?}"
@@ -334,5 +341,5 @@ echoDot()
 
     [ -z "$symbol" ] && symbol="$SYMBOL_DOT"
 
-    echoAlias "$symbol $msg" "${OUTARGS[@]}"
+    echoAlias "${indent}${symbol} ${msg}" "${OUTARGS[@]}"
 }

@@ -69,75 +69,6 @@ dot::enabled()
     fi
 }
 # ------------------------------------------------------------------
-# dot::installed
-# ------------------------------------------------------------------
-dot::installed()
-{
-    group 'bash_functions'
-
-    log::debug "${FUNCNAME[0]}"
-
-    (($# < 1)) && exitLog "Missing Argument(s)"
-}
-# ------------------------------------------------------------------
-# dot::reboot
-# ------------------------------------------------------------------
-dot::reboot()
-{
-    about 'Reboots the instance'
-    usage 'dot::reboot'
-    group 'bash_functions'
-
-    sudo systemctl reboot
-}
-# ------------------------------------------------------------------
-# dot::reload
-# ------------------------------------------------------------------
-dot::reload()
-{
-    about 'Reloads .bashrc'
-    usage 'dot::reload'
-    group 'bash_functions'
-
-    source "$HOME/.bashrc"
-}
-# ------------------------------------------------------------------
-# dot::restart
-# ------------------------------------------------------------------
-dot::restart()
-{
-    about 'Restarts the shell by fully reloading it'
-    usage 'dot::restart'
-    group 'bash_functions'
-
-    #exec "${0#-}" --rcfile "$HOME/.bashrc"
-    bash -i
-}
-# ------------------------------------------------------------------
-# dot::source
-# ------------------------------------------------------------------
-dot::source()
-{
-    about 'Executes or includes the content of the specified file in the current shell.\nTracks inclusions to limit repeat calls.'
-    param '1:   path'
-    usage 'dot::source "$ALIASES/dot.aliases.bash"'
-	group 'bash_functions'
-
-	(($# > 0)) || errorExit "Missing Arguments"
-
-	[ -f "$1" ] || errorExit "File '$1' not found"
-
-	if arr::contains "$1" "${IMPORTS[@]}"; then
-		return 0
-	else
-		IMPORTS+=("$1")
-		# shellcheck disable=SC1090
-		source "$1" || return 1
-	fi
-
-	return 0
-}
-# ------------------------------------------------------------------
 # dot::include
 # ------------------------------------------------------------------
 dot::include()
@@ -211,6 +142,64 @@ dot::include()
 			errorExit "File '$path' not found"
 		fi
 	done
+}
+# ------------------------------------------------------------------
+# dot::reboot
+# ------------------------------------------------------------------
+dot::reboot()
+{
+    about 'Reboots the instance'
+    usage 'dot::reboot'
+    group 'bash_functions'
+
+    sudo systemctl reboot
+}
+# ------------------------------------------------------------------
+# dot::reload
+# ------------------------------------------------------------------
+dot::reload()
+{
+    about 'Reloads .bashrc'
+    usage 'dot::reload'
+    group 'bash_functions'
+
+    source "$HOME/.bashrc"
+}
+# ------------------------------------------------------------------
+# dot::restart
+# ------------------------------------------------------------------
+dot::restart()
+{
+    about 'Restarts the shell by fully reloading it'
+    usage 'dot::restart'
+    group 'bash_functions'
+
+    #exec "${0#-}" --rcfile "$HOME/.bashrc"
+    bash -i
+}
+# ------------------------------------------------------------------
+# dot::source
+# ------------------------------------------------------------------
+dot::source()
+{
+    about 'Executes or includes the content of the specified file in the current shell.\nTracks inclusions to limit repeat calls.'
+    param '1:   path'
+    usage 'dot::source "$ALIASES/dot.aliases.bash"'
+	group 'bash_functions'
+
+	(($# > 0)) || errorExit "Missing Arguments"
+
+	[ -f "$1" ] || errorExit "File '$1' not found"
+
+	if arr::contains "$1" "${IMPORTS[@]}"; then
+		return 0
+	else
+		IMPORTS+=("$1")
+		# shellcheck disable=SC1090
+		source "$1" || return 1
+	fi
+
+	return 0
 }
 ####################################################################
 # ERROR FUNCTIONS

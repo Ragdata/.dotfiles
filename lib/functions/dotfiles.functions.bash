@@ -280,9 +280,7 @@ dot::update::config()
 
     [ -d "$CUSTOM/cfg" ] || { mkdir -p "$CUSTOM/cfg" || exitLog "Unable to create directory '$CUSTOM/cfg'"; }
 
-    if [ -f "$CUSTOM/cfg/.node" ]; then
-        echoDot "Skipped"
-    else
+    if [ ! -f "$CUSTOM/cfg/.node" ]; then
         install -v -b -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
     fi
 }

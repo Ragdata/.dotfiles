@@ -43,7 +43,7 @@ cite _about _param _example _group _author usage label
 # include .bash_functions if available
 [ -e ~/.bash_functions ] && source ~/.bash_functions
 
-# include .bash_prompts if available
+# include .bash_plugins if available
 [ -e ~/.bash_plugins ] && source ~/.bash_plugins
 
 # include .bash_prompts if available

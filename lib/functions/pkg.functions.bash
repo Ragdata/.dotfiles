@@ -234,7 +234,7 @@ pkg::describe()
 
     echoYellow "Available Packages"
     echo ""
-    header="$(printf -- '%-3s %-20s %s' " ★ " "FileID" "Description")"
+    header="$(printf -- '%-3s %-30s %s' " ★ " "FileID" "Description")"
     echoGold "$header"
     echoGold "line"
 
@@ -254,7 +254,7 @@ pkg::describe()
             eval "$check"; checked=$?
             if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
             desc="$(metafor "about" < "$file")"
-            entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
+            entry="$(printf -- '%-3s %-30s %s' "$installed" "$name" "$desc")"
             echoLtGreen "$entry"
         done < <(find "$CUSTOM/lib/pkgs" -type f | sort)
 
@@ -274,9 +274,53 @@ pkg::describe()
         eval "$check"; checked=$?
         if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
         desc="$(metafor "about" < "$file")"
-        entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
+        entry="$(printf -- '%-3s %-30s %s' "$installed" "$name" "$desc")"
         echoLtGreen "$entry"
     done < <(find "$PKGS" -type f | sort)
+    echo ""
+}
+#-------------------------------------------------------------------
+# pkg::describe::label
+#-------------------------------------------------------------------
+pkg::describe::label()
+{
+    group 'pkg'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local label="${1?}" meta
+    local header file name installed="" desc entry customFiles check checked
+    local -a LABELS
+
+    clear
+
+    label="${label,,}"
+
+    echoYellow "Filtered Packages - ${label~}"
+    echo ""
+    header="$(printf -- '%-3s %-30s %s' " ★ " "FileID" "Description")"
+    echoGold "$header"
+    echoGold "line"
+
+    while IFS= read -r file
+    do
+        dot::include "$file"
+        name="$(basename "$file")"
+        meta="$(metafor "label" < "$file")"
+        if ! arr::contains "$meta" "${LABELS[@]}"; then LABELS+=("$meta"); fi
+        if [ "$meta" != "$label" ]; then continue; fi
+        if [ "$name" == ".template" ]; then continue; fi
+        check="$name::check"
+        is::function "$check" || exitLog "No 'check' function found for '$name'"
+        eval "$check"; checked=$?
+        if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
+        desc="$(metafor "about" < "$file")"
+        entry="$(printf -- '%-3s %-30s %s' "$installed" "$name" "$desc")"
+        echoLtGreen "$entry"
+    done < <(find "$PKGS" -type f | sort)
+    echo ""
+    echoYellow "Package Labels"
+    echo "${LABELS[*]}"
     echo ""
 }
 #-------------------------------------------------------------------

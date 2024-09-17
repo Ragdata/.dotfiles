@@ -30,7 +30,7 @@ group 'instances'
 clear
 
 dot::install::repos
-pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
+pkgAddRepos "ppa:ansible/ansible"
 echo ""
 
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
@@ -38,7 +38,7 @@ pkg::removeList "purge"
 echo ""
 
 dot::install::deps
-pkgInstall "shellcheck" "wslu"
+pkgInstall "shellcheck"
 
 echo ""
 echoDot "Hardening instance" -s "➤" -c "${GOLD}"

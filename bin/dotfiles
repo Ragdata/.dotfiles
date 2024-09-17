@@ -147,6 +147,8 @@ case "${1:-}" in
 	    esac
 		;;
 	help)
+	    clear
+	    source "$HELP/dotfiles.help.bash"
 		;;
 	install)
 		case "${2:-}" in

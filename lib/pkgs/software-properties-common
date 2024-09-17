@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 ####################################################################
-# default-jre
+# software-properties-common
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -9,7 +9,7 @@
 ####################################################################
 # METADATA
 ####################################################################
-about 'Provides the latest version of the OpenJDK JRE in LTS'
+about 'Provides an abstraction of the used apt repositories'
 group 'pkgs'
 label 'development'
 ####################################################################
@@ -18,15 +18,15 @@ label 'development'
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-default-jre::check() { dpkg -l | grep default-jre 2> /dev/null 1>&2; return $?; }
+software-properties-common::check() { dpkg -l | grep software-properties-common 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-default-jre::install()
+software-properties-common::install()
 {
 	local result gc="${1:-}"
 
-	sudo apt-get -qq -y install default-jre &> /dev/null; result=$?
+	sudo apt-get -qq -y install software-properties-common &> /dev/null; result=$?
 	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result
@@ -34,11 +34,11 @@ default-jre::install()
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-default-jre::remove()
+software-properties-common::remove()
 {
 	local result gc="${1:-}"
 
-    sudo apt-get -qq -y purge default-jre &> /dev/null; result=$?
+    sudo apt-get -qq -y purge software-properties-common &> /dev/null; result=$?
     if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
 
 	return $result

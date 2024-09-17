@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script for /etc/adduser.conf & /etc/default/useradd'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::user()
 {
     echoLog "[Hardening] /etc/adduser.conf & /etc/default/useradd" -S "▶"

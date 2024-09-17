@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A configuration script for Systemd/timesyncd.conf'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::timesyncd()
 {
     echoLog "[Hardening] Systemd/timesyncd.conf" -S "▶"

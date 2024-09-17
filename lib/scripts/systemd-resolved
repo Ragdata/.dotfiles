@@ -7,9 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-#-------------------------------------------------------------------
-# CONFIG
-#-------------------------------------------------------------------
+# METADATA
+####################################################################
+about 'A configuration script for DNS services'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::systemd-resolved()
 {
     echoLog "Configuring systemd-resolved" -S "▶"

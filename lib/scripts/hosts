@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script which restricts access to a system'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::hosts()
 {
     echoLog "[Hardening] /etc/hosts.allow & /etc/hosts.deny" -S "▶"

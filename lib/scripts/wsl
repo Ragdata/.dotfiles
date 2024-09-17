@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A configuration script for WSL2'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::wsl()
 {
     echoLog "Configuring WSL2" -S "▶"

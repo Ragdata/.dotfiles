@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script for Systemd/system.conf & user.conf'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::systemdconf()
 {
     echoLog "[Hardening] Systemd/system.conf & Systemd/user.conf" -S "▶"

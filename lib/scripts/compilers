@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script which restricts compiler access'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::compilers()
 {
     echoLog "[Hardening] Restrict compiler access" -S "▶"

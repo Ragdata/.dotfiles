@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script which defines a target for ctrl-alt-del'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::ctraltdel()
 {
     echoLog "[Hardening] Ctrl-alt-del" -S "▶"

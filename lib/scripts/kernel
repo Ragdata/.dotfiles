@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script for kernel parameters'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::kernel()
 {
     echoLog "[Hardening] Kernel parameters" -S "▶"

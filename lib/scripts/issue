@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A configuration script for the MOTD and others'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::issue()
 {
     echoLog "[Hardening] /etc/issue" -S "▶"

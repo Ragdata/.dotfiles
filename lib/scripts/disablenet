@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script which disables misc network protocols'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::disablenet()
 {
     echoLog "[Hardening] Disable misc network protocols" -S "▶"

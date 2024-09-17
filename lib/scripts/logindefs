@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script for /etc/login.defs'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::logindefs()
 {
     echoLog "[Hardening] /etc/login.defs" -S "▶"

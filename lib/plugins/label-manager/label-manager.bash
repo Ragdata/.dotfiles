@@ -15,8 +15,15 @@
 ####################################################################
 # DEPENDENCIES
 ####################################################################
+# metadata support
+source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # required library files
 dot::include "log.functions"
+####################################################################
+# METADATA
+####################################################################
+about 'A label management utility for GitHub repositories'
+group 'plugins'
 ####################################################################
 # HARDENING FUNCTIONS
 ####################################################################

@@ -7,6 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+about 'A server hardening script which disables misc kernel mods'
+group 'scripts'
+####################################################################
+# FUNCTIONS
+####################################################################
 script::disablemod()
 {
     echoLog "[Hardening] Disable misc kernel modules" -S "▶"

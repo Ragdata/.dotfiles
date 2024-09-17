@@ -365,10 +365,10 @@ dot::update()
 
     echo ""
 
-    read -n 1 -s -r -p "Press any key to continue ..."
-
-    echo ""
-    echo ""
+#    read -n 1 -s -r -p "Press any key to continue ..."
+#
+#    echo ""
+#    echo ""
 
     dot::reload
 }

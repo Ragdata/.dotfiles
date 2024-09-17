@@ -42,7 +42,7 @@ do
 	fi
 done < <(declare -F)
 # include required functions
-dot::include "dotfiiles.functions" "alias.functions"
+dot::include "dotfiles.functions" "alias.functions"
 ####################################################################
 # SETUP & CONFIG
 ####################################################################

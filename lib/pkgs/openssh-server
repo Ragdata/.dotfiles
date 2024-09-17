@@ -7,10 +7,13 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-
+# METADATA
+####################################################################
 about 'A powerful collection of tools for remotely controlling networked computers and transferring data between them'
 group 'pkgs'
-
+####################################################################
+# FUNCTIONS
+####################################################################
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

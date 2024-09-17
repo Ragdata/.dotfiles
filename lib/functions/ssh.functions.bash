@@ -21,6 +21,23 @@ dot::include "log.functions"
 # SSH FUNCTIONS
 ####################################################################
 #-------------------------------------------------------------------
+# ssh::id::send
+#-------------------------------------------------------------------
+ssh::copy::id()
+{
+    group 'ssh'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local destination="${1?}" username result
+
+    username="$(git config --get user.name | toLower)"
+
+    ssh-copy-id -i "id_$username" "$destination"; result=$?
+
+    return $result
+}
+#-------------------------------------------------------------------
 # ssh::keygen::user
 #-------------------------------------------------------------------
 ssh::keygen::user()
@@ -29,10 +46,48 @@ ssh::keygen::user()
 
     log::debug "${FUNCNAME[0]}"
 
-    local username email
+    local username email result
 
     username="$(git config --get user.name | toLower)"
     email="$(git config --get user.email | toLower)"
 
-    ssh-keygen -q -f "$HOME/.ssh/id_$username" -t ed25519 -C "$email" -N ""
+    ssh-keygen -q -f "$HOME/.ssh/id_$username" -t ed25519 -C "$email" -N ""; result=$?
+
+    return $result
+}
+#-------------------------------------------------------------------
+# ssh::get
+#-------------------------------------------------------------------
+ssh::get()
+{
+    group 'ssh'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local source="${1?}"
+    local filePath="${2?}"
+    local destPath="${3?}"
+    local result
+
+    scp "$source:$filePath" "$destPath"; result=$?
+
+    return $result
+}
+#-------------------------------------------------------------------
+# ssh::put
+#-------------------------------------------------------------------
+ssh::put()
+{
+    group 'ssh'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local filePath="${1?}"
+    local destination="${2?}"
+    local destPath="${3?}"
+    local result
+
+    scp "$filePath" "$destination:$destPath"; result=$?
+
+    return $result
 }

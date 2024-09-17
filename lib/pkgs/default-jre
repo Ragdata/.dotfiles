@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash
+####################################################################
+# default-jre
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2024 Redeyed Technologies
+####################################################################
+# METADATA
+####################################################################
+about ''
+group 'pkgs'
+label 'development'
+####################################################################
+# FUNCTIONS
+####################################################################
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+default-jre::check() { dpkg -l | grep default-jre 2> /dev/null 1>&2; return $?; }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+default-jre::install()
+{
+	local result gc="${1:-}"
+
+	sudo apt-get -qq -y install default-jre &> /dev/null; result=$?
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+
+	return $result
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+default-jre::remove()
+{
+	local result gc="${1:-}"
+
+    sudo apt-get -qq -y purge default-jre &> /dev/null; result=$?
+    if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+
+	return $result
+}

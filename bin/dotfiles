@@ -35,8 +35,6 @@ fi
 ####################################################################
 # DEPENDENCIES
 ####################################################################
-# metadata support
-source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # error trap
 #trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
@@ -51,8 +49,8 @@ case "${1:-}" in
 			pkg|package)
 				dot::config::pkg "${3?}"
 				;;
+            *)  menu::config;;
 		esac
-		[ -z "$2" ] && menu::config
 		;;
     show|describe)
         case "${2:-}" in
@@ -157,8 +155,8 @@ case "${1:-}" in
             repos)
                 dot::install::repos
                 ;;
+            *)  menu::install;;
 		esac
-		[ -z "$2" ] && menu::install
 		;;
     log)
         ;;
@@ -200,11 +198,10 @@ case "${1:-}" in
 			sys|system)
 				dot::update::sys
 				;;
+            *)  menu::update;;
 		esac
-		[ -z "$2" ] && menu::update
 		;;
 	version)
 		;;
+    *)  menu;;
 esac
-
-(($# == 0)) && menu

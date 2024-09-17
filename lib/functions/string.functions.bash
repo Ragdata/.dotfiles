@@ -34,15 +34,7 @@ str::toLower()
 {
     group 'str'
 
-    local string
-
-    if read -t 0; then
-        while read -r data; do
-            string="$data"
-        done
-    else
-        string="${1:-}"
-    fi
+    local string="${1:-}"
 
     printf -- '%s' "${string,,}"
 }
@@ -50,6 +42,20 @@ str::toLower()
 # str::toUpper
 #-------------------------------------------------------------------
 str::toUpper()
+{
+    group 'str'
+
+    local string="${1:-}"
+
+    printf -- '%s' "${string^^}"
+}
+####################################################################
+# ALIASED FUNCTIONS
+####################################################################
+#-------------------------------------------------------------------
+# toLower
+#-------------------------------------------------------------------
+toLower()
 {
     group 'str'
 
@@ -63,5 +69,24 @@ str::toUpper()
         string="${1:-}"
     fi
 
-    printf -- '%s' "${string^^}"
+    str::toLower "$string"
+}
+#-------------------------------------------------------------------
+# toUpper
+#-------------------------------------------------------------------
+toUpper()
+{
+    group 'str'
+
+    local string
+
+    if read -t 0; then
+        while read -r data; do
+            string="$data"
+        done
+    else
+        string="${1:-}"
+    fi
+
+    str::toUpper "$string"
 }

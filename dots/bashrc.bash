@@ -50,13 +50,10 @@ cite _about _param _example _group _author usage
 # include .bash_prompts if available
 [ -e ~/.bash_prompts ] && source ~/.bash_prompts
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+# include Alias definitions if available
 [ -e ~/.bash_aliases ] && source ~/.bash_aliases
 
-# BASH completions
+# include BASH completions if available
 [ -e ~/.bash_completions ] && source ~/.bash_completions
 
 #eval "$(declare -F | sed -e 's/-f /-fx /')"

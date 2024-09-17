@@ -33,6 +33,7 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 ## [Requirements](#top) ❓
 
 - Bash 4+
+- Git
 
 #### Tested On:
 

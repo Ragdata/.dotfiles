@@ -1,12 +1,16 @@
 # shellcheck shell=bash
 
+WIN_HOME="/mnt/c/Users/username"
+WSL_HOME="/home/username"
+
 NODE_IPv4="$(hostname -I)"
 NODE_HOSTNAME="$(hostname -f)"
+
+ADMINEMAIL="root@localhost"
+
 FW_ADMIN="127.0.0.1"
 SSH_GRPS="sudo"
 SSH_PORT="22"
-ADMINEMAIL="root@localhost"
-WINUSER="user"
 NTPSERVERPOOL=("0.ubuntu.pool.ntp.org" "1.ubuntu.pool.ntp.org" "2.ubuntu.pool.ntp.org" "3.ubuntu.pool.ntp.org" "pool.ntp.org")
 TIMEDATECTL="Australia/Brisbane"
 AUDITD_MODE=1

@@ -35,7 +35,7 @@ script::wsl()
     fi
 
     if [ -f "$source" ]; then
-        sudo install -b -C -m 0644 -T "$source" /c/Users/"$WINUSER"/.wslconfig
+        sudo install -b -C -m 0644 -T "$source" "$WIN_HOME"/.wslconfig
     fi
 
 	return 0

@@ -317,7 +317,7 @@ dot::update::dots()
         fi
         ln -s "$file" "$HOME/.${DOT[0]}"; result=$?
         if [ "$result" -eq 0 ]; then
-            log::info "'.${DOT[0]}' linked successfully"
+            log::info "'.${DOT[0]}' succesfully linked to '$file'"
             echoAlias "OK" -c "${LT_GREEN}"
         else
             log::error "'.${DOT[0]}' link failed"

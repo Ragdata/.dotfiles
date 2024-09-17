@@ -28,8 +28,6 @@ intellij-community::install()
 
 	local result path optPath dir
 
-    [ "${#SEARCH_DOWNLOAD[@]}" -lt 2 ] && errorExit "Array mismatch ${SEARCH_DOWNLOAD[*]}"
-
     for dir in "${SEARCH_DOWNLOAD[@]}"
     do
         if [ -d "$dir" ]; then

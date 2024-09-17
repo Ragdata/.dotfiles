@@ -27,10 +27,11 @@ if [ "$DOT_DEBUG" -eq 1 ]; then
  	set -axETo pipefail
 	export LOG_LEVEL="DEBUG"
 else
- 	set -aETo pipefail
+ 	#set -aETo pipefail
+ 	set -a
 fi
 #set -aeETo pipefail
-shopt -s inherit_errexit
+#shopt -s inherit_errexit
 ####################################################################
 # DEPENDENCIES
 ####################################################################

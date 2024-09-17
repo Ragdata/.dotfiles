@@ -24,9 +24,11 @@ intellij-community::check() { sudo find /opt -type d -name 'idea-IC-*' &> /dev/n
 #-------------------------------------------------------------------
 intellij-community::install()
 {
-    dot::include "alias.functions"
+    dot::include "alias.functions" "default-jre"
 
 	local result path optPath dir
+
+    if ! default-jre::check; then pkg::install "default-jre"; fi
 
     for dir in "${SEARCH_DOWNLOAD[@]}"
     do

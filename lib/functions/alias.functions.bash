@@ -110,7 +110,7 @@ alias::describe()
             desc="$(metafor "about" < "$file")"
             entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
             echoLtGreen "$entry"
-        done < <(find "$CUSTOM/lib/aliases" -type f)
+        done < <(find "$CUSTOM/lib/aliases" -type f | sort)
 
         echoGold "line"
         echoGold "Dotfiles Aliases"
@@ -128,7 +128,7 @@ alias::describe()
         desc="$(metafor "about" < "$file")"
         entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
         echoLtGreen "$entry"
-    done < <(find "$ALIASES" -type f)
+    done < <(find "$ALIASES" -type f | sort)
     echo ""
 }
 ####################################################################

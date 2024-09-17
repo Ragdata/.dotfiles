@@ -106,7 +106,7 @@ completion::describe()
             desc="$(metafor "about" < "$file")"
             entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
             echoLtGreen "$entry"
-        done < <(find "$CUSTOM/lib/completions" -type f)
+        done < <(find "$CUSTOM/lib/completions" -type f | sort)
 
         echoGold "line"
         echoGold "Dotfiles Completions"
@@ -124,7 +124,7 @@ completion::describe()
         desc="$(metafor "about" < "$file")"
         entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
         echoLtGreen "$entry"
-    done < <(find "$COMPLETIONS" -type f)
+    done < <(find "$COMPLETIONS" -type f | sort)
     echo ""
 }
 ####################################################################

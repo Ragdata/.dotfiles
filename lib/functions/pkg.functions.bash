@@ -256,7 +256,7 @@ pkg::describe()
             desc="$(metafor "about" < "$file")"
             entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
             echoLtGreen "$entry"
-        done < <(find "$CUSTOM/lib/pkgs" -type f)
+        done < <(find "$CUSTOM/lib/pkgs" -type f | sort)
 
         echoGold "line"
         echoGold "Dotfiles Packages"
@@ -276,7 +276,7 @@ pkg::describe()
         desc="$(metafor "about" < "$file")"
         entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
         echoLtGreen "$entry"
-    done < <(find "$PKGS" -type f)
+    done < <(find "$PKGS" -type f | sort)
     echo ""
 }
 # ------------------------------------------------------------------

@@ -11,7 +11,7 @@
 ####################################################################
 about 'The GNU Privacy Guard - Provides digital encryption, signing services, key management & more ...'
 group 'pkgs'
-label 'sec'
+label 'security'
 ####################################################################
 # FUNCTIONS
 ####################################################################

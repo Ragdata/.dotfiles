@@ -11,7 +11,7 @@
 ####################################################################
 about 'Rootkit Hunter scans your system for rootkits, backdoors, and possible local exploits'
 group 'pkgs'
-label 'sec'
+label 'security'
 ####################################################################
 # FUNCTIONS
 ####################################################################

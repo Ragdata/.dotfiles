@@ -67,7 +67,11 @@ case "${1:-}" in
                 instance::describe
                 ;;
             pkgs|packages)
-                pkg::describe
+                if [ -n "${3:-}" ]; then
+                    pkg::describe::label "$3"
+                else
+                    pkg::describe
+                fi
                 ;;
             plugins)
                 plugin::describe

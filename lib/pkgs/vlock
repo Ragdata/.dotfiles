@@ -11,7 +11,7 @@
 ####################################################################
 about 'Virtual Console locking program which helps prevent unauthorised access'
 group 'pkgs'
-label 'sec'
+label 'security'
 ####################################################################
 # FUNCTIONS
 ####################################################################

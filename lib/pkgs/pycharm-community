@@ -11,7 +11,7 @@
 ####################################################################
 about 'PyCharm-Community - Another top ranking, cross-platform IDE from Jetbrains'
 group 'pkgs'
-label 'dev'
+label 'development'
 ####################################################################
 # FUNCTIONS
 ####################################################################

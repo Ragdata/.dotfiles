@@ -11,7 +11,7 @@
 ####################################################################
 about 'A module which can be plugged into the password stack of a given service to provide strength checking for passwords'
 group 'pkgs'
-label 'sec'
+label 'security'
 ####################################################################
 # FUNCTIONS
 ####################################################################

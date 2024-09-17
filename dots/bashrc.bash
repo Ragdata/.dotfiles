@@ -13,7 +13,6 @@
 # Repository:	0https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -37,6 +36,8 @@ source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 cite _about _param _example _group _author usage
 #cite about-alias about-completion about-function about-package
 #cite about-plugin about-script about-instance about-stack
+
+
 
 # include .bash_common if available
 [ -e ~/.bash_common ] && source ~/.bash_common

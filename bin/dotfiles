@@ -159,6 +159,8 @@ case "${1:-}" in
 		esac
 		[ -z "$2" ] && menu::install
 		;;
+    log)
+        ;;
 	migrate)
 		;;
 	preview)

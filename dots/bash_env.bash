@@ -75,7 +75,7 @@ TEMPLATES="$DOT_LIB/templates"
 TEMP="$(mktemp -d)"
 
 export SEARCH_CFG=("$HOME" "$HOME/.github" "$HOME/.github/.dotfiles" "$DOTFILES" "$DOT_CFG" "$DOTFILES/.github")
-export SEARCH_DOWNLOAD=("$HOME/Downloads" "/f/Libraries/Downloads/Compressed")
+export SEARCH_DOWNLOAD=("$HOME/Downloads")
 export IMPORTS=()
 
 DOTFILES_PROMPT="default"

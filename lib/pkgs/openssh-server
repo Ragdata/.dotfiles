@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'A powerful collection of tools for remotely controlling networked computers and transferring data between them'
+group 'pkgs'
+
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

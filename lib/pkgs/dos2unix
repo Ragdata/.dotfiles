@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'A tool to convert the line endings of text files from DOS to UNIX format'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------

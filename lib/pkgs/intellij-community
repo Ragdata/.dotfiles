@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'IntelliJ-Community - A top ranking, cross-platform IDE by Jetbrains'
+group 'pkgs'
+
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

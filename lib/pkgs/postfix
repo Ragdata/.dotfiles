@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'The default Mail Transfer Agent (MTA - or Mail Server) for Ubuntu'
+group 'pkgs'
+
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

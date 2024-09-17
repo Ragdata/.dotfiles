@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'Rootkit Hunter scans your system for rootkits, backdoors, and possible local exploits'
+group 'pkgs'
+
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

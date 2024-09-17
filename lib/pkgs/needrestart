@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'Checks which daemons need to be restarted after library upgrades'
+group 'pkgs'
+
 # ------------------------------------------------------------------
 # CHECK
 # ------------------------------------------------------------------

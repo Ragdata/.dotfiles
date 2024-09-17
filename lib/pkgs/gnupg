@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'The GNU Privacy Guard - Provides digital encryption, signing services, key management & more ...'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------

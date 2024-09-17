@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'Contains various utilities to monitor system performance and usage activity'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------

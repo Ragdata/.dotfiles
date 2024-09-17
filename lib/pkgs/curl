@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'CURL - A command-line data transfer utility capable of using a variety of protocols'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------

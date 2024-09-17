@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'Provides programs to monitor and halt system processes'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------

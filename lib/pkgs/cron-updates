@@ -8,6 +8,9 @@
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 
+about 'Custom APT update script set to run automatically every day'
+group 'pkgs'
+
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------

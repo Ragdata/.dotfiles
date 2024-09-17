@@ -51,13 +51,13 @@ pycharm-community::install()
 
     optPath="$(find /opt -type d -name 'pycharm-*' | head -n 1)"
 
-    if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
+    if [ ! -f "$CUSTOM/lib/aliases/jetbrains.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
-        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/custom.aliases.bash"
+        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
-    if ! grep -q "pycharm" "$CUSTOM/lib/aliases/custom.aliases.bash"; then
-        echo "alias pycharm=\"$optPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    if ! grep -q "pycharm" "$CUSTOM/lib/aliases/jetbrains.aliases.bash"; then
+        echo "alias pycharm=\"$optPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
     alias::enable "custom"; result=$?
@@ -75,7 +75,7 @@ pycharm-community::remove()
 
     optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
 
-    sed -i "/^.*pycharm.*/d" "$CUSTOM/lib/aliases/custom.aliases.bash" &> /dev/null
+    sed -i "/^.*pycharm.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 
     sudo rm -rf "$optPath"; result=$?
 

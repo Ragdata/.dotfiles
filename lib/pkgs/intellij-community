@@ -51,13 +51,13 @@ intellij-community::install()
 
     optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
 
-    if [ ! -f "$CUSTOM/lib/aliases/custom.aliases.bash" ]; then
+    if [ ! -f "$CUSTOM/lib/aliases/jetbrains.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
-        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/custom.aliases.bash"
+        cp "$TEMPLATES/aliases.tmpl" "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
-    if ! grep -q "intellij" "$CUSTOM/lib/aliases/custom.aliases.bash"; then
-        echo "alias intellij=\"$optPath/bin/idea\"" >> "$CUSTOM/lib/aliases/custom.aliases.bash"
+    if ! grep -q "intellij" "$CUSTOM/lib/aliases/jetbrains.aliases.bash"; then
+        echo "alias intellij=\"$optPath/bin/idea\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
     alias::enable "custom"; result=$?
@@ -75,7 +75,7 @@ intellij-community::remove()
 
     optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
 
-    sed -i "/^.*intellij.*/d" "$CUSTOM/lib/aliases/custom.aliases.bash" &> /dev/null
+    sed -i "/^.*intellij.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 
     sudo rm -rf "$optPath"; result=$?
 

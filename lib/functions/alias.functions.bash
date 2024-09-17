@@ -84,6 +84,24 @@ alias::describe()
     header="$(printf -- '%-3s %-20s %s' " ★ " "FileID" "Description")"
     echoGold "$header"
     echoGold "line"
+    echoGold "Custom Aliases"
+    echoGold "line"
+
+    while IFS= read -r file
+    do
+        fileName="$(basename "$file")"
+        if grep -q "$fileName" "$ALIASES"/*; then continue; fi
+        fileID="${fileName%.*}"
+        name="${fileName%%.*}"
+        if dot::enabled "$fileID"; then enabled=" ${GOLD}★${_0} "; else enabled="   "; fi
+        desc="$(metafor "about" < "$file")"
+        entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
+        echoLtGreen "$entry"
+    done < <(find "$CUSTOM/lib/aliases" -type f)
+
+    echoGold "line"
+    echoGold "System Aliases"
+    echoGold "line"
 
     while IFS= read -r file
     do

@@ -40,6 +40,7 @@ completion::enable()
 	if grep -q "$name\.completions\.bash" "$DOT_REG/completions.enabled"; then
 	    log::debug "Completion '$name' already enabled"
 	else
+	    log::info "Completion '$name' successfully enabled"
 	    echo "$source" >> "$DOT_REG/completions.enabled"
 	fi
 
@@ -58,7 +59,13 @@ completion::disable()
 
 	local name="${1//[$'\t\n\r']}" source return
 
-	sed "/*$name\.completions.bash/d" "$DOT_REG/completions.enabled"; return=$?
+	sed "/.*$name\.completions\.bash/d" "$DOT_REG/completions.enabled"; return=$?
+
+    if [ $return -eq 0 ]; then
+        log::info "Completion '$name' successfully disabled"
+    else
+        log::error "Failed to disable completion '$name'"
+    fi
 
 	return $return
 }
@@ -71,7 +78,9 @@ completion::describe()
 
     log::debug "${FUNCNAME[0]}"
 
-    local header file fileName fileID name enabled="" desc entry
+    local header file fileName fileID name enabled="" desc entry customFiles
+
+    customFiles="$(find "$CUSTOM/lib/completions" -type f | wc -l)"
 
     clear
 
@@ -80,6 +89,29 @@ completion::describe()
     header="$(printf -- '%-3s %-20s %s' " ★ " "FileID" "Description")"
     echoGold "$header"
     echoGold "line"
+
+    if [ "$customFiles" -gt 0 ]; then
+
+        echoGold "Custom Completions"
+        echoGold "line"
+
+        while IFS= read -r file
+        do
+            fileName="$(basename "$file")"
+            if grep -q "$fileName" "$COMPLETIONS"/*; then continue; fi
+            fileID="${fileName%.*}"
+            name="${fileName%%.*}"
+            if dot::enabled "$fileID"; then enabled=" ${GOLD}★${_0} "; else enabled="   "; fi
+            desc="$(metafor "about" < "$file")"
+            entry="$(printf -- '%-3s %-20s %s' "$enabled" "$fileID" "$desc")"
+            echoLtGreen "$entry"
+        done < <(find "$CUSTOM/lib/completions" -type f)
+
+        echoGold "line"
+        echoGold "Dotfiles Completions"
+        echoGold "line"
+
+    fi
 
     while IFS= read -r file
     do

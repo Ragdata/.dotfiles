@@ -20,6 +20,11 @@ source "$CUSTOM/cfg/.node"
 # required library files
 dot::include "dotfiles.functions"
 ####################################################################
+# METADATA
+####################################################################
+about 'An instance commissioning script for systems running WSL2-Ubuntu'
+group 'instances'
+####################################################################
 # MAIN
 ####################################################################
 clear

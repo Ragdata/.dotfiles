@@ -26,7 +26,7 @@ menu()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -83,7 +83,7 @@ menu::config()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -129,7 +129,7 @@ menu::config::theme()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -194,7 +194,7 @@ menu::help()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -236,7 +236,7 @@ menu::install()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -285,7 +285,7 @@ menu::network()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -330,7 +330,7 @@ menu::update()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -378,7 +378,7 @@ menu::wsl()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"

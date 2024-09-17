@@ -21,7 +21,7 @@ completion::enable()
 {
     group 'completion'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -52,7 +52,7 @@ completion::disable()
 {
     group 'completion'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -69,7 +69,7 @@ completion::describe()
 {
     group 'completion'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     local header file fileName fileID name enabled="" desc entry
 
@@ -106,7 +106,7 @@ completionEnable()
     usage 'completionEnable "dot" "general" "git"'
     group 'completion'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -127,7 +127,7 @@ completionDisable()
     usage 'completionDisable "dot" "general" "git"'
     group 'completion'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 

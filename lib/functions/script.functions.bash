@@ -28,7 +28,7 @@ script::launch()
 {
     group 'script'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 

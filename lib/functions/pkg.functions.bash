@@ -59,7 +59,7 @@ pkg()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 2)) && exitLog "Missing Argument(s)"
 
@@ -125,7 +125,7 @@ pkg::addRepo()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -153,7 +153,7 @@ pkg::check()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -176,7 +176,7 @@ pkg::cleanup()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	echoDot "Performing garbage collection" -s "➤" -c "${GOLD}"
 
@@ -189,7 +189,7 @@ pkg::config()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -231,7 +231,7 @@ pkg::download()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -276,7 +276,7 @@ pkg::findPkg()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -289,7 +289,7 @@ pkg::install()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -330,7 +330,7 @@ pkg::installList()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -351,7 +351,7 @@ pkg::listPkg()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -381,7 +381,7 @@ pkg::remove()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -424,7 +424,7 @@ pkg::removeList()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -449,7 +449,7 @@ pkg::showPkg()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "cowardly refusing to show nothing!"
 
@@ -462,7 +462,7 @@ pkg::source()
 {
     group 'pkg'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -518,7 +518,7 @@ pkgAddRepos()
 {
     group 'pkg'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -548,7 +548,7 @@ pkgInstall()
 {
     group 'pkg'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -566,7 +566,7 @@ pkgRemove()
 {
     group 'pkg'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 

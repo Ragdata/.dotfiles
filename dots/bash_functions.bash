@@ -50,7 +50,7 @@ dot::enabled()
 {
     group 'bash_functions'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -75,7 +75,7 @@ dot::installed()
 {
     group 'bash_functions'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 }
@@ -110,7 +110,8 @@ dot::restart()
     usage 'dot::restart'
     group 'bash_functions'
 
-    exec "${0#-}" --rcfile "$HOME/.bashrc"
+    #exec "${0#-}" --rcfile "$HOME/.bashrc"
+    bash -i
 }
 # ------------------------------------------------------------------
 # dot::source

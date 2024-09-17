@@ -21,7 +21,7 @@ plugin::enable()
 {
     group 'plugin'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -52,7 +52,7 @@ plugin::disable()
 {
     group 'plugin'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -82,7 +82,7 @@ pluginEnable()
     usage 'pluginEnable "label-manager" "git-subtree"'
     group 'plugin'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -103,7 +103,7 @@ pluginDisable()
     usage 'pluginDisable "label-manager" "git-subtree"'
     group 'plugin'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 

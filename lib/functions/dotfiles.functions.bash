@@ -44,7 +44,7 @@ dot::install::deps()
 {
 	group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result source
 
@@ -72,7 +72,7 @@ dot::install::repos()
 {
 	group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result source
 
@@ -109,7 +109,7 @@ dot::config::pkg()
 {
 	group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -124,7 +124,7 @@ dot::install::pkg()
 {
 	group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -139,7 +139,7 @@ dot::remove::pkg()
 {
 	group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -163,7 +163,7 @@ dot::network::hostname()
 {
     group 'dot'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	local result oldhost status
 	local DIALOG_BACKTITLE="Ragdata's Dotfiles $DOTFILES_VERSION"
@@ -218,7 +218,7 @@ dot::update::sys()
 
     local result
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     echoHead "Updating Package Cache"
     sudo apt-get -qq -y update; result=$?
@@ -249,7 +249,7 @@ dot::update::bin()
 
     local fileName shortcut result
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     echoHead "Enabling .dotfiles bin aliases"
 
@@ -274,7 +274,7 @@ dot::update::config()
 {
     group 'dot'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     echoHead "Updating config"
 
@@ -295,7 +295,7 @@ dot::update::dots()
 
     local -a DOT=()
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     echoHead "Updating dotfiles"
 
@@ -320,7 +320,7 @@ dot::update::dots()
             log::info "'.${DOT[0]}' succesfully linked to '$file'"
             echoAlias "OK" -c "${LT_GREEN}"
         else
-            log::error "'.${DOT[0]}' link failed"
+            log::error "'.${DOT[0]}' failed to link to '$file'"
             echoAlias "FAILED!" -c "${RED}"
         fi
     done < <(find "$DOTS" -maxdepth 1 -type f)
@@ -334,7 +334,7 @@ dot::update::repo()
 
 	local result
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	echoHead "Updating .dotfiles sources"
 	git -C "$DOTFILES" pull; result=$?
@@ -353,7 +353,7 @@ dot::update()
 {
     group 'dot'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     [ -d "$CUSTOM" ] || { mkdir -p "$CUSTOM" || exitLog "Unable to create directory '$CUSTOM'"; }
     [ -d "$DOT_REG" ] || { mkdir -p "$DOT_REG" || exitLog "Unable to create directory '$DOT_REG'"; }

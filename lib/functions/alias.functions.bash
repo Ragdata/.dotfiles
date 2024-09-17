@@ -21,7 +21,7 @@ alias::enable()
 {
     group 'alias'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -42,6 +42,7 @@ alias::enable()
 	if grep -q "$name\.aliases\.bash" "$DOT_REG/aliases.enabled"; then
 	    log::debug "Alias '$name' already enabled"
 	else
+	    log::info "Alias '$name' successfully enabled"
 	    echo "$source" >> "$DOT_REG/aliases.enabled"
 	fi
 
@@ -54,7 +55,7 @@ alias::disable()
 {
     group 'alias'
 
-	debugLog "${FUNCNAME[0]}"
+	log::debug "${FUNCNAME[0]}"
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -63,6 +64,12 @@ alias::disable()
 	if [[ $name =~ .*\.aliases ]]; then name="${name%.*}"; fi
 
 	sed -i "/.*$name\.aliases\.bash/d" "$DOT_REG/aliases.enabled"; return=$?
+
+    if [ $return -eq 0 ]; then
+        log::info "Alias '$name' successfully disabled"
+    else
+        log::error "Failed to disable alias '$name'"
+    fi
 
 	return $return
 }
@@ -73,7 +80,7 @@ alias::describe()
 {
     group 'alias'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     local header file fileName fileID name enabled="" desc entry
 
@@ -128,7 +135,7 @@ aliasEnable()
     usage 'aliasEnable "dot" "general" "git"'
     group 'alias'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 
@@ -149,7 +156,7 @@ aliasDisable()
     usage 'aliasDisable "dot" "general" "git"'
     group 'alias'
 
-    debugLog "${FUNCNAME[0]}"
+    log::debug "${FUNCNAME[0]}"
 
     (($# < 1)) && exitLog "Missing Argument(s)"
 

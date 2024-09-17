@@ -20,7 +20,7 @@ group 'completions'
 ####################################################################
 # FUNCTIONS
 ####################################################################
-completion::callback::aliases()
+completion::callback::alias()
 {
     local namespace='completion_aliases'
     local completions tmp_file completion_loader line new_completion compl_func compl_wrapper

@@ -21,5 +21,18 @@ dot::include "log.functions"
 # SSH FUNCTIONS
 ####################################################################
 #-------------------------------------------------------------------
-# alias::disable
+# ssh::keygen::user
 #-------------------------------------------------------------------
+ssh::keygen::user()
+{
+    group 'ssh'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local username email
+
+    username="$(git config --get user.name | toLower)"
+    email="$(git config --get user.email | toLower)"
+
+    ssh-keygen -q -f "$HOME/.ssh/id_$username" -t ed25519 -C "$email" -N ""
+}

@@ -45,7 +45,7 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 ```bash
 git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles
 cd ~/.dotfiles
-./setup.sh
+./install.sh
 ```
 
 #### Step 2 - Customise your config

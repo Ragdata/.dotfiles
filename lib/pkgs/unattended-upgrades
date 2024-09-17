@@ -11,6 +11,7 @@
 ####################################################################
 about 'Ensures that important security patches for installed packages are automatically downloaded'
 group 'pkgs'
+label 'admin'
 ####################################################################
 # FUNCTIONS
 ####################################################################

@@ -11,6 +11,7 @@
 ####################################################################
 about 'PSAD (Port Scan Attack Detection) blocks port scanning and monitors logs to detect intrusion'
 group 'pkgs'
+label 'sec'
 ####################################################################
 # FUNCTIONS
 ####################################################################

@@ -11,6 +11,7 @@
 ####################################################################
 about 'The Uncomplicated Firewall is an interface to iptables which greatly simplifies the configuration of a firewall'
 group 'pkgs'
+label 'sec'
 ####################################################################
 # FUNCTIONS
 ####################################################################

@@ -11,6 +11,7 @@
 ####################################################################
 about 'Contains various utilities to monitor system performance and usage activity'
 group 'pkgs'
+label 'admin'
 ####################################################################
 # FUNCTIONS
 ####################################################################

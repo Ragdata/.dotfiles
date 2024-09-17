@@ -11,6 +11,7 @@
 ####################################################################
 about 'The latest certificates provided by the Certificate Authorities (includes updater)'
 group 'pkgs'
+label 'sec'
 ####################################################################
 # FUNCTIONS
 ####################################################################

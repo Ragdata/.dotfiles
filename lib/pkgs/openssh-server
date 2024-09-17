@@ -11,6 +11,7 @@
 ####################################################################
 about 'A powerful collection of tools for remotely controlling networked computers and transferring data between them'
 group 'pkgs'
+label 'svc'
 ####################################################################
 # FUNCTIONS
 ####################################################################

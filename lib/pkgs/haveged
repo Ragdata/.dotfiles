@@ -11,6 +11,7 @@
 ####################################################################
 about 'Generates an unpredictable stream of random numbers based upon indirect hardware events'
 group 'pkgs'
+label 'util'
 ####################################################################
 # FUNCTIONS
 ####################################################################

@@ -11,6 +11,7 @@
 ####################################################################
 about 'Access control facility for internet services such as telnet, finger, ftp, rlogin, tftp, and more'
 group 'pkgs'
+label 'net'
 ####################################################################
 # FUNCTIONS
 ####################################################################

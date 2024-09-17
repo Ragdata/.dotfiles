@@ -11,6 +11,7 @@
 ####################################################################
 about 'AppArmor - Linux kernel security module used to restrict the capabilities of apps'
 group 'pkgs'
+label 'sec'
 ####################################################################
 # FUNCTIONS
 ####################################################################

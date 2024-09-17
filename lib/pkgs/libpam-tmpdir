@@ -12,6 +12,7 @@
 # shellcheck disable=SC2016
 about 'Provides more secure $TMPDIR & $TMP for PAM sessions'
 group 'pkgs'
+label 'sec'
 ####################################################################
 # FUNCTIONS
 ####################################################################

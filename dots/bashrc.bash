@@ -33,11 +33,9 @@ esac
 source "$DOTFILES/vendor/github.com/erichs/composure/composure.sh"
 # support internal metadata
 # about param group author example
-cite _about _param _example _group _author usage
+cite _about _param _example _group _author usage label
 #cite about-alias about-completion about-function about-package
 #cite about-plugin about-script about-instance about-stack
-
-
 
 # include .bash_common if available
 [ -e ~/.bash_common ] && source ~/.bash_common
@@ -57,7 +55,13 @@ cite _about _param _example _group _author usage
 # include BASH completions if available
 [ -e ~/.bash_completions ] && source ~/.bash_completions
 
-#eval "$(declare -F | sed -e 's/-f /-fx /')"
+# add .node config to env
+if [ -f "$CUSTOM/cfg/.node" ]; then
+    dot::include "files.functions"
+    file2env "$CUSTOM/cfg/.node"
+fi
+
+# export core dotfiles functions
 while read -ra func
 do
 	defn="$(declare -f "${func[2]}")"

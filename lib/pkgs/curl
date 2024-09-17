@@ -11,6 +11,7 @@
 ####################################################################
 about 'CURL - A command-line data transfer utility capable of using a variety of protocols'
 group 'pkgs'
+label 'net'
 ####################################################################
 # FUNCTIONS
 ####################################################################

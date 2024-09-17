@@ -245,10 +245,11 @@ pkg::describe()
 
         while IFS= read -r file
         do
+            dot::include "$file"
             name="$(basename "$file")"
             if grep -q "$name" "$PKGS"/*; then continue; fi
             check="$name::check"
-            is::function "$check" || errorLog "No 'check' function found for '$name'"
+            is::function "$check" || exitLog "No 'check' function found for '$name'"
             eval "$check"; checked=$?
             if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
             desc="$(metafor "about" < "$file")"
@@ -264,9 +265,10 @@ pkg::describe()
 
     while IFS= read -r file
     do
+        dot::include "$file"
         name="$(basename "$file")"
         check="$name::check"
-        is::function "$check" || errorLog "No 'check' function found for '$name'"
+        is::function "$check" || exitLog "No 'check' function found for '$name'"
         eval "$check"; checked=$?
         if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
         desc="$(metafor "about" < "$file")"

@@ -223,6 +223,57 @@ pkg::config()
 pkg::describe()
 {
     group 'pkg'
+
+    log::debug "${FUNCNAME[0]}"
+
+    local header file name installed="" desc entry customFiles check checked
+
+    customFiles="$(find "$CUSTOM/lib/pkgs" -type f | wc -l)"
+
+    clear
+
+    echoYellow "Available Packages"
+    echo ""
+    header="$(printf -- '%-3s %-20s %s' " ★ " "FileID" "Description")"
+    echoGold "$header"
+    echoGold "line"
+
+    if [ "$customFiles" -gt 0 ]; then
+
+        echoGold "Custom Packages"
+        echoGold "line"
+
+        while IFS= read -r file
+        do
+            name="$(basename "$file")"
+            if grep -q "$name" "$PKGS"/*; then continue; fi
+            check="$name::check"
+            is::function "$check" || errorLog "No 'check' function found for '$name'"
+            eval "$check"; checked=$?
+            if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
+            desc="$(metafor "about" < "$file")"
+            entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
+            echoLtGreen "$entry"
+        done < <(find "$CUSTOM/lib/pkgs" -type f)
+
+        echoGold "line"
+        echoGold "Dotfiles Packages"
+        echoGold "line"
+
+    fi
+
+    while IFS= read -r file
+    do
+        name="$(basename "$file")"
+        check="$name::check"
+        is::function "$check" || errorLog "No 'check' function found for '$name'"
+        eval "$check"; checked=$?
+        if [ "$checked" -eq 0 ]; then installed=" ${GOLD}★${_0} "; else installed="   "; fi
+        desc="$(metafor "about" < "$file")"
+        entry="$(printf -- '%-3s %-20s %s' "$installed" "$name" "$desc")"
+        echoLtGreen "$entry"
+    done < <(find "$PKGS" -type f)
+    echo ""
 }
 # ------------------------------------------------------------------
 # pkg::download

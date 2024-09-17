@@ -22,7 +22,7 @@ dot::include "dotfiles.functions"
 ####################################################################
 # METADATA
 ####################################################################
-about 'An instance commissioning script for systems running WSL2-Ubuntu'
+about 'An instance commissioning script for systems running Ubuntu on WSL2'
 group 'instances'
 ####################################################################
 # MAIN

@@ -102,6 +102,7 @@ alias::describe()
         while IFS= read -r file
         do
             fileName="$(basename "$file")"
+            if [ "$fileName" == ".template" ]; then continue; fi
             if grep -q "$fileName" "$ALIASES"/*; then continue; fi
             fileID="${fileName%.*}"
             name="${fileName%%.*}"
@@ -120,6 +121,7 @@ alias::describe()
     while IFS= read -r file
     do
         fileName="$(basename "$file")"
+        if [ "$fileName" == ".template" ]; then continue; fi
         fileID="${fileName%.*}"
         name="${fileName%%.*}"
         if dot::enabled "$fileID"; then enabled=" ${GOLD}★${_0} "; else enabled="   "; fi

@@ -247,6 +247,7 @@ pkg::describe()
         do
             dot::include "$file"
             name="$(basename "$file")"
+            if [ "$name" == ".template" ]; then continue; fi
             if grep -q "$name" "$PKGS"/*; then continue; fi
             check="$name::check"
             is::function "$check" || exitLog "No 'check' function found for '$name'"
@@ -267,6 +268,7 @@ pkg::describe()
     do
         dot::include "$file"
         name="$(basename "$file")"
+        if [ "$name" == ".template" ]; then continue; fi
         check="$name::check"
         is::function "$check" || exitLog "No 'check' function found for '$name'"
         eval "$check"; checked=$?

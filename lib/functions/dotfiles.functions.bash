@@ -72,21 +72,13 @@ dot::install::repos()
 {
 	group 'dot'
 
+	dot::include "software-properties-common"
+
 	log::debug "${FUNCNAME[0]}"
 
 	local result source
 
-	if ! command -v add-apt-repository &> /dev/null; then
-		echoDot "Installing package 'software-properties-common' - " -s "✚" -n
-		sudo apt-get -qq -y install software-properties-common; result=$?
-		if [ "$result" -eq 0 ]; then
-			log::info "Package installed successfully"
-			echoAlias "OK" -c "${LT_GREEN}"
-		else
-			log::error "Package 'software-properties-common' failed to install"
-			echoAlias "FAILED!" -c "${RED}"
-		fi
-	fi
+	if ! software-properties-common::check; then pkg::install "software-properties-common"; fi
 
     if [ -f "$CUSTOM/cfg/data/repos.list" ]; then
         source="$CUSTOM/cfg/data/repos.list"

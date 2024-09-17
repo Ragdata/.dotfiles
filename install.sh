@@ -47,8 +47,8 @@ dot::include "dotfiles.functions" "alias.functions"
 # SETUP & CONFIG
 ####################################################################
 [ -d "$CUSTOM/cfg" ] || { mkdir -p "$CUSTOM/cfg" || errorExit "Unable to create directory '$CUSTOM/cfg'"; }
-[ -d "$CUSTOM/log" ] || { mkdir -p "$CUSTOM/log" || errorExit "Unable to create directory '$CUSTOM/log'"; }
-[ -d "$CUSTOM/reg" ] || { mkdir -p "$CUSTOM/reg" || errorExit "Unable to create directory '$CUSTOM/reg'"; }
+[ -d "$DOTFILES/log" ] || { mkdir -p "$DOTFILES/log" || errorExit "Unable to create directory '$DOTFILES/log'"; }
+[ -d "$DOTFILES/reg" ] || { mkdir -p "$DOTFILES/reg" || errorExit "Unable to create directory '$DOTFILES/reg'"; }
 # copy node config file to custom config directory
 if [ ! -f "$CUSTOM/cfg/.node" ]; then
     install -v -b -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";

@@ -74,7 +74,7 @@ fi
 
 # enabling dotfile bin aliases
 echoInfo "Enabling dotfile bin aliases"
-alias::enable "dot" || errorExit "Unable to enable 'dot.aliases'"
+aliasEnable "dot" "general" "filesys" || errorExit "Unable to enable aliases"
 
 # process dots
 echoInfo "Processing dotfiles"

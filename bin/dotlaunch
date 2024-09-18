@@ -37,16 +37,18 @@
 # error trap
 #trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
-dot::include "dotfiles.functions" "instance.functions"
+dot::include "dotfiles.functions"
 ####################################################################
 # MAIN
 ####################################################################
 
 case "${1:-}" in
     instance)
+        dot::include "instance.functions"
         instance::launch "$2"
         ;;
     script)
+        dot::include "script.functions"
         script::launch "$2"
         ;;
 esac

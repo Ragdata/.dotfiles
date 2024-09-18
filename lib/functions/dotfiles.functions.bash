@@ -272,9 +272,7 @@ dot::update::config()
 
     [ -d "$CUSTOM/cfg" ] || { mkdir -p "$CUSTOM/cfg" || exitLog "Unable to create directory '$CUSTOM/cfg'"; }
 
-    if [ ! -f "$CUSTOM/cfg/.node" ]; then
-        install -v -b -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
-    fi
+    install -v -b -m 0644 -C -D -t "$CUSTOM/cfg" "$DOT_CFG/.node" || exitLog "Unable to install '$CUSTOM/cfg/.node'";
 }
 # ------------------------------------------------------------------
 # dot::update::dots
@@ -349,7 +347,7 @@ dot::update()
     [ -d "$DOT_REG" ] || { mkdir -p "$DOT_REG" || exitLog "Unable to create directory '$DOT_REG'"; }
 
     dot::update::repo
-    dot::update::config
+    [ -f "$CUSTOM/cfg/.node" ] || dot::update::config
     dot::update::bin
     dot::update::dots
 

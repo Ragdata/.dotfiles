@@ -37,7 +37,7 @@
 # error trap
 #trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
-dot::include "dotfiles.functions"
+dot::include "dotfiles.functions" "instance.functions"
 ####################################################################
 # MAIN
 ####################################################################

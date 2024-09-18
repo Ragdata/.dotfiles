@@ -42,6 +42,8 @@ gnupg::config()
         source="$DOT_CFG/gnupg/gpg.conf"
     fi
 
+    [ -d "$HOME/.gnupg" ] || mkdir -p "$HOME/.gnupg"
+
     if [ -f "$source" ]; then
         install -b -C -m 0644 "$source" "$HOME/.gnupg/gpg.conf"
     fi

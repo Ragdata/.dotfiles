@@ -345,20 +345,12 @@ dot::update()
 
     log::debug "${FUNCNAME[0]}"
 
-    [ -d "$CUSTOM" ] || { mkdir -p "$CUSTOM" || exitLog "Unable to create directory '$CUSTOM'"; }
-    [ -d "$DOT_REG" ] || { mkdir -p "$DOT_REG" || exitLog "Unable to create directory '$DOT_REG'"; }
-
     dot::update::repo
     [ -f "$CUSTOM/cfg/.node" ] || dot::update::config
     dot::update::bin
     dot::update::dots
 
     echo ""
-
-#    read -n 1 -s -r -p "Press any key to continue ..."
-#
-#    echo ""
-#    echo ""
 
     dot::reload
 }

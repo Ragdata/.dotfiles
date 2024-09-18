@@ -18,7 +18,7 @@
 # required config files
 source "$CUSTOM/cfg/.node"
 # required library files
-dot::include "dotfiles.functions"
+dot::include "dotfiles.functions" "wsl.functions"
 ####################################################################
 # METADATA
 ####################################################################
@@ -29,9 +29,10 @@ group 'instances'
 ####################################################################
 clear
 
-dot::install::repos
-pkgAddRepos "ppa:ansible/ansible" "ppa:wslutilities/wslu"
-echo ""
+echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
+wsl::ssh::init
+script::launch "wsl"
+script::launch "fstab"
 
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"
@@ -48,7 +49,6 @@ script::launch "disablemod"
 script::launch "systemdconf"
 script::launch "logindconf"
 script::launch "timesyncd"
-script::launch "fstab"
 script::launch "hosts"
 script::launch "issue"
 script::launch "logindefs"
@@ -60,6 +60,5 @@ script::launch "password"
 script::launch "ctraltdel"
 script::launch "rhosts"
 script::launch "compilers"
-script::launch "wsl"
 echo ""
 pkg::cleanup

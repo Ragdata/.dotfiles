@@ -29,10 +29,15 @@ group 'instances'
 ####################################################################
 clear
 
-echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
-wsl::ssh::init
-script::launch "fstab"
-script::launch "wsl"
+if [ "$1" != "rebooted" ]; then
+    echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
+    script::launch "fstab"
+    script::launch "wsl"
+    dot::reboot::install "$INSTANCES/wsl2-debian.bash"
+else
+    dot::reboot::install "$1"
+    wsl::ssh::init
+fi
 
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"

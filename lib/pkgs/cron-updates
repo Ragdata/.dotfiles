@@ -26,7 +26,7 @@ cron-updates::install()
 {
 	local result
 
-	sudo install -v -b -m 0755 -C -D -t /etc/cron.daily "$DOT_CFG/cron/apt-update"; result=$?
+	sudo install -v -b -m 0755 -C -D -t /etc/cron.daily "$DOT_CFG/cron/apt-update" &> /dev/null; result=$?
 
 	return $result
 }

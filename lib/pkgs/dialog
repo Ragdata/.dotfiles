@@ -39,7 +39,7 @@ dialog::config()
 	local result gc="${1:-}"
 
 	if [ -f "$DOT_CFG/.dialogrc" ]; then
-		install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc"; result="$?"
+		install -v -b -C -D -t "$HOME" "$DOT_CFG/.dialogrc" &> /dev/null; result="$?"
 	else
 		result=1
 	fi

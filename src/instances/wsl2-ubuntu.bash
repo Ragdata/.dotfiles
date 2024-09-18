@@ -36,6 +36,7 @@ if [ "$1" != "rebooted" ]; then
     dot::reboot::install "$INSTANCES/wsl2-ubuntu.bash"
 else
     dot::reboot::install "$1"
+    echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
     wsl::ssh::init
 fi
 

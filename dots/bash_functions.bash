@@ -168,7 +168,7 @@ dot::reboot::install()
         echo ""
         echo "Instance will reboot and then automatically continue processing"
         echo ""
-        reboot
+        sudo shutdown -r now
     else
         sed -i '$ d' "$HOME/.bashrc"
     fi

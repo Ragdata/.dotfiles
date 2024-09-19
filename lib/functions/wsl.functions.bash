@@ -27,7 +27,7 @@ wsl::ssh::init()
 
     [ -d "$WIN_HOME/.ssh-skel" ] || return 0
 
-    cp "$WIN_HOME/.ssh-skel" "$WSL_HOME/.ssh"
+    cp -r "$WIN_HOME/.ssh-skel" "$WSL_HOME/.ssh"
 
     gpg_key="$(find "$WSL_HOME/.ssh" -type f -name "*_SECRET.asc")"
 

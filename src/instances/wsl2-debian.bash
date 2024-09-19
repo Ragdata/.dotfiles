@@ -41,32 +41,37 @@ else
     echo ""
 fi
 
-echoDot "Processing purge list" -s "➤" -c "${GOLD}"
-pkg::removeList "purge"
+if [ "$1" != "rebooted" ]; then
+    echo "Cannot reboot instance programmatically. Manual reboot required"
+    exit 1
+else
+    echoDot "Processing purge list" -s "➤" -c "${GOLD}"
+    pkg::removeList "purge"
 
-echo ""
-echoDot "Installing packages" -s "➤" -c "${GOLD}"
-pkg::install "software-properties-common"
-dot::install::deps
-pkg::install "shellcheck"
+    echo ""
+    echoDot "Installing packages" -s "➤" -c "${GOLD}"
+    pkg::install "software-properties-common"
+    dot::install::deps
+    pkg::install "shellcheck"
 
-echo ""
-echoDot "Hardening instance" -s "➤" -c "${GOLD}"
-script::launch "disablenet"
-script::launch "disablefs"
-script::launch "disablemod"
-script::launch "systemdconf"
-script::launch "logindconf"
-script::launch "timesyncd"
-script::launch "hosts"
-script::launch "issue"
-script::launch "logindefs"
-script::launch "sysctl"
-script::launch "limits"
-script::launch "user"
-script::launch "sshd"
-script::launch "password"
-script::launch "ctraltdel"
-script::launch "compilers"
-echo ""
-pkg::cleanup
+    echo ""
+    echoDot "Hardening instance" -s "➤" -c "${GOLD}"
+    script::launch "disablenet"
+    script::launch "disablefs"
+    script::launch "disablemod"
+    script::launch "systemdconf"
+    script::launch "logindconf"
+    script::launch "timesyncd"
+    script::launch "hosts"
+    script::launch "issue"
+    script::launch "logindefs"
+    script::launch "sysctl"
+    script::launch "limits"
+    script::launch "user"
+    script::launch "sshd"
+    script::launch "password"
+    script::launch "ctraltdel"
+    script::launch "compilers"
+    echo ""
+    pkg::cleanup
+fi

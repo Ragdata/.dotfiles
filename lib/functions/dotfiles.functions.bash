@@ -345,10 +345,6 @@ dot::update()
     [ -f "$CUSTOM/cfg/.node" ] || dot::update::config
 
     dot::update::repo
-
-	echoDot "Updating package database" -s "➤" -c "${GOLD}"
-    sudo apt-get -qq -y update
-
     dot::update::bin
     dot::update::dots
 

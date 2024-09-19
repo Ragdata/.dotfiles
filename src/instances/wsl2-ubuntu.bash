@@ -33,19 +33,22 @@ if [ "$1" != "rebooted" ]; then
     echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
     script::launch "fstab"
     script::launch "wsl"
-    dot::reboot::install "$INSTANCES/wsl2-ubuntu.bash"
+    dot::reboot::install "$INSTANCES/wsl2-debian.bash"
 else
     dot::reboot::install "$1"
-    echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
+    echoDot "Copying .ssh-skel" -s "➤" -c "${GOLD}"
     wsl::ssh::init
+    echo ""
 fi
 
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"
-echo ""
 
+echo ""
+echoDot "Installing packages" -s "➤" -c "${GOLD}"
+pkg::install "software-properties-common"
 dot::install::deps
-pkgInstall "shellcheck" "wslu"
+pkg::install "shellcheck" "wslu"
 
 echo ""
 echoDot "Hardening instance" -s "➤" -c "${GOLD}"

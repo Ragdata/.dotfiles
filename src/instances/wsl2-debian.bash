@@ -36,15 +36,19 @@ if [ "$1" != "rebooted" ]; then
     dot::reboot::install "$INSTANCES/wsl2-debian.bash"
 else
     dot::reboot::install "$1"
+    echoDot "Copying .ssh-skel" -s "➤" -c "${GOLD}"
     wsl::ssh::init
+    echo ""
 fi
 
 echoDot "Processing purge list" -s "➤" -c "${GOLD}"
 pkg::removeList "purge"
-echo ""
 
+echo ""
+echoDot "Installing packages" -s "➤" -c "${GOLD}"
+pkg::install "software-properties-common"
 dot::install::deps
-pkgInstall "shellcheck"
+pkg::install "shellcheck"
 
 echo ""
 echoDot "Hardening instance" -s "➤" -c "${GOLD}"

@@ -170,7 +170,10 @@ dot::reboot::install()
         echo ""
         sudo shutdown -r now
     else
-        git reset -C "$DOTS/bashrc.bash"
+        sed -i '$ d' "$DOTS/bashrc.bash"
+        cd "$DOTFILES" || exitLog "Unable to 'cd $DOTFILES'"
+        git reset --hard
+        cd - || exitLog "Unable to return to previous directory"
     fi
 }
 # ------------------------------------------------------------------

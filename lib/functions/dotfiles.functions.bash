@@ -50,9 +50,6 @@ dot::install::deps()
 
 	xdg-user-dirs-update
 
-	echoDot "Updating package database" -s "➤" -c "${GOLD}"
-    sudo apt-get -qq -y update
-
     if [ -f "$CUSTOM/cfg/data/dependencies.list" ]; then
         source="$CUSTOM/cfg/data"
     else
@@ -345,8 +342,13 @@ dot::update()
 
     log::debug "${FUNCNAME[0]}"
 
-    dot::update::repo
     [ -f "$CUSTOM/cfg/.node" ] || dot::update::config
+
+    dot::update::repo
+
+	echoDot "Updating package database" -s "➤" -c "${GOLD}"
+    sudo apt-get -qq -y update
+
     dot::update::bin
     dot::update::dots
 

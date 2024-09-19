@@ -67,7 +67,6 @@ script::launch "user"
 script::launch "sshd"
 script::launch "password"
 script::launch "ctraltdel"
-script::launch "rhosts"
 script::launch "compilers"
 echo ""
 pkg::cleanup

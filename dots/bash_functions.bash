@@ -164,13 +164,13 @@ dot::reboot::install()
     group 'bash_functions'
 
     if [ "$1" != "rebooted" ]; then
-        echo "source \"$1\" rebooted" >> "$HOME/.bashrc"
+        echo "source \"$1\" rebooted" >> "$DOTS/bashrc.bash"
         echo ""
         echo "Instance will reboot and then automatically continue processing"
         echo ""
         sudo shutdown -r now
     else
-        sed -i '$ d' "$HOME/.bashrc"
+        git reset -C "$DOTS/bashrc.bash"
     fi
 }
 # ------------------------------------------------------------------

@@ -29,6 +29,9 @@ wsl::ssh::init()
 
     cp -r "$WIN_HOME/.ssh-skel" "$WSL_HOME/.ssh"
 
+    chmod 0600 ./*
+    chmod 0644 ./*.pub config
+
     gpg_key="$(find "$WSL_HOME/.ssh" -type f -name "*_SECRET.asc")"
 
     if [ -f "$gpg_key" ]; then

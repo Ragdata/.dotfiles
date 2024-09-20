@@ -57,7 +57,7 @@ else
     fi
     echo ""
     echoDot "Waiting for services to boot ..." -s "➤" -c "${GOLD}"
-    while ! curl -s https://github.com &> /dev/null
+    until resolvectl query google.com &> /dev/null
     do
         sleep 2
         printf -- '%s' "."

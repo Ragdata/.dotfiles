@@ -39,6 +39,7 @@ if [ "$1" != "rebooted" ]; then
     echoAlias "In order to reload config files, WSL will now shutdown." -c "${YELLOW}"
     echoAlias "Restart manually by reopening your terminal session." -c "${YELLOW}"
     echo ""
+    read -n 1 -r -s -p $'Press any key to continue...\n'
     wsl.exe --shutdown
 else
     echoDot "Removing reboot instruction written to .bashrc" -s "➤" -c "${GOLD}"

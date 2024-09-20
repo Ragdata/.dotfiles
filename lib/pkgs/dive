@@ -33,8 +33,8 @@ dive::install()
 	# download latest Debian package
 	wget -O "$HOME/Downloads/dive.deb https://github.com/wagoodman/dive/releases/latest/download/dive_${DIVE_VERSION}_linux_amd64.deb"
 
-	sudo apt-get -qq -y install "$HOME/Downloads"/dive.deb &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+	sudo apt-get -qq -y install "$HOME/Downloads"/dive.deb; result=$?
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove; fi
 
 	return $result
 }
@@ -45,8 +45,8 @@ dive::remove()
 {
 	local result gc="${1:-}"
 
-	  sudo apt-get -qq -y purge dive &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+	  sudo apt-get -qq -y purge dive; result=$?
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove; fi
 
 	return $result
 }

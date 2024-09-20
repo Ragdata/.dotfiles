@@ -26,8 +26,8 @@ haveged::install()
 {
 	local result gc="${1:-}"
 
-	sudo apt-get -qq -y install haveged &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+	sudo apt-get -qq -y install haveged; result=$?
+	if [ -z "$gc" ]; then sudo apt-get -qq -y clean && sudo apt-get -qq -y autoremove; fi
 
 	return $result
 }

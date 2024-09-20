@@ -48,6 +48,7 @@ dot::file::perms()
 
     while IFS= read -r item
     do
+        printf -- '%s' "."
         [ -d "$item" ] && chmod 0755 "$item"
         [ -f "$item" ] && chmod 0644 "$item"
         [ "$item" == "$1/install.sh" ] && chmod 0755 "$item"

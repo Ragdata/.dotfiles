@@ -42,7 +42,7 @@ intellij-community::install()
     done
 
     if [ -z "$path" ]; then
-        wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/idea/ideaIC-2024.2.1.tar.gz &> /dev/null
+        wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/idea/ideaIC-2024.2.1.tar.gz
         path="$(find "$HOME/Downloads" -name 'ideaIC-*' | head -n 1)"
     fi
 

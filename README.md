@@ -44,16 +44,20 @@ If you're new to `.dotfiles`, you're not going to have a good time here.  The fi
 #### Step 1 - Fork or Clone the repo
 
 ```bash
-git clone https://github.com/Ragdata/.dotfiles ~/.dotfiles
-cd ~/.dotfiles
+cd ~
+git clone https://github.com/Ragdata/.dotfiles
 ./install.sh
 ```
 
 #### Step 2 - Customise your config
 
-Edit the following files according to your needs and save them in your `~/.dotfiles/lib/custom` folder using a path which mirrors the original (ie. `~/.dotfiles/cfg/git/.gitconfig` goes to `~/.dotfiles/lib/custom/cfg/git/.gitconfig`)
+**It's important that you edit the file `~/.dotfiles/custom/cfg/.node`**
+
+Edit the following files according to your needs and save them in your `~/.dotfiles/custom` folder using a path which mirrors the original (ie. `~/.dotfiles/cfg/git/.gitconfig` goes to `~/.dotfiles/custom/cfg/git/.gitconfig`)
 
 ```bash
+~/.dotfiles/custom/cfg/.node
+
 ~/.dotfiles/cfg/git/.gitconfig
 ~/.dotfiles/cfg/git/.gitignore_global
 

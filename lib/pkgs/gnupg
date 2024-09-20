@@ -36,27 +36,17 @@ gnupg::install()
 #-------------------------------------------------------------------
 gnupg::config()
 {
-    if [ -f "$CUSTOM/cfg/gnupg/gpg.conf" ]; then
-        source="$CUSTOM/cfg/gnupg/gpg.conf"
-    else
-        source="$DOT_CFG/gnupg/gpg.conf"
-    fi
+    if [ -f "$CUSTOM/cfg/gnupg/gpg.conf" ]; then source="$CUSTOM/cfg/gnupg/gpg.conf"; else source="$DOT_CFG/gnupg/gpg.conf"; fi
 
     [ -d "$HOME/.gnupg" ] || mkdir -p "$HOME/.gnupg"
 
-    if [ -f "$source" ]; then
-        install -b -C -m 0644 "$source" "$HOME/.gnupg/gpg.conf"
-    fi
+    if [ -f "$source" ]; then install -b -C -m 0600 "$source" "$HOME/.gnupg/gpg.conf"; fi
 
-    if [ -f "$CUSTOM/cfg/gnupg/gpg-agent.conf" ]; then
-        source="$CUSTOM/cfg/gnupg/gpg-agent.conf"
-    else
-        source="$DOT_CFG/gnupg/gpg-agent.conf"
-    fi
+    if [ -f "$CUSTOM/cfg/gnupg/gpg-agent.conf" ]; then source="$CUSTOM/cfg/gnupg/gpg-agent.conf"; else source="$DOT_CFG/gnupg/gpg-agent.conf"; fi
 
-    if [ -f "$source" ]; then
-        install -b -C -m 0644 "$source" "$HOME/.gnupg/gpg-agent.conf"
-    fi
+    if [ -f "$source" ]; then install -b -C -m 0600 "$source" "$HOME/.gnupg/gpg-agent.conf"; fi
+
+    chmod 0700 ~/.gnupg
 
     gpg-connect-agent reloadagent /bye &> /dev/null
 

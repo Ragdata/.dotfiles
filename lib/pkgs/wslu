@@ -26,8 +26,7 @@ wslu::install()
 {
 	local result gc="${1:-}"
 
-    sudo add-apt-repository ppa:wslutilities/wslu &> /dev/null
-    sudo apt-get -qq -y update
+    sudo add-apt-repository -y ppa:wslutilities/wslu &> /dev/null
 
 	sudo apt-get -qq -y install wslu &> /dev/null; result=$?
 	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi

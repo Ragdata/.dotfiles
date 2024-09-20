@@ -91,6 +91,7 @@ menu::config()
 	local DIALOG_TEXT="Select from the following options:"
 	local -a DIALOG_OPTIONS=(
 		"1" "Theme Menu"
+		"2" "Set Linux File Permissions"
 		"" ""
 		"X" "Back to Main Menu"
 	)
@@ -114,6 +115,7 @@ menu::config()
 		"$DIALOG_OK")
 			case "$result" in
 				1)	menu::config::theme;;
+				2)	dot::file::perms;;
 
 				X)	menu;;
 			esac

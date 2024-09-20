@@ -20,11 +20,7 @@ script::systemd-resolved()
 
 	local dnsarray=() dnslist result
 
-    if [ -f "$CUSTOM/etc/resolv.conf" ]; then
-        source="$CUSTOM/etc/resolv.conf"
-    else
-        source="$DOT_ETC/resolv.conf"
-    fi
+    if [ -f "$CUSTOM/etc/resolv.conf" ]; then source="$CUSTOM/etc/resolv.conf"; else source="$DOT_ETC/resolv.conf"; fi
 
     if [ -f "$source" ]; then
         sudo install -b -C -m 0644 -T "$source" /etc/resolv.conf

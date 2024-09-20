@@ -18,7 +18,7 @@
 # required config files
 source "$CUSTOM/cfg/.node"
 # required library files
-dot::include "dotfiles.functions" "script.functions" "wsl.functions"
+dot::include "dotfiles.functions" "script.functions"
 ####################################################################
 # METADATA
 ####################################################################

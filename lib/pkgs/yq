@@ -18,18 +18,17 @@ label 'utility'
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-yq::check() { dpkg -l | grep yq 2> /dev/null 1>&2; return $?; }
+yq::check() { whereis yq &> /dev/null; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
 yq::install()
 {
-	local result gc="${1:-}"
+	local result
 
-    sudo add-apt-repository -y ppa:rmescandon/yq &> /dev/null
+	sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
 
-	sudo apt-get -qq -y install yq &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+    sudo chmod +x /usr/bin/yq; result=$?
 
 	return $result
 }
@@ -38,10 +37,9 @@ yq::install()
 #-------------------------------------------------------------------
 yq::remove()
 {
-	local result gc="${1:-}"
+	local result
 
-	sudo apt-get -qq -y purge yq &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+    sudo rm -f /usr/bin/yq; result=$?
 
 	return $result
 }

@@ -32,8 +32,11 @@ clear
 if [ "$1" != "rebooted" ]; then
     echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
     script::launch "fstab"
+    echoDot "Install /etc/wsl.conf" -S "▶"
     if [ -f "$CUSTOM/etc/wsl.conf" ]; then source="$CUSTOM/etc/wsl.conf"; else source="$DOT_ETC/wsl.conf"; fi
     if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf; fi
+    script::launch "systemd-resolved"
+    echoDot "Write reboot command" -S "▶"
     echo "source \"$INSTANCES/wsl2-ubuntu.bash\" rebooted" >> "$DOTS/bashrc.bash"
     echo ""
     echoAlias "In order to reload config files, WSL will now shutdown." -c "${YELLOW}"
@@ -53,10 +56,14 @@ else
     if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" "$WIN_HOME/.wslconfig"; fi
     echo ""
     echoDot "Copying .ssh-skel" -s "➤" -c "${GOLD}"
-    cp -r "$WIN_HOME/.ssh-skel" "$WSL_HOME/.ssh"
-    chmod 0600 "$WSL_HOME/.ssh/*"
-    chmod 0644 "$WSL_HOME/.ssh/*.pub" "$WSL_HOME/.ssh/config"
-    gpg_key="$(find "$WSL_HOME/.ssh" -type f -name "*_SECRET.asc")"
+    if [ ! -d "$HOME/.ssh" ]; then mkdir -p "$HOME/.ssh" || exitLog "Unable to create '$HOME/.ssh'"; fi
+    while IFS= read -r file
+    do
+        if [[ "$file" == "*.pub" || "$file" == "*config" ]]; then perm="0644"; else perm="0600"; fi
+        install -C -m "$perm" -T "$file" "$HOME/.ssh/$(basename "$file")"
+    done < <(find "$WIN_HOME/.ssh-skel" -type f)
+    echoDot "Importing GPG key" -s "➤" -c "${GOLD}"
+    gpg_key="$(find "$HOME/.ssh" -type f -name "*_SECRET.asc")"
     if [ -f "$gpg_key" ]; then
         if gpg --import "$gpg_key"; then
             rm -f "$gpg_key"

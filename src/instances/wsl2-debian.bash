@@ -32,12 +32,35 @@ clear
 if [ "$1" != "rebooted" ]; then
     echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
     script::launch "fstab"
-    script::launch "wsl"
-    dot::reboot::install "$INSTANCES/wsl2-debian.bash"
+    if [ -f "$CUSTOM/etc/wsl.conf" ]; then source="$CUSTOM/etc/wsl.conf"; else source="$DOT_ETC/wsl.conf"; fi
+    if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf; fi
+    echo "source \"$INSTANCES/wsl2-ubuntu.bash\" rebooted" >> "$DOTS/bashrc.bash"
+    echo ""
+    echoAlias "In order to reload config files, WSL will now shutdown." -c "${YELLOW}"
+    echoAlias "Restart manually by reopening your terminal session." -c "${YELLOW}"
+    echo ""
+    wsl.exe --shutdown
 else
-    dot::reboot::install "$1"
+    echoDot "Removing reboot instruction written to .bashrc" -s "➤" -c "${GOLD}"
+    sed -i '$ d' "$DOTS/bashrc.bash"
+    cd "$DOTFILES" || exitLog "Unable to 'cd $DOTFILES'"
+    git reset --hard
+    cd - || exitLog "Unable to return to previous directory"
+    echo ""
+    echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
+    if [ -f "$CUSTOM/cfg/.wslconfig" ]; then source="$CUSTOM/cfg/.wslconfig"; else source="$DOT_CFG/.wslconfig"; fi
+    if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" "$WIN_HOME/.wslconfig"; fi
+    echo ""
     echoDot "Copying .ssh-skel" -s "➤" -c "${GOLD}"
-    wsl::ssh::init
+    cp -r "$WIN_HOME/.ssh-skel" "$WSL_HOME/.ssh"
+    chmod 0600 "$WSL_HOME/.ssh/*"
+    chmod 0644 "$WSL_HOME/.ssh/*.pub" "$WSL_HOME/.ssh/config"
+    gpg_key="$(find "$WSL_HOME/.ssh" -type f -name "*_SECRET.asc")"
+    if [ -f "$gpg_key" ]; then
+        if gpg --import "$gpg_key"; then
+            rm -f "$gpg_key"
+        fi
+    fi
     echo ""
 fi
 

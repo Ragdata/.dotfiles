@@ -43,13 +43,15 @@ dot::describe::prompts()
 dot::file::perms()
 {
     clear
-    
+
+    local="${1:-"$DOTFILES"}"
+
     while IFS= read -r item
     do
         [ -d "$item" ] && chmod 0755 "$item"
         [ -f "$item" ] && chmod 0644 "$item"
-        [ "$item" == "$DOTFILES/install.sh" ] && chmod 0755 "$item"
-    done < <(find "$DOTFILES")
+        [ "$item" == "$1/install.sh" ] && chmod 0755 "$item"
+    done < <(find "$1")
 
     menu::config
 }

@@ -35,7 +35,6 @@ if [ "$1" != "rebooted" ]; then
     echoDot "Install /etc/wsl.conf" -s "▶"
     if [ -f "$CUSTOM/etc/wsl.conf" ]; then source="$CUSTOM/etc/wsl.conf"; else source="$DOT_ETC/wsl.conf"; fi
     if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" /etc/wsl.conf; fi
-    script::launch "systemd-resolved"
     echoDot "Write reboot command" -s "▶"
     echo "source \"$INSTANCES/wsl2-ubuntu.bash\" rebooted" >> "$DOTS/bashrc.bash"
     echo ""
@@ -54,6 +53,7 @@ else
     echoDot "Configuring WSL2" -s "➤" -c "${GOLD}"
     if [ -f "$CUSTOM/cfg/.wslconfig" ]; then source="$CUSTOM/cfg/.wslconfig"; else source="$DOT_CFG/.wslconfig"; fi
     if [ -f "$source" ]; then sudo install -b -C -m 0644 -T "$source" "$WIN_HOME/.wslconfig"; fi
+    script::launch "systemd-resolved"
     echo ""
     echoDot "Copying .ssh-skel" -s "▶"
     if [ ! -d "$HOME/.ssh" ]; then mkdir -p "$HOME/.ssh" || exitLog "Unable to create '$HOME/.ssh'"; fi

@@ -1,7 +1,6 @@
 # shellcheck shell=bash
 
 WIN_HOME="/mnt/c/Users/username"
-WSL_HOME="/home/username"
 
 NODE_IPv4="$(hostname -I)"
 NODE_HOSTNAME="$(hostname -f)"

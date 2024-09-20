@@ -155,28 +155,6 @@ dot::reboot()
     sudo systemctl reboot
 }
 # ------------------------------------------------------------------
-# dot::reboot::install
-# ------------------------------------------------------------------
-dot::reboot::install()
-{
-    about 'Sets a flag in .bashrc which automatically executes a command after rebooting the instance'
-    usage 'dot::reboot::install'
-    group 'bash_functions'
-
-    if [ "$1" != "rebooted" ]; then
-        echo "source \"$1\" rebooted" >> "$DOTS/bashrc.bash"
-        echo ""
-        echo "Instance will reboot and then automatically continue processing"
-        echo ""
-        sudo shutdown -r now
-    else
-        sed -i '$ d' "$DOTS/bashrc.bash"
-        cd "$DOTFILES" || exitLog "Unable to 'cd $DOTFILES'"
-        git reset --hard
-        cd - || exitLog "Unable to return to previous directory"
-    fi
-}
-# ------------------------------------------------------------------
 # dot::reload
 # ------------------------------------------------------------------
 dot::reload()

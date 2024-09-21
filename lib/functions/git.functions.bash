@@ -88,6 +88,7 @@ git::subtree::list()
     local name path url branch header entry
     local -a NAMES
 
+    echo ""
     echoYellow "Subtrees"
     echo ""
     header="$(printf -- '%-15s %s' "Name" "Path")"

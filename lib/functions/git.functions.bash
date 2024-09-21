@@ -95,7 +95,7 @@ git::subtree::list()
     echoGold "line"
 
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        readarray NAMES < <(yq '.subtree | keys' "$TREEFILE")
+        readarray NAMES < <(yq '.subtree | keys' "$TREEFILE") &> /dev/null
         for name in "${NAMES[@]}"
         do
             name="${name//[$'\t\n\r']}"

@@ -50,9 +50,10 @@ git::subtree::add()
     git remote add -f "$name" "$url"
     git subtree add --prefix "$path" "$name" "$branch" --squash || exitLog "Failed to add subtree '$name'"
 
-    yq -n -I4 ".subtree.$name.path = $path" -i "$TREEFILE"
-    yq -n -I4 ".subtree.$name.url = $url" -i "$TREEFILE"
-    yq -n -I4 ".subtree.$name.branch = $branch" -i "$TREEFILE"
+    # shellcheck disable=SC2129
+    yq -n -I4 ".subtree.$name.path = $path" >> "$TREEFILE"
+    yq -n -I4 ".subtree.$name.url = $url" >> "$TREEFILE"
+    yq -n -I4 ".subtree.$name.branch = $branch" >> "$TREEFILE"
 }
 #-------------------------------------------------------------------
 # git::subtree::fetch

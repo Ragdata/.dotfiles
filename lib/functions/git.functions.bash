@@ -98,7 +98,8 @@ git::subtree::list()
         readarray NAMES < <(yq '.subtree | keys' "$TREEFILE")
         for name in "${NAMES[@]}"
         do
-            name="${name//- [$'\t\n\r']}"
+            name="${name//- }"
+            name="${name//[$'\t\n\r']}"
             path="$(yq ".subtree.$name.path" "$TREEFILE")"
             url="$(yq ".subtree.$name.url" "$TREEFILE")"
             branch="$(yq ".subtree.$name.branch" "$TREEFILE")"

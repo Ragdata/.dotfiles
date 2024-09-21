@@ -95,10 +95,10 @@ git::subtree::list()
     echoGold "line"
 
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        readarray NAMES < <(yq '.subtree | keys' "$TREEFILE") &> /dev/null
+        readarray NAMES < <(yq '.subtree | keys' "$TREEFILE")
         for name in "${NAMES[@]}"
         do
-            name="${name//[$'\t\n\r']}"
+            name="${name//- [$'\t\n\r']}"
             path="$(yq ".subtree.$name.path" "$TREEFILE")"
             url="$(yq ".subtree.$name.url" "$TREEFILE")"
             branch="$(yq ".subtree.$name.branch" "$TREEFILE")"

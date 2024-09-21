@@ -150,7 +150,7 @@ git::subtree::remove()
 
     # shellcheck disable=SC2091
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        if $(yq ".subtree | has($name)" "$TREEFILE"); then
+        if $(yq ".subtree | has('$name')" "$TREEFILE"); then
             if $(yq ".subtree.$name | has('path')" "$TREEFILE"); then path="$(yq ".subtree.$name.path" "$TREEFILE")"; else exitLog "Subtree has no path"; fi
         else
             exitLog "Subtree '$name' not found"

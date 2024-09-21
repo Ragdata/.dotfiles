@@ -90,7 +90,7 @@ git::subtree::list()
 
     echoYellow "Subtrees"
     echo ""
-    header="$(printf -- '%-15s %-20s %-40s' "Name" "Path" "URL")"
+    header="$(printf -- '%-15s %s' "Name" "Path")"
     echoGold "$header"
     echoGold "line"
 
@@ -103,7 +103,7 @@ git::subtree::list()
             path="$(yq ".subtree.$name.path" "$TREEFILE")"
             url="$(yq ".subtree.$name.url" "$TREEFILE")"
             branch="$(yq ".subtree.$name.branch" "$TREEFILE")"
-            entry="$(printf -- '%-15s %-20s %-40s' "$name" "$path" "$url")"
+            entry="$(printf -- '%-15s %s' "$name" "$path")"
             echoLtGreen "$entry"
         done
     fi

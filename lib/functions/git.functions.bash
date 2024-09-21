@@ -44,7 +44,7 @@ git::subtree::add()
 
     # shellcheck disable=SC2091
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        if $(yq ".subtree | has($name)" "$TREEFILE"); then exitLog "Subtree '$name' already exists"; fi
+        if $(yq ".subtree | has(\"$name\")" "$TREEFILE"); then exitLog "Subtree '$name' already exists"; fi
     fi
 
     git remote add -f "$name" "$url"
@@ -69,8 +69,8 @@ git::subtree::fetch()
 
     # shellcheck disable=SC2091
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        if $(yq ".subtree | has($name)" "$TREEFILE"); then
-            if $(yq ".subtree.$name | has('branch')" "$TREEFILE"); then branch="$(yq ".subtree.$name.branch" "$TREEFILE")"; else exitLog "Subtree has no branch"; fi
+        if $(yq ".subtree | has(\"$name\")" "$TREEFILE"); then
+            if $(yq ".subtree.$name | has(\"branch\")" "$TREEFILE"); then branch="$(yq ".subtree.$name.branch" "$TREEFILE")"; else exitLog "Subtree has no branch"; fi
         else
             exitLog "Subtree '$name' not found"
         fi
@@ -125,9 +125,9 @@ git::subtree::pull()
 
     # shellcheck disable=SC2091
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        if $(yq ".subtree | has($name)" "$TREEFILE"); then
-            if $(yq ".subtree.$name | has('path')" "$TREEFILE"); then path="$(yq ".subtree.$name.path" "$TREEFILE")"; else exitLog "Subtree has no path"; fi
-            if $(yq ".subtree.$name | has('branch')" "$TREEFILE"); then branch="$(yq ".subtree.$name.branch" "$TREEFILE")"; else exitLog "Subtree has no branch"; fi
+        if $(yq ".subtree | has(\"$name\")" "$TREEFILE"); then
+            if $(yq ".subtree.$name | has(\"path\")" "$TREEFILE"); then path="$(yq ".subtree.$name.path" "$TREEFILE")"; else exitLog "Subtree has no path"; fi
+            if $(yq ".subtree.$name | has(\"branch\")" "$TREEFILE"); then branch="$(yq ".subtree.$name.branch" "$TREEFILE")"; else exitLog "Subtree has no branch"; fi
         else
             exitLog "Subtree '$name' not found"
         fi
@@ -150,7 +150,11 @@ git::subtree::remove()
 
     # shellcheck disable=SC2091
     if $(yq 'has("subtree")' "$TREEFILE"); then
-        if $(yq ".subtree.$name | has(\"path\")" "$TREEFILE"); then path="$(yq ".subtree.$name.path" "$TREEFILE")"; else exitLog "Subtree has no path"; fi
+        if $(yq ".subtree | has(\"$name\")" "$TREEFILE"); then
+            if $(yq ".subtree.$name | has(\"path\")" "$TREEFILE"); then path="$(yq ".subtree.$name.path" "$TREEFILE")"; else exitLog "Subtree has no path"; fi
+        else
+            exitLog "Subtree '$name' not found"
+        fi
     fi
 
     yq -i "del(.subtree.$name)" "$TREEFILE"

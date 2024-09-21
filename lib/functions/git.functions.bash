@@ -161,5 +161,6 @@ git::subtree::remove()
 
     [ -d "$DOTFILES/$path" ] || exitLog "Path '$path' not found"
 
-    sudo rm -rf "$DOTFILES/$path"
+    git remote remove "$name"
+    git rm -r "$DOTFILES/$path"
 }

@@ -51,9 +51,9 @@ git::subtree::add()
     git subtree add --prefix "$path" "$name" "$branch" --squash || exitLog "Failed to add subtree '$name'"
 
     # shellcheck disable=SC2129
-    yq -n -I4 ".subtree.$name.path = $path" >> "$TREEFILE"
-    yq -n -I4 ".subtree.$name.url = $url" >> "$TREEFILE"
-    yq -n -I4 ".subtree.$name.branch = $branch" >> "$TREEFILE"
+    yq -n -I4 ".subtree.$name.path = \"$path\"" >> "$TREEFILE"
+    yq -n -I4 ".subtree.$name.url = \"$url\"" >> "$TREEFILE"
+    yq -n -I4 ".subtree.$name.branch = \"$branch\"" >> "$TREEFILE"
 }
 #-------------------------------------------------------------------
 # git::subtree::fetch

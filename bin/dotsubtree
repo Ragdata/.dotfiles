@@ -2,15 +2,15 @@
 # shellcheck disable=SC1090
 # shellcheck disable=SC1091
 ####################################################################
-# dotgit
+# dotsubtree
 ####################################################################
 # Ragdata's Dotfiles - Executable
 #
-# File:         dotgit
+# File:         dotsubtree
 # Author:       Ragdata
 # Date:         23/08/2024
 # License:      MIT License
-# Repository:	https://github.com/Ragdata/.dotfiles
+# Repository:	https://github.com/Ragdata/.dotsubtree
 # Copyright:    Copyright © 2024 Redeyed Technologies
 ####################################################################
 # PREFLIGHT
@@ -27,34 +27,38 @@
 # 	set -axETo pipefail
 #	export LOG_LEVEL="DEBUG"
 #else
-# 	set -aETo pipefail
+# 	#set -aETo pipefail
+# 	set -a
 #fi
-##set -aeETo pipefail
+#set -aeETo pipefail
 #shopt -s inherit_errexit
 ####################################################################
 # DEPENDENCIES
 ####################################################################
+#	git remote add -f {{name}} {{url}}
+#	git subtree add --prefix {{path}} {{name}} {{branch}} --squash
+#	git fetch {{name}} {{branch}}
+#	git subtree pull --prefix {{path}} {{name}} {{branch}} --squash
 # error trap
 #trap 'errorHandler "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "$?"' ERR
 # required library files
-dot::include "git.functions"
+dot::include "dotfiles.functions" "git.functions"
 ####################################################################
 # MAIN
 ####################################################################
 
 case "${1:-}" in
-	subtree)
-		case "${2:-}" in
-			add)
-				;;
-			remove)
-				;;
-			show)
-				;;
-			update)
-				;;
-			*)
-				;;
-		esac
-		;;
+    add)
+        shift
+        git::subtree::add "$@"
+        ;;
+    list)
+        git::subtree::list
+        ;;
+    remove)
+        git::subtree::remove "$2"
+        ;;
+    update)
+        git::subtree::pull "$2"
+        ;;
 esac

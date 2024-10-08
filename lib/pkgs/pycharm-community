@@ -42,7 +42,7 @@ pycharm-community::install()
     done
 
     if [ -z "$path" ]; then
-        wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/python/pycharm-community-2024.2.1.tar.gz
+        wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/python/pycharm-community-2024.2.3.tar.gz
         path="$(find "$HOME/Downloads" -name 'pycharm-*' | head -n 1)"
     fi
 

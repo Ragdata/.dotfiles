@@ -35,7 +35,7 @@ intellij-community::install()
         if [ -d "$dir" ]; then
             if find "$dir" -type f | grep -q "ideaIC-"; then
                 # shellcheck disable=SC2012
-                path="$(find "$dir" -name 'ideaIC-*' | head -n 1)"
+                path="$(find "$dir" -name 'ideaIC-*' | tail -n 1)"
                 break
             fi
         fi
@@ -43,14 +43,14 @@ intellij-community::install()
 
     if [ -z "$path" ]; then
         wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/idea/ideaIC-2024.2.3.tar.gz
-        path="$(find "$HOME/Downloads" -name 'ideaIC-*' | head -n 1)"
+        path="$(find "$HOME/Downloads" -name 'ideaIC-*' | tail -n 1)"
     fi
 
     chmod 0644 "$path"
 
     sudo tar -xzf "$path" -C /opt
 
-    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+    optPath="$(find /opt -type d -name 'idea-IC-*' | tail -n 1)"
 
     if [ ! -f "$CUSTOM/lib/aliases/jetbrains.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
@@ -74,7 +74,7 @@ intellij-community::remove()
 
 	local result
 
-    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+    optPath="$(find /opt -type d -name 'idea-IC-*' | tail -n 1)"
 
     sed -i "/^.*intellij.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 

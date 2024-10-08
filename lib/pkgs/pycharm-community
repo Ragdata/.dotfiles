@@ -35,7 +35,7 @@ pycharm-community::install()
         if [ -d "$dir" ]; then
             if find "$dir" -type f | grep -q "pycharm-"; then
                 # shellcheck disable=SC2012
-                path="$(find "$dir" -name 'pycharm-*' | head -n 1)"
+                path="$(find "$dir" -name 'pycharm-*' | tail -n 1)"
                 break
             fi
         fi
@@ -43,14 +43,14 @@ pycharm-community::install()
 
     if [ -z "$path" ]; then
         wget -P "$HOME/Downloads" https://download-cdn.jetbrains.com/python/pycharm-community-2024.2.3.tar.gz
-        path="$(find "$HOME/Downloads" -name 'pycharm-*' | head -n 1)"
+        path="$(find "$HOME/Downloads" -name 'pycharm-*' | tail -n 1)"
     fi
 
     chmod 0644 "$path"
 
     sudo tar -xzf "$path" -C /opt
 
-    optPath="$(find /opt -type d -name 'pycharm-*' | head -n 1)"
+    optPath="$(find /opt -type d -name 'pycharm-*' | tail -n 1)"
 
     if [ ! -f "$CUSTOM/lib/aliases/jetbrains.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
@@ -74,7 +74,7 @@ pycharm-community::remove()
 
 	local result
 
-    optPath="$(find /opt -type d -name 'idea-IC-*' | head -n 1)"
+    optPath="$(find /opt -type d -name 'idea-IC-*' | tail -n 1)"
 
     sed -i "/^.*pycharm.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 

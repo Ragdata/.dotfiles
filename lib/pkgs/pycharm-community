@@ -18,7 +18,7 @@ label 'development'
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-pycharm-community::check() { sudo find /opt -type d -name 'pycharm-*' &> /dev/null; return $?; }
+pycharm-community::check() { sudo find "$HOME/.local/apps" -type d -name 'pycharm-*' &> /dev/null; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
@@ -26,7 +26,7 @@ pycharm-community::install()
 {
     dot::include "alias.functions" "default-jre"
 
-	local result path optPath dir
+	local result path appPath dir
 
     if ! default-jre::check; then pkg::install "default-jre"; fi
 
@@ -48,9 +48,13 @@ pycharm-community::install()
 
     chmod 0644 "$path"
 
-    sudo tar -xzf "$path" -C /opt
+    if [ ! -d "$HOME/.local/apps" ]; then
+        mkdir -p "$HOME/.local/apps"
+    fi
 
-    optPath="$(find /opt -type d -name 'pycharm-*' | tail -n 1)"
+    tar -xzf "$path" -C "$HOME/.local/apps"
+
+    appPath="$(find "$HOME/.local/apps" -type d -name 'pycharm-*' | head -n 1)"
 
     if [ ! -f "$CUSTOM/lib/aliases/jetbrains.aliases.bash" ]; then
         [ -d "$CUSTOM/lib/aliases" ] || { mkdir -p "$CUSTOM/lib/aliases" || exitLog "Unable to create directory '$CUSTOM/lib/aliases'"; }
@@ -58,7 +62,7 @@ pycharm-community::install()
     fi
 
     if ! grep -q "pycharm" "$CUSTOM/lib/aliases/jetbrains.aliases.bash"; then
-        echo "alias pycharm=\"$optPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
+        echo "alias pycharm=\"$appPath/bin/pycharm\"" >> "$CUSTOM/lib/aliases/jetbrains.aliases.bash"
     fi
 
     alias::enable "jetbrains"; result=$?
@@ -74,11 +78,11 @@ pycharm-community::remove()
 
 	local result
 
-    optPath="$(find /opt -type d -name 'idea-IC-*' | tail -n 1)"
+    appPath="$(find "$HOME/.local/apps" -type d -name 'pycharm-*' | tail -n 1)"
 
     sed -i "/^.*pycharm.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 
-    sudo rm -rf "$optPath"; result=$?
+    rm -rf "$appPath"; result=$?
 
 	return $result
 }

@@ -52,7 +52,7 @@ intellij-community::install()
         mkdir -p "$HOME/.local/apps"
     fi
 
-    sudo tar -xzf "$path" -C "$HOME/.local/apps"
+    tar -xzf "$path" -C "$HOME/.local/apps"
 
     appPath="$(find "$HOME/.local/apps" -type d -name 'idea-IC-*' | head -n 1)"
 
@@ -82,7 +82,7 @@ intellij-community::remove()
 
     sed -i "/^.*intellij.*/d" "$CUSTOM/lib/aliases/jetbrains.aliases.bash" &> /dev/null
 
-    sudo rm -rf "$appPath"; result=$?
+    rm -rf "$appPath"; result=$?
 
 	return $result
 }

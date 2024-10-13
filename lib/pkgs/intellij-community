@@ -24,8 +24,6 @@ intellij-community::check() { sudo find "$HOME/.local/apps" -type d -name 'idea-
 #-------------------------------------------------------------------
 intellij-community::install()
 {
-    dot::include "alias.functions" "default-jre"
-
 	local result path appPath dir
 
     if ! default-jre::check; then pkg::install "default-jre"; fi
@@ -74,8 +72,6 @@ intellij-community::install()
 #-------------------------------------------------------------------
 intellij-community::remove()
 {
-    dot::include "alias.functions"
-
 	local result
 
     appPath="$(find "$HOME/.local/apps" -type d -name 'idea-IC-*' | tail -n 1)"

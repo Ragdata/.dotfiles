@@ -24,8 +24,6 @@ pycharm-community::check() { sudo find "$HOME/.local/apps" -type d -name 'pychar
 #-------------------------------------------------------------------
 pycharm-community::install()
 {
-    dot::include "alias.functions" "default-jre"
-
 	local result path appPath dir
 
     if ! default-jre::check; then pkg::install "default-jre"; fi
@@ -74,8 +72,6 @@ pycharm-community::install()
 #-------------------------------------------------------------------
 pycharm-community::remove()
 {
-    dot::include "alias.functions"
-
 	local result
 
     appPath="$(find "$HOME/.local/apps" -type d -name 'pycharm-*' | tail -n 1)"

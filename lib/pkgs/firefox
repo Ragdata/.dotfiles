@@ -9,9 +9,9 @@
 ####################################################################
 # METADATA
 ####################################################################
-about ''
+about 'Firefox web browser'
 group 'pkgs'
-label ''
+label 'network'
 ####################################################################
 # FUNCTIONS
 ####################################################################
@@ -24,32 +24,7 @@ firefox::check() { dpkg -l | grep firefox 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 firefox::install()
 {
-	[ -d /etc/apt/keyrings ] || sudo mkdir -p /etc/apt/keyrings/
-
-	if [ ! -f /etc/apt/keyrings/packages.mozilla.org.asc ]; then
-	    wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-	fi
-
-	# validate APT Signing Key fingerprint
-	sudo gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") infoLog "The APT Signing Key fingerprint matches ("$0")"; else exitLog "APT Signing Key verification failed - the fingerprint ("$0") does not match the expected one"}'
-
-    if [ ! -f /etc/apt/sources.list.d/mozilla.list ]; then
-        # add APT repository to sources list
-        echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-    fi
-
-    if [ ! -f /etc/apt/preferences.d/mozilla ]; then
-        # configure APT to prioritize packages from the Mozilla repository
-        echo '
-Package: *
-Pin: origin packages.mozilla.org
-Pin-Priority: 1000' | sudo tee /etc/apt/preferences.d/mozilla
-    fi
-    # upgrade package list
-    sudo apt-get update
-    # install firefox
-	sudo apt-get -qq -y install firefox &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+	sudo snap install firefox &> /dev/null; result=$?
 
 	return $result
 }
@@ -60,8 +35,7 @@ firefox::remove()
 {
 	local result gc="${1:-}"
 
-    sudo apt-get -qq -y purge firefox &> /dev/null; result=$?
-	if [ -z "$gc" ]; then sudo apt-get -qq -y clean &> /dev/null && sudo apt-get -qq -y autoremove &> /dev/null; fi
+    sudo snap remove firefox &> /dev/null; result=$?
 
 	return $result
 }

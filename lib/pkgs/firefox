@@ -31,7 +31,7 @@ firefox::install()
 	fi
 
 	# validate APT Signing Key fingerprint
-	gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") log::info "The APT Signing Key fingerprint matches ("$0")"; else exitLog "APT Signing Key verification failed - the fingerprint ("$0") does not match the expected one"}'
+	sudo gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") log::info "The APT Signing Key fingerprint matches ("$0")"; else exitLog "APT Signing Key verification failed - the fingerprint ("$0") does not match the expected one"}'
 	# add APT repository to sources list
 	echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
 	# configure APT to prioritize packages from the Mozilla repository

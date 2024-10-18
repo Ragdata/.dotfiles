@@ -4,7 +4,7 @@ import json
 import sys
 import os
 
-import models.msg as msg
+import msg
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(

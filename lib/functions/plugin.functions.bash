@@ -47,6 +47,25 @@ plugin::enable()
 	return 0
 }
 #-------------------------------------------------------------------
+# plugin::enable
+#-------------------------------------------------------------------
+plugin::enabled()
+{
+    group 'plugin'
+
+	log::debug "${FUNCNAME[0]}"
+
+	(($# < 1)) && exitLog "Missing Argument(s)"
+
+	local name="${1//[$'\t\n\r']}"
+
+    if grep -q "$name" "$DOT_REG/plugins.enabled" &> /dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+#-------------------------------------------------------------------
 # plugin::disable
 #-------------------------------------------------------------------
 plugin::disable()

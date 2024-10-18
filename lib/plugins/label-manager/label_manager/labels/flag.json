@@ -1,54 +1,9 @@
-{
-    "labels": {
-        "duplicate": {
-            "description": "Issue already exists",
-            "default": true,
-            "color": "#cccccc",
-            "aliases": null
-        },
-        "expertise required": {
-            "description": "This item requires attention from an area specialist",
-            "default": false,
-            "color": "#6F7500",
-            "aliases": null
-        },
-        "good starter issue": {
-            "description": "Good for newcomers",
-            "default": true,
-            "color": "#7057ff",
-            "aliases": [
-                "beginner-friendly",
-                "beginner",
-                "good first issue",
-                "starter-issue"
-            ]
-        },
-        "help wanted": {
-            "description": "Assistance requested",
-            "default": true,
-            "color": "#0e8a16",
-            "aliases": null
-        },
-        "security": {
-            "description": "Issue with security implications",
-            "default": false,
-            "color": "#d73a4a",
-            "aliases": null
-        },
-        "stale": {
-            "description": "Activity has stalled on this issue and is scheduled to be closed if activity does not resume",
-            "default": true,
-            "color": "#e6e6e6",
-            "aliases": null
-        },
-        "wontfix": {
-            "description": "CLOSED - Item will not be worked on",
-            "default": true,
-            "color": "#cccccc",
-            "aliases": [
-                "won't fix",
-                "wont-fix"
-            ]
-        }
-    }
-}
+[
+    { "name": "duplicate", "color": "#cccccc", "description": "Issue already exists" },
+    { "name": "expertise required", "color": "#6F7500", "description": "This item requires attention from an area specialist" },
+    { "name": "good starter issue", "color": "#7057ff", "description": "Good for newcomers" },
+    { "name": "help wanted", "color": "#0e8a16", "description": "Assistance requested" },
+    { "name": "security", "color": "#d73a4a", "description": "Issue with security implications" },
+    { "name": "stale", "color": "#e6e6e6", "description": "Activity has stalled on this issue and is scheduled to be closed if activity does not resume" },
+    { "name": "wontfix", "color": "#cccccc", "description": "CLOSED - Item will not be worked on" }
+]

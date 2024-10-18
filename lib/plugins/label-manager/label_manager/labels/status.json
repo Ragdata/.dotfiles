@@ -1,58 +1,11 @@
-{
-    "labels": {
-        "Status: NEW": {
-            "description": "Item received and awaiting review",
-            "default": true,
-            "color": "#D1DB18",
-            "aliases": null
-        },
-        "Status: TODO": {
-            "description": "Item hasn't been started yet",
-            "default": true,
-            "color": "#089D2B",
-            "aliases": null
-        },
-        "Status: Icebox": {
-            "description": "(TODO) Item may ultimately be removed from the project",
-            "default": false,
-            "color": "#143AA2",
-            "aliases": null
-        },
-        "Status: Project Backlog": {
-            "description": "(TODO) Items awaiting allocation to a sprint",
-            "default": false,
-            "color": "#5F1F08",
-            "aliases": null
-        },
-        "Status: Sprint Backlog": {
-            "description": "(TODO) Items prioritised for the current sprint",
-            "default": false,
-            "color": "#AB890E",
-            "aliases": null
-        },
-        "Status: IN-PROGRESS": {
-            "description": "Item is currently being worked on",
-            "default": true,
-            "color": "#C1DB18",
-            "aliases": null
-        },
-        "Status: REVIEW": {
-            "description": "(IN-PROGRESS) Item has been completed and is awaiting inspection",
-            "default": false,
-            "color": "#DBAE18",
-            "aliases": null
-        },
-        "Status: DONE": {
-            "description": "Item has been completed and passed inspection",
-            "default": true,
-            "color": "#8318DB",
-            "aliases": null
-        },
-        "Status: CLOSED": {
-            "description": "Item discarded",
-            "default": true,
-            "color": "#969696",
-            "aliases": null
-        }
-    }
-}
+[
+    {"name": "Status: NEW", "color": "#D1DB18", "description": "Item received and awaiting triage"},
+    {"name": "Status: TODO", "color": "#089D2B", "description": "Item hasn't been started yet"},
+    {"name": "Status: Icebox", "color": "#143AA2", "description": "(TODO) Item may ultimately be removed from the project"},
+    {"name": "Status: Project Backlog", "color": "#5F1F08", "description": "(TODO) Items awaiting allocation to a sprint"},
+    {"name": "Status: Sprint Backlog", "color": "#AB890E", "description": "(TODO) Items prioritised for the current sprint"},
+    {"name": "Status: IN-PROGRESS", "color": "#C1DB18", "description": "Item is currently being worked on"},
+    {"name": "Status: REVIEW", "color": "#DBAE18", "description": "(IN-PROGRESS) Item has been completed and is awaiting review"},
+    {"name": "Status: DONE", "color": "#8318DB", "description": "Item has been completed and passed review"},
+    {"name": "Status: CLOSED", "color": "#969696", "description": "Item discarded"}
+]

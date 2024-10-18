@@ -1,103 +1,17 @@
-{
-    "labels": {
-        "[bot]": {
-            "description": "Item raised by GitHub Action or other automatic process",
-            "default": false,
-            "color": "#2B67C6",
-            "aliases": null
-        },
-        "BUG": {
-            "description": "Something's not right ...",
-            "default": true,
-            "color": "#ff0000",
-            "aliases": null
-        },
-        "BREAKING": {
-            "description": "Item represents a breaking change",
-            "default": false,
-            "color": "#d20000",
-            "aliases": [
-                "breaking",
-                "breaking-change"
-            ]
-        },
-        "build": {
-            "description": "Item deals with the build system or external dependencies",
-            "default": false,
-            "color": "#B48A0E",
-            "aliases": null
-        },
-        "chore": {
-            "description": "Other changes that don't modify src, test, or doc files",
-            "default": false,
-            "color": "#fef2c0",
-            "aliases": null
-        },
-        "ci": {
-            "description": "Item deals with continuous integration",
-            "default": false,
-            "color": "#A57608",
-            "aliases": null
-        },
-        "dependabot": {
-            "description": "Item raised by dependabot",
-            "default": false,
-            "color": "#2B67C6",
-            "aliases": null
-        },
-        "docs": {
-            "description": "Improvements or additions to documentation",
-            "default": true,
-            "color": "#0000ff",
-            "aliases": [
-                "documentation"
-            ]
-        },
-        "feature": {
-            "description": "A new feature or enhancement",
-            "default": true,
-            "color": "#00ff00",
-            "aliases": [
-                "enhancement"
-            ]
-        },
-        "fix": {
-            "description": "Item fixes a problem with the project",
-            "default": true,
-            "color": "#ffff00",
-            "aliases": null
-        },
-        "perf": {
-            "description": "A performance enhancement",
-            "default": false,
-            "color": "#18AEDB",
-            "aliases": null
-        },
-        "refactor": {
-            "description": "A change which represents neither a bugfix nor feature",
-            "default": false,
-            "color": "#CDCBC7",
-            "aliases": [
-                "maintenance"
-            ]
-        },
-        "revert": {
-            "description": "Reversion to a previous state",
-            "default": false,
-            "color": "#323335",
-            "aliases": null
-        },
-        "style": {
-            "description": "Cosmetic changes only",
-            "default": true,
-            "color": "#460456",
-            "aliases": null
-        },
-        "test": {
-            "description": "Item deals with unit or other tests",
-            "default": true,
-            "color": "#04FB21",
-            "aliases": null
-        }
-    }
-}
+[
+    {"name": "[bot]", "color": "#2B67C6", "description": "Item raised by GitHub Action or other automatic process"},
+    {"name": "BUG", "color": "#ff0000", "description": "Something's not right ..."},
+    {"name": "BREAKING", "color": "#d20000", "description": "Item represents a breaking change"},
+    {"name": "build", "color": "#B48A0E", "description": "Item deals with the build system or external dependencies"},
+    {"name": "chore", "color": "#fef2c0", "description": "Other changes that don't modify src, test, or doc files"},
+    {"name": "ci", "color": "#A57608", "description": "Item deals with continuous integration"},
+    {"name": "[dependabot]", "color": "#2B67C6", "description": "Item raised by dependabot"},
+    {"name": "docs", "color": "#0000ff", "description": "Improvements or additions to documentation"},
+    {"name": "feature", "color": "#00ff00", "description": "A new feature or enhancement"},
+    {"name": "fix", "color": "#ffff00", "description": "Item fixes a problem with the project"},
+    {"name": "perf", "color": "#18AEDB", "description": "A performance enhancement"},
+    {"name": "refactor", "color": "#CDCBC7", "description": "A change which represents neither a bugfix nor feature"},
+    {"name": "revert", "color": "#323335", "description": "Reversion to a previous state"},
+    {"name": "style", "color": "#460456", "description": "Cosmetic changes only"},
+    {"name": "test", "color": "#04FB21", "description": "Item deals with unit or other tests"}
+]

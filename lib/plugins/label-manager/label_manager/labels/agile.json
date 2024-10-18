@@ -1,22 +1,5 @@
-{
-    "labels": {
-        "SAGA": {
-            "description": "(Initiative/Theme) A collection of EPICs which make up a ROADMAP",
-            "default": false,
-            "color": "#CAC300",
-            "aliases": null
-        },
-        "EPIC": {
-            "description": "Large bodies of work that can be broken down into smaller work units",
-            "default": false,
-            "color": "#39EE33",
-            "aliases": null
-        },
-        "STORY": {
-            "description": "(Issue) An individual unit of work which may be comprised of one or more TASKS",
-            "default": false,
-            "color": "#335BEE",
-            "aliases": null
-        }
-    }
-}
+[
+    { "name": "SAGA", "color": "#CAC300", "description": "(Initiative/Theme) A collection of EPICs which make up a ROADMAP" },
+    { "name": "EPIC", "color": "#39EE33", "description": "Large bodies of work that can be broken down into smaller work units" },
+    { "name": "STORY", "color": "#335BEE", "description": "(Issue) An individual unit of work which may be comprised of one or more TASKS" }
+]

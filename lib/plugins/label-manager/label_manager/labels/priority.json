@@ -1,16 +1,4 @@
-{
-    "labels": {
-        "URGENT": {
-            "description": "Item requires immediate attention",
-            "default": false,
-            "color": "#e11d21",
-            "aliases": null
-        },
-        "PRESSING": {
-            "description": "Item requires priority attention",
-            "default": false,
-            "color": "#fbca04",
-            "aliases": null
-        }
-    }
-}
+[
+    {"name": "URGENT", "color": "#e11d21", "description": "Item requires immediate attention"},
+    {"name": "PRESSING", "color": "#fbca04", "description": "Item requires priority attention"}
+]

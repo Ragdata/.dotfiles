@@ -1,28 +1,6 @@
-{
-    "labels": {
-        "work: chaotic": {
-            "description": "The situation is chaotic - novel practices used",
-            "default": false,
-            "color": "#fbca04",
-            "aliases": null
-        },
-        "work: complex": {
-            "description": "The situation is complex - emergent practices used",
-            "default": false,
-            "color": "#d4c5f9",
-            "aliases": null
-        },
-        "work: complicated": {
-            "description": "The situation is chaotic - good practices used",
-            "default": false,
-            "color": "#ffb8c6",
-            "aliases": null
-        },
-        "work: obvious": {
-            "description": "The situation is obvious - best practices used",
-            "default": false,
-            "color": "#91ca55",
-            "aliases": null
-        }
-    }
-}
+[
+    {"name": "work: chaotic", "color": "#fbca04", "description": "The situation is chaotic - novel practices used"},
+    {"name": "work: complex", "color": "#d4c5f9", "description": "The situation is complex - emergent practices used"},
+    {"name": "work: complicated", "color": "#ffb8c6", "description": "The situation is complicated - good practices used"},
+    {"name": "work: obvious", "color": "#91ca55", "description": "The situation is obvious - best practices used"}
+]

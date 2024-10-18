@@ -1,0 +1,9 @@
+[
+    { "name": "bug", "color": "#fc2929", "description": "" },
+    { "name": "duplicate", "color": "#cccccc", "description": "" },
+    { "name": "enhancement", "color": "#84b6eb", "description": "" },
+    { "name": "help wanted", "color": "#159818", "description": "" },
+    { "name": "invalid", "color": "#e6e6e6", "description": "" },
+    { "name": "question", "color": "#cc317c", "description": "" },
+    { "name": "wontfix", "color": "#ffffff", "description": "" }
+]

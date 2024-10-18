@@ -1,45 +1,29 @@
+[
+    {"name": "ADVISORY", "color": "#E7FC04", "description": "A security advisory"},
+    {"name": "announcement", "color": "#CDA00C", "description": "A broadcast message for everyone's attention"},
+    {"name": "discussion", "color": "#d4c5f9", "description": "An item for discussion"},
+    {"name": "question", "color": "#cc317c", "description": "A question that requires discussion"},
+    {"name": "poll", "color": "#2626DC", "description": "A vote / survey"},
+    {"name": "proposal", "color": "#e6e6e6", "description": "A proposal that requires discussion"},
+    {"name": "RELEASE", "color": "#007525", "description": "Item is associated with a tagged release"},
+    {"name": "", "color": "#", "description": ""},
+    {"name": "", "color": "#", "description": ""},
+    {"name": "", "color": "#", "description": ""},
+
+]
+
 {
     "labels": {
-        "advisory": {
-            "description": "A security advisory",
-            "default": false,
-            "color": "#E7FC04",
-            "aliases": null
-        },
-        "announcement": {
-            "description": "A broadcast message for everyone's attention",
-            "default": false,
-            "color": "#CDA00C",
-            "aliases": null
-        },
-        "discussion": {
-            "description": "An item for discussion",
-            "default": false,
-            "color": "#d4c5f9",
-            "aliases": null
-        },
-        "question": {
-            "description": "A question that requires discussion",
-            "default": false,
-            "color": "#cc317c",
-            "aliases": null
-        },
-        "poll": {
-            "description": "A vote / survey",
-            "default": false,
-            "color": "#2626DC",
-            "aliases": null
-        },
         "proposal": {
-            "description": "A proposal that requires discussion",
+            "description": "",
             "default": false,
-            "color": "#e6e6e6",
+            "color": "#",
             "aliases": null
         },
         "release": {
-            "description": "Item is associated with a tagged release",
+            "description": "",
             "default": false,
-            "color": "#007525",
+            "color": "#",
             "aliases": [
                 "semantic-release"
             ]

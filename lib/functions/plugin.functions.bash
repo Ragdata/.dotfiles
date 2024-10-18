@@ -25,7 +25,7 @@ plugin::enable()
 
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
-	local name="${1//[$'\t\n\r']}" source
+	local name="${1//[$'\t\n\r']}" source func
 
 	if [ -f "$CUSTOM/lib/plugins/$name/$name.bash" ]; then
 	    source="$CUSTOM/lib/plugins/$name/$name.bash"
@@ -34,6 +34,11 @@ plugin::enable()
 	fi
 
 	[ -f "$source" ] || exitLog "Unable to find plugin file '$source'"
+
+    source "$source"
+
+    func="$name::enable"
+    if is::function "$func"; then eval "$func"; fi
 
 	[ -f "$DOT_REG/plugins.enabled" ] || cp "$TEMPLATES/registry.tmpl" "$DOT_REG/plugins.enabled"
 
@@ -77,6 +82,19 @@ plugin::disable()
 	(($# < 1)) && exitLog "Missing Argument(s)"
 
 	local name="${1//[$'\t\n\r']}" source return
+
+	if [ -f "$CUSTOM/lib/plugins/$name/$name.bash" ]; then
+	    source="$CUSTOM/lib/plugins/$name/$name.bash"
+	else
+	    source="$PLUGINS/$name/$name.bash"
+	fi
+
+	[ -f "$source" ] || exitLog "Unable to find plugin file '$source'"
+
+    source "$source"
+
+    func="$name::disable"
+    if is::function "$func"; then eval "$func"; fi
 
 	sed "/$name/d" "$DOT_REG/plugins.enabled"; return=$?
 

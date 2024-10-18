@@ -4,7 +4,7 @@ import json
 import sys
 import os
 
-import msg
+from label_manager import msg
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(

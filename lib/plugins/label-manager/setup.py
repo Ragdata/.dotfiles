@@ -11,7 +11,7 @@ setup(
     license="MIT",
     install_requires=["PyGithub==2.4.0", "colorama==0.4.6"],
     entry_points={
-        "console_scripts": ['label_manager=label_manager.src.cli:run']
+        "console_scripts": ['label_manager=label_manager.cli:run']
     },
     classifiers=["Programming Language :: Python :: 3.10"]
 )

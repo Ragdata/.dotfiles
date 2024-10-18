@@ -18,7 +18,7 @@ def _parser() -> argparse.ArgumentParser:
 
     # cli flags
     flags.add_argument('-h', '--help', action='help', help='Show this help message and exit')
-    flags.add_argument('-V', '--version', action='version', version="%(prog) v0.1.0", help='Display module version and exit')
+    flags.add_argument('-V', '--version', action='version', version="%(prog)s v0.1.0", help='Display module version and exit')
     flags.add_argument('-v', '--validate', action='store_true', help='Validate local label definitions')
 
     return parser

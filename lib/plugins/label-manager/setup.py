@@ -9,7 +9,7 @@ setup(
     author_email="ragdata@users.noreply.github.com",
     url="https://github.com/ragdata/.dotfiles",
     license="MIT",
-    install_requires=["PyGithub==2.4.0", "colorama==0.4.6"],
+    install_requires=["PyGithub==2.4.0", "colorama==0.4.6", 'yaspin==3.1.0'],
     entry_points={
         "console_scripts": ['label_manager=label_manager.cli:run']
     },

@@ -36,7 +36,21 @@
 
 </div>
 
-## [Features](#top) ✨
+## [Installation](#top) 📂
+
+### Step 1 - Clone this Repository
+
+```shell
+git clone https://github.com/ragdata/.dotfiles.git
+```
+
+### Step 2 - Run the Installer
+
+```shell
+cd .dotfiles
+./install.py
+```
+And that's it, you're ready to go!
 
 [`^ Top`](#top)
 

@@ -36,6 +36,14 @@
 
 </div>
 
+## [Overview](#top) 📑
+
+### Welcome to yet another fucking dotfile repository!
+
+These are among the first files I install on any machine I set up whether it's bare metal or virtual.  The main reason is to help ensure a measure of consistency of the environment across multiple machines.  The dotfiles feature aliases, custom functions, completions, and more.
+
+Helping keep the whole lot in order is a basic command-line management utility written in Python that borrows ideas from some of the bigger environment managers without the bloat (you even get a choice of prompts!)
+
 ## [Installation](#top) 📂
 
 ### Step 1 - Clone this Repository

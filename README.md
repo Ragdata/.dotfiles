@@ -38,6 +38,7 @@
 
 ## [Overview](#top) 📑
 
+<!-- markdownlint-disable-next-line MD026 --->
 ### Welcome to yet another fucking dotfile repository!
 
 These are among the first files I install on any machine I set up whether it's bare metal or virtual.  The main reason is to help ensure a measure of consistency of the environment across multiple machines.  The dotfiles feature aliases, custom functions, completions, and more.
@@ -58,6 +59,7 @@ git clone https://github.com/ragdata/.dotfiles.git
 cd .dotfiles
 ./install.py
 ```
+
 And that's it, you're ready to go!
 
 [`^ Top`](#top)

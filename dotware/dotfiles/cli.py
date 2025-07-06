@@ -73,101 +73,19 @@ class dotfiles:
 	#--------------------------------------------------------------
 	# Configuration Commands
 	#--------------------------------------------------------------
-	@show.command(help="Show Aliases")
+	@show.command(help="Show Components")
 	@staticmethod
-	def showAliases():
+	def showComponents():
 		pass
 
-
-	@show.command(help="Show Completions")
+	@disable.command(help="Disable Components")
 	@staticmethod
-	def showCompletions():
+	def disableComponents():
 		pass
 
-
-	@show.command(help="Show Functions")
+	@enable.command(help="Enable Components")
 	@staticmethod
-	def showFunctions():
-		pass
-
-	@show.command(help="Show Packages")
-	@staticmethod
-	def showPackages():
-		pass
-
-	@show.command(help="Show Plugins")
-	@staticmethod
-	def showPlugins():
-		pass
-
-	@show.command(help="Show Scripts")
-	@staticmethod
-	def showScripts():
-		pass
-
-	@show.command(help="Show Stacks")
-	@staticmethod
-	def showStacks():
-		pass
-
-	@disable.command(help="Disable an Alias")
-	@staticmethod
-	def disableAlias():
-		pass
-
-	@disable.command(help="Disable Aliases")
-	@staticmethod
-	def disableAliases():
-		pass
-
-	@disable.command(help="Disable a Completion")
-	@staticmethod
-	def disableCompletion():
-		pass
-
-	@disable.command(help="Disable Completions")
-	@staticmethod
-	def disableCompletions():
-		pass
-
-	@disable.command(help="Disable a Function")
-	@staticmethod
-	def disablePlugin():
-		pass
-
-	@disable.command(help="Disable Plugins")
-	@staticmethod
-	def disablePlugins():
-		pass
-
-	@enable.command(help="Enable an Alias")
-	@staticmethod
-	def enableAlias():
-		pass
-
-	@enable.command(help="Enable Aliases")
-	@staticmethod
-	def enableAliases():
-		pass
-
-	@enable.command(help="Enable a Completion")
-	@staticmethod
-	def enableCompletion():
-		pass
-
-	@enable.command(help="Enable Completions")
-	@staticmethod
-	def enableCompletions():
-		pass
-
-	@enable.command(help="Enable a Function")
-	@staticmethod
-	def enablePlugin():
-		pass
-
-	@enable.command(help="Enable Plugins")
-	@staticmethod
-	def enablePlugins():
+	def enableComponents():
 		pass
 
 	@install.command(help="Install Dependencies")

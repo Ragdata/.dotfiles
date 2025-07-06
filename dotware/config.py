@@ -36,6 +36,7 @@ CUSTOM_DIR = BASEDIR / 'custom'
 CFG_DIR = BASEDIR / 'cfg'
 LIB_DIR = BASEDIR / 'lib'
 LOG_DIR = BASEDIR / 'logs'
+REGISTRY = BASEDIR / 'reg'
 
 REPODIR = filepath.parent.parent
 SRC_DIR = REPODIR / 'src'

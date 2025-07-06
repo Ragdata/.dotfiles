@@ -4,7 +4,7 @@
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
-# Copyright:    Copyright © 2024 Redeyed Technologies
+# Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
 
 # set variable identifying the chroot you work in (used in the prompt below)

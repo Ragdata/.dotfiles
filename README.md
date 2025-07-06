@@ -64,6 +64,49 @@ And that's it, you're ready to go!
 
 [`^ Top`](#top)
 
+## [Tests](#top) 🏏
+
+There are a bunch of tests available for the package.  You don't NEED to run them manually as a GitHub Actions Workflow makes sure everything is tested as it's committed - but just in case you WANT to, it's all configured via the `Makefile` in the project root.
+
+The following commands are used to initiate tests manually:
+
+```shell
+# Install test dependencies
+make install-test-deps
+
+# Run all tests
+make test
+
+# Run specific test categories
+make test-unit
+make test-integration
+make test-edge-cases
+
+# Run with coverage report
+make test-coverage
+
+# Lint and format code
+make lint
+make format
+
+# Clean up test artifacts
+make clean
+
+# Run tests in parallel
+pytest tests/ -n auto
+
+# Run specific test file
+pytest tests/test_install.py -v
+
+# Run tests matching pattern
+pytest tests/ -k "test_install" -v
+
+# Run slow tests only
+pytest tests/ -m "slow" -v
+```
+
+[`^ Top`](#top)
+
 ## [Resources](#top) 📖
 
 [`^ Top`](#top)

@@ -38,7 +38,8 @@ classifiers = [
 ]
 dependencies = [
 	"typer>=0.9.0",
-	"docker>=7.0.0"
+	"docker>=7.0.0",
+	"github-cli>=1.0.0"
 ]
 
 [project.urls]
@@ -46,8 +47,41 @@ Repository = "https://github.com/ragdata/dotfiles"
 Issues = "https://github.com/ragdata/dotfiles/issues"
 
 [project.optional-dependencies]
+"all" = [
+	"typer>=0.9.0",
+	"docker>=7.0.0",
+	"github-cli>=1.0.0",
+	"pytest>=6.2.4",
+	"pytest-cov>=6.2.1",
+	"pytest-mock>=3.14.1",
+	"pytest-xdist>=3.8.0",
+	"pytest-timeout>=2.4.0",
+	"pytest-benchmark>=5.1.0",
+	"pytest-randomly>=3.16.0",
+	"flake8>=7.3.0",
+	"black>=25.1.0",
+	"isort>=6.0.1",
+	"mkdocs>=1.2.2",
+	"mkdocs-material>=8.4.6",
+	"mkdocstrings>=0.17.0",
+	"pydantic>=1.8.2",
+	"mkdocs-minify-plugin>=0.3.0",
+	"mkdocs-git-revision-date-localized-plugin>=0.9.1",
+	"mkdocs-awesome-pages-plugin>=2.8.0",
+	"mkdocs-material-extensions>=1.0.0",
+	"termynal>=0.13.0"
+]
 "dev" = [
 	"pytest>=6.2.4",
+	"pytest-cov>=6.2.1",
+	"pytest-mock>=3.14.1",
+	"pytest-xdist>=3.8.0",
+	"pytest-timeout>=2.4.0",
+	"pytest-benchmark>=5.1.0",
+	"pytest-randomly>=3.16.0",
+	"flake8>=7.3.0",
+	"black>=25.1.0",
+	"isort>=6.0.1",
 ]
 "docs" = [
 	"mkdocs>=1.2.2",
@@ -58,7 +92,6 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 	"mkdocs-git-revision-date-localized-plugin>=0.9.1",
 	"mkdocs-awesome-pages-plugin>=2.8.0",
 	"mkdocs-material-extensions>=1.0.0",
-	"mkdocs-material-extensions-typer>=0.1.0",
 	"termynal>=0.13.0"
 ]
 
@@ -66,3 +99,22 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 
 [tool.setuptools.dynamic]
 version = {attr = "dotware.__version__", default = "v0.1.0"}
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-rav -q --tb=short --strict-markers --disable-warnings --color=yes --cov=dotware --cov-report=term-missing"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+    "edge_case: Edge case tests",
+    "requires_filesystem: Tests that require filesystem operations"
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning"
+]

@@ -6,7 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from config import *
-from output import *
+from dotlib.output import *
 
 
 
@@ -16,7 +16,8 @@ __version__ = "v0.1.0"
 
 __all__ = ["Message", "echoBlack", "echoRed", "echoGreen", "echoYellow", "echoBlue", "echoMagenta", "echoCyan", "echoLtGrey", "echoGrey",
            "echoPink", "echoLtGreen", "echoYellow", "echoLtBlue", "echoPurple", "echoLtCyan", "echoWhite", "echoDivider", "echoLine", "echoDebug",
-		   "echoError", "echoWarning", "echoInfo", "echoSuccess", "echoTip", "echoImportant", "console", "errconsole"]
+		   "echoError", "echoWarning", "echoInfo", "echoSuccess", "echoTip", "echoImportant", "console", "errconsole", "__pkg_name__", "__version__",
+		   "initLogger", "version"]
 
 
 def initLogger(name: str):
@@ -44,3 +45,13 @@ def initLogger(name: str):
 
 	except Exception as e:
 		raise RuntimeError(f"Failed to initialise logger: {e}")
+
+
+def version(output: bool = True):
+	""" Print the package version """
+	if output:
+		# Print version to console
+		print(f"{__pkg_name__.capitalize()} version {__version__}")
+	else:
+		# Return version string
+		return f"{__version__}"

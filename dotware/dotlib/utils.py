@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ####################################################################
-# dotware.errors.py
+# dotlib.utils.py
 ####################################################################
 # Author:       Ragdata
 # Date:         06/07/2025
@@ -8,3 +8,4 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
+

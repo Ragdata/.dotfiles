@@ -38,6 +38,8 @@ LIB_DIR = BASEDIR / 'lib'
 LOG_DIR = BASEDIR / 'logs'
 REGISTRY = BASEDIR / 'reg'
 
+TEMPLATES = LIB_DIR / 'templates'
+
 REPODIR = filepath.parent.parent
 SRC_DIR = REPODIR / 'src'
 

@@ -16,6 +16,7 @@ import logging
 
 from pathlib import Path
 
+from dotware import *
 from dotware.config import *
 
 

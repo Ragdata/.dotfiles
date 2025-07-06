@@ -23,7 +23,6 @@ keywords = [
 classifiers = [
 	"Development Status :: 3 - Alpha",
 	"Intended Audience :: Developers",
-	"License :: OSI Approved :: MIT License",
 	"Programming Language :: Python :: 3",
 	"Programming Language :: Python :: 3.8",
 	"Programming Language :: Python :: 3.9",
@@ -97,8 +96,13 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 
 [project.scripts]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["dotware*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
-version = {attr = "dotware.__version__", default = "v0.1.0"}
+version = {attr = "dotware.__version__"}
 
 [tool.pytest.ini_options]
 minversion = "6.0"

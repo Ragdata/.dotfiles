@@ -1,4 +1,4 @@
-<a name="top" href="https://github.com/ragdata" target="_blank"><img height="100" align="right" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Dotfiles" /></a>
+<a name="top" href="https://github.com/ragdata" target="_blank"><img height="100" align="right" src="https://raw.githubusercontent.com/Ragdata/media/master/logo/Ragdata-64.svg" alt="Dotware" /></a>
 
 <!-- [![Codacy grade][codacy-grade]][codacy-repo] -->
 ![Pre-Release][pre-release]
@@ -6,19 +6,13 @@
 
 <h1>
 
-[Dotfiles][release]
+[Dotware][release]
 
 </h1>
 
 <div align="center">
 
-### _My Personal Dotfiles<br>(and the means to manage them)_
-
-</div>
-
-> These are my .dotfiles. There are many like them, but these ones are mine. My .dotfiles are my best friends. They are my life. I must master them as I must master my life. My .dotfiles, without me, are useless. Without my .dotfiles, I am useless. I must execute my .dotfiles true. I must use them straighter than my enemy who is trying to hack me. I must hack him before he hacks me ... and I will ...
-
-<div align="center">
+### _The Python Management System for Dotfiles_
 
 [![GitHub issues][issues-badge]][issues]
 ![Last Commit][last-commit]
@@ -38,74 +32,7 @@
 
 ## [Overview](#top) 📑
 
-<!-- markdownlint-disable-next-line MD026 --->
-### Welcome to yet another fucking dotfile repository!
-
-These are the very first files I drop onto any machine I set up — bare metal or virtual, it doesn’t matter. Why? Because they guarantee my environment feels just right, no matter where I am. Inside you’ll find slick aliases, custom functions, completions, and plenty more.
-
-Keeping everything running smooth is a lightweight command-line utility written in Python. It takes inspiration from the big-name environment managers, but skips the bloat (and yes, you even get to pick your own prompt style!).
-
-## [Installation](#top) 📂
-
-### Step 1 - Clone this Repository
-
-```shell
-git clone https://github.com/ragdata/.dotfiles.git
-```
-
-### Step 2 - Run the Installer
-
-```shell
-cd .dotfiles
-./install.py
-```
-
-And that's it, you're ready to go!
-
-[`^ Top`](#top)
-
-## [Tests](#top) 🏏
-
-There are a bunch of tests available for the package.  You don't NEED to run them manually as a GitHub Actions Workflow makes sure everything is tested as it's committed - but just in case you WANT to, it's all configured via the `Makefile` in the project root.
-
-The following commands are used to initiate tests manually:
-
-```shell
-# Install test dependencies
-make install-test-deps
-
-# Run all tests
-make test
-
-# Run specific test categories
-make test-unit
-make test-integration
-make test-edge-cases
-
-# Run with coverage report
-make test-coverage
-
-# Lint and format code
-make lint
-make format
-
-# Clean up test artifacts
-make clean
-
-# Run tests in parallel
-pytest tests/ -n auto
-
-# Run specific test file
-pytest tests/test_install.py -v
-
-# Run tests matching pattern
-pytest tests/ -k "test_install" -v
-
-# Run slow tests only
-pytest tests/ -m "slow" -v
-```
-
-[`^ Top`](#top)
+This is the python part of the project.  I tried turning it into its own repo, but it just didn't feel right.  This is, after all, an integrated system ... so I've integrated it.
 
 ## [Resources](#top) 📖
 
@@ -116,7 +43,7 @@ pytest tests/ -m "slow" -v
 > [!warning]
 >If you discover any issue regarding the security of this project, please disclose that information responsibly by sending a [security advisory][advisory].  **PLEASE DO NOT CREATE AN ISSUE OR DISCUSSION TOPIC.**  You can read more about this project's security policies [HERE][security]
 
-While I always good security practices, 100% security can never be guaranteed in any software package.  `Dotfiles` is provided AS IS, and without warranty.  You can find more details in the [LICENSE](LICENSE) file included with this repository.
+While I always good security practices, 100% security can never be guaranteed in any software package.  `Dotware` is provided AS IS, and without warranty.  You can find more details in the [LICENSE](LICENSE) file included with this repository.
 
 [`^ Top`](#top)
 

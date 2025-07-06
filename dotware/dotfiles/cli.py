@@ -17,6 +17,7 @@ import logging
 from pathlib import Path
 
 from dotware import __pkg_name__, __version__
+from dotware.config import *
 
 
 
@@ -31,7 +32,7 @@ disable = typer.Typer()
 enable = typer.Typer()
 install = typer.Typer()
 remove = typer.Typer()
-search = typer.Typer()
+# search = typer.Typer()
 show = typer.Typer()
 update = typer.Typer()
 
@@ -40,133 +41,96 @@ app.add_typer(disable, name="disable", help="Disable Dotfiles Components")
 app.add_typer(enable, name="enable", help="Enable Dotfiles Components")
 app.add_typer(install, name="install", help="Install Software")
 app.add_typer(remove, name="remove", help="Uninstall Software")
-app.add_typer(search, name="search", help="Search for Dotfiles Components")
+# app.add_typer(search, name="search", help="Search for Dotfiles Components")
 app.add_typer(show, name="show", help="Show Details of Dotfiles Components")
 app.add_typer(update, name="update", help="Update Software")
 
 
 
-####################################################################
-# Dotfiles CLI Class
-####################################################################
-class dotfiles:
+#--------------------------------------------------------------
+# Configuration Commands
+#--------------------------------------------------------------
+@cfg.command(help="Configure Packages")
+def cfgPackage():
+	pass
+#--------------------------------------------------------------
+# Configuration Commands
+#--------------------------------------------------------------
+@show.command(help="Show Components")
+def showComponents():
+	pass
 
-	#---------------------------------------------------------------
-    # Utility Methods
-	#---------------------------------------------------------------
+@disable.command(help="Disable Components")
+def disableComponents():
+	pass
 
-	def __init__(self):
-		"""
-		Initialise the DotFiles CLI Application
-		"""
+@enable.command(help="Enable Components")
+def enableComponents():
+	pass
 
-		pass
+@install.command(help="Install Dependencies")
+def installDeps():
+	pass
 
+@install.command(help="Install a Package")
+def installPackage():
+	pass
 
-	#--------------------------------------------------------------
-	# Configuration Commands
-	#--------------------------------------------------------------
-	@cfg.command(help="Configure Packages")
-	@staticmethod
-	def cfgPackage():
-		pass
-	#--------------------------------------------------------------
-	# Configuration Commands
-	#--------------------------------------------------------------
-	@show.command(help="Show Components")
-	@staticmethod
-	def showComponents():
-		pass
-
-	@disable.command(help="Disable Components")
-	@staticmethod
-	def disableComponents():
-		pass
-
-	@enable.command(help="Enable Components")
-	@staticmethod
-	def enableComponents():
-		pass
-
-	@install.command(help="Install Dependencies")
-	@staticmethod
-	def installDeps():
-		pass
-
-	@install.command(help="Install a Package")
-	@staticmethod
-	def installPackage():
-		pass
-
-	@install.command(help="Install Packages")
-	@staticmethod
-	def installRepos():
-		pass
+@install.command(help="Install Packages")
+def installRepos():
+	pass
 
 
-	@staticmethod
-	def log():
-		pass
+def log():
+	pass
 
 
-	@staticmethod
-	def migrate():
-		pass
+def migrate():
+	pass
 
 
-	@staticmethod
-	def preview():
-		pass
+def preview():
+	pass
 
 
-	@staticmethod
-	def profile():
-		pass
+def profile():
+	pass
 
 
-	@staticmethod
-	def removePackage():
-		pass
+def removePackage():
+	pass
 
 
-	@staticmethod
-	def reboot():
-		pass
+def reboot():
+	pass
 
 
-	@staticmethod
-	def restart():
-		pass
+def restart():
+	pass
 
 
-	@staticmethod
-	def reload():
-		pass
+def reload():
+	pass
 
 
-	@staticmethod
-	def search():
-		pass
+def search():
+	pass
 
 
-	@staticmethod
-	def updateBin():
-		pass
+def updateBin():
+	pass
 
 
-	@staticmethod
-	def updateDots():
-		pass
+def updateDots():
+	pass
 
 
-	@staticmethod
-	def updateRepo():
-		pass
+def updateRepo():
+	pass
 
 
-	@staticmethod
-	def updateSystem():
-		pass
+def updateSystem():
+	pass
 
 
 

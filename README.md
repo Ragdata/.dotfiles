@@ -41,9 +41,9 @@
 <!-- markdownlint-disable-next-line MD026 --->
 ### Welcome to yet another fucking dotfile repository!
 
-These are among the first files I install on any machine I set up whether it's bare metal or virtual.  The main reason is to help ensure a measure of consistency of the environment across multiple machines.  The dotfiles feature aliases, custom functions, completions, and more.
+These are the very first files I drop onto any machine I set up — bare metal or virtual, it doesn’t matter. Why? Because they guarantee my environment feels just right, no matter where I am. Inside you’ll find slick aliases, custom functions, completions, and plenty more.
 
-Helping keep the whole lot in order is a basic command-line management utility written in Python that borrows ideas from some of the bigger environment managers without the bloat (you even get a choice of prompts!)
+Keeping everything running smooth is a lightweight command-line utility written in Python. It takes inspiration from the big-name environment managers, but skips the bloat (and yes, you even get to pick your own prompt style!).
 
 ## [Installation](#top) 📂
 

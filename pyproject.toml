@@ -98,7 +98,7 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dotware*"]
+include = ["dotware*", "dotfiles*", "dotlib*", "dotssh*", "dotsub*"]
 namespaces = false
 
 [tool.setuptools.dynamic]

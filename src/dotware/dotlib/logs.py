@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import TextIO, Any
 
 from dotware.config import *
-from files import makedir
+from dotware.dotlib.files import makedir
 
 
 

@@ -96,10 +96,10 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 
 [project.scripts]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["dotware*"]
-namespaces = false
+# [tool.setuptools.packages.find]
+# where = ["."]
+# include = ["dotware*"]
+# namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "dotware.__version__"}

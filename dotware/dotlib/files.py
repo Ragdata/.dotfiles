@@ -14,4 +14,16 @@ import sys
 import shutil
 import logging
 
+from pathlib import Path
 
+
+def makedir(dir: Path, perms: int = 0o755) -> int:
+	""" Helper function to make directories and set permissions """
+	try:
+		if dir.exists():
+			return 0
+		dir.mkdir(parents=True, exist_ok=True)
+		dir.chmod(perms)
+	except Exception as e:
+		raise
+	return 0

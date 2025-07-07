@@ -14,6 +14,8 @@ import logging
 
 from pathlib import Path
 
+from flake8 import LOG_FORMAT
+
 filepath = Path(__file__).resolve()
 
 SYMBOL_ERROR = "✘"
@@ -48,3 +50,6 @@ LOG_LEVEL = logging.INFO
 LOG_LEVEL_FILE = logging.DEBUG
 LOG_LEVEL_STREAM = logging.INFO
 LOG_LEVEL_ERROR = logging.ERROR
+
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+CON_FORMAT = "%(levelname)s: %(message)s"

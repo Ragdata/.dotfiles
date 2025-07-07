@@ -76,7 +76,7 @@ class DotfileInstaller:
 
 			loggerID = 'install'
 			logDir = LOG_DIR
-			logFile = logDir / '{loggerID}.log'
+			logFile = logDir / f'{loggerID}.log'
 			logLevel = LOG_LEVEL
 
 			if not logDir.exists():

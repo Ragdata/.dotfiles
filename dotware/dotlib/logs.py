@@ -14,22 +14,64 @@ import sys
 import logging
 
 from pathlib import Path
+from typing import TextIO, Any
 
 from dotware.config import *
+from files import makedir
 
 
-class LogManager(logging.Manager):
-	""" Custom logging manager for dotware """
+
+def initLogger(name: str, level: int = LOG_LEVEL, **kwargs) -> logging.Logger:
+	"""
+	Initialize a logger with the specified name and level.
+
+	Args:
+		name (str): The name of the logger.
+		level (int): The logging level (default is LOG_LEVEL).
+
+	Returns:
+		logging.Logger: Configured logger instance.
+	"""
+	logger = logging.getLogger(name)
+	logger.setLevel(level)
+
+	return logger
 
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self._loggers = {}
+def initFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = LOG_DIR, format: str = LOG_FORMAT) -> logging.Handler:
+	"""
+	Initialize a file handler for logging.
+
+	Returns:
+		logging.Handler: Configured file handler.
+	"""
+	logfile = dir / f"{name}.log"
+
+	if not dir.exists():
+		makedir(dir)
+
+	handler = logging.FileHandler(logfile)
+	handler.setLevel(level)
+
+	# Create formatter and add it to the handler
+	formatter = logging.Formatter(format)
+	handler.setFormatter(formatter)
+
+	return handler
 
 
-	def getLogger(self, name):
-		if name not in self._loggers:
-			logger = logging.getLogger(name)
-			logger.setLevel(logging.DEBUG)
-			self._loggers[name] = logger
-		return self._loggers[name]
+def initStreamHandler(stream: TextIO | Any = sys.stdout, level: int = LOG_LEVEL_STREAM, format: str = CON_FORMAT) -> logging.Handler:
+	"""
+	Initialize a logging handler.
+
+	Returns:
+		logging.Handler: Configured logging handler.
+	"""
+	handler = logging.StreamHandler(stream)
+	handler.setLevel(level)
+
+	# Create formatter and add it to the handler
+	formatter = logging.Formatter(format)
+	handler.setFormatter(formatter)
+
+	return handler

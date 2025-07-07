@@ -41,7 +41,7 @@ dependencies = [
 	"shellingham>=1.5.4",
 	"docker>=7.0.0",
 	"github-cli>=1.0.0",
-	"dotenv>=0.19.2",
+	"dotenv>=0.9.9",
 ]
 
 [project.urls]

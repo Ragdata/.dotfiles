@@ -4,4 +4,9 @@ todo.txt
 .backlog
 .backburn
 
+__pycache__
+
 **/.env
+
+*.egg-info
+*.pyc

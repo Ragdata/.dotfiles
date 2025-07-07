@@ -5,8 +5,8 @@ import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
-from config import *
-from dotlib.output import *
+from dotware.config import *
+from dotware.dotlib.output import *
 
 
 

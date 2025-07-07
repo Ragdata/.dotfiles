@@ -23,6 +23,11 @@ alias l='ls -CF'
 alias py='python3'
 alias pip='pip3'
 
+# ------------------------------------------------------------------
+# loadAliases
+# ------------------------------------------------------------------
+# @description Load all enabled alias files
+# ------------------------------------------------------------------
 # Load all enabled alias files
 if [ -f "$DOT_REG/aliases.enabled" ]; then
     while IFS= read -r file

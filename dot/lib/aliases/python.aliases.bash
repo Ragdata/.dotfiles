@@ -11,3 +11,5 @@
 ####################################################################
 alias py="python3"
 alias pip='pip3'
+
+alias dotenv='source "$HOME"/.venv/dotenv/bin/activate'

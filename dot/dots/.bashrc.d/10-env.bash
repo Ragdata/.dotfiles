@@ -5,7 +5,7 @@ DOTFILES_PROMPT="kali"
 #
 # PATHS
 #
-DOT_REG="${HOME}/.dotfiles/reg"
+DOT_REG="${HOME}/.dotfiles/dot/reg"
 
 #
 # ESCAPE CHARACTERS

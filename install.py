@@ -21,10 +21,12 @@ from dotware.config import *
 
 
 
+
+
 dotdirs = [
-	('dots', Path.home()),
-	('dots/.bashrc.d', Path.home() / '.bashrc.d'),
-	('dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
+	('dot/dots', Path.home()),
+	('dot/dots/.bashrc.d', Path.home() / '.bashrc.d'),
+	('dot/dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
 ]
 
 
@@ -41,7 +43,7 @@ class DotfileInstaller:
 		""" Initialise the Installer """
 
 		self.cwd = Path.cwd()
-		self.src = SRC_DIR
+		self.dot = DOT_DIR
 		self.home = Path.home()
 		self.user = self.home.name
 		self.base = BASEDIR
@@ -133,11 +135,11 @@ class DotfileInstaller:
 		""" Install dotfiles and custom overrides """
 		try:
 
-			self.logger.info("Installing dotfiles ...")
+			self.logger.info("[yellow]Installing dotfiles ...[/yellow]")
 
 			for dotdir, dest in dotdirs:
 				self.logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
-				srcDot = self.src / dotdir
+				srcDot = self.dot / dotdir
 				destDot = self.base / dotdir
 				self.logger.debug(f"Source -> Dest: {srcDot} -> {destDot}")
 
@@ -223,10 +225,17 @@ class DotfileInstaller:
 			dirs = [d for d in currDir.iterdir() if d.is_dir()]
 			for dir in dirs:
 				self.logger.info(f"Processing directory: {dir}")
-				relativePath = dir.relative_to(self.src)
+				index = str(dir).find('/.dotfiles')
+				if index != -1:
+					relativePath = str(dir)[index + len('/.dotfiles') + 1:]
+					self.logger.debug(f"Relative path: {relativePath}")
+				else:
+					relativePath = ""
 				installPath = self.base / relativePath
+				self.logger.debug(f"Install path: {installPath}")
 				files = [f for f in dir.iterdir() if f.is_file() and not f.name in skipfiles]
 				for file in files:
+					self.logger.debug(f"Processing file: {file}")
 					self.install(file, installPath)
 				self.scandir(dir)
 
@@ -243,7 +252,7 @@ def main():
 	installer = DotfileInstaller()
 	installer.initLogger()
 	installer._checkPython()
-	installer.scandir(installer.src)
+	installer.scandir(installer.dot)
 	installer.linkdots()
 	installer.logger.info("Dotfiles installation complete.")
 

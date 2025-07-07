@@ -104,7 +104,7 @@ docs = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["dotware.*"]
+include = ["dotware", "dotware.config", "dotware.dotfiles.*", "dotware.dotlib.*", "dotware.dotssh.*", "dotware.dotsub.*"]
 namespaces = false
 
 [tool.setuptools.dynamic]

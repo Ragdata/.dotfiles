@@ -42,9 +42,14 @@ REGISTRY = BASEDIR / 'reg'
 
 TEMPLATES = LIB_DIR / 'templates'
 
-REPODIR = filepath.parent.parent
+REPODIR = filepath.parent.parent.parent
 DOT_DIR = REPODIR / 'dot'
 SRC_DIR = REPODIR / 'src'
+
+ALIASES = DOT_DIR /""
+COMPLETIONS = ""
+FUNCTIONS = ""
+PLUGINS = ""
 
 LOG_LEVEL = logging.INFO
 

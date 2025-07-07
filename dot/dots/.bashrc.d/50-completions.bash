@@ -27,3 +27,18 @@ if installed "docker-ce"; then
         docker completion bash > "$HOME"/.local/share/bash-completion/completions/docker
     fi
 fi
+# ------------------------------------------------------------------
+# loadCompletions
+# ------------------------------------------------------------------
+# @description Load all enabled completion files
+# ------------------------------------------------------------------
+# Load all enabled completion files
+if [ -f "$DOT_REG/completions.enabled" ]; then
+    while IFS= read -r file
+    do
+        # shellcheck disable=SC1090
+        if [[ "${file:0:1}" != "#" && -n "$file" ]]; then
+            [ -f "$file" ] && source "$file"
+        fi
+    done < "$DOT_REG/completions.enabled"
+fi

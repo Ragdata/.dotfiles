@@ -11,8 +11,8 @@
 
 import typer
 
-from config import *
 from typing import Optional
+from dotware.config import *
 from rich.console import Console
 
 

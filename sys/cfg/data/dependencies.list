@@ -1,0 +1,16 @@
+7zip
+apt
+bash-completion
+curl
+g++
+git
+logrotate
+make
+needrestart
+net-tools
+python
+unattended-upgrades
+unrar
+unzip
+unzstd
+yq

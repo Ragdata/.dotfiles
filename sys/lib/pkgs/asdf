@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash
+####################################################################
+# asdf
+####################################################################
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2025 Redeyed Technologies
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
+# FUNCTIONS
+####################################################################
+#-------------------------------------------------------------------
+# CHECK
+#-------------------------------------------------------------------
+asdf::check() {  [[ -d "$HOME/.asdf" ]] && return 0 || return 1; }
+#-------------------------------------------------------------------
+# INSTALL
+#-------------------------------------------------------------------
+asdf::install()
+{
+	curl -s https://api.github.com/repos/asdf-vm/asdf/releases/latest | grep "browser_download_url.*linux-amd64.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -qi -
+
+	sudo ex asdf-*.tar.gz -C /usr/local/bin
+
+	if [ ! -f "$HOME/.dotfiles/custom/99-custom.bash" ]; then
+		echo "source <(asdf completion bash)" > "$HOME/.dotfiles/custom/99-custom.bash"
+		ln -s "$HOME/.dotfiles/custom/99-custom.bash" "$HOME/.bashrc.d/99-custom.bash"
+	else
+		echo "source <(asdf completion bash)" >> "$HOME/.dotfiles/custom/99-custom.bash"
+	fi
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+asdf::config()
+{
+	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+	asdf install nodejs latest
+}
+#-------------------------------------------------------------------
+# REMOVE
+#-------------------------------------------------------------------
+asdf::remove()
+{
+	sudo rm -f /usr/local/bin/asdf
+	rm -rf "$HOME/.asdf"
+	sed -i "/source <(asdf completion bash)/d" "$HOME/.bashrc.d/99-custom.bash"
+}

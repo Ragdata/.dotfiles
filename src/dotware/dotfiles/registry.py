@@ -16,14 +16,10 @@ import logging
 
 from pathlib import Path
 
+from dotware import *
 from dotware.config import *
 from dotware.dotlib.output import *
 from dotware.dotlib.logs import *
-
-
-
-types = ["aliases", "completions", "functions", "plugins"]
-
 
 
 ####################################################################
@@ -55,8 +51,8 @@ class Registry:
 
 		if len(parts) != 2:
 			raise ValueError("Component name must be in the format 'name.type'")
-		if parts[1] not in types:
-			raise ValueError(f"Invalid component type. Must be one of: {', '.join(types)}")
+		if parts[1] not in comp_types:
+			raise ValueError(f"Invalid component type. Must be one of: {', '.join(comp_types)}")
 		if not compfile.exists():
 			raise FileNotFoundError(f"Component file '{compfile}' does not exist.")
 
@@ -66,7 +62,7 @@ class Registry:
 		if hasattr(self, 'logger'):
 			return self.logger
 		else:
-			self.logger = initLogger(name, level)
+			self.logger = initLogger(name, level) # type: ignore
 
 		# Set FileHandler parameters
 		fileLevel = kwargs.get('fileLevel', LOG_LEVEL_FILE)
@@ -100,10 +96,12 @@ class Registry:
 
 		with open(regfile, 'a') as reg:
 			if name not in reg.read():
-				reg.write(f"{name}\n")
+				reg.write(f"{parts[0]}\n")
 				self.logger.info(f"Component '{name}' enabled.")
+				return 0
 			else:
 				self.logger.warning(f"Component '{name}' is already enabled.")
+				return 2
 
 
 	def disable(self, name: str):
@@ -116,18 +114,20 @@ class Registry:
 
 		if not regfile.exists():
 			self.logger.warning(f"Component '{name}' is not enabled.")
-			return
+			return 0
 
 		with open(regfile, 'r') as reg:
 			if name in reg.read():
 				lines = reg.readlines()
 				with open(regfile, 'w') as reg:
 					for line in lines:
-						if line.strip() != name:
+						if line.strip() != parts[0]:
 							reg.write(line)
 				self.logger.info(f"Component '{name}' disabled.")
+				return 0
 			else:
 				self.logger.warning(f"Component '{name}' is not enabled.")
+				return 2
 
 
 	def list(self):

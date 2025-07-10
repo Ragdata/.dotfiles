@@ -101,6 +101,7 @@ docs = [
 ]
 
 [project.scripts]
+dot = "dotware.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]

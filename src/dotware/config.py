@@ -14,7 +14,7 @@ import logging
 
 from pathlib import Path
 
-from flake8 import LOG_FORMAT
+# from flake8 import LOG_FORMAT
 
 filepath = Path(__file__).resolve()
 
@@ -43,13 +43,13 @@ REGISTRY = BASEDIR / 'reg'
 TEMPLATES = LIB_DIR / 'templates'
 
 REPODIR = filepath.parent.parent.parent
-DOT_DIR = REPODIR / 'dot'
 SRC_DIR = REPODIR / 'src'
+SYS_DIR = REPODIR / 'sys'
 
-ALIASES = DOT_DIR /""
-COMPLETIONS = ""
-FUNCTIONS = ""
-PLUGINS = ""
+ALIASES = SYS_DIR / 'lib' / 'aliases'
+COMPLETIONS = SYS_DIR / 'lib' / 'completions'
+FUNCTIONS = SYS_DIR / 'lib' / 'functions'
+PLUGINS = SYS_DIR / 'lib' / 'plugins'
 
 LOG_LEVEL = logging.INFO
 

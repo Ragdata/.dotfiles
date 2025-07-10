@@ -24,9 +24,9 @@ from dotware.config import *
 
 
 dotdirs = [
-	('dot/dots', Path.home()),
-	('dot/dots/.bashrc.d', Path.home() / '.bashrc.d'),
-	('dot/dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
+	('sys/dots', Path.home()),
+	('sys/dots/.bashrc.d', Path.home() / '.bashrc.d'),
+	('sys/dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
 ]
 
 
@@ -43,7 +43,7 @@ class DotfileInstaller:
 		""" Initialise the Installer """
 
 		self.cwd = Path.cwd()
-		self.dot = DOT_DIR
+		self.sys = SYS_DIR
 		self.home = Path.home()
 		self.user = self.home.name
 		self.base = BASEDIR
@@ -139,7 +139,7 @@ class DotfileInstaller:
 
 			for dotdir, dest in dotdirs:
 				self.logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
-				srcDot = self.dot / dotdir
+				srcDot = self.sys / dotdir
 				destDot = self.base / dotdir
 				self.logger.debug(f"Source -> Dest: {srcDot} -> {destDot}")
 
@@ -252,7 +252,7 @@ def main():
 	installer = DotfileInstaller()
 	installer.initLogger()
 	installer._checkPython()
-	installer.scandir(installer.dot)
+	installer.scandir(installer.sys)
 	installer.linkdots()
 	installer.logger.info("Dotfiles installation complete.")
 

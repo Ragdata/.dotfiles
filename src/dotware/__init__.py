@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import subprocess
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -14,10 +15,14 @@ __pkg_name__ = "dotware"
 __version__ = "v0.1.0"
 
 
+
 __all__ = ["Message", "echoBlack", "echoRed", "echoGreen", "echoYellow", "echoBlue", "echoMagenta", "echoCyan", "echoLtGrey", "echoGrey",
            "echoPink", "echoLtGreen", "echoYellow", "echoLtBlue", "echoPurple", "echoLtCyan", "echoWhite", "echoDivider", "echoLine", "echoDebug",
 		   "echoError", "echoWarning", "echoInfo", "echoSuccess", "echoTip", "echoImportant", "console", "errconsole", "__pkg_name__", "__version__",
-		   "initLogger", "version"]
+		   "initLogger", "version", "comp_types"]
+
+
+comp_types = ["aliases", "completions", "functions", "plugins"]
 
 
 def initLogger(name: str):
@@ -55,3 +60,16 @@ def version(output: bool = True):
 	else:
 		# Return version string
 		return f"{__version__}"
+
+
+def captureOutput(command: str, shell: bool = True):
+	""" Capture the output of a shell command """
+	try:
+		if shell:
+			result = subprocess.check_output(command, shell=True, text=True)
+			return result.strip()
+		else:
+			subprocess.run(command, shell=False, check=True)
+			return None
+	except subprocess.CalledProcessError as e:
+		raise RuntimeError(f"Command '{command}' failed with error: {e}")

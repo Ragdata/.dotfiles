@@ -52,9 +52,11 @@ DOTFILES_PROMPT="kali"
 # PATHS
 #
 BACKUP="${HOME}/.backup"
+BASHRCD="${HOME}/.bashrc.d"
 BASEDIR="${HOME}/.dotfiles"
 CUSTOM="${BASEDIR}/custom"
 DOTSDIR="${BASEDIR}/dots"
+DOT_ETC="${BASEDIR}/etc"
 DOT_LOG="${BASEDIR}/logs"
 REGISTRY="${BASEDIR}/reg"
 DOT_SYS="${BASEDIR}/sys"

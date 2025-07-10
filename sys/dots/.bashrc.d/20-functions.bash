@@ -10,6 +10,44 @@
 ####################################################################
 
 # ------------------------------------------------------------------
+# checkCustom()
+# @description Check for overriding files
+# ------------------------------------------------------------------
+checkCustom()
+{
+	local filepath="$1"
+	local relativePath=""
+	local customFile=""
+
+	# Validate input
+	if [[ -z "$filepath" ]]; then
+		echoError "No file path provided."
+		return 2
+	fi
+
+	# Check if filepath contains '/.dotfiles'
+	if [[ "$filepath" == *"/.dotfiles"* ]]; then
+		# Extract relative path after '/.dotfiles/'
+		relativePath="${filepath#*/.dotfiles/}"
+		# [[ -n "$DEBUG" ]] && echoDebug "Relative path: $relativePath" >&2
+	else
+		# [[ -n "$DEBUG" ]] && echoDebug "Unable to calculate relative path for $filepath" >&2
+		relativePath=""
+	fi
+
+	# Construct custom file path
+	customFile="${CUSTOM:-$HOME/.dotfiles/custom}/$relativePath"
+
+	# Check if the custom file exists
+	if [[ -f "$customfile" ]]; then
+		# [[ -n "$DEBUG" ]] && echoDebug "Custom file found: $customfile" >&2
+		return "$customfile"
+	else
+		# [[ -n "$DEBUG" ]] && echoDebug "No custom file found for $filepath" >&2
+		return "$filepath"
+	fi
+}
+# ------------------------------------------------------------------
 # ex
 # @description Easily extract compressed files
 # ------------------------------------------------------------------
@@ -65,7 +103,6 @@ pathReplace()
 		return 1
 	fi
 }
-
 # ------------------------------------------------------------------
 # loadFunctions
 # ------------------------------------------------------------------

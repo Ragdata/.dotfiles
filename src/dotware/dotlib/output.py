@@ -122,37 +122,37 @@ class Message:
 #-------------------------------------------------------------------
 # Color Aliases
 #-------------------------------------------------------------------
-def echoBlack(): lambda msg: Message(msg, color="black").print()
-def echoRed(): lambda msg: Message(msg, color="red").print()
-def echoGreen(): lambda msg: Message(msg, color="green").print()
-def echoGold(): lambda msg: Message(msg, color="yellow").print()
-def echoBlue(): lambda msg: Message(msg, color="blue").print()
-def echoMagenta(): lambda msg: Message(msg, color="magenta").print()
-def echoCyan(): lambda msg: Message(msg, color="cyan").print()
-def echoLtGrey(): lambda msg: Message(msg, color="white").print()
-def echoGrey(): lambda msg: Message(msg, color="bright_black").print()
-def echoPink(): lambda msg: Message(msg, color="bright_red").print()
-def echoLtGreen(): lambda msg: Message(msg, color="bright_green").print()
-def echoYellow(): lambda msg: Message(msg, color="bright_yellow").print()
-def echoLtBlue(): lambda msg: Message(msg, color="bright_blue").print()
-def echoPurple(): lambda msg: Message(msg, color="bright_magenta").print()
-def echoLtCyan(): lambda msg: Message(msg, color="bright_cyan").print()
-def echoWhite(): lambda msg: Message(msg, color="bright_white").print()
+formatBlack = lambda msg: Message(msg, color="black")
+formatRed = lambda msg: Message(msg, color="red")
+formatGreen = lambda msg: Message(msg, color="green")
+formatGold = lambda msg: Message(msg, color="yellow")
+formatBlue = lambda msg: Message(msg, color="blue")
+formatMagenta = lambda msg: Message(msg, color="magenta")
+formatCyan = lambda msg: Message(msg, color="cyan")
+formatLtGrey = lambda msg: Message(msg, color="white")
+formatGrey = lambda msg: Message(msg, color="bright_black")
+formatPink = lambda msg: Message(msg, color="bright_red")
+formatLtGreen = lambda msg: Message(msg, color="bright_green")
+formatYellow = lambda msg: Message(msg, color="bright_yellow")
+formatLtBlue = lambda msg: Message(msg, color="bright_blue")
+formatPurple = lambda msg: Message(msg, color="bright_magenta")
+formatLtCyan = lambda msg: Message(msg, color="bright_cyan")
+formatWhite = lambda msg: Message(msg, color="bright_white")
 
 
 #-------------------------------------------------------------------
 # Special Styles
 #-------------------------------------------------------------------
-def echoDivider(): lambda col: Message("divider", color=col).print()
-def echoLine(): lambda col: Message("line", color=col).print()
-def echoDebug(): lambda msg: Message(msg, color="white", prefix="DEBUG: ").print()
+formatDivider = lambda col: Message("divider", color=col)
+formatLine = lambda col: Message("line", color=col)
+formatDebug = lambda msg: Message(msg, color="white", prefix="DEBUG: ")
 
 #-------------------------------------------------------------------
 # Terminal Message Aliases
 #-------------------------------------------------------------------
-def echoError(): lambda msg: Message(msg, color=COLOR_ERROR, prefix=SYMBOL_ERROR + " ERROR: ", err=True).print()
-def echoWarning(): lambda msg: Message(msg, color=COLOR_WARNING, prefix=SYMBOL_WARNING + " WARNING: ").print()
-def echoInfo(): lambda msg: Message(msg, color=COLOR_INFO, prefix=SYMBOL_INFO + " INFO: ").print()
-def echoSuccess(): lambda msg: Message(msg, color=COLOR_SUCCESS, prefix=SYMBOL_SUCCESS + " SUCCESS: ").print()
-def echoTip(): lambda msg: Message(msg, color=COLOR_TIP, prefix=SYMBOL_TIP + " TIP: ").print()
-def echoImportant(): lambda msg: Message(msg, color=COLOR_IMPORTANT, prefix=SYMBOL_IMPORTANT + " IMPORTANT: ").print()
+formatError = lambda msg: Message(msg, color=COLOR_ERROR, prefix=SYMBOL_ERROR + " ERROR: ", err=True)
+formatWarning = lambda msg: Message(msg, color=COLOR_WARNING, prefix=SYMBOL_WARNING + " WARNING: ")
+formatInfo = lambda msg: Message(msg, color=COLOR_INFO, prefix=SYMBOL_INFO + " INFO: ")
+formatSuccess = lambda msg: Message(msg, color=COLOR_SUCCESS, prefix=SYMBOL_SUCCESS + " SUCCESS: ")
+formatTip = lambda msg: Message(msg, color=COLOR_TIP, prefix=SYMBOL_TIP + " TIP: ")
+formatImportant = lambda msg: Message(msg, color=COLOR_IMPORTANT, prefix=SYMBOL_IMPORTANT + " IMPORTANT: ")

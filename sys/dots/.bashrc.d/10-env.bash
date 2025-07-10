@@ -51,7 +51,23 @@ DOTFILES_PROMPT="kali"
 #
 # PATHS
 #
-DOT_REG="${HOME}/.dotfiles/sys/reg"
+BACKUP="${HOME}/.backup"
+BASEDIR="${HOME}/.dotfiles"
+CUSTOM="${BASEDIR}/custom"
+DOTSDIR="${BASEDIR}/dots"
+DOT_LOG="${BASEDIR}/logs"
+REGISTRY="${BASEDIR}/reg"
+DOT_SYS="${BASEDIR}/sys"
+DOT_CFG="${DOT_SYS}/cfg"
+DOT_LIB="${DOT_SYS}/lib"
+
+ALIASES="${DOT_LIB}/aliases"
+COMPLETIONS="${DOT_LIB}/completions"
+FUNCTIONS="${DOT_LIB}/functions"
+PACKAGES="${DOT_LIB}/pkgs"
+PLUGINS="${DOT_LIB}/plugins"
+SCRIPTS="${DOT_LIB}/scripts"
+TEMPLATES="${DOT_LIB}/templates"
 #
 # ESCAPE CHARACTERS
 #

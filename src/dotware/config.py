@@ -32,24 +32,28 @@ COLOR_SUCCESS = "green"
 COLOR_TIP = "cyan"
 COLOR_IMPORTANT = "magenta"
 
-BASEDIR = Path.home() / '.dotfiles'
-BACKUP_DIR = BASEDIR / '.backup'
-CUSTOM_DIR = BASEDIR / 'custom'
-CFG_DIR = BASEDIR / 'cfg'
-LIB_DIR = BASEDIR / 'lib'
-LOG_DIR = BASEDIR / 'logs'
-REGISTRY = BASEDIR / 'reg'
-
-TEMPLATES = LIB_DIR / 'templates'
-
 REPODIR = filepath.parent.parent.parent
 SRC_DIR = REPODIR / 'src'
 SYS_DIR = REPODIR / 'sys'
+LIB_DIR = SYS_DIR / 'lib'
 
-ALIASES = SYS_DIR / 'lib' / 'aliases'
-COMPLETIONS = SYS_DIR / 'lib' / 'completions'
-FUNCTIONS = SYS_DIR / 'lib' / 'functions'
-PLUGINS = SYS_DIR / 'lib' / 'plugins'
+BACKUP = Path.home() / '.backup'
+BASEDIR = Path.home() / '.dotfiles'
+CUSTOM = BASEDIR / 'custom'
+DOTSDIR = BASEDIR / 'dots'
+DOT_LOG = BASEDIR / 'logs'
+REGISTRY = BASEDIR / 'reg'
+DOT_SYS = BASEDIR / 'sys'
+DOT_CFG = DOT_SYS / 'cfg'
+DOT_LIB = DOT_SYS / 'lib'
+
+ALIASES = DOT_LIB / 'aliases'
+COMPLETIONS = DOT_LIB / 'completions'
+FUNCTIONS = DOT_LIB / 'functions'
+PACKAGES = DOT_LIB / 'pkgs'
+PLUGINS = DOT_LIB / 'plugins'
+SCRIPTS = DOT_LIB / 'scripts'
+TEMPLATES = DOT_LIB / 'templates'
 
 LOG_LEVEL = logging.INFO
 

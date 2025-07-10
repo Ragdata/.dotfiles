@@ -29,12 +29,12 @@ alias pip='pip3'
 # @description Load all enabled alias files
 # ------------------------------------------------------------------
 # Load all enabled alias files
-if [ -f "$DOT_REG/aliases.enabled" ]; then
+if [ -f "$REGISTRY/aliases.enabled" ]; then
     while IFS= read -r file
     do
         # shellcheck disable=SC1090
         if [[ "${file:0:1}" != "#" && -n "$file" ]]; then
             [ -f "$file" ] && source "$file"
         fi
-    done < "$DOT_REG/aliases.enabled"
+    done < "$REGISTRY/aliases.enabled"
 fi

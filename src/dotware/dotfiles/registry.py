@@ -35,7 +35,7 @@ class Registry:
 		""" Initialise the Registry """
 
 		self.logger = self.getLogger(name, level)
-		self.logger.info(f"Registry Logger ('{name}') initialized with log level {level}.")
+		self.logger.info(f"Registry Logger ('{name}') initialized with log level {logging._levelToName}.")
 
 		# Ensure the registry directory exists
 		if not REGISTRY.exists():
@@ -47,7 +47,7 @@ class Registry:
 		""" Check if the component name is valid """
 
 		parts = name.split('.')
-		compfile = LIB_DIR / parts[1] / f"{name}.bash"
+		compfile = DOT_LIB / parts[1] / f"{name}.bash"
 
 		if len(parts) != 2:
 			raise ValueError("Component name must be in the format 'name.type'")
@@ -66,10 +66,10 @@ class Registry:
 
 		# Set FileHandler parameters
 		fileLevel = kwargs.get('fileLevel', LOG_LEVEL_FILE)
-		filedir = kwargs.get('filedir', LOG_DIR)
+		filedir = kwargs.get('filedir', DOT_LOG)
 		fileFormat = kwargs.get('fileFormat', LOG_FORMAT)
 		# Create FileHandler
-		fileHandler = initFileHandler('registry', fileLevel, LOG_DIR, fileFormat)
+		fileHandler = initFileHandler('registry', fileLevel, DOT_LOG, fileFormat)
 		self.logger.addHandler(fileHandler)
 		# Set ConsoleHandler parameters
 		stream = kwargs.get('stream', sys.stdout)

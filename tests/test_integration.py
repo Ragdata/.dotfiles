@@ -74,8 +74,8 @@ class TestDotfileInstallerIntegration:
             'install',
             SRC_DIR=dirs['src'],
             BASEDIR=dirs['base'],
-            CUSTOM_DIR=dirs['custom'],
-            LOG_DIR=dirs['log'],
+            CUSTOM=dirs['custom'],
+            DOT_LOG=dirs['log'],
             LOG_LEVEL=20  # INFO level
         ):
             with patch('install.Path.home', return_value=dirs['home']):

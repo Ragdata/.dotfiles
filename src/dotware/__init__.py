@@ -29,7 +29,7 @@ def initLogger(name: str):
 	""" Initialise the logger for the package """
 
 	try:
-		logDir = Path(LOG_DIR)
+		logDir = Path(DOT_LOG)
 		logFile = logDir / '{name}.log'
 		logLevel = LOG_LEVEL
 

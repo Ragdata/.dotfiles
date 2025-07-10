@@ -10,6 +10,7 @@
 ####################################################################
 
 import os
+import re
 import sys
 import shutil
 import logging
@@ -24,9 +25,9 @@ from dotware.config import *
 
 
 dotdirs = [
-	('sys/dots', Path.home()),
-	('sys/dots/.bashrc.d', Path.home() / '.bashrc.d'),
-	('sys/dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
+	('dots', Path.home()),
+	('dots/.bashrc.d', Path.home() / '.bashrc.d'),
+	('dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
 ]
 
 
@@ -54,8 +55,14 @@ class DotfileInstaller:
 	def _checkCustom(self, filepath: Path):
 		""" Check for overriding files """
 
-		relativePath = filepath.relative_to(BASEDIR)
-		customfile = CUSTOM_DIR / relativePath
+		index = str(filepath).find('/.dotfiles')
+		if index != -1:
+			relativePath = str(filepath)[index + len('/.dotfiles') + 1:]
+			self.logger.debug(f"Relative path: {relativePath}")
+		else:
+			relativePath = ""
+
+		customfile = CUSTOM / relativePath
 
 		if customfile.exists():
 			return customfile
@@ -77,7 +84,7 @@ class DotfileInstaller:
 		try:
 
 			loggerID = 'install'
-			logDir = LOG_DIR
+			logDir = DOT_LOG
 			logFile = logDir / f'{loggerID}.log'
 			logLevel = LOG_LEVEL
 
@@ -135,7 +142,7 @@ class DotfileInstaller:
 		""" Install dotfiles and custom overrides """
 		try:
 
-			self.logger.info("[yellow]Installing dotfiles ...[/yellow]")
+			self.logger.info(f"[yellow]Installing dotfiles ...[/yellow]")
 
 			for dotdir, dest in dotdirs:
 				self.logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
@@ -209,12 +216,15 @@ class DotfileInstaller:
 			if not path.exists():
 				path.mkdir(parents=True, exist_ok=True)
 				path.chmod(perms)
-				self.logger.info(f"Created directory: {dir}")
+				if self.logger:
+					self.logger.info(f"Created directory: {dir}")
 			else:
-				self.logger.info(f"Directory already exists: {path}")
+				if self.logger:
+					self.logger.info(f"Directory already exists: {path}")
 
 		except Exception as e:
-			self.logger.error(f"Failed to create directory {dir}: {e}")
+			if self.logger:
+				self.logger.error(f"Failed to create directory {dir}: {e}")
 			raise
 
 

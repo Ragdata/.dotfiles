@@ -59,8 +59,8 @@ class TestDotfileInstaller:
             'install',
             SRC_DIR=temp_dirs['src'],
             BASEDIR=temp_dirs['base'],
-            CUSTOM_DIR=temp_dirs['custom'],
-            LOG_DIR=temp_dirs['log'],
+            CUSTOM=temp_dirs['custom'],
+            DOT_LOG=temp_dirs['log'],
             LOG_LEVEL=logging.INFO
         ):
             yield

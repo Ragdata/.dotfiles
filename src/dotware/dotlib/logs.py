@@ -38,7 +38,7 @@ def initLogger(name: str, level: int = LOG_LEVEL, **kwargs) -> logging.Logger:
 	return logger
 
 
-def initFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = LOG_DIR, format: str = LOG_FORMAT) -> logging.Handler:
+def initFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = DOT_LOG, format: str = LOG_FORMAT) -> logging.Handler:
 	"""
 	Initialize a file handler for logging.
 

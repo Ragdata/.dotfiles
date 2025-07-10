@@ -69,14 +69,14 @@ class Registry:
 		filedir = kwargs.get('filedir', DOT_LOG)
 		fileFormat = kwargs.get('fileFormat', LOG_FORMAT)
 		# Create FileHandler
-		fileHandler = initFileHandler('registry', fileLevel, DOT_LOG, fileFormat)
+		fileHandler = Logger.initFileHandler('registry', fileLevel, DOT_LOG, fileFormat)
 		self.logger.addHandler(fileHandler)
 		# Set ConsoleHandler parameters
 		stream = kwargs.get('stream', sys.stdout)
 		streamLevel = kwargs.get('streamLevel', LOG_LEVEL_STREAM)
 		streamFormat = kwargs.get('streamFormat', CON_FORMAT)
 		# Create ConsoleHandler
-		streamHandler = initStreamHandler(stream, streamLevel, streamFormat)
+		streamHandler = Logger.initStreamHandler(stream, streamLevel, streamFormat)
 		self.logger.addHandler(streamHandler)
 
 		return self.logger

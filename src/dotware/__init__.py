@@ -16,9 +16,9 @@ __version__ = "v0.1.0"
 
 
 
-__all__ = ["Message", "echoBlack", "echoRed", "echoGreen", "echoYellow", "echoBlue", "echoMagenta", "echoCyan", "echoLtGrey", "echoGrey",
-           "echoPink", "echoLtGreen", "echoYellow", "echoLtBlue", "echoPurple", "echoLtCyan", "echoWhite", "echoDivider", "echoLine", "echoDebug",
-		   "echoError", "echoWarning", "echoInfo", "echoSuccess", "echoTip", "echoImportant", "console", "errconsole", "__pkg_name__", "__version__",
+__all__ = ["Message", "formatBlack", "formatRed", "formatGreen", "formatYellow", "formatBlue", "formatMagenta", "formatCyan", "formatLtGrey", "formatGrey",
+           "formatPink", "formatLtGreen", "formatYellow", "formatLtBlue", "formatPurple", "formatLtCyan", "formatWhite", "formatDivider", "formatLine", "formatDebug",
+		   "formatError", "formatWarning", "formatInfo", "formatSuccess", "formatTip", "formatImportant", "console", "errconsole", "__pkg_name__", "__version__",
 		   "initLogger", "version", "comp_types"]
 
 

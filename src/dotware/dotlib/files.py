@@ -14,11 +14,34 @@ import sys
 import shutil
 import logging
 
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 from dotware.config import *
 
+
+
+def backupFile(filepath: Path, backupdir: Path = BACKUP) -> bool:
+	""" Backup a file to the backup directory """
+	if not filepath.exists():
+		raise FileNotFoundError(f"File '{filepath}' does not exist.")
+
+	if not backupdir.exists():
+		makedir(backupdir)
+
+	now = datetime.now()
+
+	bakfile = f"{filepath.name}.bak.{now.timestamp()}"
+
+	backupfile = backupdir / bakfile
+
+	try:
+		shutil.copy2(filepath, backupfile)
+	except Exception as e:
+		raise RuntimeError(f"Failed to backup file '{filepath}': {e}")
+
+	return True
 
 
 def checkCustom(filepath: Path, logger: Optional[logging.Logger] = None) -> str:
@@ -44,7 +67,7 @@ def makedir(dir: Path, perms: int = 0o755) -> int:
 	""" Helper function to make directories and set permissions """
 	try:
 		if dir.exists():
-			return 0
+			return True
 		dir.mkdir(parents=True, exist_ok=True)
 		dir.chmod(perms)
 	except Exception as e:

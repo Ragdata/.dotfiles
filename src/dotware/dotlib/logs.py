@@ -106,7 +106,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.DEBUG):
-			self._log(logging.DEBUG, formatDebug(msg), args, **kwargs)
+			self._log(logging.DEBUG, formatDebug(msg), *args, **kwargs)
 
 
 	def info(self, msg: str, *args, **kwargs) -> None:
@@ -119,7 +119,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.INFO):
-			self._log(logging.INFO, formatInfo(msg), args, **kwargs)
+			self._log(logging.INFO, formatInfo(msg), *args, **kwargs)
 
 
 	def warning(self, msg: str, *args, **kwargs) -> None:
@@ -132,7 +132,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.WARNING):
-			self._log(logging.WARNING, formatWarning(msg), args, **kwargs)
+			self._log(logging.WARNING, formatWarning(msg), *args, **kwargs)
 
 
 	def error(self, msg: str, *args, **kwargs) -> None:
@@ -145,7 +145,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.ERROR):
-			self._log(logging.ERROR, formatError(msg), args, **kwargs)
+			self._log(logging.ERROR, formatError(msg), *args, **kwargs)
 
 
 	def exception(self, msg: str, *args, **kwargs) -> None:
@@ -158,7 +158,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.ERROR):
-			self._log(logging.ERROR, formatError(msg), args, **kwargs)
+			self._log(logging.ERROR, formatError(msg), *args, **kwargs)
 			self.exception(msg, *args, **kwargs)
 
 
@@ -172,7 +172,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.CRITICAL):
-			self._log(logging.CRITICAL, formatError(msg), args, **kwargs)
+			self._log(logging.CRITICAL, formatError(msg), *args, **kwargs)
 
 
 	def fatal(self, msg: str, *args, **kwargs) -> None:
@@ -185,7 +185,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.FATAL):
-			self._log(logging.FATAL, formatError(msg), args, **kwargs)
+			self._log(logging.FATAL, formatError(msg), *args, **kwargs)
 			sys.exit(1)
 
 
@@ -205,7 +205,7 @@ class Logger(logging.Logger):
 			else:
 				return
 		if self.isEnabledFor(level):
-			self._log(level, msg, args, **kwargs)
+			self._log(level, msg, *args, **kwargs)
 
 
 

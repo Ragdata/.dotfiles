@@ -18,8 +18,9 @@ from pathlib import Path
 from typing_extensions import Annotated
 
 from dotware.config import *
-from dotware import __pkg_name__, __version__
+from dotware import __pkg_name__, __version__, comp_types
 from dotware.dotfiles.registry import *
+#from dotware.dotfiles.lib import *
 
 
 
@@ -58,17 +59,38 @@ reg = Registry('dotfiles')
 
 
 #--------------------------------------------------------------
-# Configuration Commands
-#--------------------------------------------------------------
-@pkg.command('cfg', help="Configure Packages")
-def cfgPackage():
-	pass
-#--------------------------------------------------------------
 # Component Commands
 #--------------------------------------------------------------
 @comp.command('show', help="Show Dotfiles Components")
 def showComponents(type: Annotated[str, typer.Argument(help="Show Dotfiles Components")]):
-	pass
+	try:
+
+		match type:
+			case 'aliases':
+				compdir = ALIASES
+			case 'completions':
+				compdir = COMPLETIONS
+			case 'functions':
+				compdir = FUNCTIONS
+			case 'plugins':
+				compdir = PLUGINS
+			case _:
+				reg.logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(comp_types)}")
+				raise typer.Exit(code=1)
+
+		if not compdir.exists():
+			reg.logger.error(f"Component directory '{compdir}' does not exist.")
+			raise typer.Exit(code=1)
+
+		# List all files in the component directory
+		i = 1
+		files = [f.name for f in compdir.iterdir() if f.is_file()]
+		for file in files:
+			pass
+
+	except Exception as e:
+		reg.logger.error(f"Failed to show components of type '{type}': {e}")
+		raise
 
 
 @comp.command('disable', help="Disable Dotfiles Components")
@@ -94,6 +116,27 @@ def enableComponent(name: Annotated[str, typer.Argument(help="Enable Dotfiles Co
 #--------------------------------------------------------------
 # Package Commands
 #--------------------------------------------------------------
+@pkg.command('install', help="Install Software Packages")
+def installPackage(name: Annotated[str, typer.Argument(help="Install a Software Package")]):
+	""" Install a Software Package """
+	try:
+		pkgfile = PACKAGES / name
+		if not pkgfile.exists():
+			reg.logger.error(f"Package directory '{pkgfile}' does not exist.")
+			raise typer.Exit(code=1)
+
+	except Exception as e:
+		reg.logger.error(f"Failed to install package '{name}': {e}")
+		raise
+
+@pkg.command('cfg', help="Configure Packages")
+def cfgPackage():
+	pass
+
+
+
+
+
 # @install.command(help="Install Dependencies")
 # def installDeps():
 # 	pass

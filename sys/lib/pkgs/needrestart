@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 ####################################################################
-# git
+# needrestart
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -18,18 +18,19 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-git::check() { dpkg -l | grep git 2> /dev/null 1>&2; return $?; }
+needrestart::check() { dpkg -l | grep needrestart 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-git::install()
+needrestart::install()
 {
-	sudo apt install -qq -y git git-lfs
+	sudo apt install -qq -y needrestart
 }
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-git::remove()
+needrestart::remove()
 {
-	sudo apt purge -qq -y git git-lfs
+	sudo apt purge -qq -y needrestart
 }
+#-------------------------------------------------------------------

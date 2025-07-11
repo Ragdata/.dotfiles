@@ -35,7 +35,7 @@ class Registry:
 		""" Initialise the Registry """
 
 		self.logger = self.getLogger(name, level)
-		self.logger.info(f"Registry Logger ('{name}') initialized with log level {logging._levelToName}.")
+		self.logger.info(f"Registry Logger ('{name}') initialized with log level {logging._levelToName[level]}.")
 
 		# Ensure the registry directory exists
 		if not REGISTRY.exists():
@@ -130,6 +130,6 @@ class Registry:
 				return 2
 
 
-	def list(self):
-		""" List all registered components """
-		pass
+	# def list(self):
+	# 	""" List all registered components """
+	# 	pass

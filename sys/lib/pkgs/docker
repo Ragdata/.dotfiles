@@ -49,54 +49,24 @@ template::install()
 #-------------------------------------------------------------------
 template::post_install()
 {
-	return
-}
-#-------------------------------------------------------------------
-# CONFIG
-#-------------------------------------------------------------------
-template::config()
-{
-	return
-}
-#-------------------------------------------------------------------
-# POST CONFIG
-#-------------------------------------------------------------------
-template::post_config()
-{
-	return
+	sudo systemctl enable docker
+	sudo systemctl restart docker
 }
 #-------------------------------------------------------------------
 # PRE REMOVE
 #-------------------------------------------------------------------
 template::pre_remove()
 {
-	return
+	sudo systemctl stop docker
 }
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
 template::remove()
 {
-	return
-}
-#-------------------------------------------------------------------
-# POST REMOVE
-#-------------------------------------------------------------------
-template::post_remove()
-{
-	return
-}
-#-------------------------------------------------------------------
-# UPDATE
-#-------------------------------------------------------------------
-template::update()
-{
-	return
-}
-#-------------------------------------------------------------------
-# POST UPDATE
-#-------------------------------------------------------------------
-template::post_update()
-{
-	return
+	for pkg in docker-buildx-plugin docker-ce docker-ce-cli docker-ce-rootless-extras docker-compose-plugin containerd.io; do sudo apt remove --purge -y $pkg; done
+	sudo apt autoremove -y --purge
+	sudo rm -rf /etc/docker
+	dir=$(docker info 2>&1 | grep -i "docker root dir" | awk '{print $4}')
+	[[ -d "$dir" ]] && sudo rm -rf "$dir"
 }

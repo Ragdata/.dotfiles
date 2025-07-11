@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 ####################################################################
-# git
+# logrotate
 ####################################################################
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
@@ -18,18 +18,38 @@
 #-------------------------------------------------------------------
 # CHECK
 #-------------------------------------------------------------------
-git::check() { dpkg -l | grep git 2> /dev/null 1>&2; return $?; }
+logrotate::check() { dpkg -l | grep logrotate 2> /dev/null 1>&2; return $?; }
 #-------------------------------------------------------------------
 # INSTALL
 #-------------------------------------------------------------------
-git::install()
+logrotate::install()
 {
-	sudo apt install -qq -y git git-lfs
+	sudo apt install -qq -y logrotate
+}
+#-------------------------------------------------------------------
+# CONFIG
+#-------------------------------------------------------------------
+logrotate::config()
+{
+	local result source
+
+	source="$(checkCustom "$DOT_CFG/logrotate/logrotate.conf")"
+
+	sudo cp "$source" /etc/logrotate.conf
+
+    sudo sed -i 's/^#Storage=.*/Storage=persistent/' /etc/systemd/journald.conf
+    sudo sed -i 's/^#ForwardToSyslog=.*/ForwardToSyslog=yes/' /etc/systemd/journald.conf
+    sudo sed -i 's/^#Compress=.*/Compress=yes/' /etc/systemd/journald.conf
+
+    sudo systemctl restart systemd-journald; result=$?
+
+    sudo sed -i "s/^\$FileCreateMode.*/\$FileCreateMode 0600/g" /etc/rsyslog.conf
 }
 #-------------------------------------------------------------------
 # REMOVE
 #-------------------------------------------------------------------
-git::remove()
+logrotate::remove()
 {
-	sudo apt purge -qq -y git git-lfs
+	sudo apt purge -qq -y logrotate
 }
+#-------------------------------------------------------------------

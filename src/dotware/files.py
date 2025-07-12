@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ####################################################################
-# dotlib.files.py
+# dotware.files.py
 ####################################################################
 # Author:       Ragdata
 # Date:         06/07/2025
@@ -61,6 +61,26 @@ def checkCustom(filepath: Path, logger: Optional[logging.Logger] = None) -> str:
 		return str(customfile)
 	else:
 		return str(filepath)
+
+
+def grepFile(filepath: Path, pattern: str, logger: Optional[logging.Logger] = None) -> bool:
+	""" Search for a pattern in a file and return True if found """
+	if not filepath.exists():
+		raise FileNotFoundError(f"File '{filepath}' does not exist.")
+
+	try:
+		with open(filepath, 'r') as f:
+			for line in f:
+				if pattern in line:
+					if logger:
+						logger.info(f"Pattern '{pattern}' found in file '{filepath}'.")
+					return True
+	except Exception as e:
+		raise RuntimeError(f"Failed to read file '{filepath}': {e}")
+
+	if logger:
+		logger.info(f"Pattern '{pattern}' not found in file '{filepath}'.")
+	return False
 
 
 def makedir(dir: Path, perms: int = 0o755) -> int:

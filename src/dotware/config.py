@@ -63,5 +63,7 @@ LOG_LEVEL_FILE = logging.DEBUG
 LOG_LEVEL_STREAM = logging.INFO
 LOG_LEVEL_ERROR = logging.ERROR
 
-LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-CON_FORMAT = "%(levelname)s: %(message)s"
+STD_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s"
+SHORT_FORMAT = "%(levelname)s :: %(message)s"
+LONG_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s in %(filename)s\n%(pathname)s [ %(funcName)s line %(lineno)s ]"
+CON_FORMAT = "%(message)s"

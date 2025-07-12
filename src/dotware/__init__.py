@@ -7,19 +7,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from dotware.config import *
-from dotware.dotlib.output import *
+from dotware.output import *
 
 
 
 __pkg_name__ = "dotware"
 __version__ = "v0.1.0"
 
-
-
-__all__ = ["Message", "formatBlack", "formatRed", "formatGreen", "formatYellow", "formatBlue", "formatMagenta", "formatCyan", "formatLtGrey", "formatGrey",
-           "formatPink", "formatLtGreen", "formatYellow", "formatLtBlue", "formatPurple", "formatLtCyan", "formatWhite", "formatDivider", "formatLine", "formatDebug",
-		   "formatError", "formatWarning", "formatInfo", "formatSuccess", "formatTip", "formatImportant", "console", "errconsole", "__pkg_name__", "__version__",
-		   "initLogger", "version", "comp_types"]
 
 
 comp_types = ["aliases", "completions", "functions", "plugins"]

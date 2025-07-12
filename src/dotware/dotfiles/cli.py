@@ -13,14 +13,19 @@ import os
 import sys
 import typer
 import logging
+import subprocess
 
+from requests import post
 from pathlib import Path
+from inspect import isfunction
 from typing_extensions import Annotated
 
 from dotware.config import *
 from dotware import __pkg_name__, __version__, comp_types
 from dotware.dotfiles.registry import *
-#from dotware.dotfiles.lib import *
+from dotware.files import *
+from dotware.dotfiles import *
+from dotware.logger import *
 
 
 
@@ -55,14 +60,14 @@ app.add_typer(pkg, help="Manage Software Packages")
 app.add_typer(comp, help="Manage Dotfiles Components")
 
 
-reg = Registry('dotfiles')
+reg = Registry('registry')
 
 
 #--------------------------------------------------------------
 # Component Commands
 #--------------------------------------------------------------
 @comp.command('show', help="Show Dotfiles Components")
-def showComponents(type: Annotated[str, typer.Argument(help="Show Dotfiles Components")]):
+def showComponents(type: Annotated[str, typer.Argument(help="Component Type")]):
 	try:
 
 		match type:
@@ -75,11 +80,11 @@ def showComponents(type: Annotated[str, typer.Argument(help="Show Dotfiles Compo
 			case 'plugins':
 				compdir = PLUGINS
 			case _:
-				reg.logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(comp_types)}")
+				logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(comp_types)}")
 				raise typer.Exit(code=1)
 
 		if not compdir.exists():
-			reg.logger.error(f"Component directory '{compdir}' does not exist.")
+			logger.error(f"Component directory '{compdir}' does not exist.")
 			raise typer.Exit(code=1)
 
 		# List all files in the component directory
@@ -89,27 +94,27 @@ def showComponents(type: Annotated[str, typer.Argument(help="Show Dotfiles Compo
 			pass
 
 	except Exception as e:
-		reg.logger.error(f"Failed to show components of type '{type}': {e}")
+		logger.error(f"Failed to show components of type '{type}': {e}")
 		raise
 
 
 @comp.command('disable', help="Disable Dotfiles Components")
-def disableComponent(name: Annotated[str, typer.Argument(help="Disable Dotfiles Component")]):
+def disableComponent(name: Annotated[str, typer.Argument(help="Component Name")]):
 	""" Disable a Dotfiles Component """
 	try:
 		reg.disable(name)
 	except Exception as e:
-		reg.logger.error(f"Failed to disable component '{name}': {e}")
+		logger.error(f"Failed to disable component '{name}': {e}")
 		raise
 
 
 @comp.command('enable', help="Enable Dotfiles Components")
-def enableComponent(name: Annotated[str, typer.Argument(help="Enable Dotfiles Component")]):
+def enableComponent(name: Annotated[str, typer.Argument(help="Component Name")]):
 	""" Enable a Dotfiles Component """
 	try:
 		reg.enable(name)
 	except Exception as e:
-		reg.logger.error(f"Failed to enable component '{name}': {e}")
+		logger.error(f"Failed to enable component '{name}': {e}")
 		raise
 
 
@@ -117,23 +122,133 @@ def enableComponent(name: Annotated[str, typer.Argument(help="Enable Dotfiles Co
 # Package Commands
 #--------------------------------------------------------------
 @pkg.command('install', help="Install Software Packages")
-def installPackage(name: Annotated[str, typer.Argument(help="Install a Software Package")]):
+def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 	""" Install a Software Package """
 	try:
 		pkgfile = PACKAGES / name
+		pkgcheck = f"{name}::check"
+		preinstall = f"{name}::pre_install"
+		installfnc = f"{name}::install"
+		postinstall = f"{name}::post_install"
 		if not pkgfile.exists():
-			reg.logger.error(f"Package directory '{pkgfile}' does not exist.")
+			logger.error(f"Package directory '{pkgfile}' does not exist.")
 			raise typer.Exit(code=1)
+		else:
+
+			if grepFile(pkgfile, pkgcheck, logger):
+				ck = subprocess.run(pkgcheck, shell=True, capture_output=True, text=True)
+				if ck.returncode == 0:
+					logger.info(f"Package '{name}' is already installed.")
+					return
+
+			if grepFile(pkgfile, preinstall, logger):
+				pre = subprocess.run(preinstall, shell=True, capture_output=True, text=True)
+				if pre.returncode != 0:
+					logger.error(f"Pre-installation hook failed for package '{name}': {pre.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Pre-installation hook executed successfully for package '{name}'.")
+
+			if grepFile(pkgfile, installfnc, logger):
+				ins = subprocess.run(installfnc, capture_output=True, text=True)
+				if ins.returncode != 0:
+					logger.error(f"Installation failed for package '{name}': {ins.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Package '{name}' installed successfully.")
+
+			if grepFile(pkgfile, postinstall, logger):
+				post = subprocess.run(postinstall, capture_output=True, text=True)
+				if post.returncode != 0:
+					logger.error(f"Post-installation hook failed for package '{name}': {post.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Post-installation hook executed successfully for package '{name}'.")
 
 	except Exception as e:
-		reg.logger.error(f"Failed to install package '{name}': {e}")
+		logger.error(f"Failed to install package '{name}': {e}")
 		raise
 
+
 @pkg.command('cfg', help="Configure Packages")
-def cfgPackage():
-	pass
+def cfgPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
+	""" Configure a Software Package """
+	try:
+		pkgfile = PACKAGES / name
+		cfgfnc = f"{name}::config"
+		postcfg = f"{name}::post_config"
+		if not pkgfile.exists():
+			logger.error(f"Package directory '{pkgfile}' does not exist.")
+			raise typer.Exit(code=1)
+		else:
+			if grepFile(pkgfile, cfgfnc, logger):
+				cfg = subprocess.run(cfgfnc, capture_output=True, text=True)
+				if cfg.returncode != 0:
+					logger.error(f"Configuration failed for package '{name}': {cfg.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Package '{name}' configured successfully.")
+
+			if grepFile(pkgfile, postcfg, logger):
+				post = subprocess.run(postcfg, capture_output=True, text=True)
+				if post.returncode != 0:
+					logger.error(f"Post-configuration hook failed for package '{name}': {post.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Post-configuration hook executed successfully for package '{name}'.")
+
+	except Exception as e:
+		logger.error(f"Failed to install package '{name}': {e}")
+		raise
 
 
+@pkg.command('remove', help="Remove Software Packages")
+def removePackage(name: Annotated[str, typer.Argument(help="Package Name")]):
+	""" Remove a Software Package """
+	try:
+		pkgfile = PACKAGES / name
+		pkgcheck = f"{name}::check"
+		preuninstall = f"{name}::pre_uninstall"
+		uninstallfnc = f"{name}::uninstall"
+		postuninstall = f"{name}::post_uninstall"
+		if not pkgfile.exists():
+			logger.error(f"Package directory '{pkgfile}' does not exist.")
+			raise typer.Exit(code=1)
+		else:
+
+			if grepFile(pkgfile, pkgcheck, logger):
+				ck = subprocess.run(pkgcheck, shell=True, capture_output=True, text=True)
+				if ck.returncode != 0:
+					logger.error(f"Package '{name}' is not installed.")
+					return
+
+			if grepFile(pkgfile, preuninstall, logger):
+				pre = subprocess.run(preuninstall, shell=True, capture_output=True, text=True)
+				if pre.returncode != 0:
+					logger.error(f"Pre-uninstallation hook failed for package '{name}': {pre.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Pre-uninstallation hook executed successfully for package '{name}'.")
+
+			if grepFile(pkgfile, uninstallfnc, logger):
+				unins = subprocess.run(uninstallfnc, capture_output=True, text=True)
+				if unins.returncode != 0:
+					logger.error(f"Uninstallation failed for package '{name}': {unins.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Package '{name}' uninstalled successfully.")
+
+			if grepFile(pkgfile, postuninstall, logger):
+				post = subprocess.run(postuninstall, capture_output=True, text=True)
+				if post.returncode != 0:
+					logger.error(f"Post-uninstallation hook failed for package '{name}': {post.stderr}")
+					raise typer.Exit(code=1)
+				else:
+					logger.info(f"Post-uninstallation hook executed successfully for package '{name}'.")
+
+	except Exception as e:
+		logger.error(f"Failed to remove package '{name}': {e}")
+		raise
 
 
 

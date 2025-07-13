@@ -125,9 +125,9 @@ class DotfileInstaller:
 				dest.mkdir(parents=True, exist_ok=True, mode=0o755)
 				self.logger.info(f"Created destination directory: {dest}")
 
-			if fileDest.exists():
-				fileDest.unlink()
-				self.logger.info(f"Removed existing file: {fileDest}")
+			# if fileDest.exists():
+			# 	fileDest.unlink()
+			# 	self.logger.info(f"Removed existing file: {fileDest}")
 
 			result = shutil.copy(file, fileDest)
 			self.logger.info(f"Installed {file}  ->  {result}")
@@ -152,35 +152,37 @@ class DotfileInstaller:
 				if not srcDot.exists():
 					self.logger.error(f"Source directory does not exist: {srcDot}")
 					continue
-
 				if not dest.exists():
+					self.logger.info(f"Creating destination directory: {dest}")
 					dest.mkdir(parents=True, exist_ok=True, mode=0o755)
 				if not destDot.exists():
+					self.logger.info(f"Creating destination dot directory: {destDot}")
 					destDot.mkdir(parents=True, exist_ok=True, mode=0o755)
 
 				files = [f for f in srcDot.iterdir() if f.is_file() and not f.name in skipfiles]
+				files.sort()
 				for file in files:
 					self.logger.debug(f"Processing file: {file.name}")
 					destfile = dest / file.name
 					dotfile = destDot / file.name
 
-					if dotfile.exists():
-						destfile.unlink()
-						self.logger.info(f"Removed existing dotfile: {dotfile}")
+					# if dotfile.exists():
+					# 	destfile.unlink()
+					# 	self.logger.info(f"Removed existing dotfile: {dotfile}")
 
 					shutil.copy(file, dotfile)
 
-					if destfile.exists():
-						destfile.unlink()
-						self.logger.info(f"Removed existing file: {destfile}")
+					# if destfile.exists():
+					# 	destfile.unlink()
+					# 	self.logger.info(f"Removed existing file: {destfile}")
 
 					srcfile = self._checkCustom(file)
 
 					if 'custom' in str(srcfile):
-						self.logger.info(f"Custom file exists: {srcfile}")
+						self.logger.info(f"Linking Custom File: {srcfile}")
 						self.linkfile(srcfile, destfile)
 					else:
-						self.logger.info(f"Installing {dotfile} to {destfile}")
+						self.logger.info(f"Installing {dotfile}  ->  {destfile}")
 						shutil.copy(dotfile, destfile)
 
 		except Exception as e:

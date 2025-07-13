@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 from dotware.config import *
 from dotware.errors import *
-from dotware.files import *
 from dotware.logger import *
 from dotware.output import *
 from dotware.threads import *

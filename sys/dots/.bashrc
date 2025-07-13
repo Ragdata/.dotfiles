@@ -31,7 +31,7 @@ include()
 {
     while IFS= read -r script
     do
-        . "$script" || {
+        source "$script" || {
             echo "Error sourcing script: $script"
             continue
         }

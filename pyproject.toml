@@ -51,6 +51,7 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 [project.optional-dependencies]
 all = [
 	"typer>=0.9.0",
+	"",
 	"rich>=13.7.1",
 	"shellingham>=1.5.4",
 	"docker>=7.0.0",
@@ -109,9 +110,9 @@ include = [
 	"dotware",
 	"dotware.config",
 	"dotware.dotfiles.*",
-	"dotware.dotlib.*",
 	"dotware.dotssh.*",
-	"dotware.dotsub.*"
+	"dotware.dotsub.*",
+	"dotware.dotui.*"
 ]
 namespaces = false
 

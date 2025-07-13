@@ -15,8 +15,11 @@ from typing import TextIO, Any
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
-from dotware.files import *
+from dotware import *
+from dotware.config import *
 from dotware.output import *
+from dotware.files import makedir
+
 
 
 class Logger(logging.Logger):

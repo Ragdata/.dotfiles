@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional
 
 from dotware.config import *
-
+from dotware.logger import logger
 
 
 def backupFile(filepath: Path, backupdir: Path = BACKUP) -> bool:
@@ -44,26 +44,26 @@ def backupFile(filepath: Path, backupdir: Path = BACKUP) -> bool:
 	return True
 
 
-def checkCustom(filepath: Path, logger: Optional[logging.Logger] = None) -> str:
+def checkCustom(filepath: Path) -> str:
 	""" Check for overriding files in the custom directory """
 
 	index = str(filepath).find('/.dotfiles')
 	if index != -1:
 		relativePath = str(filepath)[index + len('/.dotfiles') + 1:]
-		# if logger:
-		# 	logger.debug(f"Checking for custom override: {relativePath}")
+		logger.debug(f"Checking for custom override: {relativePath}")
 	else:
 		relativePath = ""
 
 	customfile = CUSTOM / relativePath
 
 	if customfile.exists():
+		logger.debug(f"Custom override found: {customfile}")
 		return str(customfile)
 	else:
 		return str(filepath)
 
 
-def grepFile(filepath: Path, pattern: str, logger: Optional[logging.Logger] = None) -> bool:
+def grepFile(filepath: Path, pattern: str) -> bool:
 	""" Search for a pattern in a file and return True if found """
 	if not filepath.exists():
 		raise FileNotFoundError(f"File '{filepath}' does not exist.")
@@ -72,14 +72,12 @@ def grepFile(filepath: Path, pattern: str, logger: Optional[logging.Logger] = No
 		with open(filepath, 'r') as f:
 			for line in f:
 				if pattern in line:
-					if logger:
-						logger.info(f"Pattern '{pattern}' found in file '{filepath}'.")
+					logger.debug(f"Pattern '{pattern}' found in file '{filepath}'.")
 					return True
 	except Exception as e:
 		raise RuntimeError(f"Failed to read file '{filepath}': {e}")
 
-	if logger:
-		logger.info(f"Pattern '{pattern}' not found in file '{filepath}'.")
+	logger.debug(f"Pattern '{pattern}' not found in file '{filepath}'.")
 	return False
 
 

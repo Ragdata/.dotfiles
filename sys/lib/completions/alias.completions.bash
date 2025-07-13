@@ -1,3 +1,21 @@
+#!/usr/bin/env bash
+####################################################################
+# alias.completions.bash
+####################################################################
+# Author:       Ragdata
+# Date:         02/07/2025
+# License:      MIT License
+# Repository:	https://github.com/Ragdata/.dotfiles
+# Copyright:    Copyright © 2025 Redeyed Technologies
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
+# FUNCTIONS
+####################################################################
 # Automatically add completion for all aliases to commands having completion functions
 function alias_completion {
     local namespace="alias_completion"

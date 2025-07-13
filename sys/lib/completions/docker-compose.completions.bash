@@ -15,6 +15,13 @@
 #  - copy this file to e.g. ~/.docker-compose-completion.sh and add the line
 #    below to your .bashrc after bash completion features are loaded
 #    . ~/.docker-compose-completion.sh
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 
 __docker_compose_previous_extglob_setting=$(shopt -p extglob)
 shopt -s extglob

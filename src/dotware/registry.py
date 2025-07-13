@@ -10,17 +10,18 @@
 ####################################################################
 
 import os
+import stat
 import sys
 import shutil
 import logging
 
-from pathlib import Path
+from pathlib import Path, PurePath
 
-from dotware import *
-from dotware.config import *
-from dotware.files import *
-from dotware.output import *
-from dotware.logger import *
+from . import *
+from . config import *
+from . files import *
+from . output import *
+from . logger import *
 
 
 ####################################################################
@@ -41,7 +42,8 @@ class Registry:
 			logger.info(f"Created registry directory: {REGISTRY}")
 
 
-	def _checkName(self, name: str):
+	@staticmethod
+	def _checkName(name: str):
 		""" Check if the component name is valid """
 
 		parts = name.split('.')
@@ -49,10 +51,60 @@ class Registry:
 
 		if len(parts) != 2:
 			raise ValueError("Component name must be in the format 'name.type'")
-		if parts[1] not in comp_types:
-			raise ValueError(f"Invalid component type. Must be one of: {', '.join(comp_types)}")
+		if parts[1] not in SELECTABLE_TYPES:
+			raise ValueError(f"Invalid component type. Must be one of: {', '.join(SELECTABLE_TYPES)}")
 		if not compfile.exists():
 			raise FileNotFoundError(f"Component file '{compfile}' does not exist.")
+
+
+	@staticmethod
+	def _checkFile(file: Path):
+		""" Check if the file is a valid selectable component file """
+		if not file.exists():
+			logger.error(f"File '{file}' does not exist.")
+			return 1
+		if not file.is_file():
+			logger.error(f"Path '{file}' is not a file.")
+			return 1
+		parts = PurePath(os.path.dirname(file)).parts
+		if parts[-1] not in SELECTABLE_TYPES:
+			logger.error(f"Invalid component type in file path '{file}'. Must be one of: {', '.join(SELECTABLE_TYPES)}")
+			return 1
+		return 0
+
+
+	@staticmethod
+	def _status(id: Path | str) -> int:
+		""" Check the status of a component """
+
+		if isinstance(id, Path):
+			if not id.is_file():
+				logger.error(f"Path '{id}' is not a file.")
+				return 20
+			if Registry._checkFile(id) != 0:
+				logger.error(f"File '{id}' is not a valid component file.")
+				return 20
+			name = id.name
+		elif isinstance(id, str):
+			name = id
+		else:
+			logger.error(f"Invalid component ID type: {type(id)}. Must be a Path or str.")
+			return 10
+
+		parts = name.split('.')
+		regfile = REGISTRY / f"{parts[1]}.enabled"
+
+		if not regfile.exists():
+			logger.info(f"Component '{id}' is not enabled.")
+			return 1
+
+		with open(regfile, 'r') as reg:
+			if parts[0] in reg.read():
+				logger.info(f"Component '{id}' is enabled.")
+				return 0
+			else:
+				logger.info(f"Component '{id}' is not enabled.")
+				return 1
 
 
 	def enable(self, name: str):
@@ -66,6 +118,7 @@ class Registry:
 		if not regfile.exists():
 			tmplfile = TEMPLATES / "registry.tmpl"
 			shutil.copy(tmplfile, regfile)
+			logger.debug(f"Created registry file: {regfile}")
 
 		with open(regfile, 'a') as reg:
 			if name not in reg.read():
@@ -76,8 +129,10 @@ class Registry:
 				logger.warning(f"Component '{name}' is already enabled.")
 				return 2
 
+		return 1
 
-	def disable(self, name: str):
+
+	def disable(self, name: str) -> int:
 		""" Disable a component """
 
 		parts = name.split('.')
@@ -87,7 +142,7 @@ class Registry:
 
 		if not regfile.exists():
 			logger.warning(f"Component '{name}' is not enabled.")
-			return 0
+			return 1
 
 		with open(regfile, 'r') as reg:
 			if name in reg.read():
@@ -101,6 +156,9 @@ class Registry:
 			else:
 				logger.warning(f"Component '{name}' is not enabled.")
 				return 2
+
+		return 1
+
 
 
 	# def list(self):

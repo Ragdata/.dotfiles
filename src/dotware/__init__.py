@@ -7,7 +7,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from dotware.config import *
+from dotware.errors import *
+from dotware.files import *
+from dotware.logger import *
 from dotware.output import *
+from dotware.threads import *
+from dotware.utils import *
+
 
 
 
@@ -16,34 +22,31 @@ __version__ = "v0.1.0"
 
 
 
-comp_types = ["aliases", "completions", "functions", "plugins"]
+# def initLogger(name: str):
+# 	""" Initialise the logger for the package """
 
+# 	try:
+# 		logDir = Path(DOT_LOG)
+# 		logFile = logDir / '{name}.log'
+# 		logLevel = LOG_LEVEL
 
-def initLogger(name: str):
-	""" Initialise the logger for the package """
+# 		if not logDir.exists():
+# 			logDir.mkdir(parents=True, exist_ok=True)
 
-	try:
-		logDir = Path(DOT_LOG)
-		logFile = logDir / '{name}.log'
-		logLevel = LOG_LEVEL
+# 		if not logFile.exists():
+# 			bkpLog = logFile.with_suffix('.bak')
+# 			logFile.replace(bkpLog)
 
-		if not logDir.exists():
-			logDir.mkdir(parents=True, exist_ok=True)
+# 		logging.basicConfig(
+# 			level = logLevel,
+# 			handlers = [ logging.FileHandler(logFile) ]
+# 		)
 
-		if not logFile.exists():
-			bkpLog = logFile.with_suffix('.bak')
-			logFile.replace(bkpLog)
+# 		logger = logging.getLogger(name)
+# 		logger.info("Logger Initialised")
 
-		logging.basicConfig(
-			level = logLevel,
-			handlers = [ logging.FileHandler(logFile) ]
-		)
-
-		logger = logging.getLogger(name)
-		logger.info("Logger Initialised")
-
-	except Exception as e:
-		raise RuntimeError(f"Failed to initialise logger: {e}")
+# 	except Exception as e:
+# 		raise RuntimeError(f"Failed to initialise logger: {e}")
 
 
 def version(output: bool = True):

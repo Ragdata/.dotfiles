@@ -65,6 +65,13 @@
 # Please arrange options sorted alphabetically by long name with the short
 # options immediately following their corresponding long form.
 # This order should be applied to lists, alternatives and code blocks.
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 
 __docker_previous_extglob_setting=$(shopt -p extglob)
 shopt -s extglob

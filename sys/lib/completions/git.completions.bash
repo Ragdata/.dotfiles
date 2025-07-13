@@ -39,6 +39,13 @@
 #     When set to "1", do not include "DWIM" suggestions in git-checkout
 #     and git-switch completion (e.g., completing "foo" when "origin/foo"
 #     exists).
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 
 case "$COMP_WORDBREAKS" in
 *:*) : great ;;

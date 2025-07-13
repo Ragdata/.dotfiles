@@ -21,11 +21,11 @@ from inspect import isfunction
 from typing_extensions import Annotated
 
 from dotware.config import *
-from dotware import __pkg_name__, __version__, comp_types
-from dotware.dotfiles.registry import *
+from dotware import __pkg_name__, __version__
+from dotware.registry import *
 from dotware.files import *
 from dotware.dotfiles import *
-from dotware.logger import *
+from dotware.logger import logger
 
 
 
@@ -55,9 +55,11 @@ app = typer.Typer(
 
 pkg = typer.Typer()
 comp = typer.Typer()
+show = typer.Typer()
 
 app.add_typer(pkg, help="Manage Software Packages")
 app.add_typer(comp, help="Manage Dotfiles Components")
+comp.add_typer(show, )
 
 
 reg = Registry('registry')
@@ -66,7 +68,7 @@ reg = Registry('registry')
 #--------------------------------------------------------------
 # Component Commands
 #--------------------------------------------------------------
-@comp.command('show', help="Show Dotfiles Components")
+@show.command('show', help="Show Dotfiles Components")
 def showComponents(type: Annotated[str, typer.Argument(help="Component Type")]):
 	try:
 
@@ -80,7 +82,7 @@ def showComponents(type: Annotated[str, typer.Argument(help="Component Type")]):
 			case 'plugins':
 				compdir = PLUGINS
 			case _:
-				logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(comp_types)}")
+				logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(SELECTABLE_TYPES)}")
 				raise typer.Exit(code=1)
 
 		if not compdir.exists():
@@ -135,13 +137,13 @@ def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 			raise typer.Exit(code=1)
 		else:
 
-			if grepFile(pkgfile, pkgcheck, logger):
+			if grepFile(pkgfile, pkgcheck):
 				ck = subprocess.run(pkgcheck, shell=True, capture_output=True, text=True)
 				if ck.returncode == 0:
 					logger.info(f"Package '{name}' is already installed.")
 					return
 
-			if grepFile(pkgfile, preinstall, logger):
+			if grepFile(pkgfile, preinstall):
 				pre = subprocess.run(preinstall, shell=True, capture_output=True, text=True)
 				if pre.returncode != 0:
 					logger.error(f"Pre-installation hook failed for package '{name}': {pre.stderr}")
@@ -149,7 +151,7 @@ def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 				else:
 					logger.info(f"Pre-installation hook executed successfully for package '{name}'.")
 
-			if grepFile(pkgfile, installfnc, logger):
+			if grepFile(pkgfile, installfnc):
 				ins = subprocess.run(installfnc, capture_output=True, text=True)
 				if ins.returncode != 0:
 					logger.error(f"Installation failed for package '{name}': {ins.stderr}")
@@ -157,7 +159,7 @@ def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 				else:
 					logger.info(f"Package '{name}' installed successfully.")
 
-			if grepFile(pkgfile, postinstall, logger):
+			if grepFile(pkgfile, postinstall):
 				post = subprocess.run(postinstall, capture_output=True, text=True)
 				if post.returncode != 0:
 					logger.error(f"Post-installation hook failed for package '{name}': {post.stderr}")
@@ -181,7 +183,7 @@ def cfgPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 			logger.error(f"Package directory '{pkgfile}' does not exist.")
 			raise typer.Exit(code=1)
 		else:
-			if grepFile(pkgfile, cfgfnc, logger):
+			if grepFile(pkgfile, cfgfnc):
 				cfg = subprocess.run(cfgfnc, capture_output=True, text=True)
 				if cfg.returncode != 0:
 					logger.error(f"Configuration failed for package '{name}': {cfg.stderr}")
@@ -189,7 +191,7 @@ def cfgPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 				else:
 					logger.info(f"Package '{name}' configured successfully.")
 
-			if grepFile(pkgfile, postcfg, logger):
+			if grepFile(pkgfile, postcfg):
 				post = subprocess.run(postcfg, capture_output=True, text=True)
 				if post.returncode != 0:
 					logger.error(f"Post-configuration hook failed for package '{name}': {post.stderr}")
@@ -216,13 +218,13 @@ def removePackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 			raise typer.Exit(code=1)
 		else:
 
-			if grepFile(pkgfile, pkgcheck, logger):
+			if grepFile(pkgfile, pkgcheck):
 				ck = subprocess.run(pkgcheck, shell=True, capture_output=True, text=True)
 				if ck.returncode != 0:
 					logger.error(f"Package '{name}' is not installed.")
 					return
 
-			if grepFile(pkgfile, preuninstall, logger):
+			if grepFile(pkgfile, preuninstall):
 				pre = subprocess.run(preuninstall, shell=True, capture_output=True, text=True)
 				if pre.returncode != 0:
 					logger.error(f"Pre-uninstallation hook failed for package '{name}': {pre.stderr}")
@@ -230,7 +232,7 @@ def removePackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 				else:
 					logger.info(f"Pre-uninstallation hook executed successfully for package '{name}'.")
 
-			if grepFile(pkgfile, uninstallfnc, logger):
+			if grepFile(pkgfile, uninstallfnc):
 				unins = subprocess.run(uninstallfnc, capture_output=True, text=True)
 				if unins.returncode != 0:
 					logger.error(f"Uninstallation failed for package '{name}': {unins.stderr}")
@@ -238,7 +240,7 @@ def removePackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 				else:
 					logger.info(f"Package '{name}' uninstalled successfully.")
 
-			if grepFile(pkgfile, postuninstall, logger):
+			if grepFile(pkgfile, postuninstall):
 				post = subprocess.run(postuninstall, capture_output=True, text=True)
 				if post.returncode != 0:
 					logger.error(f"Post-uninstallation hook failed for package '{name}': {post.stderr}")
@@ -249,72 +251,6 @@ def removePackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 	except Exception as e:
 		logger.error(f"Failed to remove package '{name}': {e}")
 		raise
-
-
-
-# @install.command(help="Install Dependencies")
-# def installDeps():
-# 	pass
-
-# @install.command(help="Install a Package")
-# def installPackage():
-# 	pass
-
-# @install.command(help="Install Packages")
-# def installRepos():
-# 	pass
-
-
-# def log():
-# 	pass
-
-
-# def migrate():
-# 	pass
-
-
-# def preview():
-# 	pass
-
-
-# def profile():
-# 	pass
-
-
-# def removePackage():
-# 	pass
-
-
-# def reboot():
-# 	pass
-
-
-# def restart():
-# 	pass
-
-
-# def reload():
-# 	pass
-
-
-# def search():
-# 	pass
-
-
-# def updateBin():
-# 	pass
-
-
-# def updateDots():
-# 	pass
-
-
-# def updateRepo():
-# 	pass
-
-
-# def updateSystem():
-# 	pass
 
 
 

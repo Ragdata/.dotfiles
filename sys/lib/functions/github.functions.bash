@@ -8,7 +8,14 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
-
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
+# FUNCTIONS
+####################################################################
 # ------------------------------------------------------------------
 # clone
 # @description Clones a git repo using ssh for my personal code and https for everythibg else

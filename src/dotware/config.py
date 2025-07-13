@@ -55,6 +55,7 @@ FUNCTIONS = DOT_LIB / 'functions'
 PACKAGES = DOT_LIB / 'pkgs'
 PLUGINS = DOT_LIB / 'plugins'
 SCRIPTS = DOT_LIB / 'scripts'
+STACKS = DOT_LIB / 'stacks'
 TEMPLATES = DOT_LIB / 'templates'
 
 LOG_LEVEL = logging.INFO
@@ -67,3 +68,12 @@ STD_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s"
 SHORT_FORMAT = "%(levelname)s :: %(message)s"
 LONG_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s in %(filename)s\n%(pathname)s [ %(funcName)s line %(lineno)s ]"
 CON_FORMAT = "%(message)s"
+
+SELECTABLE_TYPES = ["aliases", "completions", "functions", "plugins"]
+COMPONENT_TYPES = [("aliases", ALIASES),
+				   ("completions", COMPLETIONS),
+				   ("functions", FUNCTIONS),
+				   ("packages", PACKAGES),
+				   ("plugins", PLUGINS),
+				   ("scripts", SCRIPTS),
+				   ("stacks", STACKS)]

@@ -26,9 +26,9 @@ checkCustom()
 	fi
 
 	# Check if filepath contains '/.dotfiles'
-	if [[ "$filepath" == *"/.dotfiles"* ]]; then
-		# Extract relative path after '/.dotfiles/'
-		relativePath="${filepath#*/.dotfiles/}"
+	if [[ "$filepath" == *"/.dotfiles/sys"* ]]; then
+		# Extract relative path after '/.dotfiles/sys'
+		relativePath="${filepath#*/.dotfiles/sys}"
 		# [[ -n "$DEBUG" ]] && echoDebug "Relative path: $relativePath" >&2
 	else
 		# [[ -n "$DEBUG" ]] && echoDebug "Unable to calculate relative path for $filepath" >&2
@@ -36,7 +36,7 @@ checkCustom()
 	fi
 
 	# Construct custom file path
-	customFile="${CUSTOM:-$HOME/.dotfiles/custom}/$relativePath"
+	customFile="${CUSTOM:-$HOME/.dotfiles/sys/custom}/$relativePath"
 
 	# Check if the custom file exists
 	if [[ -f "$customfile" ]]; then

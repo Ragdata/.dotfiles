@@ -9,11 +9,6 @@
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
 
-# # general aliases
-# alias reload='reload'
-# alias relog='relog'
-# alias daemon-reload='sudo systemctl daemon-reload'
-
 # some more ls aliases
 alias ll='ls -avlF --color --group-directories-first'
 alias la='ls -A'

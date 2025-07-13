@@ -7,9 +7,12 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 # PYTHON ALIASES
 ####################################################################
-alias py="python3"
-alias pip='pip3'
-
 alias dotenv='source "$HOME"/.venv/dotenv/bin/activate'

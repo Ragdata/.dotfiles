@@ -47,40 +47,6 @@ backupFile()
 	fi
 }
 # ------------------------------------------------------------------
-# checkCustom
-# @description Check for overriding files in the custom directory
-# ------------------------------------------------------------------
-checkCustom()
-{
-	local filepath="$1"
-	local relativePath=""
-	local customFile=""
-
-	# Validate input
-	if [[ -z "$filepath" ]]; then
-		echoError "No file path provided."
-		return 1
-	fi
-
-	# Check if filepath contains '/.dotfiles'
-	if [[ "$filepath" == *"/.dotfiles"* ]]; then
-		# Extract relative path after '/.dotfiles/'
-		relativePath="${filepath#*/.dotfiles/}"
-	else
-		relativePath=""
-	fi
-
-	# Construct custom file path
-	customFile="${CUSTOM:-$HOME/.dotfiles/custom}/$relativePath"
-
-	# Check if the custom file exists
-	if [[ -f "$customFile" ]]; then
-		return "$customFile"
-	else
-		return "$filepath"
-	fi
-}
-# ------------------------------------------------------------------
 # mkcd
 # @description Create a directory and change into it
 # ------------------------------------------------------------------

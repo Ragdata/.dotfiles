@@ -13,14 +13,13 @@ import os
 import re
 import sys
 import shutil
+import typer
 import logging
 
 from pathlib import Path
 
 from dotware import *
 from dotware.config import *
-
-
 
 
 
@@ -55,9 +54,9 @@ class DotfileInstaller:
 	def _checkCustom(self, filepath: Path):
 		""" Check for overriding files """
 
-		index = str(filepath).find('/.dotfiles')
+		index = str(filepath).find('/.dotfiles/sys')
 		if index != -1:
-			relativePath = str(filepath)[index + len('/.dotfiles') + 1:]
+			relativePath = str(filepath)[index + len('/.dotfiles/sys') + 1:]
 			self.logger.debug(f"Relative path: {relativePath}")
 		else:
 			relativePath = ""
@@ -130,8 +129,8 @@ class DotfileInstaller:
 				fileDest.unlink()
 				self.logger.info(f"Removed existing file: {fileDest}")
 
-			shutil.copy(file, fileDest)
-			self.logger.info(f"Installed {file} to {dest}")
+			result = shutil.copy(file, fileDest)
+			self.logger.info(f"Installed {file}  ->  {result}")
 
 		except Exception as e:
 			self.logger.error(f"Failed to install file {file}: {e}")
@@ -142,7 +141,7 @@ class DotfileInstaller:
 		""" Install dotfiles and custom overrides """
 		try:
 
-			self.logger.info(f"[yellow]Installing dotfiles ...[/yellow]")
+			self.logger.info(typer.style(f"Installing dotfiles ...", fg=typer.colors.YELLOW, bold=True))
 
 			for dotdir, dest in dotdirs:
 				self.logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
@@ -213,17 +212,19 @@ class DotfileInstaller:
 		try:
 
 			dirs = [d for d in currDir.iterdir() if d.is_dir()]
+			dirs.sort()
 			for dir in dirs:
-				self.logger.info(f"Processing directory: {dir}")
-				index = str(dir).find('/.dotfiles')
+				self.logger.info(typer.style(f"Processing directory: {dir}", fg=typer.colors.CYAN, bold=True))
+				index = str(dir).find('/.dotfiles/sys')
 				if index != -1:
-					relativePath = str(dir)[index + len('/.dotfiles') + 1:]
+					relativePath = str(dir)[index + len('/.dotfiles/sys') + 1:]
 					self.logger.debug(f"Relative path: {relativePath}")
 				else:
 					relativePath = ""
 				installPath = self.base / relativePath
 				self.logger.debug(f"Install path: {installPath}")
 				files = [f for f in dir.iterdir() if f.is_file() and not f.name in skipfiles]
+				files.sort()
 				for file in files:
 					self.logger.debug(f"Processing file: {file}")
 					self.install(file, installPath)

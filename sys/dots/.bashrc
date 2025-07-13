@@ -20,22 +20,23 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/"
 export CDPATH=.:~
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then PATH="$HOME/bin:$PATH"; fi
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then PATH="$HOME/.local/bin:$PATH"; fi
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
 # iterate through the folders in the .bashrc.d directory
 # and make sure that everything gets to where it ought to be.
 include()
 {
-    while IFS= read -r script
-    do
-        source "$script" || {
-            echo "Error sourcing script: $script"
-            continue
-        }
-    done < <(find "$1" -maxdepth 1 -type f | sort)
+	for script in "$1"/*
+	do
+		[[ ! -f "$script" ]] && continue
+		# Check if the file is a symlink
+		[[ -L "$script" ]] && script=$(readlink -f "$script")
+		# Source the script
+		source "$script" || { echoError "Error sourcing script: $script"; continue; }
+	done
 }
 
 [ -d "$HOME/.bashrc.d" ] && include "$HOME/.bashrc.d"

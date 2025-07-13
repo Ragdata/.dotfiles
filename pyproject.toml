@@ -51,7 +51,7 @@ Issues = "https://github.com/ragdata/dotfiles/issues"
 [project.optional-dependencies]
 all = [
 	"typer>=0.9.0",
-	"",
+	"textual>=4.0.0",
 	"rich>=13.7.1",
 	"shellingham>=1.5.4",
 	"docker>=7.0.0",
@@ -85,6 +85,7 @@ dev = [
 	"pytest-timeout>=2.4.0",
 	"pytest-benchmark>=5.1.0",
 	"pytest-randomly>=3.16.0",
+	"textual-dev>=1.7.0",
 	"flake8>=7.3.0",
 	"black>=25.1.0",
 	"isort>=6.0.1",

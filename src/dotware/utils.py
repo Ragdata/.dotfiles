@@ -45,9 +45,9 @@ def backupFile(filepath: Path, backupdir: Path = BACKUP) -> bool:
 def checkCustom(filepath: Path) -> str:
 	""" Check for overriding files in the custom directory """
 
-	index = str(filepath).find('/.dotfiles')
+	index = str(filepath).find('/sys')
 	if index != -1:
-		relativePath = str(filepath)[index + len('/.dotfiles') + 1:]
+		relativePath = str(filepath)[index + len('/sys') + 1:]
 		logger.debug(f"Checking for custom override: {relativePath}")
 	else:
 		relativePath = ""

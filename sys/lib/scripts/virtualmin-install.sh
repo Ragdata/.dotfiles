@@ -6,7 +6,13 @@
 
 # Different installation guides are available at:
 # https://www.virtualmin.com/docs/installation/guides
-
+####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 # License and version
 SERIAL=GPL
 KEY=GPL

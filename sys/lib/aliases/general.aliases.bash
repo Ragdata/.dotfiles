@@ -7,6 +7,12 @@
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
+# METADATA
+####################################################################
+# Name:
+# Desc:
+# Tags:
+####################################################################
 # GENERAL ALIASES
 ####################################################################
 # enable color support of ls and also add handy aliases

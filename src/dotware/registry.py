@@ -19,7 +19,6 @@ from pathlib import Path, PurePath
 
 from . import *
 from . config import *
-from . files import *
 from . output import *
 from . logger import *
 
@@ -38,7 +37,7 @@ class Registry:
 
 		# Ensure the registry directory exists
 		if not REGISTRY.exists():
-			makedir(REGISTRY)
+			REGISTRY.mkdir(parents=True, exist_ok=True, mode=0o755)
 			logger.info(f"Created registry directory: {REGISTRY}")
 
 

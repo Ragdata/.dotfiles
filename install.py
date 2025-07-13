@@ -89,7 +89,7 @@ class DotfileInstaller:
 			logLevel = LOG_LEVEL
 
 			if not logDir.exists():
-				self.makeDir(logDir)
+				logDir.mkdir(parents=True, exist_ok=True, mode=0o755)
 
 			if logFile.exists():
 				bkpLog = logFile.with_suffix('.bak')
@@ -123,7 +123,7 @@ class DotfileInstaller:
 				return
 
 			if not dest.exists():
-				self.makeDir(dest)
+				dest.mkdir(parents=True, exist_ok=True, mode=0o755)
 				self.logger.info(f"Created destination directory: {dest}")
 
 			if fileDest.exists():
@@ -155,9 +155,9 @@ class DotfileInstaller:
 					continue
 
 				if not dest.exists():
-					self.makeDir(dest)
+					dest.mkdir(parents=True, exist_ok=True, mode=0o755)
 				if not destDot.exists():
-					self.makeDir(destDot)
+					destDot.mkdir(parents=True, exist_ok=True, mode=0o755)
 
 				files = [f for f in srcDot.iterdir() if f.is_file() and not f.name in skipfiles]
 				for file in files:
@@ -205,26 +205,6 @@ class DotfileInstaller:
 
 		except Exception as e:
 			self.logger.error(F"Failed to link file: {e}")
-			raise
-
-
-	def makeDir(self, dir: Path | str, perms: int = 0o755):
-		""" Create directory if it does not exist """
-		try:
-
-			path = Path(dir)
-			if not path.exists():
-				path.mkdir(parents=True, exist_ok=True)
-				path.chmod(perms)
-				if self.logger:
-					self.logger.info(f"Created directory: {dir}")
-			else:
-				if self.logger:
-					self.logger.info(f"Directory already exists: {path}")
-
-		except Exception as e:
-			if self.logger:
-				self.logger.error(f"Failed to create directory {dir}: {e}")
 			raise
 
 

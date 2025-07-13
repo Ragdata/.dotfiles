@@ -18,7 +18,6 @@ from logging.handlers import RotatingFileHandler
 from dotware import *
 from dotware.config import *
 from dotware.output import *
-from dotware.files import makedir
 
 
 
@@ -198,7 +197,7 @@ def initRotatingFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = 
 		RotatingFileHandler: Configured file handler instance.
 	"""
 	if not dir.exists():
-		makedir(dir)
+		dir.mkdir(parents=True, exist_ok=True, mode=0o755)
 
 	logFile = dir / f"{name}.log"
 

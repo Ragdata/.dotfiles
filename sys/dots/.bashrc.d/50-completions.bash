@@ -38,7 +38,7 @@ if [ -f "$REGISTRY/completions.enabled" ]; then
     do
         # shellcheck disable=SC1090
         if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
-			file = "$COMPLETIONS"/"$line".completions.bash
+			file="$COMPLETIONS"/"$line".completions.bash
             [ -f "$file" ] && source "$file"
         fi
     done < "$REGISTRY/completions.enabled"

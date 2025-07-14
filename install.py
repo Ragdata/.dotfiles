@@ -95,7 +95,7 @@ class DotfileInstaller:
 				logFile.replace(bkpLog)
 
 			logging.basicConfig(
-				level = LOG_LEVEL,
+				level = logging.DEBUG,
 				handlers = [
 					logging.FileHandler(logFile),
 					logging.StreamHandler(sys.stdout)
@@ -223,7 +223,7 @@ class DotfileInstaller:
 					self.logger.debug(f"Relative path: {relativePath}")
 				else:
 					relativePath = ""
-				installPath = self.base / relativePath
+				installPath = DOT_SYS / relativePath
 				self.logger.debug(f"Install path: {installPath}")
 				files = [f for f in dir.iterdir() if f.is_file() and not f.name in skipfiles]
 				files.sort()

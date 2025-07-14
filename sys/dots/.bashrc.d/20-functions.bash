@@ -114,7 +114,7 @@ if [ -f "$REGISTRY/functions.enabled" ]; then
     do
         # shellcheck disable=SC1090
         if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
-			file = "$FUNCTIONS"/"$line".functions.bash
+			file="$FUNCTIONS"/"$line".functions.bash
             [ -f "$file" ] && source "$file"
         fi
     done < "$REGISTRY/functions.enabled"

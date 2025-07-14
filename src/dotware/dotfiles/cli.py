@@ -23,7 +23,6 @@ from typing_extensions import Annotated
 from dotware.config import *
 from dotware import __pkg_name__, __version__
 from dotware.registry import *
-from dotware.files import *
 from dotware.dotfiles import *
 from dotware.logger import logger
 

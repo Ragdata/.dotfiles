@@ -15,7 +15,6 @@ from typing import Optional
 
 from . import *
 from . config import *
-from . files import *
 from . registry import Registry
 
 

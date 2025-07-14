@@ -34,11 +34,11 @@ fi
 # ------------------------------------------------------------------
 # Load all enabled completion files
 if [ -f "$REGISTRY/completions.enabled" ]; then
-    while IFS= read -r file
+    while IFS= read -r line
     do
         # shellcheck disable=SC1090
-        if [[ "${file:0:1}" != "#" && -n "$file" ]]; then
-            [ -f "$file" ] && source "$file"
+        if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
+            [ -f "$line" ] && source "$COMPLETIONS"/"$line".completions.bash
         fi
     done < "$REGISTRY/completions.enabled"
 fi

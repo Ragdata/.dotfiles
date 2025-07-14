@@ -16,11 +16,11 @@
 # ------------------------------------------------------------------
 # Load all enabled plugin files
 if [ -f "$REGISTRY/plugins.enabled" ]; then
-    while IFS= read -r file
+    while IFS= read -r line
     do
         # shellcheck disable=SC1090
-        if [[ "${file:0:1}" != "#" && -n "$file" ]]; then
-            [ -f "$file" ] && source "$file"
+        if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
+            [ -f "$line" ] && source "$line"
         fi
     done < "$REGISTRY/plugins.enabled"
 fi

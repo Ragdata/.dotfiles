@@ -29,7 +29,8 @@ if [ -f "$REGISTRY/aliases.enabled" ]; then
     do
         # shellcheck disable=SC1090
         if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
-            [ -f "$line" ] && source "$ALIASES"/"$line".aliases.bash
+			file = "$ALIASES"/"$line".aliases.bash
+            [ -f "$file" ] && source "$file"
         fi
     done < "$REGISTRY/aliases.enabled"
 fi

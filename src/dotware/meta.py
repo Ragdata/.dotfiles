@@ -26,8 +26,8 @@ class Component:
 	desc: str
 	tags: list[str]
 
-	_filepath: Path
-	_status: int = 1
+	filepath: Path
+	status: int = 1
 
 
 
@@ -77,9 +77,9 @@ class Components:
 								desc = line.split(':', 1)[1].strip()
 							elif line.startswith('# Tags:'):
 								tags = [tag.strip() for tag in line.split(':', 1)[1].split(',')]
-							elif line.startswith('# FUNCTIONS'):
+							elif line.startswith('###########'):
 								break
-						component = Component(name=name, desc=desc, tags=tags, _filepath=file, _status=Registry._status(file))
+						component = Component(name=name, desc=desc, tags=tags, filepath=file, status=Registry._status(file))
 						self._components.append(component)
 					if found:
 						break

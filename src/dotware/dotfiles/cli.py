@@ -20,6 +20,7 @@ from pathlib import Path
 from inspect import isfunction
 from typing_extensions import Annotated
 
+from dotware import config
 from dotware.config import *
 from dotware import __pkg_name__, __version__
 from dotware.registry import *
@@ -78,10 +79,16 @@ def showComponents(type: Annotated[str, typer.Argument(help="Component Type")]):
 				compdir = COMPLETIONS
 			case 'functions':
 				compdir = FUNCTIONS
+			case 'packages':
+				compdir = PACKAGES
 			case 'plugins':
 				compdir = PLUGINS
+			case 'scripts':
+				compdir = SCRIPTS
+			case 'stacks':
+				compdir = STACKS
 			case _:
-				logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join(SELECTABLE_TYPES)}")
+				logger.error(f"Unknown component type '{type}'. Valid types are: {', '.join([t[0] for t in COMPONENT_TYPES])}")
 				raise typer.Exit(code=1)
 
 		if not compdir.exists():
@@ -92,7 +99,26 @@ def showComponents(type: Annotated[str, typer.Argument(help="Component Type")]):
 		i = 1
 		files = [f.name for f in compdir.iterdir() if f.is_file()]
 		for file in files:
-			pass
+			try:
+				compfile = compdir / file
+				if not compfile.exists():
+					logger.error(f"Component file '{compfile}' does not exist.")
+					continue
+				if type in SELECTABLE_TYPES:
+					status = Registry._status(compfile)
+					if status == 0:
+						status_symbol = SYMBOL_SUCCESS
+					elif status == 1:
+						status_symbol = " "
+					else:
+						status_symbol = SYMBOL_ERROR
+				else:
+					status_symbol = " "
+				logger.info(f"{i}. {status_symbol} {file}")
+				i += 1
+			except Exception as e:
+				logger.error(f"Error processing file '{file}': {e}")
+				raise
 
 	except Exception as e:
 		logger.error(f"Failed to show components of type '{type}': {e}")
@@ -131,6 +157,7 @@ def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 		preinstall = f"{name}::pre_install"
 		installfnc = f"{name}::install"
 		postinstall = f"{name}::post_install"
+		configfnc = f"{name}::config"
 		if not pkgfile.exists():
 			logger.error(f"Package directory '{pkgfile}' does not exist.")
 			raise typer.Exit(code=1)
@@ -165,6 +192,9 @@ def installPackage(name: Annotated[str, typer.Argument(help="Package Name")]):
 					raise typer.Exit(code=1)
 				else:
 					logger.info(f"Post-installation hook executed successfully for package '{name}'.")
+
+			if grepFile(pkgfile, configfnc):
+				logger.info(typer.style(f"Package also includes configuration hook", fg=config.COLOR_WARNING, bold=True))
 
 	except Exception as e:
 		logger.error(f"Failed to install package '{name}': {e}")

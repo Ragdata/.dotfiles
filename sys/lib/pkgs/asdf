@@ -28,11 +28,11 @@ asdf::install()
 
 	sudo ex asdf-*.tar.gz -C /usr/local/bin
 
-	if [ ! -f "$CUSTOM/99-custom.bash" ]; then
-		echo "source <(asdf completion bash)" > "$CUSTOM/99-custom.bash"
-		ln -s "$CUSTOM/99-custom.bash" "$BASHRCD/99-custom.bash"
+	if [ ! -f "$CUSTOM/dots/.bashrc.d/99-custom.bash" ]; then
+		echo "source <(asdf completion bash)" > "$CUSTOM/dots/.bashrc.d/99-custom.bash"
+		ln -s "$CUSTOM/dots/.bashrc.d/99-custom.bash" "$BASHRCD/99-custom.bash"
 	else
-		echo "source <(asdf completion bash)" >> "$CUSTOM/99-custom.bash"
+		echo "source <(asdf completion bash)" >> "$CUSTOM/dots/.bashrc.d/99-custom.bash"
 	fi
 }
 #-------------------------------------------------------------------

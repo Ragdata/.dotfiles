@@ -76,19 +76,16 @@ class Registry:
 	def _status(id: Path | str) -> int:
 		""" Check the status of a component """
 
-		if isinstance(id, Path):
-			if not id.is_file():
-				logger.error(f"Path '{id}' is not a file.")
-				return 20
-			if Registry._checkFile(id) != 0:
-				logger.error(f"File '{id}' is not a valid component file.")
-				return 20
-			name = id.name
-		elif isinstance(id, str):
-			name = id
-		else:
-			logger.error(f"Invalid component ID type: {type(id)}. Must be a Path or str.")
-			return 10
+		if isinstance(id, str):
+			id = Path(id)
+
+		if not id.is_file():
+			logger.error(f"Path '{id}' is not a file.")
+			return 3
+		if Registry._checkFile(id) != 0:
+			logger.error(f"File '{id}' is not a valid component file.")
+			return 2
+		name = id.name
 
 		parts = name.split('.')
 		regfile = REGISTRY / f"{parts[1]}.enabled"

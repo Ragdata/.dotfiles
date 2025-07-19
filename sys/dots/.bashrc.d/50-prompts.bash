@@ -1,9 +1,7 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 ####################################################################
-# prompts.bash
+# PROMPT LOADER
 ####################################################################
-# Author:       Ragdata
-# Date:         22/08/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies

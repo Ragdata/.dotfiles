@@ -3,156 +3,421 @@
 # dotware.output.py
 ####################################################################
 # Author:       Ragdata
-# Date:         06/07/2025
+# Date:         19/07/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
 
-import typer
+import typer, logging
 
-from typing import Optional
-from dotware.config import *
-from rich.console import Console
+from rich.text import Text
+from rich.theme import Theme
+from rich.measure import Measurement
+from rich.console import Console, ConsoleOptions, RenderableType
+
+from typing import Optional, Union
+
+from . config import *
+from . logger import Logger
 
 
+_theme = Theme({
+	"info": STYLE_INFO,
+	"success": STYLE_SUCCESS,
+	"warning": STYLE_WARNING,
+	"error": STYLE_ERROR,
+	"tip": STYLE_TIP,
+	"important": STYLE_IMPORTANT,
+	"debug": STYLE_DEBUG,
+	"head": STYLE_HEAD,
+	"dot": STYLE_DOT,
+})
 
-console = Console()
-errconsole = Console(stderr=True)
+
+console = Console(theme=_theme)
 
 
-
-####################################################################
-# Message Class
-####################################################################
-class Message:
+def clear(home=True) -> None:
 	"""
-	A class representing formatted messages with optional colour, prefix, suffix, and stream options
+	Clear the console.
+
+	Args:
+		home (bool): If True, clear the console and move the cursor to the home position.
+	"""
+	console.clear(home)
+
+
+def input(prompt: Union[str, Text], **kwargs) -> str:
+	"""
+	Get user input from the console.
+
+	Args:
+		prompt (Union[str, Text]): The prompt to display to the user.
+		**kwargs: Arbitrary keyword arguments.
+
+	Returns:
+		str: The user input.
+	"""
+	return console.input(prompt, **kwargs)
+
+
+def line(count=1) -> None:
+	"""
+	Add a newline in the console.
+
+	Args:
+		count (int): The number of newlines to add (default: 1).
+	"""
+	console.line(count)
+
+
+def measure(renderable: RenderableType, options: Optional[ConsoleOptions] = None) -> Measurement:
+	"""
+	Measure the size of a renderable object.
+
+	Args:
+		renderable (RenderableType): The object to measure.
+		options (Optional[ConsoleOptions]): Console options for measurement.
+
+	Returns:
+		Measurement: The measured size of the renderable.
+	"""
+	return console.measure(renderable, options=options)
+
+
+def pager(renderable: RenderableType, **kwargs) -> None:
+	"""
+	Display a renderable object in a pager.
+
+	Args:
+		renderable (RenderableType): The object to display.
+		**kwargs: Arbitrary keyword arguments.
+	"""
+	with console.pager(**kwargs):
+		console.print(renderable)
+
+
+def printInfo(msg: str, **kwargs) -> None:
+	"""
+	Print an informational message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_INFO} " + msg
+	console.print(msg, style="info", highlight=False, **kwargs)
+
+
+def printSuccess(msg: str, **kwargs) -> None:
+	"""
+	Print a success message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_SUCCESS} " + msg
+	console.print(msg, style="success", highlight=False, **kwargs)
+
+
+def printWarning(msg: str, **kwargs) -> None:
+	"""
+	Print a warning message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_WARNING} WARNING: " + msg
+	console.print(msg, style="warning", highlight=False, **kwargs)
+
+
+def printError(msg: str, **kwargs) -> None:
+	"""
+	Print an error message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_ERROR} ERROR: " + msg
+	console.print(msg, style="error", highlight=False, **kwargs)
+
+
+def printTip(msg: str, **kwargs) -> None:
+	"""
+	Print a tip message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_TIP} " + msg
+	console.print(msg, style="tip", highlight=False, **kwargs)
+
+
+def printImportant(msg: str, **kwargs) -> None:
+	"""
+	Print an important message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_IMPORTANT} " + msg
+	console.print(msg, style="important", highlight=False, **kwargs)
+
+
+def printDebug(msg: str, **kwargs) -> None:
+	"""
+	Print a debug message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_DEBUG} " + msg
+	console.print(msg, style="debug", highlight=False, **kwargs)
+
+
+def printHead(msg: str, **kwargs) -> None:
+	"""
+	Print a head message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_HEAD} " + msg
+	console.print(msg, style="head", highlight=False, **kwargs)
+
+
+def printDot(msg: str, **kwargs) -> None:
+	"""
+	Print a dot message.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	msg = f"{SYMBOL_DOT} " + msg
+	console.print(msg, style="dot", highlight=False, **kwargs)
+
+
+def printMessage(msg: str, style: Optional[str] = None, **kwargs) -> None:
+	"""
+	Print a message with an optional style.
+
+	Args:
+		msg (str): 	The message to print.
+		style (Optional[str]): The style to apply to the message.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if style:
+		console.print(msg, style=style, highlight=False, **kwargs)
+	else:
+		console.print(msg, highlight=False, **kwargs)
+
+
+def printRed(msg: str, **kwargs) -> None:
+	"""
+	Print a message in red.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_red", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="red", highlight=False, **kwargs)
+
+
+def printGreen(msg: str, **kwargs) -> None:
+	"""
+	Print a message in green.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_green", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="green", highlight=False, **kwargs)
+
+
+def printBlue(msg: str, **kwargs) -> None:
+	"""
+	Print a message in blue.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_blue", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="blue", highlight=False, **kwargs)
+
+
+def printYellow(msg: str, **kwargs) -> None:
+	"""
+	Print a message in yellow.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_yellow", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="yellow", highlight=False, **kwargs)
+
+
+def printPurple(msg: str, **kwargs) -> None:
+	"""
+	Print a message in purple.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_magenta", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="magenta", highlight=False, **kwargs)
+
+
+def printCyan(msg: str, **kwargs) -> None:
+	"""
+	Print a message in cyan.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_cyan", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="cyan", highlight=False, **kwargs)
+
+
+def printWhite(msg: str, **kwargs) -> None:
+	"""
+	Print a message in white.
+
+	Args:
+		msg (str): 	The message to print.
+		**kwargs: 	Arbitrary keyword arguments.
+	"""
+	if kwargs.get("lt") == True:
+		console.print(msg, style="bright_white", highlight=False, **kwargs)
+	else:
+		console.print(msg, style="white", highlight=False, **kwargs)
+
+
+def rule(**kwargs) -> None:
+	"""
+	Draw a line with optional title
+	"""
+	console.rule(**kwargs)
+
+
+def status(status: Union[str, Text], **kwargs) -> None:
+	"""
+	Display a status and spinner
+	"""
+	console.status(status, **kwargs)
+
+
+
+#-------------------------------------------------------------------
+# OutLog Class
+#-------------------------------------------------------------------
+class OutLog(object):
+	"""
+	A class to handle output messages with concurrent logging capabilities.
 	"""
 
-	def __init__(self, message: str, color: Optional[str] = None, prefix: Optional[str] = None, suffix: Optional[str] = None, err: bool = False, errcode: int = 1, noline: bool = False):
+
+	_logger: Logger
+
+
+	def __init__(self, logger: Logger):
 		"""
-		Initialize a message object.
+		Initialize the OutLog instance.
 
-		:param message: 	The message to display.
-		:param color: 		The color of the message (optional).
-		:param prefix: 		A prefix to add to the message (optional).
-		:param suffix: 		A suffix to add to the message (optional).
-		:param err: 		Whether the message is an error (default: False).
-		:param errcode: 	The error code to return if the message is an error (default: 1).
-		:param noline: 		Whether to suppress the newline at the end of the message (default: False).
+		Args:
+			logger: An optional logger instance for logging messages.
 		"""
-		self.message = message
-		self.color = color
-		self.prefix = prefix
-		self.suffix = suffix
-		self.err = err
-		self.errcode = errcode
-		self.noline = noline
+		self._logger = logger
 
 
-	def __str__(self) -> str:
-		return f"{self.format()}"
-
-
-	def _getMsg(self) -> None:
+	def logDebug(self, msg: str, **kwargs) -> None:
 		"""
-		Applies formatting to the message
+		Log a debug message.
+
+		Args:
+			msg (str): The message to log.
+			**kwargs: Arbitrary keyword arguments.
 		"""
-		if self.message == "":
-			raise ValueError("Message cannot be empty")
-
-		if self.message == "divider":
-			self.message = "=" * 80
-			return
-
-		if self.message == "line":
-			self.message = "-" * 80
-			return
-
-		if self.prefix:
-			self.message = f"{self.prefix}{self.message}"
-
-		if self.suffix:
-			self.message = f"{self.message}{self.suffix}"
-
-		return
+		if self._logger.isEnabledFor(logging.DEBUG):
+			self._logger.debug(msg)
+		printDebug(msg, **kwargs)
 
 
-	def format(self) -> str:
+	def logInfo(self, msg: str, **kwargs) -> None:
 		"""
-		Format the message with color and prefix/suffix.
+		Log an informational message.
 
-		:return: The formatted message string.
+		Args:
+			msg (str): The message to log.
+			**kwargs: Arbitrary keyword arguments.
 		"""
-		self._getMsg()
-
-		if self.err:
-			self.message = typer.style(self.message, fg=COLOR_ERROR, bold=True)
-		elif self.color:
-			self.message = typer.style(self.message, fg=self.color)
-
-		return self.message
+		if self._logger.isEnabledFor(logging.INFO):
+			self._logger.info(msg)
+		printInfo(msg, **kwargs)
 
 
-	def output(self) -> None:
+	def logWarning(self, msg: str, **kwargs) -> None:
 		"""
-		Outputs the message to the console
+		Log a warning message.
+
+		Args:
+			msg (str): The message to log.
+			**kwargs: Arbitrary keyword arguments.
 		"""
-		if self.noline:
-			le = ""
-		else:
-			le = "\n"
-
-		if self.err:
-			errconsole.print(self.message, end="{le}")
-		else:
-			console.print(self.message, end="{le}")
+		if self._logger.isEnabledFor(logging.WARNING):
+			self._logger.warning(msg)
+		printWarning(msg, **kwargs)
 
 
-	def print(self) -> None:
+	def logError(self, msg: str, **kwargs) -> None:
 		"""
-		Prints the formatted message to the console
+		Log an error message.
+
+		Args:
+			msg (str): The message to log.
+			**kwargs: Arbitrary keyword arguments.
 		"""
-		self.format()
-		self.output()
+		if self._logger.isEnabledFor(logging.ERROR):
+			self._logger.error(msg)
+		printError(msg, **kwargs)
 
 
+	def logPrint(self, msg: str, level: int = logging.INFO, style: Optional[str] = None, **kwargs) -> None:
+		"""
+		Log and print a message with an optional style.
 
-#-------------------------------------------------------------------
-# Color Aliases
-#-------------------------------------------------------------------
-formatBlack = lambda msg: Message(msg, color="black")
-formatRed = lambda msg: Message(msg, color="red")
-formatGreen = lambda msg: Message(msg, color="green")
-formatGold = lambda msg: Message(msg, color="yellow")
-formatBlue = lambda msg: Message(msg, color="blue")
-formatMagenta = lambda msg: Message(msg, color="magenta")
-formatCyan = lambda msg: Message(msg, color="cyan")
-formatLtGrey = lambda msg: Message(msg, color="white")
-formatGrey = lambda msg: Message(msg, color="bright_black")
-formatPink = lambda msg: Message(msg, color="bright_red")
-formatLtGreen = lambda msg: Message(msg, color="bright_green")
-formatYellow = lambda msg: Message(msg, color="bright_yellow")
-formatLtBlue = lambda msg: Message(msg, color="bright_blue")
-formatPurple = lambda msg: Message(msg, color="bright_magenta")
-formatLtCyan = lambda msg: Message(msg, color="bright_cyan")
-formatWhite = lambda msg: Message(msg, color="bright_white")
+		Args:
+			msg (str): The message to log and print.
+			style (Optional[str]): The style to apply to the message.
+			**kwargs: Arbitrary keyword arguments.
+		"""
+		if self._logger.isEnabledFor(level):
+			self._logger.log(level, msg)
+		printMessage(msg, style=style, **kwargs)
 
-
-#-------------------------------------------------------------------
-# Special Styles
-#-------------------------------------------------------------------
-formatDivider = lambda col: Message("divider", color=col)
-formatLine = lambda col: Message("line", color=col)
-formatDebug = lambda msg: Message(msg, color="white", prefix="DEBUG: ")
-
-#-------------------------------------------------------------------
-# Terminal Message Aliases
-#-------------------------------------------------------------------
-formatError = lambda msg: Message(msg, color=COLOR_ERROR, prefix=SYMBOL_ERROR + " ERROR: ", err=True)
-formatWarning = lambda msg: Message(msg, color=COLOR_WARNING, prefix=SYMBOL_WARNING + " WARNING: ")
-formatInfo = lambda msg: Message(msg, color=COLOR_INFO, prefix=SYMBOL_INFO + " INFO: ")
-formatSuccess = lambda msg: Message(msg, color=COLOR_SUCCESS, prefix=SYMBOL_SUCCESS + " SUCCESS: ")
-formatTip = lambda msg: Message(msg, color=COLOR_TIP, prefix=SYMBOL_TIP + " TIP: ")
-formatImportant = lambda msg: Message(msg, color=COLOR_IMPORTANT, prefix=SYMBOL_IMPORTANT + " IMPORTANT: ")

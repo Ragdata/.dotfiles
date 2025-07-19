@@ -3,70 +3,72 @@
 # dotware.config.py
 ####################################################################
 # Author:       Ragdata
-# Date:         06/07/2025
+# Date:         19/07/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
 
-import os
 import logging
 
 from pathlib import Path
 
-# from flake8 import LOG_FORMAT
-
-filepath = Path(__file__).resolve()
-
 SYMBOL_ERROR = "✘"
 SYMBOL_WARNING = "🛆"
 SYMBOL_INFO = "✚"
-SYMBOL_SUCCESS = "✔"
+SYMBOL_SUCCESS = "🗸"
 SYMBOL_TIP = "★"
 SYMBOL_IMPORTANT = "⚑"
+SYMBOL_DEBUG = "⚙"
+SYMBOL_HEAD="➤"
+SYMBOL_DOT="⦁"
 
-COLOR_ERROR = "red"
-COLOR_WARNING = "yellow"
-COLOR_INFO = "blue"
-COLOR_SUCCESS = "green"
-COLOR_TIP = "cyan"
-COLOR_IMPORTANT = "magenta"
-
-REPODIR = filepath.parent.parent.parent
-SRC_DIR = REPODIR / 'src'
-SYS_DIR = REPODIR / 'sys'
-LIB_DIR = SYS_DIR / 'lib'
+STYLE_ERROR = "bold red"
+STYLE_WARNING = "bold yellow"
+STYLE_INFO = "bright_blue"
+STYLE_SUCCESS = "bright_green"
+STYLE_TIP = "cyan"
+STYLE_IMPORTANT = "magenta"
+STYLE_DEBUG = "dim white"
+STYLE_HEAD = "bold yellow"
+STYLE_DOT = "green"
 
 BACKUP = Path.home() / '.backup'
 BASHRCD = Path.home() / '.bashrc.d'
 BASEDIR = Path.home() / '.dotfiles'
-DOT_SYS = BASEDIR / 'sys'
-CUSTOM = DOT_SYS / 'custom'
-DOTSDIR = DOT_SYS / 'dots'
-DOT_ETC = DOT_SYS / 'etc'
-DOT_LOG = DOT_SYS / 'logs'
-DOT_CFG = DOT_SYS / 'cfg'
-DOT_LIB = DOT_SYS / 'lib'
-REGISTRY = DOT_SYS / 'reg'
 
-ALIASES = DOT_LIB / 'aliases'
-COMPLETIONS = DOT_LIB / 'completions'
-FUNCTIONS = DOT_LIB / 'functions'
-PACKAGES = DOT_LIB / 'pkgs'
-PLUGINS = DOT_LIB / 'plugins'
-SCRIPTS = DOT_LIB / 'scripts'
-STACKS = DOT_LIB / 'stacks'
-TEMPLATES = DOT_LIB / 'templates'
+CUSTOM = BASEDIR / 'custom'
+SYSDIR = BASEDIR / 'sys'
+
+CFGDIR = SYSDIR / 'cfg'
+DOTSDIR = SYSDIR / 'dots'
+ETCDIR = SYSDIR / 'etc'
+LIBDIR = SYSDIR / 'lib'
+LOGDIR = SYSDIR / 'log'
+
+REGISTRY = SYSDIR / 'reg'
+
+REG_CACHE = REGISTRY / 'cache'
+REG_COMP = REGISTRY / 'comp'
+
+ALIASES = LIBDIR / 'aliases'
+ASSETS = LIBDIR / 'assets'
+COMPLETIONS = LIBDIR / 'completions'
+FUNCTIONS = LIBDIR / 'functions'
+HELPDIR = LIBDIR / 'help'
+PACKAGES = LIBDIR / 'pkgs'
+PLUGINS = LIBDIR / 'plugins'
+SCRIPTS = LIBDIR / 'scripts'
+STACKS = LIBDIR / 'stacks'
+TEMPLATES = LIBDIR / 'templates'
 
 LOG_LEVEL = logging.INFO
+LOG_SIZE = 1 * 1024 * 1024  # 1 MB
+LOG_COUNT = 3
 
-LOG_LEVEL_FILE = logging.DEBUG
-LOG_LEVEL_STREAM = logging.INFO
-LOG_LEVEL_ERROR = logging.ERROR
-
-STD_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s"
+STD_FORMAT = "%(asctime)s :: %(levelname)s :: %(message)s"
 SHORT_FORMAT = "%(levelname)s :: %(message)s"
-LONG_FORMAT = "%(asctime)s :: %(name)s -- %(levelname)s :: %(message)s in %(filename)s\n%(pathname)s [ %(funcName)s line %(lineno)s ]"
+LONG_FORMAT = "%(asctime)s :: %(levelname)s :: %(message)s in %(filename)s\n%(pathname)s [ %(funcName)s line %(lineno)s ]"
 CON_FORMAT = "%(message)s"
 
 SELECTABLE_TYPES = ["aliases", "completions", "functions", "plugins"]

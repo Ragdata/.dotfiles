@@ -3,7 +3,7 @@
 # dotware.logger.py
 ####################################################################
 # Author:       Ragdata
-# Date:         06/07/2025
+# Date:         19/07/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
@@ -11,19 +11,18 @@
 
 import logging, sys
 
-from typing import TextIO, Any
 from pathlib import Path
+from typing import TextIO, Any
 from logging.handlers import RotatingFileHandler
 
-from dotware import *
-from dotware.config import *
-from dotware.output import *
+from . config import *
 
 
-
+#-------------------------------------------------------------------
+# Logger Class
+#-------------------------------------------------------------------
 class Logger(logging.Logger):
 	""" Custom dotware logger class """
-
 
 	def __init__(self, name: str, level: int = logging.INFO, **kwargs):
 		"""
@@ -48,7 +47,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.DEBUG):
-			self._log(logging.DEBUG, formatDebug(msg), *args, **kwargs)
+			self._log(logging.DEBUG, msg, args, **kwargs)
 
 
 	def info(self, msg: str, *args, **kwargs) -> None:
@@ -61,7 +60,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.INFO):
-			self._log(logging.INFO, formatInfo(msg), *args, **kwargs)
+			self._log(logging.INFO, msg, args, **kwargs)
 
 
 	def warning(self, msg: str, *args, **kwargs) -> None:
@@ -74,7 +73,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.WARNING):
-			self._log(logging.WARNING, formatWarning(msg), *args, **kwargs)
+			self._log(logging.WARNING, msg, args, **kwargs)
 
 
 	def error(self, msg: str, *args, **kwargs) -> None:
@@ -87,7 +86,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.ERROR):
-			self._log(logging.ERROR, formatError(msg), *args, **kwargs)
+			self._log(logging.ERROR, msg, args, **kwargs)
 
 
 	def exception(self, msg: str, *args, **kwargs) -> None:
@@ -100,8 +99,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.ERROR):
-			self._log(logging.ERROR, formatError(msg), *args, **kwargs)
-			self.exception(msg, *args, **kwargs)
+			self._log(logging.ERROR, msg, args, exc_info=True, **kwargs)
 
 
 	def critical(self, msg: str, *args, **kwargs) -> None:
@@ -114,7 +112,7 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.CRITICAL):
-			self._log(logging.CRITICAL, formatError(msg), *args, **kwargs)
+			self._log(logging.CRITICAL, msg, args, **kwargs)
 
 
 	def fatal(self, msg: str, *args, **kwargs) -> None:
@@ -127,13 +125,12 @@ class Logger(logging.Logger):
 			**kwargs: Arbitrary keyword arguments.
 		"""
 		if self.isEnabledFor(logging.FATAL):
-			self._log(logging.FATAL, formatError(msg), *args, **kwargs)
-			sys.exit(1)
+			self._log(logging.FATAL, msg, args, **kwargs)
 
 
 	def log(self, level: int, msg: str, *args, **kwargs) -> None:
 		"""
-		Log a message with the specified logging level.
+		Log a message with a specific logging level.
 
 		Args:
 			level (int): The logging level.
@@ -141,47 +138,15 @@ class Logger(logging.Logger):
 			*args: Variable length argument list.
 			**kwargs: Arbitrary keyword arguments.
 		"""
-		if not isinstance(level, int):
-			if raiseExceptions:
-				raise TypeError("Logging level must be an integer.")
-			else:
-				return
 		if self.isEnabledFor(level):
-			self._log(level, msg, *args, **kwargs)
+			self._log(level, msg, args, **kwargs)
 
 
 
-def initLogger(name: str, level: int = logging.INFO) -> Logger:
-	"""
-	Initialize and return a logger instance.
-
-	Args:
-		name (str): Name of the logger.
-		level (int): Logging level (default is INFO).
-
-	Returns:
-		Logger: Configured logger instance.
-	"""
-	logger = Logger(name, level)
-
-	# # Setup FileHandler
-	# fileLevel = kwargs.get('fileLevel', LOG_LEVEL_FILE)
-	# filedir = kwargs.get('filedir', DOT_LOG)
-	# fileFormat = kwargs.get('fileFormat', LOG_FORMAT)
-	# fileHandler = Logger.initFileHandler(name, fileLevel, filedir, fileFormat)
-	# logger.addHandler(fileHandler)
-
-	# # Setup ConsoleHandler
-	# stream = kwargs.get('stream', sys.stdout)
-	# streamLevel = kwargs.get('streamLevel', LOG_LEVEL_STREAM)
-	# streamFormat = kwargs.get('streamFormat', CON_FORMAT)
-	# streamHandler = Logger.initStreamHandler(stream, streamLevel, streamFormat)
-	# logger.addHandler(streamHandler)
-
-	return logger
-
-
-def initRotatingFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = DOT_LOG, format: str = STD_FORMAT, maxSize: int = 5 * 1024 * 1024, backups: int = 5) -> RotatingFileHandler:
+#-------------------------------------------------------------------
+# initRotatingFileHandler
+#-------------------------------------------------------------------
+def initRotatingFileHandler(name: str, level: int = LOG_LEVEL, dir: Path = LOGDIR, maxSize: int = LOG_SIZE, backups: int = LOG_COUNT) -> RotatingFileHandler:
 	"""
 	Initialize and return a RotatingFileHandler.
 
@@ -189,7 +154,6 @@ def initRotatingFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = 
 		name (str): Name of the logger.
 		level (int): Logging level for the file handler (default is LOG_LEVEL_FILE).
 		dir (Path): Directory where the log file will be stored (default is DOT_LOG).
-		format (str): Log format string (default is STD_FORMAT).
 		maxSize (int): Maximum size of the log file before rotation (default is 5 MB).
 		backups (int): Number of backup files to keep (default is 5).
 
@@ -204,7 +168,10 @@ def initRotatingFileHandler(name: str, level: int = LOG_LEVEL_FILE, dir: Path = 
 	return RotatingFileHandler(logFile, maxBytes = maxSize, backupCount = backups, encoding='utf-8', delay=False)
 
 
-def initStreamHandler(stream: TextIO | Any = sys.stdout, level: int = LOG_LEVEL_STREAM, format: str = CON_FORMAT) -> logging.StreamHandler:
+#-------------------------------------------------------------------
+# initStreamHandler
+#-------------------------------------------------------------------
+def initStreamHandler(stream: TextIO | Any = sys.stdout, level: int = LOG_LEVEL, format: str = CON_FORMAT) -> logging.StreamHandler:
 	"""
 	Initialize and return a StreamHandler.
 
@@ -220,24 +187,3 @@ def initStreamHandler(stream: TextIO | Any = sys.stdout, level: int = LOG_LEVEL_
 	handler.setLevel(level)
 
 	return handler
-
-
-# Formatters
-STANDARD = logging.Formatter(STD_FORMAT)
-SHORT = logging.Formatter(SHORT_FORMAT)
-LONG = logging.Formatter(LONG_FORMAT)
-CONSOLE = logging.Formatter(CON_FORMAT)
-# Handlers
-fileHandler = initRotatingFileHandler('dotfiles', logging.DEBUG, DOT_LOG, STD_FORMAT, 1000000, 3)
-fileHandler.setFormatter(STANDARD)
-errorFileHandler = initRotatingFileHandler('error', logging.WARNING, DOT_LOG, LONG_FORMAT, 1000000, 3)
-errorFileHandler.setFormatter(LONG)
-consoleHandler = initStreamHandler(sys.stdout, logging.INFO, CON_FORMAT)
-consoleHandler.setFormatter(CONSOLE)
-# Primary Logger
-logger = initLogger('dotfiles', logging.DEBUG)
-logger.addHandler(fileHandler)
-logger.addHandler(consoleHandler)
-# Error Logger
-errorLog = initLogger('error', logging.WARNING)
-errorLog.addHandler(errorFileHandler)

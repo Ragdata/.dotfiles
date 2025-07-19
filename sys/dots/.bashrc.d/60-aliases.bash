@@ -1,19 +1,17 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 ####################################################################
-# aliases.bash
+# ALIAS LOADER
 ####################################################################
-# Author:       Ragdata
-# Date:         22/08/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
+# ESSENTIAL ALIASES
+####################################################################
 
-# some more ls aliases
 alias ll='ls -avlF --color --group-directories-first'
 alias la='ls -A'
 alias l='ls -CF'
-
 # python aliases
 alias py='python3'
 alias pip='pip3'
@@ -34,3 +32,4 @@ if [ -f "$REGISTRY/aliases.enabled" ]; then
         fi
     done < "$REGISTRY/aliases.enabled"
 fi
+# ------------------------------------------------------------------

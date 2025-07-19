@@ -25,18 +25,63 @@ export CDPATH=.:~
 # set PATH so it includes user's private bin if it exists
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
+#-------------------------------------------------------------------
+# SETUP SHELL
+#-------------------------------------------------------------------
+# First make sure ~/.bash_history has not been truncated
+if [[ $(wc -l ~/.bash_history | awk '{print $1}') -lt 1000 ]]; then
+	echo "NOTE: ~/.bash_history appears to have been truncated. Please check your shell configuration."
+fi
+
+# History Settings
+HISTCONTROL=ignoreboth:erasedups
+HISTFILE=$HOME/.bash_history
+HISTFILESIZE=99999
+HISTIGNORE=?:??
+HISTSIZE=99999
+
+# Enable useful shell options:
+#  - autocd - change directory without no need to type 'cd' when changing directory
+#  - cdspell - automatically fix directory typos when changing directory
+#  - direxpand - automatically expand directory globs when completing
+#  - dirspell - automatically fix directory typos when completing
+#  - globstar - ** recursive glob
+#  - histappend - append to history, don't overwrite
+#  - histverify - expand, but don't automatically execute, history expansions
+#  - nocaseglob - case-insensitive globbing
+#  - no_empty_cmd_completion - do not TAB expand empty lines
+shopt -s autocd cdspell direxpand dirspell globstar histappend histverify nocaseglob no_empty_cmd_completion
+
+# Prevent file overwrite on stdout redirection.
+# Use `>|` to force redirection to an existing file.
+set -o noclobber
+
+# Only logout if 'Control-d' is executed two consecutive times.
+export IGNOREEOF=1
+
+# Set preferred umask.
+umask 022
+
+# Disable Alacritty icon bouncing for interactive shells.
+# Refer to: https://is.gd/8MPdGh
+if [[ $- =~ i ]]; then
+	printf "\e[?1042l"
+fi
+# PROMPT_COMMAND='history -a'
+
 # iterate through the folders in the .bashrc.d directory
 # and make sure that everything gets to where it ought to be.
 include()
 {
 	for script in "$1"/*
 	do
-		[[ ! -f "$script" ]] && continue
+		[[ ! -f "$script" && ! -L "$script" ]] && continue
 		# Check if the file is a symlink
 		[[ -L "$script" ]] && script=$(readlink -f "$script")
 		# Source the script
-		source "$script" || { echoError "Error sourcing script: $script"; continue; }
+		source "$script" || { echo "Error sourcing script: $script"; continue; }
 	done
 }
 
 [ -d "$HOME/.bashrc.d" ] && include "$HOME/.bashrc.d"
+# EOF ##############################################################

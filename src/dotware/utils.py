@@ -3,102 +3,57 @@
 # dotware.utils.py
 ####################################################################
 # Author:       Ragdata
-# Date:         06/07/2025
+# Date:         19/07/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
 ####################################################################
 
-import os
-import shutil
+import sys
 
 from pathlib import Path
-from datetime import datetime
 
-from dotware.config import *
-from dotware.logger import logger
+from . config import *
 
 
+#-------------------------------------------------------------------
+# checkCustom
+#-------------------------------------------------------------------
+def checkCustom(filepath: Path) -> Path:
+	"""
+	Check if a custom file exists in the CUSTOM directory.
 
-def backupFile(filepath: Path, backupdir: Path = BACKUP) -> bool:
-	""" Backup a file to the backup directory """
-	if not filepath.exists():
-		raise FileNotFoundError(f"File '{filepath}' does not exist.")
+	Args:
+		filepath (Path): The path to the file to check.
 
-	if not backupdir.exists():
-		backupdir.mkdir(parents=True, exist_ok=True, mode=0o755)
-
-	now = datetime.now()
-
-	bakfile = f"{filepath.name}.bak.{now.timestamp()}"
-
-	backupfile = backupdir / bakfile
-
-	try:
-		shutil.copy2(filepath, backupfile)
-	except Exception as e:
-		raise RuntimeError(f"Failed to backup file '{filepath}': {e}")
-
-	return True
-
-
-def checkCustom(filepath: Path) -> str:
-	""" Check for overriding files in the custom directory """
+	Returns:
+		Path: The path to the custom file if it exists, otherwise the original filepath.
+	"""
 
 	index = str(filepath).find('/sys')
+
 	if index != -1:
 		relativePath = str(filepath)[index + len('/sys') + 1:]
-		logger.debug(f"Checking for custom override: {relativePath}")
 	else:
 		relativePath = ""
 
 	customfile = CUSTOM / relativePath
 
 	if customfile.exists():
-		logger.debug(f"Custom override found: {customfile}")
-		return str(customfile)
+		return customfile
 	else:
-		return str(filepath)
+		return filepath
 
+#-------------------------------------------------------------------
+# checkPython
+#-------------------------------------------------------------------
+def checkPython() -> bool:
+	"""
+	Check if the current Python version is compatible.
 
-def grepFile(filepath: Path, pattern: str) -> bool:
-	""" Search for a pattern in a file and return True if found """
-	if not filepath.exists():
-		raise FileNotFoundError(f"File '{filepath}' does not exist.")
-
-	try:
-		with open(filepath, 'r') as f:
-			for line in f:
-				if pattern in line:
-					logger.debug(f"Pattern '{pattern}' found in file '{filepath}'.")
-					return True
-	except Exception as e:
-		raise RuntimeError(f"Failed to read file '{filepath}': {e}")
-
-	logger.debug(f"Pattern '{pattern}' not found in file '{filepath}'.")
-	return False
-
-
-def pathReplace(value: str, filepath: str):
-	""" Replace a value in a BASH PATH with the given value """
-	filepath = os.path.expanduser(filepath)
-
-	if not os.path.exists(filepath):
-		raise FileNotFoundError(f"Path '{filepath}' does not exist.")
-
-	lines = []
-	found = False
-	with open(filepath, 'r') as f:
-		for line in f:
-			if line.strip().startswith("export PATH=") or line.strip().startswith("PATH="):
-				lines.append(f"export PATH={value}\n")
-				found = True
-			else:
-				lines.append(line)
-	if not found:
-		lines.append(f"\nexport PATH={value}\n")
-
-	with open(filepath, 'w') as f:
-		f.writelines(lines)
-
+	Returns:
+		bool: True if the version is compatible, otherwise False.
+	"""
+	if sys.version_info < (3, 10):
+		return False
 	return True

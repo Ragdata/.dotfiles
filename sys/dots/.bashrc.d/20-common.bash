@@ -1,18 +1,10 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2034
+# shellcheck shell=bash
 ####################################################################
-# common.bash
+# COMMON ELEMENTS
 ####################################################################
-# Author:       Ragdata
-# Date:         22/08/2025
 # License:      MIT License
 # Repository:	https://github.com/Ragdata/.dotfiles
 # Copyright:    Copyright © 2025 Redeyed Technologies
-####################################################################
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 ####################################################################
 # TERMINAL FUNCTIONS
 ####################################################################
@@ -166,9 +158,12 @@ NO_STRIKE="$(term::no::strike)"
 #
 DEFAULT_Y="[${WHITE}Y${_0}/n]"
 DEFAULT_N="[y/${WHITE}N${_0}]"
-# ------------------------------------------------------------------
+####################################################################
+# FUNCTIONS
+####################################################################
+#
 # echoAlias
-# ------------------------------------------------------------------
+#
 echoAlias()
 {
     (($# > 0)) || { echo -e "${RED}${SYMBOL_ERROR} echoAlias - At least one argument required${_0}"; exit 1; }
@@ -239,9 +234,9 @@ echoAlias()
         echo "${OUTARGS[*]}" "${OUTPUT}"
     fi
 }
-#
+# ------------------------------------------------------------------
 # TERMINAL COLOR ALIASES
-#
+# ------------------------------------------------------------------
 echoBlack()			{ echoAlias "$1" -c "${BLACK}" "${@:2}"; }
 echoRed()			{ echoAlias "$1" -c "${RED}" "${@:2}"; }
 echoGreen()			{ echoAlias "$1" -c "${GREEN}" "${@:2}"; }
@@ -258,15 +253,18 @@ echoLtBlue()		{ echoAlias "$1" -c "${LT_BLUE}" "${@:2}"; }
 echoPurple()		{ echoAlias "$1" -c "${PURPLE}" "${@:2}"; }
 echoLtCyan()		{ echoAlias "$1" -c "${LT_CYAN}" "${@:2}"; }
 echoWhite()			{ echoAlias "$1" -c "${WHITE}" "${@:2}"; }
-#
+# ------------------------------------------------------------------
 # TERMINAL STYLE ALIASES
-#
+# ------------------------------------------------------------------
 echoDebug()			{ echoAlias "${ITALIC}$1${NORMAL}" -c "${WHITE}" "${@:2}"; }
 echoDefault()		{ echoAlias "${RESET}$1" "${@:2}"; }
-#
+# ------------------------------------------------------------------
 # TERMINAL MESSAGE ALIASES
-#
+# ------------------------------------------------------------------
 echoError()			{ echoAlias "${SYMBOL_ERROR} $1" -c "${RED}" -E "${@:2}"; }
 echoWarning()		{ echoAlias "${SYMBOL_WARNING} $1" -c "${GOLD}" "${@:2}"; }
 echoInfo()			{ echoAlias "${SYMBOL_INFO} $1" -c "${LT_BLUE}" "${@:2}"; }
 echoSuccess()		{ echoAlias "${SYMBOL_SUCCESS} $1" -c "${LT_GREEN}" "${@:2}"; }
+echoTip()			{ echoAlias "${SYMBOL_TIP} $1" -c "${LT_BLUE}" "${@:2}"; }
+echoImportant()		{ echoAlias "${SYMBOL_IMPORTANT} $1" -c "${LT_BLUE}" "${@:2}"; }
+# ------------------------------------------------------------------

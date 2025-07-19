@@ -1,39 +1,38 @@
-.PHONY: test test-unit test-integration test-coverage clean lint format install-test-deps
+.ONESHELL:
 
-# Test commands
-test: install-test-deps
-    pytest tests/ -v
+SHELL := /bin/bash
 
-test-unit:
-    pytest tests/test_install.py -v -m "unit"
+.PHONY: check install uninstall
 
-test-integration:
-    pytest tests/test_integration.py -v -m "integration"
+MODE := $(if $(DEV),dev,prod)
 
-test-edge-cases:
-    pytest tests/test_edge_cases.py -v -m "edge_case"
+check:
+	@echo "Running in $(MODE) mode."
 
-test-coverage:
-    pytest tests/ --cov=install --cov-report=html --cov-report=term-missing
+checkVenv:
+	@if [ -z "$(VIRTUAL_ENV)" ]; then
+		if [ ! -d "$(HOME)/.venv/dotenv" ]; then
+			python3 -m venv "$(HOME)/.venv/dotenv"
+		fi
+		source "$(HOME)/.venv/dotenv/bin/activate"
+	fi
 
-# Code quality
-lint:
-    flake8 install.py dotware/
-    black --check install.py dotware/ tests/
-    isort --check-only install.py dotware/ tests/
+uninstall:
+	@echo "Uninstalling .dotfiles ..."
+	@rm -rf $(HOME)/.dotfiles
+	@rm -rf $(HOME)/.bashrc.d
+	@rm -f $(HOME)/.bashrc
+	@rm -f $(HOME)/.profile
+	@cp sys/bak/.bashrc $(HOME)/.bashrc
+	@cp sys/bak/.profile $(HOME)/.profile
+	@echo "Uninstallation complete."
+# 	@source $(HOME)/.bashrc
 
-format:
-    black install.py dotware/ tests/
-    isort install.py dotware/ tests/
-
-# Setup
-install-test-deps:
-    pip install -r requirements-test.txt
-
-# Cleanup
-clean:
-    rm -rf .pytest_cache/
-    rm -rf htmlcov/
-    rm -rf .coverage
-    find . -type d -name __pycache__ -exec rm -rf {} +
-    find . -type f -name "*.pyc" -delete
+install:
+	checkVenv
+	ifeq ($(MODE),dev)
+		@pip install -e .
+	else
+		@pip install .
+	endif
+	dot install

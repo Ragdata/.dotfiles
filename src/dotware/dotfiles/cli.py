@@ -41,21 +41,6 @@ def install() -> None:
 	installer.cmd()
 
 
-	# output.line()
-
-	# if not utils.checkPython():
-	# 	output.printError("Python version 3.10 or higher is required")
-	# 	sys.exit(1)
-
-	# output.printHead("Installing dotfiles...")
-	# logger.info("Installing dotfiles...")
-
-
-
-	# logger.info("Dotfiles installed successfully")
-	# output.printSuccess("Dotfiles installed successfully")
-
-
 @app.command()
 def version(
 	silent: Annotated[bool, typer.Option("--silent", "-s", help="Return only version number as variable", rich_help_panel="Output Level")] = False,
@@ -74,8 +59,6 @@ def version(
 		output.printMessage(f"{__pkg_name__.capitalize()} v{__version__} ~ Copyright © 2025 Redeyed Technologies", style="yellow")
 	else:
 		output.printMessage(f"v{__version__}")
-
-
 
 
 

@@ -26,6 +26,15 @@ skipfiles = [".gitkeep"]
 
 outlog = output.OutLog(logger)
 
+REPODIR = Path(__file__).resolve().parent.parent.parent.parent
+REPOSYS = REPODIR / 'sys'
+
+dotdirs = [
+	('dots', Path.home()),
+	('dots/.bashrc.d', Path.home() / '.bashrc.d'),
+	('dots/.bashrc.d/prompts', Path.home() / '.bashrc.d/prompts')
+]
+
 
 #-------------------------------------------------------------------
 # _install
@@ -59,9 +68,79 @@ def _install(file: Path, dest: Path) -> None:
 
 
 #-------------------------------------------------------------------
+# _linkdots
+#-------------------------------------------------------------------
+def linkdots() -> None:
+	"""
+	Link dotfiles and custom overrides to the system directories
+	"""
+	try:
+
+		outlog.logPrint(f"Linking dotfiles...", style="bold yellow")
+
+		for dotdir, dest in dotdirs:
+			logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
+			dotsrc = REPOSYS / dotdir
+			dotdest = SYSDIR / dotdir
+			logger.debug(f"Source -> Dest: {dotsrc} -> {dotdest}")
+
+			if not dotsrc.exists():
+				outlog.logError(f"Source directory does not exist: {dotsrc}")
+				raise FileNotFoundError(f"Source directory does not exist: {dotsrc}")
+			if not dotdest.exists():
+				logger.debug(f"Creating destination directory: {dotdest}")
+				dotdest.mkdir(parents=True, exist_ok=True, mode=0o755)
+
+			files = [f for f in dotsrc.iterdir() if f.is_file() and f.name not in skipfiles]
+			files.sort()
+			for file in files:
+				logger.debug(f"Processing file: {file.name}")
+				destfile = dest / file.name
+				srcfile = utils.checkCustom(file)
+
+				if 'custom' in str(srcfile):
+					outlog.logPrint(f"Linking custom file: {srcfile}", style="bold white")
+					_linkfile(srcfile, destfile)
+				else:
+					outlog.logPrint(f"Installing file: {file.name} to {destfile}")
+					shutil.copy(file, destfile)
+
+	except Exception as e:
+		logger.error(f"Failed to link dotfiles: {e}")
+		raise
+
+
+#-------------------------------------------------------------------
+# _linkfile
+#-------------------------------------------------------------------
+def _linkfile(src: Path, dest: Path) -> None:
+	"""
+	Create a symbolic link from the source file to the destination.
+
+	Args:
+		src (Path): The source file to link.
+		dest (Path): The destination where the link will be created.
+	"""
+	try:
+		if not src.exists():
+			outlog.logWarning(f"Source file '{src}' does not exist, skipping.")
+			return
+
+		if dest.exists():
+			dest.unlink()
+			logger.debug(f"Removed existing file: {dest}")
+
+		dest.symlink_to(src)
+		outlog.logPrint(f"Linked {src} -> {dest}", style="bold green")
+	except Exception as e:
+		outlog.logError(f"Failed to link file {src} to {dest}: {e}")
+		raise
+
+
+#-------------------------------------------------------------------
 # _scandir
 #-------------------------------------------------------------------
-def _scandir(currdir: Path) -> None:
+def scandir(currdir: Path) -> None:
 	"""
 	Recursively scan the current directory for files and directories.
 
@@ -93,7 +172,7 @@ def _scandir(currdir: Path) -> None:
 				# Install the file to the destination directory
 				_install(file, installPath)
 			# Recursively scan subdirectories
-			_scandir(dir)
+			scandir(dir)
 	except Exception as e:
 		logger.error(f"Error processing directory {currdir}: {e}")
 		raise
@@ -103,20 +182,33 @@ def _scandir(currdir: Path) -> None:
 # cmd
 #-------------------------------------------------------------------
 def cmd() -> None:
+	"""
+	Command-line interface for installing dotfiles.
+	"""
+	try:
 
+		output.line()
 
-	output.line()
+		if not utils.checkPython():
+			output.printError("Python version 3.10 or higher is required")
+			sys.exit(1)
 
-	if not utils.checkPython():
-		output.printError("Python version 3.10 or higher is required")
-		sys.exit(1)
+		filepath = Path(__file__).resolve()
 
-	outlog.logPrint("Installing dotfiles...", style="bold yellow")
+		if str(REPODIR).find(str(BASEDIR)) != -1:
+			outlog.logError("Install script must be run from the repository directory")
+			sys.exit(1)
 
+		outlog.logPrint("Installing dotfiles...", style="bold yellow")
 
-	_scandir(SYSDIR)
+		scandir(REPOSYS)
 
+		outlog.logPrint("Linking dotfiles...", style="bold yellow")
 
-	outlog.logPrint("Dotfiles installed successfully", style="bold green")
+		linkdots()
 
+		outlog.logPrint("Dotfiles installed successfully", style="bold green")
 
+	except Exception as e:
+		outlog.logError(f"Failed to install dotfiles: {e}")
+		raise

@@ -30,19 +30,21 @@ def checkCustom(filepath: Path) -> Path:
 		Path: The path to the custom file if it exists, otherwise the original filepath.
 	"""
 
-	index = str(filepath).find('/sys')
+	bashindex = str(filepath).find('/.bashrc.d')
+	sysindex = str(filepath).find('/sys')
 
-	if index != -1:
-		relativePath = str(filepath)[index + len('/sys') + 1:]
-	else:
-		relativePath = ""
-
-	customfile = CUSTOM / relativePath
-
-	if customfile.exists():
-		return customfile
+	if bashindex != -1:
+		destfile = CUSTOM / 'dots' / str(filepath)[bashindex + len('/.bashrc.d') + 1:]
+	elif sysindex != -1:
+		destfile = CUSTOM / str(filepath)[sysindex + len('/sys') + 1:]
 	else:
 		return filepath
+
+	if destfile.exists():
+		return destfile
+	else:
+		return filepath
+
 
 #-------------------------------------------------------------------
 # checkPython

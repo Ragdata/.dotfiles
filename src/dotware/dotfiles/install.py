@@ -15,7 +15,7 @@ import dotware.output as output
 import dotware.utils as utils
 
 from pathlib import Path
-from typing import Union
+from typing import Dict, List, Union, Optional
 
 from dotware.config import *
 from dotware.dotfiles import logger, registry
@@ -25,9 +25,6 @@ skipfiles = [".gitkeep"]
 
 
 outlog = output.OutLog(logger)
-
-REPODIR = Path(__file__).resolve().parent.parent.parent.parent
-REPOSYS = REPODIR / 'sys'
 
 dotdirs = [
 	('dots', Path.home()),
@@ -90,6 +87,9 @@ def linkdots() -> None:
 			if not dotdest.exists():
 				logger.debug(f"Creating destination directory: {dotdest}")
 				dotdest.mkdir(parents=True, exist_ok=True, mode=0o755)
+			if not dest.exists():
+				logger.debug(f"Creating destination directory: {dest}")
+				dest.mkdir(parents=True, exist_ok=True, mode=0o755)
 
 			files = [f for f in dotsrc.iterdir() if f.is_file() and f.name not in skipfiles]
 			files.sort()
@@ -140,7 +140,7 @@ def _linkfile(src: Path, dest: Path) -> None:
 #-------------------------------------------------------------------
 # _scandir
 #-------------------------------------------------------------------
-def scandir(currdir: Path) -> None:
+def _scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) -> None:
 	"""
 	Recursively scan the current directory for files and directories.
 
@@ -172,7 +172,7 @@ def scandir(currdir: Path) -> None:
 				# Install the file to the destination directory
 				_install(file, installPath)
 			# Recursively scan subdirectories
-			scandir(dir)
+			_scandir(dir)
 	except Exception as e:
 		logger.error(f"Error processing directory {currdir}: {e}")
 		raise
@@ -201,9 +201,7 @@ def cmd() -> None:
 
 		outlog.logPrint("Installing dotfiles...", style="bold yellow")
 
-		scandir(REPOSYS)
-
-		outlog.logPrint("Linking dotfiles...", style="bold yellow")
+		_scandir(REPOSYS)
 
 		linkdots()
 

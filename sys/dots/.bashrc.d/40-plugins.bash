@@ -18,7 +18,9 @@ if [ -f "$REGISTRY/plugins.enabled" ]; then
     do
         # shellcheck disable=SC1090
         if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
-            [ -f "$line" ] && source "$line"
+			script="$PLUGINS/$line/plugin.bash"
+			file=$(checkOverride "$script")
+            [ -f "$file" ] && source "$file"
         fi
     done < "$REGISTRY/plugins.enabled"
 fi

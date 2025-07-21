@@ -13,6 +13,8 @@ import typer, sys, os
 
 import dotware.output as output
 import dotware.dotfiles.install as installer
+import dotware.dotfiles.uninstall as uninstaller
+import dotware.dotfiles.custom as cust
 
 from typing import Union
 from typing_extensions import Annotated
@@ -22,6 +24,7 @@ from dotware import __pkg_name__, __version__
 
 
 app = typer.Typer(rich_markup_mode="rich")
+app.add_typer(cust.app, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotfiles Commands")
 
 
 @app.callback()
@@ -32,7 +35,27 @@ def callback() -> None:
 	[white]Manage your dotfiles and configurations with ease.[/]
 	"""
 
+#--------------------------------------------------------------
+# Component Commands
+#--------------------------------------------------------------
+@app.command('disable', help="Disable a dotfiles component")
+def disableComponent(name: Annotated[str, typer.Argument(help="Component Name (eg: git.aliases)")]) -> None:
+	pass
 
+
+@app.command('enable', help="Enable a dotfiles component")
+def enableComponent(name: Annotated[str, typer.Argument(help="Component Name (eg: git.aliases)")]) -> None:
+	pass
+
+
+@app.command('show', help="Show dotfiles components")
+def showComponents(type: Annotated[str, typer.Argument(help="Component Type (eg: aliases)")]) -> None:
+	pass
+
+
+#--------------------------------------------------------------
+# Installer Commands
+#--------------------------------------------------------------
 @app.command()
 def install() -> None:
 	"""
@@ -41,6 +64,17 @@ def install() -> None:
 	installer.cmd()
 
 
+@app.command()
+def uninstall() -> None:
+	"""
+	Uninstall dotfiles
+	"""
+	uninstaller.cmd()
+
+
+#--------------------------------------------------------------
+# Miscellaneous Commands
+#--------------------------------------------------------------
 @app.command()
 def version(
 	silent: Annotated[bool, typer.Option("--silent", "-s", help="Return only version number as variable", rich_help_panel="Output Level")] = False,

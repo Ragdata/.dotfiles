@@ -9,4 +9,7 @@
 
 [ -z "$DOTFILES_PROMPT" ] && DOTFILES_PROMPT="default"
 
-source "$HOME/.bashrc.d/prompts/${DOTFILES_PROMPT,,}.bash"
+script="$HOME/.bashrc.d/prompts/${DOTFILES_PROMPT,,}.bash"
+file=$(checkOverride "$script")
+
+source "$file"

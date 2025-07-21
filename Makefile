@@ -13,22 +13,20 @@ check:
 
 uninstall:
 	@echo
-	@rm -rf $(HOME)/.dotfiles
-	@rm -rf $(HOME)/.bashrc.d
-	@rm -f $(HOME)/.bashrc
-	@rm -f $(HOME)/.profile
-	@cp sys/bak/.bashrc $(HOME)/.bashrc
-	@cp sys/bak/.profile $(HOME)/.profile
-	@echo ".dotfiles successfully uninstalled"
-# 	@source $(HOME)/.bashrc
+	@dot uninstall
+ 	source $(HOME)/.bashrc
 
 install: checkVenv
+	@echo
 	@if [ "$(MODE)" == "dev" ]; then
-		@pip install -e .
+		pip install -e .
 	else
-		@pip install .
+		pip install .
 	fi
+	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
+	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
 	@dot install
+ 	source $(HOME)/.bashrc
 
 checkVenv:
 	@if [ -z "$(VIRTUAL_ENV)" ]; then

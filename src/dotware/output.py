@@ -408,6 +408,19 @@ class OutLog(object):
 		printError(msg, **kwargs)
 
 
+	def logSuccess(self, msg: str, **kwargs) -> None:
+		"""
+		Log a success message.
+
+		Args:
+			msg (str): The message to log.
+			**kwargs: Arbitrary keyword arguments.
+		"""
+		if self._logger.isEnabledFor(logging.INFO):
+			self._logger.info(msg)
+		printSuccess(msg, **kwargs)
+
+
 	def logPrint(self, msg: str, level: int = logging.INFO, style: Optional[str] = None, **kwargs) -> None:
 		"""
 		Log and print a message with an optional style.

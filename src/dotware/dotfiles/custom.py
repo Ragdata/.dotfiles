@@ -18,15 +18,16 @@ from pathlib import Path
 from typing import Dict, List, Union, Optional
 from typing_extensions import Annotated
 
-from dotware.config import *
-from dotware.dotfiles import logger, registry
-from dotware.dotfiles.install import skipfiles
+from .. config import *
+from . import logger, registry
+from . install import skipfiles
 
 
 outlog = output.OutLog(logger)
 
 
 app = typer.Typer(rich_markup_mode="rich")
+
 
 #-------------------------------------------------------------------
 # FUNCTIONS
@@ -318,8 +319,10 @@ def restore(file: Annotated[Path, typer.Argument(help="Path to custom file once 
 
 @app.command()
 def show(
-	active: Annotated[bool, typer.Option("--active", "-a", help="Show active custom files", rich_help_panel="Show")] = True,
-	suspended: Annotated[bool, typer.Option("--suspended", "-s", help="Show suspended custom files", rich_help_panel="Show")] = False
+	directory: Annotated[Path, typer.Argument(help="Directory to scan for files")] = CUSTOM,
+	active: Annotated[bool, typer.Option("--active", "-a", help="Show active custom files", rich_help_panel="Filters")] = True,
+	suspended: Annotated[bool, typer.Option("--suspended", "-s", help="Show suspended custom files", rich_help_panel="Filters")] = False,
+	recurse: Annotated[bool, typer.Option("--recurse", "-r", help="Recurse into all directories", rich_help_panel="Filters")] = True
 ) -> None:
 	"""
 	List all custom dotfiles.

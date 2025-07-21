@@ -107,14 +107,7 @@ dot = "dotware.dotfiles.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = [
-	"dotware",
-	"dotware.config",
-	"dotware.dotfiles.*",
-	"dotware.dotssh.*",
-	"dotware.dotsub.*",
-	"dotware.dotui.*"
-]
+include = ["dotware*"]
 namespaces = false
 
 [tool.setuptools.dynamic]

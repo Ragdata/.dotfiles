@@ -14,17 +14,18 @@ import typer, sys, os
 import dotware.output as output
 import dotware.dotfiles.install as installer
 import dotware.dotfiles.uninstall as uninstaller
-import dotware.dotfiles.custom as cust
 
 from typing import Union
 from typing_extensions import Annotated
 
-from dotware.config import *
+from .. config import *
+from . custom import app as custapp
+
 from dotware import __pkg_name__, __version__
 
 
 app = typer.Typer(rich_markup_mode="rich")
-app.add_typer(cust.app, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotfiles Commands")
+app.add_typer(custapp, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotfiles Commands")
 
 
 @app.callback()

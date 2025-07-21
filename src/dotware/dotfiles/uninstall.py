@@ -15,8 +15,8 @@ import dotware.output as output
 
 from pathlib import Path
 
-from dotware.config import *
-from dotware.dotfiles import logger, registry
+from .. config import *
+from . import logger, registry
 
 
 outlog = output.OutLog(logger)

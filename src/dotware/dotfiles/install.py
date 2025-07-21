@@ -17,8 +17,8 @@ import dotware.utils as utils
 from pathlib import Path
 from typing import Dict, List, Union, Optional
 
-from dotware.config import *
-from dotware.dotfiles import logger, registry
+from .. config import *
+from . import logger, registry
 
 
 skipfiles = [".gitkeep"]

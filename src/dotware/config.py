@@ -34,22 +34,22 @@ STYLE_HEAD = "bold yellow"
 STYLE_DOT = "green"
 
 REPODIR = Path(__file__).resolve().parent.parent.parent
-REPOSRV = REPODIR / 'srv'
+REPOSRT = REPODIR / 'srt'
 
 BACKUP = Path.home() / '.backup'
 BASHRCD = Path.home() / '.bashrc.d'
 BASEDIR = Path.home() / '.dotfiles'
 
 CUSTOM = BASEDIR / 'custom'
-SRVDIR = BASEDIR / 'srv'
+SRTDIR = BASEDIR / 'srt'
 
-CFGDIR = SRVDIR / 'cfg'
-DOTSDIR = SRVDIR / 'dots'
-ETCDIR = SRVDIR / 'etc'
-LIBDIR = SRVDIR / 'lib'
-LOGDIR = SRVDIR / 'log'
+CFGDIR = SRTDIR / 'cfg'
+DOTSDIR = SRTDIR / 'dots'
+ETCDIR = SRTDIR / 'etc'
+LIBDIR = SRTDIR / 'lib'
+LOGDIR = SRTDIR / 'log'
 
-REGISTRY = SRVDIR / 'reg'
+REGISTRY = SRTDIR / 'reg'
 
 REG_CACHE = REGISTRY / 'cache'
 REG_COMP = REGISTRY / 'comp'

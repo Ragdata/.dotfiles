@@ -31,12 +31,12 @@ def checkCustom(filepath: Path) -> Path:
 	"""
 
 	bashindex = str(filepath).find('/.bashrc.d')
-	srvindex = str(filepath).find('/srv')
+	srtindex = str(filepath).find('/srt')
 
 	if bashindex != -1:
 		destfile = CUSTOM / 'dots' / str(filepath)[bashindex + len('/.bashrc.d') + 1:]
-	elif srvindex != -1:
-		destfile = CUSTOM / str(filepath)[srvindex + len('/srv') + 1:]
+	elif srtindex != -1:
+		destfile = CUSTOM / str(filepath)[srtindex + len('/srt') + 1:]
 	else:
 		return filepath
 

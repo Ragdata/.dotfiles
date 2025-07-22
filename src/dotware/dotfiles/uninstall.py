@@ -31,16 +31,22 @@ def cmd() -> None:
 	"""
 	try:
 
-		shutil.rmtree(BASEDIR)
-		shutil.rmtree(BASHRCD)
-		os.remove(Path.home() / '.bashrc')
-		os.remove(Path.home() / '.profile')
+		bashrc = Path.home() / '.bashrc'
+		profile = Path.home() / '.profile'
 
-		shutil.copy(REPODIR / 'sys' / 'bak' / '.bashrc', Path.home() / '.bashrc')
-		shutil.copy(REPODIR / 'sys' / 'bak' / '.profile', Path.home() / '.profile')
+		if BASEDIR.exists():
+			shutil.rmtree(BASEDIR)
+		if BASHRCD.exists():
+			shutil.rmtree(BASHRCD)
+		if bashrc.exists():
+			os.remove(bashrc)
+			shutil.copy(REPODIR / 'srv' / 'bak' / '.bashrc', Path.home() / '.bashrc')
+		if profile.exists():
+			shutil.copy(REPODIR / 'srv' / 'bak' / '.profile', Path.home() / '.profile')
+			os.remove(profile)
 
 	except Exception as e:
 		outlog.logError(f"An error occurred during uninstallation: {e}")
-		raise e
+
 
 	outlog.logSuccess("Uninstallation completed successfully.")

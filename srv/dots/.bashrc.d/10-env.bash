@@ -16,15 +16,15 @@ BASHRCD="${HOME}/.bashrc.d"
 BASEDIR="${HOME}/.dotfiles"
 
 CUSTOM="${BASEDIR}/custom"
-SYSDIR="${BASEDIR}/sys"
+SRCDIR="${BASEDIR}/srv"
 
-CFGDIR="${SYSDIR}/cfg"
-DOTSDIR="${SYSDIR}/dots"
-ETCDIR="${SYSDIR}/etc"
-LIBDIR="${SYSDIR}/lib"
-LOGDIR="${SYSDIR}/log"
+CFGDIR="${SRVDIR}/cfg"
+DOTSDIR="${SRVDIR}/dots"
+ETCDIR="${SRVDIR}/etc"
+LIBDIR="${SRVDIR}/lib"
+LOGDIR="${SRVDIR}/log"
 
-REGISTRY="${SYSDIR}/reg"
+REGISTRY="${SRVDIR}/reg"
 
 ALIASES="${LIBDIR}/aliases"
 ASSETS="${LIBDIR}/assets"

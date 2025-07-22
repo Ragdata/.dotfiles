@@ -77,8 +77,8 @@ def linkdots() -> None:
 
 		for dotdir, dest in dotdirs:
 			logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
-			dotsrc = REPOSYS / dotdir
-			dotdest = SYSDIR / dotdir
+			dotsrc = REPOSRV / dotdir
+			dotdest = SRVDIR / dotdir
 			logger.debug(f"Source -> Dest: {dotsrc} -> {dotdest}")
 
 			if not dotsrc.exists():
@@ -154,14 +154,8 @@ def _scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) ->
 		# Process each subdirectory
 		for dir in dirs:
 			outlog.logPrint(f"Processing directory: {dir}", style="bold cyan")
-			# Determine the relative path for installation
-			index = str(dir).find('/sys')
-			if index != -1:
-				relativePath = str(dir)[index + len('/sys') + 1:]
-				logger.debug(f"Relative path: {relativePath}")
-			else:
-				relativePath = ""
-			installPath = SYSDIR / relativePath
+			relativePath = str(dir).replace(str(SRVDIR), "")
+			installPath = SRVDIR / relativePath
 			logger.debug(f"Install path: {installPath}")
 			# Get all files in the directory, excluding skipfiles
 			files = [f for f in dir.iterdir() if f.is_file() and f.name not in skipfiles]
@@ -201,7 +195,7 @@ def cmd() -> None:
 
 		outlog.logPrint("Installing dotfiles...", style="bold yellow")
 
-		_scandir(REPOSYS)
+		_scandir(REPOSRV)
 
 		linkdots()
 

@@ -40,9 +40,9 @@ def cmd() -> None:
 			shutil.rmtree(BASHRCD)
 		if bashrc.exists():
 			os.remove(bashrc)
-			shutil.copy(REPODIR / 'srt' / 'bak' / '.bashrc', Path.home() / '.bashrc')
+			shutil.copy(REPODIR / 'sys' / 'bak' / '.bashrc', Path.home() / '.bashrc')
 		if profile.exists():
-			shutil.copy(REPODIR / 'srt' / 'bak' / '.profile', Path.home() / '.profile')
+			shutil.copy(REPODIR / 'sys' / 'bak' / '.profile', Path.home() / '.profile')
 			os.remove(profile)
 
 	except Exception as e:

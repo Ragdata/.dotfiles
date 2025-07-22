@@ -32,9 +32,9 @@ app = typer.Typer(rich_markup_mode="rich")
 #-------------------------------------------------------------------
 # FUNCTIONS
 #-------------------------------------------------------------------
-# _scandir
+# scandir
 #-------------------------------------------------------------------
-def _scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) -> Dict[str, List[Path]]:
+def scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) -> Dict[str, List[Path]]:
 	"""
 	Scan the CUSTOM directory for custom dotfiles.
 
@@ -62,7 +62,7 @@ def _scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) ->
 				pathFiles.append(file)
 			# Recursively scan subdirectories
 			currdict[str(dir)] = pathFiles
-			_scandir(dir, currdict)
+			scandir(dir, currdict)
 
 	except Exception as e:
 		outlog.logError(f"An error occurred while scanning the CUSTOM directory: {e}")
@@ -91,12 +91,12 @@ def add(file: Annotated[Path, typer.Argument(help="Path to file being overridden
 
 		# Determine the custom path
 		bashindex = str(file).find('/.bashrc.d')
-		srtindex = str(file).find('/srt')
+		sysindex = str(file).find('/sys')
 
 		if bashindex != -1:
 			destfile = CUSTOM / 'dots' / str(file)[bashindex + len('/.bashrc.d') + 1:]
-		elif srtindex != -1:
-			destfile = CUSTOM / str(file)[srtindex + len('/srt') + 1:]
+		elif sysindex != -1:
+			destfile = CUSTOM / str(file)[sysindex + len('/sys') + 1:]
 
 		# Ensure destination directory exists
 		if not destfile.parent.exists():
@@ -129,14 +129,14 @@ def create(file: Annotated[Path, typer.Argument(help="Path to counterpart of new
 
 		# Determine the custom and backup paths
 		bashindex = str(file).find('/.bashrc.d')
-		srtindex = str(file).find('/srt')
+		sysindex = str(file).find('/sys')
 
 		if bashindex != -1:
 			destfile = CUSTOM / 'dots' / str(file)[bashindex + len('/.bashrc.d') + 1:]
-			bakfile = SRTDIR / 'bak' / str(file)[bashindex + len('/.bashrc.d') + 1:]
-		elif srtindex != -1:
-			destfile = CUSTOM / str(file)[srtindex + len('/srt') + 1:]
-			bakfile = SRTDIR / 'bak' / str(file)[srtindex + len('/srt') + 1:]
+			bakfile = SYSDIR / 'bak' / str(file)[bashindex + len('/.bashrc.d') + 1:]
+		elif sysindex != -1:
+			destfile = CUSTOM / str(file)[sysindex + len('/sys') + 1:]
+			bakfile = SYSDIR / 'bak' / str(file)[sysindex + len('/sys') + 1:]
 
 		if file.exists():
 			# Ensure the backup directory exists
@@ -209,10 +209,10 @@ def remove(file: Annotated[Path, typer.Argument(help="Path to custom file")]) ->
 
 		if index != -1:
 			dotindex = str(file).find('/.dotfiles')
-			counterpart = SRTDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
+			counterpart = SYSDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
 		else:
-			dotindex = str(file).find('/srt')
-			counterpart = Path(str(file).replace(str(CUSTOM), str(SRTDIR)))
+			dotindex = str(file).find('/sys')
+			counterpart = Path(str(file).replace(str(CUSTOM), str(SYSDIR)))
 
 		if counterpart.exists():
 			if counterpart.is_file():
@@ -254,10 +254,10 @@ def suspend(file: Annotated[Path, typer.Argument(help="Path to custom file")]) -
 
 		if index != -1:
 			dotindex = str(file).find('/.dotfiles')
-			counterpart = SRTDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
+			counterpart = SYSDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
 		else:
-			dotindex = str(file).find('/srt')
-			counterpart = Path(str(file).replace(str(CUSTOM), str(SRTDIR)))
+			dotindex = str(file).find('/sys')
+			counterpart = Path(str(file).replace(str(CUSTOM), str(SYSDIR)))
 
 		if counterpart.exists():
 			os.rename(counterpart, counterpart.with_suffix('.suspended'))
@@ -295,10 +295,10 @@ def restore(file: Annotated[Path, typer.Argument(help="Path to custom file once 
 
 		if index != -1:
 			dotindex = str(file).find('/.dotfiles')
-			counterpart = SRTDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
+			counterpart = SYSDIR / str(file)[dotindex + len('/.dotfiles') + 1:]
 		else:
-			dotindex = str(file).find('/srt')
-			counterpart = Path(str(file).replace(str(CUSTOM), str(SRTDIR)))
+			dotindex = str(file).find('/sys')
+			counterpart = Path(str(file).replace(str(CUSTOM), str(SYSDIR)))
 
 		if not counterpart.suffix == '.suspended':
 			counterpart = counterpart.with_suffix('.suspended')
@@ -331,7 +331,7 @@ def show(
 
 		customfiles = {}
 
-		customfiles[str(CUSTOM), _scandir(CUSTOM)]
+		customfiles[str(CUSTOM), scandir(CUSTOM)]
 
 	except Exception as e:
 		outlog.logError(f"An error occurred while showing custom files: {e}")

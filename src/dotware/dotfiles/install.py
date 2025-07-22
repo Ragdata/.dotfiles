@@ -77,8 +77,8 @@ def linkdots() -> None:
 
 		for dotdir, dest in dotdirs:
 			logger.debug(f"Processing dotdir: {dotdir} -> {dest}")
-			dotsrc = REPOSRT / dotdir
-			dotdest = SRTDIR / dotdir
+			dotsrc = REPOSYS / dotdir
+			dotdest = SYSDIR / dotdir
 			logger.debug(f"Source -> Dest: {dotsrc} -> {dotdest}")
 
 			if not dotsrc.exists():
@@ -138,9 +138,9 @@ def _linkfile(src: Path, dest: Path) -> None:
 
 
 #-------------------------------------------------------------------
-# _scandir
+# scandir
 #-------------------------------------------------------------------
-def _scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) -> None:
+def scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) -> None:
 	"""
 	Recursively scan the current directory for files and directories.
 
@@ -154,8 +154,8 @@ def _scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) ->
 		# Process each subdirectory
 		for dir in dirs:
 			outlog.logPrint(f"Processing directory: {dir}", style="bold cyan")
-			relativePath = str(dir).replace(str(SRTDIR), "")
-			installPath = SRTDIR / relativePath
+			relativePath = str(dir).replace(str(SYSDIR), "")
+			installPath = SYSDIR / relativePath
 			logger.debug(f"Install path: {installPath}")
 			# Get all files in the directory, excluding skipfiles
 			files = [f for f in dir.iterdir() if f.is_file() and f.name not in skipfiles]
@@ -166,7 +166,7 @@ def _scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) ->
 				# Install the file to the destination directory
 				_install(file, installPath)
 			# Recursively scan subdirectories
-			_scandir(dir)
+			scandir(dir)
 	except Exception as e:
 		logger.error(f"Error processing directory {currdir}: {e}")
 		raise
@@ -195,7 +195,7 @@ def cmd() -> None:
 
 		outlog.logPrint("Installing dotfiles...", style="bold yellow")
 
-		_scandir(REPOSRT)
+		scandir(REPOSYS)
 
 		linkdots()
 

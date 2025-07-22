@@ -32,14 +32,14 @@ checkOverride()
 	srcfile="$1"
 
 	bashindex=$(echo "$srcfile" | awk '{print index($0, "'"/.bashrc.d"'")}')
-	srtindex=$(echo "$srcfile" | awk '{print index($0, "'"/srt"'")}')
+	sysindex=$(echo "$srcfile" | awk '{print index($0, "'"/sys"'")}')
 
 	if [[ "$bashindex" -ne 0 ]]; then
 		# Source file is in .bashrc.d directory
 		destfile="$CUSTOM/dots/.bashrc.d/$(basename "$srcfile")"
-	elif [[ "$srtindex" -ne 0 ]]; then
-		# Source file is in .dotfiles/srt directory
-		destfile="$CUSTOM/${srcfile#$SRTDIR/}"
+	elif [[ "$sysindex" -ne 0 ]]; then
+		# Source file is in .dotfiles/sys directory
+		destfile="$CUSTOM/${srcfile#$SYSDIR/}"
 	else
 		return "$srcfile"
 	fi

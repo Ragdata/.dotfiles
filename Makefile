@@ -5,7 +5,7 @@ MAKEFLAGS += --silent
 SHELL := /bin/bash
 
 CUSTOM := "$(HOME)/.dotfiles/custom"
-SRTDIR := "$(HOME)/.dotfiles/srt"
+SYSDIR := "$(HOME)/.dotfiles/sys"
 
 .PHONY: clean check checkVenv install uninstall
 
@@ -27,7 +27,7 @@ install: checkVenv
 		pip install .
 	fi
 	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
-	@[ ! -d "$(SRTDIR)" ] && mkdir -p "$(SRTDIR)"
+	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
 	@dot install
 	source "$(HOME)/.bashrc"
 
@@ -50,7 +50,7 @@ clean:
 debug:
 	@echo "DEBUG: MODE=$(MODE)"
 	@echo "DEBUG: CUSTOM=$(CUSTOM)"
-	@echo "DEBUG: SRTDIR=$(SRTDIR)"
+	@echo "DEBUG: SYSDIR=$(SYSDIR)"
 	@echo "DEBUG: VIRTUAL_ENV=$(VIRTUAL_ENV)"
 	@echo "DEBUG: PATH=$(PATH)"
 	@echo "DEBUG: SHELL=$(SHELL)"

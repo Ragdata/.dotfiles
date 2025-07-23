@@ -140,7 +140,7 @@ def _linkfile(src: Path, dest: Path) -> None:
 #-------------------------------------------------------------------
 # scandir
 #-------------------------------------------------------------------
-def scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) -> None:
+def scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) -> None:
 	"""
 	Recursively scan the current directory for files and directories.
 
@@ -166,7 +166,7 @@ def scandir(currdir: Path, currDict: Optional[Dict[str, List[Path]]] = None) -> 
 				# Install the file to the destination directory
 				_install(file, installPath)
 			# Recursively scan subdirectories
-			scandir(dir)
+			scandir(dir, currdict)
 	except Exception as e:
 		logger.error(f"Error processing directory {currdir}: {e}")
 		raise

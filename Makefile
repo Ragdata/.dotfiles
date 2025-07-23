@@ -17,6 +17,7 @@ check:
 uninstall:
 	@echo
 	@dot uninstall
+	@pip uninstall -y dotware
 	source "$(HOME)/.bashrc"
 
 install: checkVenv

@@ -96,6 +96,11 @@ def version(
 		output.printMessage(f"v{__version__}")
 
 
+@app.command()
+def test():
+	output.printInfo(f"{REPODIR}")
+
+
 
 if __name__ == "__main__":
 	app()

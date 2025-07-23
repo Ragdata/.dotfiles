@@ -33,7 +33,7 @@ STYLE_DEBUG = "dim white"
 STYLE_HEAD = "bold yellow"
 STYLE_DOT = "green"
 
-REPODIR = Path(__file__).resolve().parent.parent.parent
+REPODIR = Path.cwd()
 REPOSYS = REPODIR / 'sys'
 
 BACKUP = Path.home() / '.backup'

@@ -29,7 +29,11 @@ install: checkVenv
 	fi
 	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
 	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
-	@dot install
+	@if [ "$(MODE)" == "dev" ]; then
+		@dot install --debug
+	else
+		@dot install
+	fi
 	source "$(HOME)/.bashrc"
 
 checkVenv:

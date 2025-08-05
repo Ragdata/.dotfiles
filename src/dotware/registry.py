@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-####################################################################
-# dotware.registry.py
-####################################################################
-# Author:       Ragdata
-# Date:         19/07/2025
-# License:      MIT License
-# Repository:	https://github.com/Ragdata/.dotfiles
-# Copyright:    Copyright © 2025 Redeyed Technologies
-####################################################################
-
+"""
+====================================================================
+dotware.registry.py
+====================================================================
+Author:			Ragdata
+Date:			19/07/2025
+License:		MIT License
+Repository:		https://github.com/Ragdata/.dotfiles
+Copyright:		Copyright © 2025 Redeyed Technologies
+====================================================================
+"""
 
 from typing import Dict, Union
 

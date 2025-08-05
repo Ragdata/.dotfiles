@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-####################################################################
-# dotware.dotfiles.cli.py
-####################################################################
-# Author:       Ragdata
-# Date:         19/07/2025
-# License:      MIT License
-# Repository:	https://github.com/Ragdata/.dotfiles
-# Copyright:    Copyright © 2025 Redeyed Technologies
-####################################################################
+"""
+====================================================================
+dotware.dotfiles.cli.py
+====================================================================
+Author:			Ragdata
+Date:			19/07/2025
+License:		MIT License
+Repository:		https://github.com/Ragdata/.dotfiles
+Copyright:		Copyright © 2025 Redeyed Technologies
+====================================================================
+"""
 
 import typer, sys, os
 
@@ -58,11 +60,13 @@ def showComponents(type: Annotated[str, typer.Argument(help="Component Type (eg:
 # Installer Commands
 #--------------------------------------------------------------
 @app.command()
-def install() -> None:
+def install(
+	debug: Annotated[bool, typer.Option("--debug", "-d", help="Enable debug mode", rich_help_panel="Output Level")] = False
+) -> None:
 	"""
 	Install dotfiles and their dependencies.
 	"""
-	installer.cmd()
+	installer.cmd(debug=debug)
 
 
 @app.command()

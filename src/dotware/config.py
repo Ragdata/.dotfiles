@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-####################################################################
-# dotware.config.py
-####################################################################
-# Author:       Ragdata
-# Date:         19/07/2025
-# License:      MIT License
-# Repository:	https://github.com/Ragdata/.dotfiles
-# Copyright:    Copyright © 2025 Redeyed Technologies
-####################################################################
+"""
+====================================================================
+dotware.config.py
+====================================================================
+Author:			Ragdata
+Date:			19/07/2025
+License:		MIT License
+Repository:		https://github.com/Ragdata/.dotfiles
+Copyright:		Copyright © 2025 Redeyed Technologies
+====================================================================
+"""
 
 import logging
 
@@ -33,7 +35,7 @@ STYLE_DEBUG = "dim white"
 STYLE_HEAD = "bold yellow"
 STYLE_DOT = "green"
 
-REPODIR = Path.cwd()
+REPODIR = Path(__file__).resolve().parent.parent
 REPOSYS = REPODIR / 'sys'
 
 BACKUP = Path.home() / '.backup'
@@ -65,7 +67,7 @@ SCRIPTS = LIBDIR / 'scripts'
 STACKS = LIBDIR / 'stacks'
 TEMPLATES = LIBDIR / 'templates'
 
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.DEBUG
 LOG_SIZE = 1 * 1024 * 1024  # 1 MB
 LOG_COUNT = 3
 

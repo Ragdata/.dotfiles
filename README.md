@@ -49,11 +49,36 @@ Keeping everything running smooth is a lightweight command-line utility written 
 
 ### Step 1 - Clone this Repository
 
+Clone this repo to a directory anywhere under your user's home directory.
+
 ```shell
 git clone https://github.com/ragdata/.dotfiles.git
 ```
 
-### Step 2 - Run the Installer
+### Step 2 - Create Virtual Environment
+
+(This only needs to be done once - once complete you can skip this step and go straight to step 3.  And yes, I'm sorry - you need to create the virtual environment exactly as shown because it is referenced in the makefile)
+
+```shell
+cd ~
+python3 -m venv ~/.venv/dotenv
+```
+
+### Step 3 - Activate Virtual Environment
+
+```shell
+source ~/.venv/dotenv/bin/activate
+```
+
+Once `.dotfiles` is installed, an alias will automatically load allowing you to activate the virtual environment using the following command:
+
+```shell
+dotenv
+```
+
+To deactivate the virtual environment, use the `deactivate` command as usual.
+
+### Step 4 - Run the Installer
 
 ```shell
 cd .dotfiles
@@ -64,7 +89,7 @@ And that's it, you're ready to go!
 
 [`^ Top`](#top)
 
-## [Tests](#top) 🏏
+<!-- ## [Tests](#top) 🏏
 
 There are a bunch of tests available for the package.  You don't NEED to run them manually as a GitHub Actions Workflow makes sure everything is tested as it's committed - but just in case you WANT to, it's all configured via the `Makefile` in the project root.
 
@@ -109,7 +134,7 @@ pytest tests/ -m "slow" -v
 
 ## [Resources](#top) 📖
 
-[`^ Top`](#top)
+[`^ Top`](#top) -->
 
 ## [Security](#top) 🔐
 
@@ -130,7 +155,7 @@ Copyright © 2025 Redeyed Technologies
 
 [_**CLICK HERE FOR THE FULL TEXT OF THIS LICENSE**_][mit-license]
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 
 ****
 &nbsp;

@@ -102,7 +102,7 @@ include()
 	do
 		[[ ! -f "$script" && ! -L "$script" ]] && continue
 		# Check for an override file
-		script=$(checkOverride "$script")
+		#script=$(checkOverride "$script")
 		# Check if the file is a symlink
 		[[ -L "$script" ]] && script=$(readlink -f "$script")
 		# Source the script

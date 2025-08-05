@@ -44,8 +44,8 @@ def cmd() -> None:
 			os.remove(bashrc)
 			shutil.copy(REPODIR / 'sys' / 'bak' / '.bashrc', Path.home() / '.bashrc')
 		if profile.exists():
-			shutil.copy(REPODIR / 'sys' / 'bak' / '.profile', Path.home() / '.profile')
 			os.remove(profile)
+			shutil.copy(REPODIR / 'sys' / 'bak' / '.profile', Path.home() / '.profile')
 
 	except Exception as e:
 		outlog.logError(f"An error occurred during uninstallation: {e}")

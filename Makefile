@@ -14,7 +14,7 @@ MODE := $(if $(DEV),dev,prod)
 check:
 	@echo "Running in $(MODE) mode."
 
-uninstall:
+uninstall: checkVenv
 	@echo
 	@dot uninstall
 	@pip uninstall -y dotware

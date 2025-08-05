@@ -1,3 +1,4 @@
+SHELL := ./make-venv
 MAKEFLAGS += --silent
 
 .ONESHELL:
@@ -7,25 +8,25 @@ SHELL := /bin/bash
 CUSTOM := "$(HOME)/.dotfiles/custom"
 SYSDIR := "$(HOME)/.dotfiles/sys"
 
-.PHONY: clean check checkVenv install uninstall
+.PHONY: clean check install uninstall
 
 MODE := $(if $(DEV),dev,prod)
 
 check:
 	@echo "Running in $(MODE) mode."
 
-uninstall: checkVenv
+uninstall:
 	@echo
 	@dot uninstall
-	@pip uninstall -y dotware
+	@$(HOME)/.venv/dotenv/bin/pip uninstall -y dotware
 	source "$(HOME)/.bashrc"
 
-install: checkVenv
+install:
 	@echo
 	@if [ "$(MODE)" == "dev" ]; then
-		pip install -e .
+		$(HOME)/.venv/dotenv/bin/pip install -e .
 	else
-		pip install .
+		$(HOME)/.venv/dotenv/bin/pip install .
 	fi
 	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
 	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
@@ -35,15 +36,6 @@ install: checkVenv
 		@dot install
 	fi
 	source "$(HOME)/.bashrc"
-
-checkVenv:
-	@if [ -z "$(VIRTUAL_ENV)" ]; then
-		if [ ! -d "$(HOME)/.venv/dotenv" ]; then
-			python3 -m venv "$(HOME)/.venv/dotenv"
-		fi
-		source "$(HOME)/.venv/dotenv/bin/activate"
-		export PATH="$(HOME)/.venv/dotenv/bin:$$(PATH)"
-	fi
 
 clean:
 	@echo "Cleaning up..."

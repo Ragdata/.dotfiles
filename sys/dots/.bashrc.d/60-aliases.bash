@@ -22,9 +22,10 @@ alias pip='pip3'
 # @description Load all enabled alias files
 # ------------------------------------------------------------------
 # Load all enabled alias files
-if [ -f "$REGISTRY/aliases.enabled" ]; then
+if [ -f "$REGISTRY/comp/aliases.enabled" ]; then
     while IFS= read -r line
     do
+		line="${line%$\'\n\'}"
         # shellcheck disable=SC1090
         if [[ "${line:0:1}" != "#" && -n "$line" ]]; then
 			script="$ALIASES/$line.aliases.bash"

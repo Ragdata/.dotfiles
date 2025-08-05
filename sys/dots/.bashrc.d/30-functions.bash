@@ -17,7 +17,7 @@
 # @description Load all enabled function files
 # ------------------------------------------------------------------
 # Load all enabled function files
-if [ -f "$REGISTRY/functions.enabled" ]; then
+if [ -f "$REGISTRY/comp/functions.enabled" ]; then
     while IFS= read -r line
     do
         # shellcheck disable=SC1090

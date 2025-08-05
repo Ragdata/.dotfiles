@@ -16,7 +16,7 @@
 # @description Load all enabled completion files
 # ------------------------------------------------------------------
 # Load all enabled completion files
-if [ -f "$REGISTRY/completions.enabled" ]; then
+if [ -f "$REGISTRY/comp/completions.enabled" ]; then
     while IFS= read -r line
     do
         # shellcheck disable=SC1090

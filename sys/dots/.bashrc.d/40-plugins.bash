@@ -13,7 +13,7 @@
 # @description Load all enabled plugin files
 # ------------------------------------------------------------------
 # Load all enabled plugin files
-if [ -f "$REGISTRY/plugins.enabled" ]; then
+if [ -f "$REGISTRY/comp/plugins.enabled" ]; then
     while IFS= read -r line
     do
         # shellcheck disable=SC1090

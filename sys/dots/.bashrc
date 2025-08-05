@@ -34,20 +34,20 @@ checkOverride()
 	bashindex=$(echo "$srcfile" | awk '{print index($0, "'"/.bashrc.d"'")}')
 	sysindex=$(echo "$srcfile" | awk '{print index($0, "'"/sys"'")}')
 
-	if [[ "$bashindex" -ne 0 ]]; then
+	if (( $bashindex != 0 )); then
 		# Source file is in .bashrc.d directory
 		destfile="$CUSTOM/dots/.bashrc.d/$(basename "$srcfile")"
-	elif [[ "$sysindex" -ne 0 ]]; then
+	elif (( $sysindex != 0 )); then
 		# Source file is in .dotfiles/sys directory
 		destfile="$CUSTOM/${srcfile#$SYSDIR/}"
 	else
-		return "$srcfile"
+		echo "$srcfile"
 	fi
 	# Determine if override file exists
 	if [[ -f "$destfile" ]]; then
-		return "$destfile"
+		echo "$destfile"
 	else
-		return "$srcfile"
+		echo "$srcfile"
 	fi
 }
 #-------------------------------------------------------------------
@@ -102,7 +102,7 @@ include()
 	do
 		[[ ! -f "$script" && ! -L "$script" ]] && continue
 		# Check for an override file
-		#script=$(checkOverride "$script")
+		script=$(checkOverride "$script")
 		# Check if the file is a symlink
 		[[ -L "$script" ]] && script=$(readlink -f "$script")
 		# Source the script

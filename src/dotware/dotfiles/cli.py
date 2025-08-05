@@ -60,6 +60,27 @@ def showComponents(type: Annotated[str, typer.Argument(help="Component Type (eg:
 # Installer Commands
 #--------------------------------------------------------------
 @app.command()
+def env() -> None:
+	"""
+	Print the current environment variables.
+	"""
+	output.printInfo("Current Environment Variables:")
+	for key, value in os.environ.items():
+		output.printMessage(f"{key}: {value}")
+
+@app.command()
+def pyenv() -> None:
+	"""
+	Print the current Python environment.
+	"""
+	if sys.version_info >= (3, 10):
+		output.printInfo(f"Python version: {sys.version}")
+
+	else:
+		output.printError("Python version 3.10 or higher is required.")
+		sys.exit(1)
+
+@app.command()
 def install(
 	debug: Annotated[bool, typer.Option("--debug", "-d", help="Enable debug mode", rich_help_panel="Output Level")] = False
 ) -> None:

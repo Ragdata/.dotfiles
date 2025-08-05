@@ -1,4 +1,3 @@
-SHELL := ./make-venv
 MAKEFLAGS += --silent
 
 .ONESHELL:
@@ -17,12 +16,13 @@ check:
 
 uninstall:
 	@echo
+	[[ -z "$(VIRTUAL_ENV)" ]] && echo "No virtual environment found. Skipping uninstall." && echo && exit 0
 	@dot uninstall
 	@$(HOME)/.venv/dotenv/bin/pip uninstall -y dotware
-	source "$(HOME)/.bashrc"
 
 install:
 	@echo
+	[[ -z "$(VIRTUAL_ENV)" ]] && echo "No virtual environment found. Skipping install." && echo && exit 0
 	@if [ "$(MODE)" == "dev" ]; then
 		$(HOME)/.venv/dotenv/bin/pip install -e .
 	else
@@ -35,7 +35,6 @@ install:
 	else
 		@dot install
 	fi
-	source "$(HOME)/.bashrc"
 
 clean:
 	@echo "Cleaning up..."

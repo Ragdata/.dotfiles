@@ -179,6 +179,7 @@ def scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) -> 
 
 		logger.debug(f"BASEDIR: {BASEDIR}")
 		logger.debug(f"REPODIR: {REPODIR}")
+		logger.debug(f"SYSDIR: {SYSDIR}")
 		# Get all subdirectories in the current directory
 		dirs = [d for d in currdir.iterdir() if d.is_dir()]
 		dirs.sort()
@@ -187,7 +188,7 @@ def scandir(currdir: Path, currdict: Optional[Dict[str, List[Path]]] = None) -> 
 			logger.debug(f"dir: {dir}")
 			outlog.logPrint(f"Processing directory: {dir}", style="bold cyan")
 			# Get the stub
-			stub = str(dir).replace(str(REPOSYS), "")
+			stub = str(dir).replace(str(REPOSYS)+"/", "")
 			logger.debug(f"relativePath: {stub}")
 			# Create the install path
 			installPath = SYSDIR / stub

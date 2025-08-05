@@ -82,7 +82,8 @@ To deactivate the virtual environment, use the `deactivate` command as usual.
 
 ```shell
 cd .dotfiles
-./install.py
+make install
+source ~/.bashrc
 ```
 
 And that's it, you're ready to go!

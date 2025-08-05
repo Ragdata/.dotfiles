@@ -25,6 +25,6 @@ if [ -f "$REGISTRY/comp/completions.enabled" ]; then
 			file=$(checkOverride "$script")
             [ -f "$file" ] && source "$file"
         fi
-    done < "$REGISTRY/completions.enabled"
+    done < "$REGISTRY/comp/completions.enabled"
 fi
 # ------------------------------------------------------------------

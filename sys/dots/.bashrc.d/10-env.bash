@@ -16,7 +16,7 @@ BASHRCD="${HOME}/.bashrc.d"
 BASEDIR="${HOME}/.dotfiles"
 
 CUSTOM="${BASEDIR}/custom"
-SRCDIR="${BASEDIR}/sys"
+SYSDIR="${BASEDIR}/sys"
 
 CFGDIR="${SYSDIR}/cfg"
 DOTSDIR="${SYSDIR}/dots"

@@ -32,6 +32,6 @@ if [ -f "$REGISTRY/comp/aliases.enabled" ]; then
 			file=$(checkOverride "$script")
             [ -f "$file" ] && source "$file"
         fi
-    done < "$REGISTRY/aliases.enabled"
+    done < "$REGISTRY/comp/aliases.enabled"
 fi
 # ------------------------------------------------------------------

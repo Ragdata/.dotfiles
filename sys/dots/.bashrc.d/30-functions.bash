@@ -26,6 +26,6 @@ if [ -f "$REGISTRY/comp/functions.enabled" ]; then
 			file=$(checkOverride "$script")
             [ -f "$file" ] && source "$file"
         fi
-    done < "$REGISTRY/functions.enabled"
+    done < "$REGISTRY/comp/functions.enabled"
 fi
 # ------------------------------------------------------------------

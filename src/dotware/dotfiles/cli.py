@@ -22,21 +22,23 @@ from typing_extensions import Annotated
 
 from .. config import *
 from . custom import app as custapp
+from . package import app as pkgApp, repoApp
 
 from dotware import __pkg_name__, __version__
 
 
-app = typer.Typer(rich_markup_mode="rich")
+app = typer.Typer(rich_markup_mode="rich", invoke_without_command=True)
 app.add_typer(custapp, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotfiles Commands")
+app.add_typer(pkgApp, name="package", help="Manage dotfiles packages", rich_help_panel="Dotfiles Commands")
+app.add_typer(repoApp, name="repo", help="Manage dotfiles repositories", rich_help_panel="Dotfiles Commands")
 
 
 @app.callback()
 def callback() -> None:
 	"""
-	[bold]Dotfiles CLI[/]
-
-	[white]Manage your dotfiles and configurations with ease.[/]
+	Dotfiles CLI for managing dotfiles and their components.
 	"""
+
 
 #--------------------------------------------------------------
 # Component Commands
@@ -68,17 +70,6 @@ def env() -> None:
 	for key, value in os.environ.items():
 		output.printMessage(f"{key}: {value}")
 
-@app.command()
-def pyenv() -> None:
-	"""
-	Print the current Python environment.
-	"""
-	if sys.version_info >= (3, 10):
-		output.printInfo(f"Python version: {sys.version}")
-
-	else:
-		output.printError("Python version 3.10 or higher is required.")
-		sys.exit(1)
 
 @app.command()
 def install(

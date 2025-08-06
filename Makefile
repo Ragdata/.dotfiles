@@ -23,11 +23,13 @@ uninstall:
 install:
 	@echo
 	[[ -z "$(VIRTUAL_ENV)" ]] && echo "No virtual environment found. Skipping install." && echo && exit 0
+	@echo "Installing Dotware in $(MODE) mode..."
 	@if [ "$(MODE)" == "dev" ]; then
-		$(HOME)/.venv/dotenv/bin/pip install -e .
+		$(HOME)/.venv/dotenv/bin/pip install -e . -q
 	else
-		$(HOME)/.venv/dotenv/bin/pip install .
+		$(HOME)/.venv/dotenv/bin/pip install . -q
 	fi
+	@echo "Dotware installed successfully."
 	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
 	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
 	@if [ "$(MODE)" == "dev" ]; then

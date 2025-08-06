@@ -234,7 +234,11 @@ def cmd(debug: Optional[bool] = False) -> None:
 			output.printError("Python version 3.10 or higher is required")
 			sys.exit(1)
 
-		outlog.logPrint("Installing dotfiles...", style="bold yellow")
+		output.rule("[bold yellow]Installing Dotfiles")
+		output.printHeader()
+		output.line()
+
+		logger.info("Installing dotfiles...")
 
 		scandir(REPOSYS)
 

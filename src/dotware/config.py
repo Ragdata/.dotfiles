@@ -15,6 +15,8 @@ import logging
 
 from pathlib import Path
 
+DOTWARE_COMPLETION = False
+
 SYMBOL_ERROR = "✘"
 SYMBOL_WARNING = "🛆"
 SYMBOL_INFO = "✚"

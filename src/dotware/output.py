@@ -100,6 +100,26 @@ def pager(renderable: RenderableType, **kwargs) -> None:
 		console.print(renderable)
 
 
+def printHeader(style: Optional[str] = None, **kwargs) -> None:
+	"""
+	Print the dotfiles banner and copyright information.
+	"""
+	msg = ""
+
+	banner = ASSETS / "ascii" / "banner.txt"
+
+	if not banner.exists():
+		banner = REPODIR / "sys" / "ascii" / "banner.txt"
+
+	if banner.exists():
+		with open(banner, 'r') as f:
+			for line in f:
+				msg += line
+
+	if msg:
+		console.print(msg, style=style, highlight=False, **kwargs)
+
+
 def printInfo(msg: str, **kwargs) -> None:
 	"""
 	Print an informational message.
@@ -321,11 +341,11 @@ def printWhite(msg: str, **kwargs) -> None:
 		console.print(msg, style="white", highlight=False, **kwargs)
 
 
-def rule(**kwargs) -> None:
+def rule(*args) -> None:
 	"""
 	Draw a line with optional title
 	"""
-	console.rule(**kwargs)
+	console.rule(*args)
 
 
 def status(status: Union[str, Text], **kwargs) -> None:

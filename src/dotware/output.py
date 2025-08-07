@@ -22,8 +22,6 @@ from typing import Optional, Union
 
 from . config import *
 
-from dotware.logger import Logger
-
 
 _theme = Theme({
 	"info": STYLE_INFO,
@@ -366,10 +364,7 @@ class OutLog(object):
 	"""
 
 
-	_logger: Logger
-
-
-	def __init__(self, logger: Logger):
+	def __init__(self, logger):
 		"""
 		Initialize the OutLog instance.
 

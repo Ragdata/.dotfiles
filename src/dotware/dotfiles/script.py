@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ====================================================================
-Module: dotware.dotssh
+dotware.dotfiles.script.py
 ====================================================================
 Author:			Ragdata
 Date:			19/07/2025
@@ -11,17 +11,5 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
-import logging
+import typer
 
-from .. config import *
-from .. logger import *
-from .. output import *
-from .. registry import *
-
-
-__mod_name__ = "dotssh"
-
-
-logger = getFileLogger(__mod_name__)
-
-registry = Registry()

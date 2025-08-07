@@ -73,7 +73,7 @@ class Registry(object):
 		self._loggers[name] = logger
 
 
-	def getLogger(self, name: str) -> Union[Logger, bool]:
+	def getLogger(self, name: str) -> Logger:
 		"""
 		Retrieve a logger instance from the registry.
 
@@ -86,7 +86,7 @@ class Registry(object):
 		if name in self._loggers:
 			return self._loggers[name]
 		else:
-			return False
+			raise ValueError(f"Logger '{name}' does not exist in the registry.")
 
 
 	def getLoggers(self) -> Dict[str, Logger]:

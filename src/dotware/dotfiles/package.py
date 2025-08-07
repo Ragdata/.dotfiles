@@ -17,32 +17,73 @@ import dotware.output as output
 from pathlib import Path
 
 from .. config import *
-from . import logger, registry
+from .. logger import *
+from .. registry import *
 
+from . import __mod_name__
+
+
+logger = getFileLogger(__mod_name__)
 
 outlog = output.OutLog(logger)
 
-app = typer.Typer(rich_markup_mode="rich", no_args_is_help=True, add_completion=DOTWARE_COMPLETION)
+app = typer.Typer(name="package", rich_markup_mode="rich", no_args_is_help=True, add_completion=DOTWARE_COMPLETION)
 
 repoApp = typer.Typer(rich_markup_mode="rich", no_args_is_help=True, add_completion=DOTWARE_COMPLETION)
 
-app.add_typer(repoApp, name="repo", help="Repository management commands")
+app.add_typer(repoApp, name="repo", help="Repository management commands", rich_help_panel="Dotware Subcommands")
 
 #-------------------------------------------------------------------
 # FUNCTIONS
 #-------------------------------------------------------------------
+def _check(name: str) -> bool:
+	return False
+
+
+def _pre_install(name: str) -> bool:
+	return False
+
+
+def _post_install(name: str) -> bool:
+	return False
+
+
+def _post_config(name: str) -> bool:
+	return False
+
+
+def _pre_remove(name: str) -> bool:
+	return False
+
+
+def _post_remove(name: str) -> bool:
+	return False
+
+
+def _post_update(name: str) -> bool:
+	return False
 
 
 #-------------------------------------------------------------------
 # PACKAGE COMMANDS
 #-------------------------------------------------------------------
+@app.command(name="config", help="Configure package")
+def config() -> None:
+	pass
+
+
 @app.command(name="install", help="Install package")
 def install() -> None:
 	pass
 
 
-@app.command(name="uninstall", help="Uninstall package")
-def uninstall() -> None:
+@app.command(name="remove", help="Uninstall package")
+def remove() -> None:
+	pass
+
+
+@app.command(name="update", help="Update package")
+def update() -> None:
 	pass
 
 

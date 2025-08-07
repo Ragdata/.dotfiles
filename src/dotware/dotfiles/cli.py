@@ -11,6 +11,8 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
+from encodings import aliases
+import rich
 import typer, sys, os
 
 import dotware.output as output
@@ -28,9 +30,10 @@ from dotware import __pkg_name__, __version__
 
 
 app = typer.Typer(rich_markup_mode="rich", invoke_without_command=True)
-app.add_typer(custapp, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotfiles Commands")
-app.add_typer(pkgApp, name="package", help="Manage dotfiles packages", rich_help_panel="Dotfiles Commands")
-app.add_typer(repoApp, name="repo", help="Manage dotfiles repositories", rich_help_panel="Dotfiles Commands")
+
+app.add_typer(custapp, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotware Subcommands")
+app.add_typer(pkgApp, name="package", help="Manage software packages", rich_help_panel="Dotware Subcommands")
+app.add_typer(repoApp, name="repo", help="Manage package repositories", rich_help_panel="Dotware Subcommands")
 
 
 @app.callback()
@@ -40,20 +43,17 @@ def callback() -> None:
 	"""
 
 
-#--------------------------------------------------------------
-# Component Commands
-#--------------------------------------------------------------
-@app.command('disable', help="Disable a dotfiles component")
+@app.command('disable', help="Disable a dotfiles component", rich_help_panel="Component Management")
 def disableComponent(name: Annotated[str, typer.Argument(help="Component Name (eg: git.aliases)")]) -> None:
 	pass
 
 
-@app.command('enable', help="Enable a dotfiles component")
+@app.command('enable', help="Enable a dotfiles component", rich_help_panel="Component Management")
 def enableComponent(name: Annotated[str, typer.Argument(help="Component Name (eg: git.aliases)")]) -> None:
 	pass
 
 
-@app.command('show', help="Show dotfiles components")
+@app.command('show', help="Show dotfiles components", rich_help_panel="Component Management")
 def showComponents(type: Annotated[str, typer.Argument(help="Component Type (eg: aliases)")]) -> None:
 	pass
 
@@ -111,10 +111,6 @@ def version(
 	else:
 		output.printMessage(f"v{__version__}")
 
-
-@app.command()
-def test():
-	output.printInfo(f"{REPODIR}")
 
 
 

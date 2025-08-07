@@ -11,9 +11,10 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
-import sys
+import sys, typer, typer.core, re
 
 from pathlib import Path
+from typing import Union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -30,4 +31,5 @@ def version(output: bool = True):
 	else:
 		# Return version string
 		return f"{__version__}"
+
 

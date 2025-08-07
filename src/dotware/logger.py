@@ -17,7 +17,11 @@ from pathlib import Path
 from typing import TextIO, Any
 from logging.handlers import RotatingFileHandler
 
+from hamcrest import instance_of
+
 from . config import *
+from . output import *
+from . registry import *
 
 
 #-------------------------------------------------------------------
@@ -143,6 +147,35 @@ class Logger(logging.Logger):
 		if self.isEnabledFor(level):
 			self._log(level, msg, args, **kwargs)
 
+
+#-------------------------------------------------------------------
+# getFileLogger
+#-------------------------------------------------------------------
+def getFileLogger(name: str, level: int = LOG_LEVEL) -> Logger:
+	"""
+	Retrieve or create a file logger instance.
+
+	Args:
+		name (str): Name of the logger.
+		level (int): Logging level for the file logger (default is LOG_LEVEL).
+
+	Returns:
+		Logger: Logger instance associated with the given name, or False if it does not exist.
+	"""
+
+	reg = Registry()
+
+	if reg.hasLogger(name):
+		logger = reg.getLogger(name)
+	else:
+		formatter = logging.Formatter(STD_FORMAT, datefmt='%Y-%m-%d %H:%M:%S')
+		handler = initRotatingFileHandler(name, level=level, maxSize=LOG_SIZE, backups=LOG_COUNT)
+		handler.setFormatter(formatter)
+		logger = Logger(name, level=level)
+		logger.addHandler(handler)
+		reg.addLogger(name, logger)
+
+	return logger
 
 
 #-------------------------------------------------------------------

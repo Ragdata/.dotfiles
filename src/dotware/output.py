@@ -21,7 +21,8 @@ from rich.console import Console, ConsoleOptions, RenderableType
 from typing import Optional, Union
 
 from . config import *
-from . logger import Logger
+
+from dotware.logger import Logger
 
 
 _theme = Theme({

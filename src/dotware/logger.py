@@ -149,36 +149,6 @@ class Logger(logging.Logger):
 
 
 #-------------------------------------------------------------------
-# getFileLogger
-#-------------------------------------------------------------------
-def getFileLogger(name: str, level: int = LOG_LEVEL) -> Logger:
-	"""
-	Retrieve or create a file logger instance.
-
-	Args:
-		name (str): Name of the logger.
-		level (int): Logging level for the file logger (default is LOG_LEVEL).
-
-	Returns:
-		Logger: Logger instance associated with the given name, or False if it does not exist.
-	"""
-
-	reg = Registry()
-
-	if reg.hasLogger(name):
-		logger = reg.getLogger(name)
-	else:
-		formatter = logging.Formatter(STD_FORMAT, datefmt='%Y-%m-%d %H:%M:%S')
-		handler = initRotatingFileHandler(name, level=level, maxSize=LOG_SIZE, backups=LOG_COUNT)
-		handler.setFormatter(formatter)
-		logger = Logger(name, level=level)
-		logger.addHandler(handler)
-		reg.addLogger(name, logger)
-
-	return logger
-
-
-#-------------------------------------------------------------------
 # initRotatingFileHandler
 #-------------------------------------------------------------------
 def initRotatingFileHandler(name: str, level: int = LOG_LEVEL, dir: Path = LOGDIR, maxSize: int = LOG_SIZE, backups: int = LOG_COUNT) -> RotatingFileHandler:

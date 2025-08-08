@@ -16,7 +16,9 @@ import logging
 from .. config import *
 from .. logger import *
 from .. output import *
-from .. registry import *
+from .. registry import Registry
+
+from .. import getFileLogger
 
 
 __mod_name__ = "dotfiles"

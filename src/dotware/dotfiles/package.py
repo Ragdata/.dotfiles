@@ -20,6 +20,8 @@ from .. config import *
 from .. logger import *
 from .. registry import *
 
+from .. import getFileLogger
+
 from . import __mod_name__
 
 

@@ -33,8 +33,8 @@ from dotware import __pkg_name__, __version__
 app = typer.Typer(rich_markup_mode="rich", invoke_without_command=True)
 
 app.add_typer(pkgApp, name="pkg", help="Package Manager", rich_help_panel="Dotware Subcommands")
-app.add_typer(repoApp, name="repo", help="Package Repository Manager", rich_help_panel="Dotware Subcommands")
 app.add_typer(regApp, name="reg", help="Registry Manager", rich_help_panel="Dotware Subcommands")
+app.add_typer(repoApp, name="repo", help="Package Repository Manager", rich_help_panel="Dotware Subcommands")
 app.add_typer(custapp, name="custom", help="Custom Dotfiles Manager", rich_help_panel="Dotware Subcommands")
 
 

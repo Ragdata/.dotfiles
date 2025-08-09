@@ -146,6 +146,34 @@ class Registry(object):
 			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
 
 
+	def updateRecord(self, name: str, id: str, record: dict) -> None:
+		"""
+		Update a record in a register in the registry.
+
+		Args:
+			name (str): Name of the register to update the record in.
+			id (str): ID of the record to update.
+			record (dict): New record data to update.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r+', encoding='utf-8') as file:
+					data = json.load(file)
+					if id in data:
+						data[id] = record
+						file.seek(0)
+						json.dump(data, file, indent=4)
+						file.truncate()
+					else:
+						raise KeyError(f"Record with ID '{id}' does not exist in register '{name}'.")
+			except json.JSONDecodeError:
+				raise ValueError(f"Register '{name}' is empty or corrupted.")
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
 	def getRecord(self, name: str, id: str, default: Optional[dict] = None) -> Union[dict, None]:
 		"""
 		Get a record from a register in the registry.
@@ -170,7 +198,7 @@ class Registry(object):
 			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
 
 
-	def getAllRecords(self, name: str) -> Dict[str, dict]:
+	def getRecords(self, name: str) -> Dict[str, dict]:
 		"""
 		Get all records from a register in the registry.
 
@@ -187,6 +215,30 @@ class Registry(object):
 				with open(registerPath, 'r', encoding='utf-8') as file:
 					data = json.load(file)
 					return data
+			except json.JSONDecodeError:
+				raise ValueError(f"Register '{name}' is empty or corrupted.")
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def hasRecord(self, name: str, id: str) -> bool:
+		"""
+		Check if a record exists in a register in the registry.
+
+		Args:
+			name (str): Name of the register to check.
+			id (str): ID of the record to check.
+
+		Returns:
+			bool: True if the record exists, False otherwise.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r', encoding='utf-8') as file:
+					data = json.load(file)
+					return id in data
 			except json.JSONDecodeError:
 				raise ValueError(f"Register '{name}' is empty or corrupted.")
 		else:

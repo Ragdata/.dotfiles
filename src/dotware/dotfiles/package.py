@@ -12,6 +12,7 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 """
 
 import typer
+
 import dotware.output as output
 
 from pathlib import Path

@@ -25,15 +25,17 @@ from typing_extensions import Annotated
 from .. config import *
 from . custom import app as custapp
 from . package import app as pkgApp, repoApp
+from . registry import app as regApp
 
 from dotware import __pkg_name__, __version__
 
 
 app = typer.Typer(rich_markup_mode="rich", invoke_without_command=True)
 
-app.add_typer(custapp, name="custom", help="Manage custom dotfiles", rich_help_panel="Dotware Subcommands")
-app.add_typer(pkgApp, name="package", help="Manage software packages", rich_help_panel="Dotware Subcommands")
-app.add_typer(repoApp, name="repo", help="Manage package repositories", rich_help_panel="Dotware Subcommands")
+app.add_typer(pkgApp, name="pkg", help="Package Manager", rich_help_panel="Dotware Subcommands")
+app.add_typer(repoApp, name="repo", help="Package Repository Manager", rich_help_panel="Dotware Subcommands")
+app.add_typer(regApp, name="reg", help="Registry Manager", rich_help_panel="Dotware Subcommands")
+app.add_typer(custapp, name="custom", help="Custom Dotfiles Manager", rich_help_panel="Dotware Subcommands")
 
 
 @app.callback()
@@ -43,6 +45,9 @@ def callback() -> None:
 	"""
 
 
+#--------------------------------------------------------------
+# Component Commands
+#--------------------------------------------------------------
 @app.command('disable', help="Disable a dotfiles component", rich_help_panel="Component Management")
 def disableComponent(name: Annotated[str, typer.Argument(help="Component Name (eg: git.aliases)")]) -> None:
 	pass

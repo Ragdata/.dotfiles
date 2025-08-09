@@ -11,7 +11,10 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
-from typing import Dict, Union
+import json
+
+
+from typing import Dict, Union, Optional
 
 
 from . config import *
@@ -58,6 +61,168 @@ class Registry(object):
 
 	def status(self, name: str) -> int:
 		return 0
+
+	# --------------------------------------------------------------
+	# Data Management
+	# --------------------------------------------------------------
+	def addRegister(self, name: str) -> None:
+		"""
+		Add a new register to the registry.
+
+		Args:
+			name (str): Name of the register to add.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+		if not registerPath.exists():
+			registerPath.touch(mode=0o644)
+		else:
+			raise FileExistsError(f"Register '{name}' already exists in the registry.")
+
+
+	def deleteRegister(self, name: str) -> None:
+		"""
+		Delete a register from the registry.
+
+		Args:
+			name (str): Name of the register to delete.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			registerPath.unlink()
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def addRecord(self, name: str, id: str, record: dict) -> None:
+		"""
+		Add a record to a register in the registry.
+
+		Args:
+			name (str): Name of the register to add the record to.
+			record (dict): Record data to add.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r+', encoding='utf-8') as file:
+					data = json.load(file)
+					data[id] = record
+					file.seek(0)
+					json.dump(data, file, indent=4)
+					file.truncate()
+			except json.JSONDecodeError:
+				with open(registerPath, 'w', encoding='utf-8') as file:
+					json.dump({id: record}, file, indent=4)
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def deleteRecord(self, name: str, id: str) -> None:
+		"""
+		Delete a record from a register in the registry.
+
+		Args:
+			name (str): Name of the register to delete the record from.
+			id (str): ID of the record to delete.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r+', encoding='utf-8') as file:
+					data = json.load(file)
+					if id in data:
+						del data[id]
+						file.seek(0)
+						json.dump(data, file, indent=4)
+						file.truncate()
+					else:
+						raise KeyError(f"Record with ID '{id}' does not exist in register '{name}'.")
+			except json.JSONDecodeError:
+				raise ValueError(f"Register '{name}' is empty or corrupted.")
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def getRecord(self, name: str, id: str, default: Optional[dict] = None) -> Union[dict, None]:
+		"""
+		Get a record from a register in the registry.
+
+		Args:
+			name (str): Name of the register to get the record from.
+			id (str): ID of the record to get.
+
+		Returns:
+			dict: Record data if found, None otherwise.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r', encoding='utf-8') as file:
+					data = json.load(file)
+					return data.get(id, None)
+			except json.JSONDecodeError:
+				raise ValueError(f"Register '{name}' is empty or corrupted.")
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def getAllRecords(self, name: str) -> Dict[str, dict]:
+		"""
+		Get all records from a register in the registry.
+
+		Args:
+			name (str): Name of the register to get records from.
+
+		Returns:
+			Dict[str, dict]: Dictionary of all records in the register.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			try:
+				with open(registerPath, 'r', encoding='utf-8') as file:
+					data = json.load(file)
+					return data
+			except json.JSONDecodeError:
+				raise ValueError(f"Register '{name}' is empty or corrupted.")
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def clearRegister(self, name: str) -> None:
+		"""
+		Clear all records from a register in the registry.
+
+		Args:
+			name (str): Name of the register to clear.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		if registerPath.exists():
+			with open(registerPath, 'w', encoding='utf-8') as file:
+				json.dump({}, file, indent=4)
+		else:
+			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
+
+
+	def listRegisters(self) -> Dict[str, str]:
+		"""
+		List all registers in the registry.
+
+		Returns:
+			Dict[str, str]: Dictionary of register names and their paths.
+		"""
+		registers = {}
+
+		for file in REGISTRY.glob("*.json"):
+			registers[file.stem] = str(file.resolve())
+
+		return registers
+
 
 	# --------------------------------------------------------------
 	# Logger Management

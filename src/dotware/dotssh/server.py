@@ -14,9 +14,6 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 import typer
 
 
-from typing import Dict
-
-
 from .. server import Server
 
 
@@ -31,7 +28,13 @@ app = typer.Typer(rich_markup_mode="rich", invoke_without_command=True)
 #--------------------------------------------------------------
 # SERVER COMMANDS
 #--------------------------------------------------------------
-@app.command(name="con")
-@app.command(name="connect", help="Connect to a remote SSH server")
-def connect(config: Dict[str, str]) -> None:
+@app.command(name="add", help="Add a new SSH server configuration")
+def add_server(**kwargs) -> None:
     pass
+
+
+@app.command(name="remove", help="Remove an SSH server configuration")
+def remove_server(**kwargs) -> None:
+    pass
+
+

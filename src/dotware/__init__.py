@@ -27,6 +27,9 @@ __pkg_name__ = "dotware"
 __version__ = "0.1.0"
 
 
+#-------------------------------------------------------------------
+# version
+#-------------------------------------------------------------------
 def version(output: bool = True):
 	""" Print the package version """
 	if output:
@@ -67,3 +70,41 @@ def getFileLogger(name: str, level: int = LOG_LEVEL) -> Logger:
 	return logger
 
 
+#-------------------------------------------------------------------
+# AliasGroup Class
+#-------------------------------------------------------------------
+class AliasGroup(typer.core.TyperGroup):
+
+	_CMD_SPLIT_P = re.compile(r", ?")
+
+	def get_command(self, ctx: typer.Context, name: str):
+		"""
+		Get the command associated with the given name.
+
+		Args:
+			ctx (typer.Context): The context for the command.
+			name (str): The name of the command.
+
+		Returns:
+			typer.core.Command: The command associated with the name.
+		"""
+		cmd_name = self._group_cmd_name(name)
+		return super().get_command(ctx, cmd_name)
+
+
+	def _group_cmd_name(self, default_name: str):
+		"""
+		Convert a command name to a group command name.
+
+		Args:
+			cmd_name (str): The command name to convert.
+
+		Returns:
+			str: The converted group command name.
+		"""
+		for cmd in self.commands.values():
+			name = cmd.name
+			if name and default_name in self._CMD_SPLIT_P.split(name):
+				return name
+
+		return default_name

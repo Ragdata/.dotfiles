@@ -38,7 +38,7 @@ STYLE_HEAD = "bold yellow"
 STYLE_DOT = "green"
 
 # REPODIR = Path(__file__).resolve().parent.parent.parent
-REPODIR = Path(__file__).parent.parent.parent
+REPODIR = Path.home() / 'projects' / 'ragdata' / '.dotfiles'
 REPOSYS = REPODIR / 'sys'
 
 BACKUP = Path.home() / '.backup'

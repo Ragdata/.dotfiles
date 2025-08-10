@@ -94,6 +94,21 @@ class Registry(object):
 			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
 
 
+	def isRegister(self, name: str) -> bool:
+		"""
+		Check if a register exists in the registry.
+
+		Args:
+			name (str): Name of the register to check.
+
+		Returns:
+			bool: True if the register exists, False otherwise.
+		"""
+		registerPath = REGISTRY / f"{name}.json"
+
+		return registerPath.exists()
+
+
 	def addRecord(self, name: str, id: str, record: dict) -> None:
 		"""
 		Add a record to a register in the registry.

@@ -14,9 +14,9 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 import logging
 
 from .. config import *
-from .. output import *
 
 from dotware import getFileLogger
+
 from .. registry import Registry
 
 __mod_name__ = "dotssh"

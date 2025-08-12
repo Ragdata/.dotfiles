@@ -11,33 +11,151 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
+import json
 
-from typing import Dict, List, Annotated
+from typing import Dict, List, Annotated, Optional
+
+from pyparsing import Opt
 
 
 
 serverTypes = ["LXC", "VM", "Docker", "BareMetal", "Cloud", "VPS", "Other"]
 
 
-	# ip4: str
-	# ip6: str
-	# hostname: str
-	# domain: str
-	# ssh_user: str
-	# ssh_pwd: str
-	# ssh_port: int
-	# ssh_key: str
-	# ssh_config: str
-	# notes: str
-	# type: str
+class ServerConfig():
+
+
+	ip4: str = ""
+	ip6: str = ""
+	hostname: str = ""
+	domain: str = ""
+	ssh_user: str = ""
+	ssh_pwd: str = ""
+	ssh_port: int = 22
+	ssh_key: str = ""
+	notes: str = ""
+	server_type: str = "Other"
+
+
+	def __init__(self, ip4: str = "", ip6: str = "", hostname: str = "", domain: str = "",
+			  ssh_user: str = "", ssh_pwd: str = "", ssh_port: int = 22, ssh_key: str = "",
+			  notes: str = "", server_type: str = "Other", dict: Optional[Dict[str, str | int]] = None) -> None:
+		"""
+		Initialise ServerConfig Class
+		"""
+		if not dict:
+			self.ip4 = ip4
+			self.ip6 = ip6
+			self.hostname = hostname
+			self.domain = domain
+			self.ssh_user = ssh_user
+			self.ssh_pwd = ssh_pwd
+			self.ssh_port = ssh_port
+			self.ssh_key = ssh_key
+			self.notes = notes
+			self.server_type = server_type
+		else:
+			self._fromDict(dict)
+
+
+	def toJSON(self) -> str:
+		"""
+		Convert the ServerConfig to a JSON string.
+		"""
+		return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+
+	def toDict(self) -> Dict[str, str | int]:
+		"""
+		Convert the ServerConfig to a dictionary.
+		"""
+		return {
+			"ip4": self.ip4,
+			"ip6": self.ip6,
+			"hostname": self.hostname,
+			"domain": self.domain,
+			"ssh_user": self.ssh_user,
+			"ssh_pwd": self.ssh_pwd,
+			"ssh_port": self.ssh_port,
+			"ssh_key": self.ssh_key,
+			"notes": self.notes,
+			"type": self.server_type
+		}
+
+
+	def _fromDict(self, data: Dict[str, str | int]) -> None:
+		"""
+		Load the ServerConfig from a dictionary.
+
+		Args:
+			data (Dict[str, str | int]): Dictionary containing server configuration data.
+		"""
+		for key, val in data.items():
+			match key:
+				case "ip4":
+					self.ip4 = str(val)
+				case "ip6":
+					self.ip6 = str(val)
+				case "hostname":
+					self.hostname = str(val)
+				case "domain":
+					self.domain = str(val)
+				case "ssh_user":
+					self.ssh_user = str(val)
+				case "ssh_pwd":
+					self.ssh_pwd = str(val)
+				case "ssh_port":
+					self.ssh_port = int(val)
+				case "ssh_key":
+					self.ssh_key = str(val)
+				case "notes":
+					self.notes = str(val)
+				case "type":
+					self.server_type = str(val)
+				case _:
+					raise ValueError(f"Unknown key: {key}")
+
+
+	def update(self, data: Dict[str, str | int]) -> 'ServerConfig':
+		"""
+		Update the server configuration with new values.
+		"""
+		for key, value in data.items():
+			match key:
+				case "ip4":
+					self.ip4 = str(value)
+				case "ip6":
+					self.ip6 = str(value)
+				case "hostname":
+					self.hostname = str(value)
+				case "domain":
+					self.domain = str(value)
+				case "ssh_user":
+					self.ssh_user = str(value)
+				case "ssh_pwd":
+					self.ssh_pwd = str(value)
+				case "ssh_port":
+					self.ssh_port = int(value)
+				case "ssh_key":
+					self.ssh_key = str(value)
+				case "notes":
+					self.notes = str(value)
+				case "type":
+					self.server_type = str(value)
+				case _:
+					raise ValueError(f"Unknown key: {key}")
+		return self
+
+
+
 
 class Server(object):
 
 
-	_config: Dict[str, str] = {}
+	_config: Dict[str, str | int] = {}
 
 
-	def __init__(self, config: Dict[str, str]) -> None:
+	def __init__(self, config: Dict[str, str | int]) -> None:
 		"""
 		Initialise Server Class
 		"""
@@ -79,7 +197,7 @@ class Server(object):
 			return False
 
 
-	def get(self, name: str, default: str = "") -> str:
+	def get(self, name: str, default: str = "") -> str | int:
 		"""
 		Get the value of a server config element
 		"""

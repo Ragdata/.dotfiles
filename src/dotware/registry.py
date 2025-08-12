@@ -189,7 +189,7 @@ class Registry(object):
 			raise FileNotFoundError(f"Register '{name}' does not exist in the registry.")
 
 
-	def getRecord(self, name: str, id: str, default: Optional[dict] = None) -> Union[dict, None]:
+	def getRecord(self, name: str, id: str, default: Optional[dict] = None) -> dict:
 		"""
 		Get a record from a register in the registry.
 

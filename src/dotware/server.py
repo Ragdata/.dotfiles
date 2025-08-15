@@ -25,21 +25,21 @@ serverTypes = ["LXC", "VM", "Docker", "BareMetal", "Cloud", "VPS", "Other"]
 class ServerConfig():
 
 
-	ip4: str = ""
-	ip6: str = ""
-	hostname: str = ""
-	domain: str = ""
-	ssh_user: str = ""
-	ssh_pwd: str = ""
+	ip4: Optional[str] = None
+	ip6: Optional[str] = None
+	hostname: Optional[str] = None
+	domain: Optional[str] = None
+	ssh_user: Optional[str] = None
+	ssh_pwd: Optional[str] = None
 	ssh_port: int = 22
-	ssh_key: str = ""
-	notes: str = ""
+	ssh_key: Optional[str] = None
+	notes: Optional[str] = None
 	server_type: str = "Other"
 
 
-	def __init__(self, ip4: str = "", ip6: str = "", hostname: str = "", domain: str = "",
-			  ssh_user: str = "", ssh_pwd: str = "", ssh_port: int = 22, ssh_key: str = "",
-			  notes: str = "", server_type: str = "Other", dict: Optional[Dict[str, str | int]] = None) -> None:
+	def __init__(self, ip4: str | None = None, ip6: str | None = None, hostname: str | None = None, domain: str | None = None,
+			  ssh_user: str | None = None, ssh_pwd: str | None = None, ssh_port: int = 22, ssh_key: str | None = None,
+			  notes: str | None = None, server_type: str = "Other", dict: Optional[Dict[str, str | int]] = None) -> None:
 		"""
 		Initialise ServerConfig Class
 		"""
@@ -65,7 +65,7 @@ class ServerConfig():
 		return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
-	def toDict(self) -> Dict[str, str | int]:
+	def toDict(self) -> Dict[str, str | int | None]:
 		"""
 		Convert the ServerConfig to a dictionary.
 		"""

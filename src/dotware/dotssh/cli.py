@@ -111,16 +111,16 @@ def connect(**kwargs) -> None:
 @app.command("add", help="Add a new SSH server configuration")
 def add_server(
 	name: Annotated[str, typer.Argument(help="Name of the server")],
-	ip4: Annotated[str, typer.Option(help="IPv4 address of the server", default=None)],
-	ip6: Annotated[str, typer.Option(help="IPv6 address of the server", default=None)],
-	hostname: Annotated[str, typer.Option(help="Hostname of the server", default=None)],
-	domain: Annotated[str, typer.Option(help="Domain name of the server", default=None)],
-	ssh_user: Annotated[str, typer.Option(help="SSH username", default=None)],
-	ssh_pwd: Annotated[str, typer.Option(help="SSH password (if applicable)", default=None)],
-	ssh_port: Annotated[int, typer.Option(help="SSH port number", default=22)],
-	ssh_key: Annotated[str, typer.Option(help="Path to SSH private key file (if applicable)", default=None)],
-	notes: Annotated[str, typer.Option(help="Additional notes about the server", default=None)],
-	server_type: Annotated[str, typer.Option(help="Type of server (e.g., web, database)", default="web")]
+	ip4: Annotated[Optional[str], typer.Option(help="IPv4 address of the server")] = None,
+	ip6: Annotated[Optional[str], typer.Option(help="IPv6 address of the server")] = None,
+	hostname: Annotated[Optional[str], typer.Option(help="Hostname of the server")] = None,
+	domain: Annotated[Optional[str], typer.Option(help="Domain name of the server")] = None,
+	ssh_user: Annotated[Optional[str], typer.Option(help="SSH username")] = None,
+	ssh_pwd: Annotated[Optional[str], typer.Option(help="SSH password (if applicable)")] = None,
+	ssh_port: Annotated[int, typer.Option(help="SSH port number")] = 22,
+	ssh_key: Annotated[Optional[str], typer.Option(help="Path to SSH private key file (if applicable)")] = None,
+	notes: Annotated[Optional[str], typer.Option(help="Additional notes about the server")] = None,
+	server_type: Annotated[str, typer.Option(help="Type of server (e.g., web, database)")] = "web"
 ) -> None:
 	"""
 	Add a new SSH server configuration.
@@ -163,16 +163,16 @@ def remove_server(id: str) -> None:
 @app.command("update", help="Update an SSH server configuration")
 def update_server(
 	name: Annotated[str, typer.Argument(help="Name of the server")],
-	ip4: Annotated[str, typer.Option(help="IPv4 address of the server", default=None)],
-	ip6: Annotated[str, typer.Option(help="IPv6 address of the server", default=None)],
-	hostname: Annotated[str, typer.Option(help="Hostname of the server", default=None)],
-	domain: Annotated[str, typer.Option(help="Domain name of the server", default=None)],
-	ssh_user: Annotated[str, typer.Option(help="SSH username", default=None)],
-	ssh_pwd: Annotated[str, typer.Option(help="SSH password (if applicable)", default=None)],
-	ssh_port: Annotated[int, typer.Option(help="SSH port number", default=22)],
-	ssh_key: Annotated[str, typer.Option(help="Path to SSH private key file (if applicable)", default=None)],
-	notes: Annotated[str, typer.Option(help="Additional notes about the server", default=None)],
-	server_type: Annotated[str, typer.Option(help="Type of server (e.g., web, database)", default="web")]
+	ip4: Annotated[Optional[str], typer.Option(help="IPv4 address of the server")] = None,
+	ip6: Annotated[Optional[str], typer.Option(help="IPv6 address of the server")] = None,
+	hostname: Annotated[Optional[str], typer.Option(help="Hostname of the server")] = None,
+	domain: Annotated[Optional[str], typer.Option(help="Domain name of the server")] = None,
+	ssh_user: Annotated[Optional[str], typer.Option(help="SSH username")] = None,
+	ssh_pwd: Annotated[Optional[str], typer.Option(help="SSH password (if applicable)")] = None,
+	ssh_port: Annotated[int, typer.Option(help="SSH port number")] = 22,
+	ssh_key: Annotated[Optional[str], typer.Option(help="Path to SSH private key file (if applicable)")] = None,
+	notes: Annotated[Optional[str], typer.Option(help="Additional notes about the server")] = None,
+	server_type: Annotated[Optional[str], typer.Option(help="Type of server (e.g., web, database)")] = "web"
 ) -> None:
 	"""
 	Update an SSH server configuration.

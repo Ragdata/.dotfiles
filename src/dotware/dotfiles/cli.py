@@ -11,7 +11,6 @@ Copyright:		Copyright © 2025 Redeyed Technologies
 ====================================================================
 """
 
-from encodings import aliases
 import rich
 import typer, sys, os
 

@@ -54,9 +54,23 @@ dip()
 }
 
 # ------------------------------------------------------------------
-# dklab
+# dlab
 # ------------------------------------------------------------------
 dlab() { docker ps --filter="label=$1" --format="{{.ID}}"; }
+# ------------------------------------------------------------------
+# dsub
+# ------------------------------------------------------------------
+dsub()
+{
+	docker network ls --format "{{.Name}}" | while read network_name
+	do
+		if ${network_name} == "host" || ${network_name} == "none"; then
+			continue
+		fi
+		subnet=$(docker network inspect "$network_name" | jq -r '.[].IPAM.Config[].Subnet')
+		printf "%s %s\n" "$subnet" "$network_name"
+	done
+}
 # ------------------------------------------------------------------
 # dklog
 # ------------------------------------------------------------------

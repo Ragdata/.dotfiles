@@ -68,7 +68,7 @@ dsub()
 			continue
 		fi
 		subnet=$(docker network inspect "$network_name" | jq -r '.[].IPAM.Config[].Subnet')
-		printf "%s %s\n" "$subnet" "$network_name"
+		echo "$subnet" "$network_name"
 	done
 }
 # ------------------------------------------------------------------

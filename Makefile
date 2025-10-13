@@ -30,7 +30,7 @@ install:
 		$(HOME)/.venv/dotenv/bin/pip install . -q
 	fi
 	@echo "Dotware installed successfully."
-	@[ ! -d "$(CUSTOM)" ] && mkdir -p "$(CUSTOM)"
+	@[ ! -d "$(CUSTOM)/scripts" ] && mkdir -p "$(CUSTOM)/scripts"
 	@[ ! -d "$(SYSDIR)" ] && mkdir -p "$(SYSDIR)"
 	@if [ "$(MODE)" == "dev" ]; then
 		@dot install --debug

@@ -20,10 +20,13 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/"
 export CDPATH=.:~
 
 # set PATH so it includes user's private bin if it exists
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
-[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+# set PATH so it includes virtual env directory if it exists
+[ -d "$HOME/.venv/dotenv/bin" ] && export PATH="$HOME/.venv/dotenv/bin:$PATH"
 #-------------------------------------------------------------------
 # CRITICAL FUNCTIONS
 #-------------------------------------------------------------------
@@ -54,7 +57,7 @@ checkOverride()
 # SETUP SHELL
 #-------------------------------------------------------------------
 # First make sure ~/.bash_history has not been truncated
-if [[ $(wc -l ~/.bash_history | awk '{print $1}') -lt 1000 ]]; then
+if [[ $(wc -l ~/.bash_history | awk '{print $1}') -lt 500 ]]; then
 	echo "NOTE: ~/.bash_history appears to have been truncated. Please check your shell configuration."
 fi
 

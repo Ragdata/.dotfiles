@@ -62,13 +62,13 @@ dlab() { docker ps --filter="label=$1" --format="{{.ID}}"; }
 # ------------------------------------------------------------------
 dsub()
 {
-	docker network ls --format "{{.Name}}" | while read network_name
+	for NAME in `docker network ls --format "{{.Name}}"`
 	do
-		if ${network_name} == "host" || ${network_name} == "none"; then
+		if [[ "$NAME" == "host" || "$NAME" == "none" ]]; then
 			continue
 		fi
-		subnet=$(docker network inspect "$network_name" | jq -r '.[].IPAM.Config[].Subnet')
-		echo "$subnet" "$network_name"
+		subnet=$(docker network inspect "$NAME" | jq -r '.[].IPAM.Config[].Subnet')
+		echo "$subnet" "$NAME"
 	done
 }
 # ------------------------------------------------------------------
